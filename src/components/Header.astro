@@ -1,0 +1,120 @@
+---
+---
+<header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-neutral-100 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-20">
+
+      <a href="/" class="flex items-center gap-3 group transition-all">
+        <div class="flex flex-col">
+          <span class="text-lg md:text-xl font-black tracking-tight text-neutral-900 leading-none">
+            Yevhen Bondarenko
+          </span>
+          <span class="text-[9px] uppercase tracking-[0.2em] text-blue-600 font-bold mt-1">
+            Technik Empfehlungen
+          </span>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-6">
+        {[
+          { name: 'Start', href: '/' },
+          { name: 'Vergleiche', href: '/vergleiche/' },
+          { name: 'Verstehen', href: '/verstehen/' },
+          { name: 'Kategorien', href: '/empfehlungen/' },
+          { name: 'Transparenz', href: '/transparenz/' }
+        ].map((link) => (
+          <a 
+            href={link.href} 
+            class="text-sm font-bold text-neutral-600 hover:text-blue-600 transition-colors"
+          >
+            {link.name}
+          </a>
+        ))}
+        <a 
+          href="/kontakt/" 
+          class="bg-neutral-900 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all shadow-md active:scale-95"
+        >
+          Kontakt
+        </a>
+      </nav>
+
+      <button 
+        id="menu-btn" 
+        type="button" 
+        class="lg:hidden p-3 -mr-2 rounded-xl text-neutral-600 hover:bg-neutral-50 focus:outline-none transition-all active:scale-90"
+        aria-label="Toggle Menu"
+      >
+        <div class="w-6 h-5 relative flex flex-col justify-between" id="burger-icon">
+          <span class="w-full h-0.5 bg-current rounded-full transition-all duration-300 origin-left" id="line1"></span>
+          <span class="w-full h-0.5 bg-current rounded-full transition-all duration-300" id="line2"></span>
+          <span class="w-full h-0.5 bg-current rounded-full transition-all duration-300 origin-left" id="line3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <div 
+    id="mobile-menu" 
+    class="max-h-0 lg:hidden border-t border-neutral-100 bg-white overflow-hidden transition-all duration-500 ease-in-out"
+  >
+    <nav class="flex flex-col space-y-1 p-4 pb-8">
+      <a href="/" class="mobile-link">Startseite</a>
+      <a href="/vergleiche/" class="mobile-link font-bold text-blue-600">Technik Vergleiche</a>
+      <a href="/verstehen/" class="mobile-link">Technik verstehen</a>
+      <a href="/empfehlungen/" class="mobile-link">Kategorien</a>
+      <a href="/transparenz/" class="mobile-link">Transparenz</a>
+      <div class="pt-6 mt-2 border-t border-neutral-50">
+        <a href="/kontakt/" class="block w-full text-center bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all">
+          Kontakt aufnehmen
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .mobile-link {
+    @apply block px-4 py-4 text-base font-bold text-neutral-700 hover:bg-neutral-50 hover:text-blue-600 rounded-2xl transition-all;
+  }
+
+  /* Анимация бургера */
+  .menu-open #line1 { transform: rotate(45deg); width: 28px; }
+  .menu-open #line2 { opacity: 0; transform: translateX(10px); }
+  .menu-open #line3 { transform: rotate(-45deg); width: 28px; }
+</style>
+
+<script is:inline>
+  function setupMenu() {
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const burger = document.getElementById('burger-icon');
+
+    if (btn && menu) {
+      btn.onclick = () => {
+        const isOpen = menu.style.maxHeight && menu.style.maxHeight !== '0px';
+        
+        if (isOpen) {
+          menu.style.maxHeight = '0px';
+          burger.classList.remove('menu-open');
+        } else {
+          // Устанавливаем высоту в зависимости от контента для плавного раскрытия
+          menu.style.maxHeight = menu.scrollHeight + 'px';
+          burger.classList.add('menu-open');
+        }
+      };
+
+      // Закрываем при клике на любую ссылку
+      menu.querySelectorAll('a').forEach(link => {
+        link.onclick = () => {
+          menu.style.maxHeight = '0px';
+          burger.classList.remove('menu-open');
+        };
+      });
+    }
+  }
+// Запуск при загрузке
+  document.addEventListener('DOMContentLoaded', setupMenu);
+  // Запуск при смене страниц (если используешь Astro Transitions)
+  document.addEventListener('astro:page-load', setupMenu);
+
+</script>

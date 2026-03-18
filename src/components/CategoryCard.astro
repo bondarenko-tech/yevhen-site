@@ -1,0 +1,53 @@
+---
+import type { Kategorie } from "../types/kategorie";
+
+export interface Props {
+  cat: Kategorie;
+}
+
+const { cat } = Astro.props;
+const link = `/empfehlungen/${cat.id}/`;
+
+// Маппинг иконок для каждой категории (Lucide-подход)
+const icons = {
+  "smart-home": "M12 3L2 12h3v8h14v-8h3L12 3zm0 13c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z",
+  "sicherheit": "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z",
+  "strom": "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+  "klima": "M12 2v2M12 20v2m8-10h2M2 12h2m14.07-7.07l-1.41 1.41M5.34 18.66l-1.41 1.41m14.07 0l-1.41-1.41M5.34 5.34l-1.41-1.41",
+  "beleuchtung": "M9 21h6v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z",
+  "netzwerk": "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zm11 5c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z",
+  "sonstiges": "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+};
+
+const iconPath = icons[cat.id as keyof typeof icons] || icons["sonstiges"];
+---
+
+<a
+  href={link}
+  class="group relative flex flex-col p-8 rounded-3xl border border-neutral-100 bg-white transition-all duration-300 hover:shadow-2xl hover:border-blue-200 hover:-translate-y-2 overflow-hidden"
+>
+  <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-50 rounded-full transition-transform duration-500 group-hover:scale-[3]"></div>
+
+  <div class="relative z-10">
+    <div class="w-14 h-14 mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white shadow-lg shadow-blue-200 group-hover:scale-110 transition-transform duration-300">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d={iconPath}></path>
+      </svg>
+    </div>
+
+    <h3 class="text-2xl font-bold text-neutral-900 mb-3 group-hover:text-blue-600 transition-colors">
+      {cat.name}
+    </h3>
+    
+    <p class="text-neutral-500 leading-relaxed mb-6">
+      {cat.teaser}
+    </p>
+
+    <div class="flex items-center text-sm font-bold text-blue-600 gap-2">
+      <span>Lösungen ansehen</span>
+      <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+      </svg>
+    </div>
+  </div>
+</a>

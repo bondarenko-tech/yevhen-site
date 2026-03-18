@@ -1,0 +1,21 @@
+# 1. СЛУЖЕБНЫЕ (Чистим хвосты .astro)
+/links.astro                  /links/                  301
+/transparenz.astro            /transparenz/            301
+/impressum.astro              /impressum/              301
+/datenschutzerklaerung.astro  /datenschutzerklaerung/  301
+/kontakt.astro                /kontakt/                301
+/ueber-uns.astro              /ueber-uns/              301
+
+# 2. ТОВАРЫ (Исправляем 404 и редиректы из писем)
+/empfehlungen/tapo-c210/                /empfehlungen/sicherheit/tp-link-tapo-c210/  301
+/empfehlungen/sicherheit/tapo-c210/     /empfehlungen/sicherheit/tp-link-tapo-c210/  301
+/empfehlungen/reolink-argus-3-pro/      /empfehlungen/sicherheit/reolink-argus-3-pro/ 301
+/empfehlungen/google-nest-cam/          /empfehlungen/sicherheit/google-nest-cam/    301
+
+# 3. РАЗДЕЛЫ И БРЕНДЫ (Убираем дубликаты)
+/verstehen/wlan-repeater-oder-mesh/     /vergleiche/wlan-repeater-oder-mesh/         301
+/mesh-vs-repeater/                      /vergleiche/wlan-repeater-oder-mesh/         301
+/marken/fritz!/                         /marken/avm/                                 301
+
+# 4. ЧИСТКА ВИДЕО (Чтобы не плодить 404 в GSC)
+/video/* / 301

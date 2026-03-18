@@ -1,0 +1,40 @@
+---
+// src/components/Button.astro
+interface Props {
+  href?: string;      // ссылка (может быть Amazon или любая другая)
+  label?: string;     // кастомный текст кнопки
+  primary?: boolean;  // оранжевая большая кнопка
+}
+
+const {
+  href = "",
+  label,
+  primary = true,
+} = Astro.props;
+
+// если ссылка внешняя
+const isExternal = /^https?:\/\//i.test(href);
+
+// fallback, если ссылки нет
+const finalHref = href || "/kontakt/";
+
+// текст кнопки по умолчанию
+const finalLabel = label
+  ?? (href
+      ? "👉 Zum Angebot"
+      : "📩 Kontakt aufnehmen");
+---
+
+<a
+  href={finalHref}
+  target={isExternal ? "_blank" : undefined}
+  rel={isExternal ? "nofollow sponsored noopener noreferrer" : undefined}
+  class:list={[
+    "inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold transition",
+    primary
+      ? "bg-orange-600 text-white hover:bg-orange-700"
+      : "bg-white text-neutral-900 border border-neutral-300 hover:bg-neutral-50"
+  ]}
+>
+  {finalLabel}
+</a>

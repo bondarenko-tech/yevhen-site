@@ -1,0 +1,27 @@
+---
+interface Props {
+  date: Date | string;
+}
+
+const { date: rawDate } = Astro.props;
+
+// Преобразуем и валидируем
+const date = typeof rawDate === "string" ? new Date(rawDate) : rawDate;
+const isValid = date instanceof Date && !isNaN(date.getTime());
+
+// Опционально: можно вынести настройки формата в константу, 
+// если планируешь использовать их в других местах
+const formatOptions: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+};
+---
+
+{isValid ? (
+  <time datetime={date.toISOString()} class="text-neutral-500 font-medium">
+    {date.toLocaleDateString("de-DE", formatOptions)}
+  </time>
+) : (
+  <span class="text-red-400 text-xs">Invalid Date</span>
+)}

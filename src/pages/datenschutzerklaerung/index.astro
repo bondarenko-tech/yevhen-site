@@ -1,0 +1,117 @@
+---
+export const prerender = true;
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const site = Astro.site ?? new URL("https://yevhenbondarenko.com");
+const canonical = new URL("/datenschutzerklaerung/", site).toString();
+const title = "Datenschutzerklärung | Bondarenko Empfehlungen";
+---
+
+<BaseLayout title={title} canonical={canonical}>
+  <main class="max-w-3xl mx-auto px-4 py-12 md:py-20 text-neutral-800 leading-relaxed">
+
+    <header class="mb-12 border-b border-neutral-100 pb-8">
+      <h1 class="text-4xl md:text-5xl font-black tracking-tighter">
+        Datenschutz<span class="text-blue-600">erklärung</span>
+      </h1>
+    </header>
+
+    <div class="prose prose-neutral max-w-none space-y-10 text-sm md:text-base">
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">1. Allgemeine Hinweise</h2>
+        <p>
+          Diese Website dient ausschließlich zur Information. Es erfolgt keine Registrierung, kein Benutzerkonto und keine direkte Dateneingabe durch Besucher.
+        </p>
+      </section>
+
+      <section class="p-6 bg-neutral-50 rounded-2xl border border-neutral-100">
+        <h2 class="text-xl font-bold text-neutral-900 mb-4">2. Verantwortlicher</h2>
+        <p class="font-medium">
+          Yevhen Bondarenko<br />
+          Schloßberg 9<br />
+          24955 Harrislee<br />
+          E-Mail:
+          <a href="mailto:info@yevhenbondarenko.com" class="text-blue-600 underline">
+            info@yevhenbondarenko.com
+          </a>
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">3. Server-Logfiles</h2>
+        <p>
+          Beim Besuch dieser Website werden automatisch Informationen durch den Hosting-Anbieter erfasst.
+          Dazu gehören z. B. IP-Adresse, Browsertyp, Betriebssystem und Zeitpunkt des Zugriffs.
+        </p>
+        <p>
+          Diese Daten dienen ausschließlich der technischen Bereitstellung und Sicherheit der Website.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">4. Hosting (Cloudflare)</h2>
+        <p>
+          Diese Website wird über Cloudflare Pages bereitgestellt. Anbieter ist Cloudflare Inc., USA.
+        </p>
+        <p>
+          Cloudflare verarbeitet Daten zur Bereitstellung und Sicherheit (z. B. DDoS-Schutz).
+        </p>
+        <p>
+          Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">5. Cookies und Consent</h2>
+        <p>
+          Diese Website verwendet ein Consent-Tool, um Einwilligungen für optionale Technologien zu verwalten.
+        </p>
+        <p>
+          Sie können Ihre Einstellungen jederzeit anpassen oder widerrufen.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">6. Affiliate-Programme</h2>
+        <h3 class="text-lg font-bold mt-4">Amazon Partnerprogramm</h3>
+        <p>
+          Diese Website nimmt am Amazon EU-Partnerprogramm teil.
+        </p>
+        <p>
+          Beim Klick auf externe Links kann Amazon Daten verarbeiten und ggf. Cookies setzen.
+        </p>
+        <p>
+          Weitere Informationen finden Sie in der Datenschutzerklärung von Amazon.
+        </p>
+        <p>
+          Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">7. Ihre Rechte</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>Auskunft (Art. 15 DSGVO)</li>
+          <li>Berichtigung (Art. 16 DSGVO)</li>
+          <li>Löschung (Art. 17 DSGVO)</li>
+          <li>Einschränkung (Art. 18 DSGVO)</li>
+          <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+          <li>Widerspruch (Art. 21 DSGVO)</li>
+        </ul>
+      </section>
+
+      <section class="pt-10 border-t border-neutral-100 text-[10px] text-neutral-400 uppercase tracking-widest">
+        Stand: 15.03.2026
+      </section>
+
+    </div>
+
+    <div class="mt-12">
+      <a href="/" class="inline-flex items-center gap-2 text-blue-600 font-bold hover:underline">
+        ← Zurück zur Startseite
+      </a>
+    </div>
+
+  </main>
+</BaseLayout>

@@ -1,0 +1,869 @@
+{
+  "fixed": [
+    {
+      "file": "\\bio\\index.html",
+      "length": 0,
+      "action": "added"
+    },
+    {
+      "file": "\\empfehlungen\\sicherheit\\ezviz-cp5\\index.html",
+      "length": 21,
+      "action": "updated"
+    },
+    {
+      "file": "\\empfehlungen\\smart-home\\woliliwo-10zoll-video-tuersprechanlage\\index.html",
+      "length": 18,
+      "action": "updated"
+    },
+    {
+      "file": "\\karta-sayta\\index.html",
+      "length": 0,
+      "action": "added"
+    },
+    {
+      "file": "\\shorts\\o2DbphE1l6w\\index.html",
+      "length": 21,
+      "action": "updated"
+    },
+    {
+      "file": "\\shorts\\x-Ns2vdBxFM\\index.html",
+      "length": 18,
+      "action": "updated"
+    },
+    {
+      "file": "\\karta-sayta\\index.html",
+      "action": "deduplicated",
+      "title": "Redirecting to: /sitemap.xml"
+    },
+    {
+      "file": "\\shorts\\Kru4Ixl43fU\\index.html",
+      "action": "deduplicated",
+      "title": "Govee G9 Smart LED Lampe – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\R9ygFbXgzpw\\index.html",
+      "action": "deduplicated",
+      "title": "Govee LED-Strip mit App-Steuerung – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\TeoZRrbw2ug\\index.html",
+      "action": "deduplicated",
+      "title": "LED Schranklicht – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\CADCTfY-tOI\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Tapo L530E – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\ksdddgBByfg\\index.html",
+      "action": "deduplicated",
+      "title": "Bosch Air 4000i Luftreiniger – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\2xHp9T2B_SA\\index.html",
+      "action": "deduplicated",
+      "title": "BougeRV Mobile Klimaanlage 3500 BTU (≈1,0 kW) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\n_G9yXbCJp0\\index.html",
+      "action": "deduplicated",
+      "title": "Comfee Breezy Cool Pro 2.6 (MPPA-09CRN7) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\yAiXfr-YeIA\\index.html",
+      "action": "deduplicated",
+      "title": "De’Longhi PAC EL112 CST Pinguino – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\VFMT5jUi8dA\\index.html",
+      "action": "deduplicated",
+      "title": "Dreo Atom 316 – Energiespar Heizlüfter (Gold) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\csGWDy1437A\\index.html",
+      "action": "deduplicated",
+      "title": "Dreo Atom 316 Heizlüfter – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\gDhMUADJK6g\\index.html",
+      "action": "deduplicated",
+      "title": "Dreo Nomad One Turmventilator – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\e4So-MV6KhA\\index.html",
+      "action": "deduplicated",
+      "title": "Homematic IP Thermostat – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\5u-zAobncGM\\index.html",
+      "action": "deduplicated",
+      "title": "Levoit Turmventilator – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\RdJMmjbUUjQ\\index.html",
+      "action": "deduplicated",
+      "title": "MEDION P502 Klimaanlage – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\TY6Ja8GXgK4\\index.html",
+      "action": "deduplicated",
+      "title": "Midea 4-in-1 Mobile Klimaanlage – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\4fi6xFGa6fk\\index.html",
+      "action": "deduplicated",
+      "title": "Midea MFP-120i – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\c1oM67OKOJc\\index.html",
+      "action": "deduplicated",
+      "title": "Midea FS40-15FR Standventilator – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\vY7Gv6fyxxo\\index.html",
+      "action": "deduplicated",
+      "title": "Mobile Klimaanlage 1500ml – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\jmPaG857V5E\\index.html",
+      "action": "deduplicated",
+      "title": "Mobile Klimaanlage 4in1 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\Y9BDGCStc0I\\index.html",
+      "action": "deduplicated",
+      "title": "Mobile Klimaanlage PEIRHW – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\4Bv9VwgYbQA\\index.html",
+      "action": "deduplicated",
+      "title": "Mobiles Klimagerät mit Fernbedienung – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\3-syPGhmgVA\\index.html",
+      "action": "deduplicated",
+      "title": "De’Longhi PAC EM90 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\eQpqIolmlXY\\index.html",
+      "action": "deduplicated",
+      "title": "SereneLife 4-in-1 Mobile Klimaanlage (9000 BTU, A) – kühlt, heizt, entfeuchtet, Ventilator – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\7DBr2MCWLGo\\index.html",
+      "action": "deduplicated",
+      "title": "TROTEC Keramik Heizlüfter TFC 25 E – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\sikI5-FbRqM\\index.html",
+      "action": "deduplicated",
+      "title": "TROTEC PAC 2010 SH – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\AnCSAUFwYwM\\index.html",
+      "action": "deduplicated",
+      "title": "TROTEC PAC-W 2650 SH – 4-in-1 Klima &amp; Heizung – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\BzaWZzTUh4Y\\index.html",
+      "action": "deduplicated",
+      "title": "VEVOR Diesel Luftheizung 8 kW mit Bluetooth &amp; CO-Alarm – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\_LYnNRomSW8\\index.html",
+      "action": "deduplicated",
+      "title": "12V/24V Wohnmobil-Klimaanlage (Heizen &amp; Kühlen) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\rDzXRFn24fU\\index.html",
+      "action": "deduplicated",
+      "title": "Xiaomi Mi Smart Standing Fan 2 Lite – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\YKyhFGfPCzI\\index.html",
+      "action": "deduplicated",
+      "title": "AVM FRITZ!Box 7530 AX – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\TGCudvUzWPw\\index.html",
+      "action": "deduplicated",
+      "title": "FRITZ!DECT Repeater 100 – erweitert die DECT-Reichweite deiner FRITZ!Box – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\07unaN-pmpE\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Archer AX55 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\5YwrpSuvBoo\\index.html",
+      "action": "deduplicated",
+      "title": "ABUS Smartvest Funk-Alarmanlage Basis-Set (FUAA35001A) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\uPy_eMO2Ob0\\index.html",
+      "action": "deduplicated",
+      "title": "ABUS Smartvest Pro Starterset – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\V71REzZvRmA\\index.html",
+      "action": "deduplicated",
+      "title": "AJAX StarterKit Cam Plus – Alarmanlage mit Foto-Verifizierung &amp; LTE – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\BhH_ucKF2sY\\index.html",
+      "action": "deduplicated",
+      "title": "Aqara G4 Video-Türklingel – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\ROlvhin76GE\\index.html",
+      "action": "deduplicated",
+      "title": "Blink Video Doorbell – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\fy9dJPPzjBw\\index.html",
+      "action": "deduplicated",
+      "title": "BOIFUN WLAN Türklingel mit Kamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\-6U5ZvvnitQ\\index.html",
+      "action": "deduplicated",
+      "title": "Chuango LTE-400 – WiFi + 4G Alarmanlage – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\XrCPB2DgXwM\\index.html",
+      "action": "deduplicated",
+      "title": "Dahua SD-H4C-0400B 4MP IP Eyeball-Kamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\P2UgDE6dvQs\\index.html",
+      "action": "deduplicated",
+      "title": "EZVIZ 4K Kamera Set (H3K PoE Kit) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\BXYD4Vz-EjY\\index.html",
+      "action": "deduplicated",
+      "title": "EZVIZ CP2 WLAN-Türspion – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\o2DbphE1l6w\\index.html",
+      "action": "deduplicated",
+      "title": "EZVIZ CP5 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\TOT2rUvOoM4\\index.html",
+      "action": "deduplicated",
+      "title": "EZVIZ EP3x Pro Kabellose Türklingel – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\DhciqRXmTJ8\\index.html",
+      "action": "deduplicated",
+      "title": "Hikvision DS-KV6113-WPE1(C) Video-Türstation – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\Ia1PjQBFE4w\\index.html",
+      "action": "deduplicated",
+      "title": "Lupus XT2 Plus Smarthome Alarmanlage – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\beyl1GMXRz8\\index.html",
+      "action": "deduplicated",
+      "title": "Mathfel Video-Türsprechanlage – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\OyQicF-YIt0\\index.html",
+      "action": "deduplicated",
+      "title": "Ring Akku Video-Türklingel (2024) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\28jw0bVuLsY\\index.html",
+      "action": "deduplicated",
+      "title": "SwitchBot WLAN Türklingel mit Kamera – 2K Video &amp; 4,3&#39;&#39; Farbmonitor – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\bufi53DjDPg\\index.html",
+      "action": "deduplicated",
+      "title": "Sygonix Video Türsprechanlage – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\BzRgYu1d1xA\\index.html",
+      "action": "deduplicated",
+      "title": "XTU J9 Plus Video-Türklingel – Kabellos mit 2K &amp; Nachtsicht – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\ESYznHe697c\\index.html",
+      "action": "deduplicated",
+      "title": "Yale Linus® Smart Lock mit Wi-Fi Bridge – intelligentes Türschloss für Bosch Smart Home, Alexa &amp; HomeKit – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\6cUk7snqdK8\\index.html",
+      "action": "deduplicated",
+      "title": "Amazon Echo Hub (8&quot;) – Smart-Home Bedienpanel mit Alexa – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\YX4Anwq9MPQ\\index.html",
+      "action": "deduplicated",
+      "title": "Amazon Fire TV Stick (HD) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\xViLjMZkRAA\\index.html",
+      "action": "deduplicated",
+      "title": "Aqara Hub M3 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\dVHDOroMv3o\\index.html",
+      "action": "deduplicated",
+      "title": "Aqara Panel Hub S1 Plus – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\BBtaQmEu3rE\\index.html",
+      "action": "deduplicated",
+      "title": "AVM FRITZ!Box 5690 Pro – Wi-Fi 7 Triband (Fibre &amp; DSL, Mesh, DECT, Zigbee) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\6KynEI0mV_Y\\index.html",
+      "action": "deduplicated",
+      "title": "AVM FRITZ!Box 7690 – Wi-Fi 7 DSL Router – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\M36Ow7GmJgI\\index.html",
+      "action": "deduplicated",
+      "title": "AWOL Vision LTV-3000 Pro – 4K Triple-Laser UST Beamer – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\t57fbHFQLKk\\index.html",
+      "action": "deduplicated",
+      "title": "Bosch Smart Home Adapter Steckdose Kompakt – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\8oCoybs3U08\\index.html",
+      "action": "deduplicated",
+      "title": "Bosch Smart Home Controller – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\vofU9MT9CIo\\index.html",
+      "action": "deduplicated",
+      "title": "Bosch Smart Home Controller II – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\kKU-8Tr36C8\\index.html",
+      "action": "deduplicated",
+      "title": "Echo Auto (Neueste Generation) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\WFzWu_-C0f8\\index.html",
+      "action": "deduplicated",
+      "title": "Echo Dot (5. Gen) + Smart Plug – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\RE8TYJXxBg0\\index.html",
+      "action": "deduplicated",
+      "title": "Echo Pop Bluetooth-Lautsprecher – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\FwVCqHLASNA\\index.html",
+      "action": "deduplicated",
+      "title": "Echo Show 10 (neueste Generation) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\RkfSVF0zvHU\\index.html",
+      "action": "deduplicated",
+      "title": "Echo Show 5 (Neueste Generation) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\w3b3ZAr5HYo\\index.html",
+      "action": "deduplicated",
+      "title": "Echo Show 8 HD Smart Hub – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\awzB7RFbszo\\index.html",
+      "action": "deduplicated",
+      "title": "Amazon eero Max 7 Wi-Fi 7 Router – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\XEikjCjyqz4\\index.html",
+      "action": "deduplicated",
+      "title": "Fire TV Stick 4K Max – Wi-Fi 6E Streaming-Stick mit 16 GB Speicher – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\yJwNLrEJXNs\\index.html",
+      "action": "deduplicated",
+      "title": "FRITZ!Repeater 3000 AX – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\OapAehfN-xI\\index.html",
+      "action": "deduplicated",
+      "title": "FRITZ!Smart Gateway – Zigbee &amp; DECT-ULE anbinden, Matter-Bridge – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\NYUIvN3MidM\\index.html",
+      "action": "deduplicated",
+      "title": "Google TV Streamer 4K – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\SUpEx_aG3pM\\index.html",
+      "action": "deduplicated",
+      "title": "Homematic IP Home Control Unit – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\vAoOJBdX6Ks\\index.html",
+      "action": "deduplicated",
+      "title": "Homematic IP Home Control Unit Anthrazit – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\BpdhO6Vhet4\\index.html",
+      "action": "deduplicated",
+      "title": "Homematic IP Starter Set Beschattung – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\78b44RGVaL0\\index.html",
+      "action": "deduplicated",
+      "title": "Philips Hue Dimmschalter – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\shkJ74_TnJs\\index.html",
+      "action": "deduplicated",
+      "title": "Roku Express 4K – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\nQdg3W4ePQs\\index.html",
+      "action": "deduplicated",
+      "title": "Telekom Speedport Smart 4R – Wi-Fi 6 Router – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\pEUTNsGJLts\\index.html",
+      "action": "deduplicated",
+      "title": "SwitchBot Curtain 3 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\d4DzOKV5CCo\\index.html",
+      "action": "deduplicated",
+      "title": "TechniSat DIGIT ISIO S4 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\r9Pqejft2wk\\index.html",
+      "action": "deduplicated",
+      "title": "Timekettle M3 Übersetzer – Zwei-Wege-Übersetzer-Ohrhörer mit App – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\x-Ns2vdBxFM\\index.html",
+      "action": "deduplicated",
+      "title": "WOLILIWO 10&#39;&#39; Video-Türsprechanlage – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\YLq7z5DRROk\\index.html",
+      "action": "deduplicated",
+      "title": "Philips Sonicare 9900 Prestige – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\TdjGGG7ZSeo\\index.html",
+      "action": "deduplicated",
+      "title": "AEG BEB331010M Backofen – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\gsVhqmfJnqM\\index.html",
+      "action": "deduplicated",
+      "title": "AEG DPE5660M Dunstabzugshaube – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\g78MPL6UPSM\\index.html",
+      "action": "deduplicated",
+      "title": "AirPods Pro 2 mit USB-C – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\BArVeCgADDU\\index.html",
+      "action": "deduplicated",
+      "title": "Amazon Echo Dot Max (Neueste Generation) – Alexa-Lautsprecher mit Smart-Home-Hub – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\aRnw1dpwVQs\\index.html",
+      "action": "deduplicated",
+      "title": "Amazon Fire TV Cube (Neueste Generation) – 4K Ultra HD Streaming-Mediaplayer – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\f-csFTPLwOw\\index.html",
+      "action": "deduplicated",
+      "title": "Amazon Luna Controller – Kabelloser Gaming-Controller – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\XZyb1JDLC_Y\\index.html",
+      "action": "deduplicated",
+      "title": "Antifnuo 3-in-1 Handstaubsauger (Akku) – bis 18.000 Pa – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\XrKqxxclV2M\\index.html",
+      "action": "deduplicated",
+      "title": "Apple Watch SE 2 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\UXRtO4vcK2s\\index.html",
+      "action": "deduplicated",
+      "title": "BLESSOURCE KI-Übersetzerbrille – Smart Glasses mit Echtzeit-Übersetzung &amp; UV-Schutz – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\Qsa5z2ztgfQ\\index.html",
+      "action": "deduplicated",
+      "title": "Bluetooth Sport-Kopfhörer mit Ohrbügeln – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\CDRmOKlATVU\\index.html",
+      "action": "deduplicated",
+      "title": "Bosch Unlimited 7 BSS711W – Akku-Staubsauger – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\nrJChyOyLf4\\index.html",
+      "action": "deduplicated",
+      "title": "Denon DHT-S216 TV Soundbar mit Subwoofer &amp; DTS Virtual:X – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\6SsDDA9KhCg\\index.html",
+      "action": "deduplicated",
+      "title": "Dreame L10s Ultra – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\Dg1G_vzLZ2A\\index.html",
+      "action": "deduplicated",
+      "title": "HTC Vive Focus Vision – Standalone PC VR Headset – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\WNYhQ7urZZ8\\index.html",
+      "action": "deduplicated",
+      "title": "Marderschreck Auto – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\bw4BXppsTf8\\index.html",
+      "action": "deduplicated",
+      "title": "Mova E30 Ultra – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\xW_wLB_95i8\\index.html",
+      "action": "deduplicated",
+      "title": "OOONO CO-DRIVER NO1 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\eWOf4LKbesU\\index.html",
+      "action": "deduplicated",
+      "title": "PlayStation®5 Standard Konsole (Slim) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\_4C1hNB7t0g\\index.html",
+      "action": "deduplicated",
+      "title": "Reyke Smart Tag Pro – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\QEBL5J99kxI\\index.html",
+      "action": "deduplicated",
+      "title": "Roborock Saros 10R Saugroboter mit Wischfunktion – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\kB8lORMwu2U\\index.html",
+      "action": "deduplicated",
+      "title": "Roomba Combo Essential Y011040 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\Ip70LdQM85s\\index.html",
+      "action": "deduplicated",
+      "title": "SHOKZ OpenFit 2+ Schwarz – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\8uL8eIsuV1A\\index.html",
+      "action": "deduplicated",
+      "title": "Siemens Q5.0 Extreme SilencePower Staubsauger – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\VnAeu2pyj7k\\index.html",
+      "action": "deduplicated",
+      "title": "Sony MDR-7506 Kopfhörer – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\HIER_DEIN_YOUTUBE_SHORT_ID\\index.html",
+      "action": "deduplicated",
+      "title": "Sony ULT WEAR – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\9x6Dp7oAXT0\\index.html",
+      "action": "deduplicated",
+      "title": "Sony WH-1000XM4 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\biWR0VOWx0o\\index.html",
+      "action": "deduplicated",
+      "title": "SOUYIE AI Smartwatch 2025 – AMOLED, Bluetooth-Anrufe &amp; KI-Funktionen – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\PnvfQn8Nvf4\\index.html",
+      "action": "deduplicated",
+      "title": "BISSELL SpotClean C5 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\6VYu1K55VTY\\index.html",
+      "action": "deduplicated",
+      "title": "Top 3 Staubsauger unter 200 € – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\yhGBLO8XKBY\\index.html",
+      "action": "deduplicated",
+      "title": "Totalpower 260 Portable Power Pack – Off Grid Power Supply – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\vqMelRnLYeA\\index.html",
+      "action": "deduplicated",
+      "title": "Übersetzer-Ohrhörer mit LCD – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\-3KPIFAY-xs\\index.html",
+      "action": "deduplicated",
+      "title": "UNINELL Home UV5 – Kabelloser Akku-Staubsauger – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\1-CLAkclXuI\\index.html",
+      "action": "deduplicated",
+      "title": "VITURE Luma Pro XR-Brille – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\G3Lff76Ln9U\\index.html",
+      "action": "deduplicated",
+      "title": "Anker USB-C Ladegerät Nano II 65W – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\hiM37868yIA\\index.html",
+      "action": "deduplicated",
+      "title": "EF ECOFLOW Delta 3 Tragbare Powerstation 1024Wh – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\ruLmP2Y7FDw\\index.html",
+      "action": "deduplicated",
+      "title": "Eightree WLAN-Steckdose – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\iS5mE0jRheU\\index.html",
+      "action": "deduplicated",
+      "title": "FRITZ!DECT 200 – intelligente Steckdose fürs Smart Home – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\wZ4UJrM_yVk\\index.html",
+      "action": "deduplicated",
+      "title": "FRITZ!DECT 210 – intelligente Steckdose mit Spritzwasserschutz (IP44) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\USz_5mfcjio\\index.html",
+      "action": "deduplicated",
+      "title": "INIU Powerbank 20000mAh – Mini Power für unterwegs – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\aCbIoGIvvYI\\index.html",
+      "action": "deduplicated",
+      "title": "Jackery Explorer 2000 v2 + 200 W Solarpanel – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\ga8JD17-tCI\\index.html",
+      "action": "deduplicated",
+      "title": "Maratron Ersatzakku 36 V 10,4 Ah (374 Wh) – 39,5 cm – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\plNJJpRrA3w\\index.html",
+      "action": "deduplicated",
+      "title": "Meross WLAN-Steckdose – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\bovffmn4R0A\\index.html",
+      "action": "deduplicated",
+      "title": "PDBEST Powerbank 60000mAh – 22,5W Schnellladegerät &amp; LED-Display – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\7uYia0b-c4Q\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Kasa KP115 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\rLElSdzia5Q\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Tapo P110 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\0Ct9nKYRe2A\\index.html",
+      "action": "deduplicated",
+      "title": "ABUS PPIC31020 WLAN Privacy Innenkamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\HKVVNhDpJpw\\index.html",
+      "action": "deduplicated",
+      "title": "ABUS PPIC91000 Akku-Kamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\TODO_FIX_ID\\index.html",
+      "action": "deduplicated",
+      "title": "Aqara E1 Kamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\jOS9JPPlhH4\\index.html",
+      "action": "deduplicated",
+      "title": "Aqara G5 Pro WLAN-Kamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\VL5WKqq2VE0\\index.html",
+      "action": "deduplicated",
+      "title": "Baseus Security S2 4K Solarkamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\0HvX21L8iY0\\index.html",
+      "action": "deduplicated",
+      "title": "Blink Mini 2 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\cr8NFqOPbTI\\index.html",
+      "action": "deduplicated",
+      "title": "Blurams 2K Kamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\la4sLNRdUY0\\index.html",
+      "action": "deduplicated",
+      "title": "Bosch Eyes Außenkamera II – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\czl3A7B4iBA\\index.html",
+      "action": "deduplicated",
+      "title": "Dahua Bullet D1 (5MP) WiFi Außenkamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\5DxuLo-Kb-U\\index.html",
+      "action": "deduplicated",
+      "title": "Eufy E220 Innenkamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\rLSgHZk8PJs\\index.html",
+      "action": "deduplicated",
+      "title": "eufy Security Indoor Cam C210 – 360° Überwachungskamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\Tp-9pPoEIro\\index.html",
+      "action": "deduplicated",
+      "title": "eufy Security SoloCam S340 – 360° Außenkamera ohne Abo (Solar + Akku) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\LRrkEuLe4z0\\index.html",
+      "action": "deduplicated",
+      "title": "eufyCam 2C Set (2+1) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\_uBmREvgRMM\\index.html",
+      "action": "deduplicated",
+      "title": "EZVIZ CP1 Pro – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\GXDcB3G4SXs\\index.html",
+      "action": "deduplicated",
+      "title": "GKU Dash Cam 4K + 1080P (Front + Rear) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\zppUVYm6aig\\index.html",
+      "action": "deduplicated",
+      "title": "Google Nest Cam – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\I-2z65wa7zU\\index.html",
+      "action": "deduplicated",
+      "title": "Hikam S6 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\enzfou6J2Yg\\index.html",
+      "action": "deduplicated",
+      "title": "Hikvision DS-2CD2423G2-I Cube Kamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\cybuSYFN1hw\\index.html",
+      "action": "deduplicated",
+      "title": "HiLook Indoor PT 2MP – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\SX7UuWXNXQ4\\index.html",
+      "action": "deduplicated",
+      "title": "Imou Dual 2K Innenkamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\heJeG01BueQ\\index.html",
+      "action": "deduplicated",
+      "title": "Lupus LE202 WLAN IP Kamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\7HkLzSBPNTo\\index.html",
+      "action": "deduplicated",
+      "title": "Lupus LE204 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\jMvSpOlWVXI\\index.html",
+      "action": "deduplicated",
+      "title": "Lupus LE228 IP Dome Kamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\ozBKQCu3JTE\\index.html",
+      "action": "deduplicated",
+      "title": "MENDUNER Video-Cam 1080p (Display &amp; 2-Wege-Video) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\lQ5hKJVJbXk\\index.html",
+      "action": "deduplicated",
+      "title": "Mobotix Mx-MD1A-5-IR – LAN IP Überwachungskamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\dr96qKa-6ig\\index.html",
+      "action": "deduplicated",
+      "title": "Reolink Argus 3 Pro – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\At0WbY_nAGk\\index.html",
+      "action": "deduplicated",
+      "title": "Reolink Argus 4 Pro 4K Solar Überwachungskamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\8ZHVy8L5BM4\\index.html",
+      "action": "deduplicated",
+      "title": "Reolink E1 Pro – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\IpQGAMoELc4\\index.html",
+      "action": "deduplicated",
+      "title": "Ring Innenkamera (2. Generation) – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\O--5Z4bxSi4\\index.html",
+      "action": "deduplicated",
+      "title": "Somfy Innenkamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\m5h2zrKOWf4\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Tapo C210 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\video\\tapo-c210\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Tapo C210 – Video | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\-5r1IGkYDyI\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Tapo C410 Überwachungskamera – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\jrpKajIKLEI\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Tapo C500 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\B3wh3PwCGY0\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Tapo C100 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\shorts\\uC-0hJcKkrY\\index.html",
+      "action": "deduplicated",
+      "title": "TP-Link Tapo C200 – Shorts | Bondarenko Empfehlungen – Smarte Technik 2025"
+    },
+    {
+      "file": "\\video\\switchbot-smart-lock-pro\\index.html",
+      "action": "deduplicated",
+      "title": "SwitchBot Wi-Fi Smart Lock Pro mit Touchscreen Keyboard – Video | Bondarenko Empfehlungen – Smarte Technik 2025"
+    }
+  ]
+}

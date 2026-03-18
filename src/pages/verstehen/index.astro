@@ -1,0 +1,144 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { kategorien } from "../../data/kategorien";
+
+const SITE = Astro.site?.toString().replace(/\/$/, "") ?? "https://yevhenbondarenko.com";
+const canonical = `${SITE}/verstehen/`;
+
+const title = "Technik verstehen – Wissen ohne Fachchinesisch";
+const description = "Klare Erklärungen zu WLAN, Smart Home, Sicherheit und Strom. Technik endlich verständlich erklärt.";
+
+const entries = await getCollection("verstehen");
+const sorted = [...entries].sort((a, b) => (a.data.title ?? "").localeCompare(b.data.title ?? ""));
+
+const breadcrumb = [
+  { name: "Startseite", url: `${SITE}/` },
+  { name: "Verstehen", url: canonical },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  breadcrumb={breadcrumb}
+>
+
+<main class="mx-auto max-w-6xl px-4 py-12 md:py-20">
+
+  <header class="max-w-3xl mb-16">
+    <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+      Wissen & Hintergrund
+    </span>
+    <h1 class="text-4xl md:text-6xl font-black text-neutral-900 leading-tight mb-6 text-balance">
+      Technik <span class="text-blue-600 italic">endlich</span> verstehen.
+    </h1>
+    <p class="text-lg md:text-xl text-neutral-600 leading-relaxed font-medium">
+      Viele Probleme entstehen nicht durch schlechte Geräte – sondern durch fehlendes Verständnis. 
+      Hier finden Sie kurze, ehrliche Erklärungen ohne komplizierte Fachsprache.
+    </p>
+  </header>
+
+  <section class="mb-20">
+    <h2 class="text-xs font-black uppercase tracking-[0.2em] text-neutral-400 mb-8">
+      Beliebte Themen
+    </h2>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {[
+        { 
+          title: 'WLAN im Altbau', 
+          desc: 'Warum dicke Wände das Signal stoppen und welche Lösungen wirklich helfen.', 
+          href: '/verstehen/wlan-im-altbau/', 
+          icon: '🏢' 
+        },
+        { 
+          title: 'Mesh vs. Repeater', 
+          desc: 'Der entscheidende Unterschied für ein stabiles Netzwerk im ganzen Haus.', 
+          href: '/verstehen/mesh-vs-repeater/', 
+          icon: '📡' 
+        },
+        { 
+          title: 'Powerline sinnvoll?', 
+          desc: 'Wann Internet aus der Steckdose klappt und wann es Probleme verursacht.', 
+          href: '/verstehen/powerline-wann-sinnvoll/', 
+          icon: '🔌' 
+        }
+      ].map(item => (
+        <a
+          href={item.href}
+          class="group relative rounded-[32px] border border-neutral-100 bg-neutral-50/50 p-8 hover:bg-white hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500"
+        >
+          <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500">{item.icon}</div>
+          <h3 class="text-xl font-bold mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">{item.title}</h3>
+          <p class="text-sm text-neutral-500 leading-relaxed font-medium">
+            {item.desc}
+          </p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="py-12 border-t border-neutral-100">
+    <h2 class="text-xs font-black uppercase tracking-[0.2em] text-neutral-400 mb-8">
+      Alle Artikel nach Kategorien
+    </h2>
+
+    {sorted.length === 0 ? (
+      <p class="text-neutral-500">Noch keine Inhalte verfügbar.</p>
+    ) : (
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {sorted.map((e) => {
+          const cat = kategorien.find((k) => k.id === e.data.kategorie);
+          const catName = cat?.name ?? e.data.kategorie;
+
+          return (
+            <a
+              href={`/verstehen/${e.slug}/`}
+              class="flex flex-col justify-between p-6 bg-white border border-neutral-100 rounded-2xl hover:border-blue-200 hover:shadow-sm transition-all group active:scale-[0.98]"
+            >
+              <div>
+                <span class="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-2 block">
+                  {catName}
+                </span>
+                <h3 class="font-bold text-neutral-900 group-hover:text-blue-600 transition-colors mb-2">
+                  {e.data.title}
+                </h3>
+                {e.data.description && (
+                  <p class="text-[13px] text-neutral-500 line-clamp-2 leading-relaxed font-medium">
+                    {e.data.description}
+                  </p>
+                )}
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    )}
+  </section>
+
+  <section class="mt-24 p-8 md:p-16 rounded-[40px] bg-neutral-900 text-center relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-full bg-blue-600/10 pointer-events-none"></div>
+    <div class="relative z-10">
+      <h2 class="text-2xl md:text-3xl font-black text-white mb-4">
+        Genug Theorie?
+      </h2>
+      <p class="text-neutral-400 mb-10 max-w-xl mx-auto font-medium">
+        Wenn Sie wissen, was Sie brauchen, finden Sie hier die passenden Geräte-Empfehlungen.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="/empfehlungen/netzwerk/" class="bg-white text-neutral-900 px-8 py-4 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition-all">
+          Netzwerk-Geräte
+        </a>
+        <a href="/empfehlungen/strom/" class="bg-neutral-800 text-white px-8 py-4 rounded-xl font-bold hover:bg-neutral-700 transition-all border border-neutral-700">
+          Strom & Energie
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+</BaseLayout>

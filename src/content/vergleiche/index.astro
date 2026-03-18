@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const articles = await getCollection("verstehen");
+
+articles.sort((a, b) => {
+  const da = new Date(a.data?.datum ?? "2020-01-01").getTime();
+  const db = new Date(b.data?.datum ?? "2020-01-01").getTime();
+  return db - da;
+});
+---
+
+<BaseLayout
+  title="Technik verstehen – Ratgeber & Erklärungen"
+  description="WLAN, Mesh und Smart Home einfach erklärt. Wir helfen Ihnen, moderne Technik besser zu verstehen."
+>
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-16">
+    
+    <header class="mb-12 md:mb-16">
+      <h1 class="text-3xl md:text-5xl font-black text-neutral-900 mb-6 tracking-tight">
+        Technik <span class="text-blue-600">verstehen</span>
+      </h1>
+      <p class="text-lg md:text-xl text-neutral-600 max-w-3xl leading-relaxed">
+        Komplexe Technologien – verständlich erklärt. Wir beleuchten Themen, die für Ihren digitalen Alltag und Ihr Zuhause wirklich wichtig sind.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {articles.map((a) => (
+        <a
+          href={`/verstehen/${a.slug}/`}
+          class="group flex flex-col bg-white border border-neutral-100 rounded-[32px] overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 active:scale-[0.98] h-full"
+        >
+          {/* Artikel-Cover */}
+          <div class="relative aspect-video overflow-hidden bg-neutral-100">
+            {a.data.image ? (
+              <img 
+                src={a.data.image} 
+                alt={a.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center text-4xl">📖</div>
+            )}
+            <div class="absolute top-4 left-4">
+              <span class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-blue-600 shadow-sm">
+                Ratgeber
+              </span>
+            </div>
+          </div>
+
+          {/* Inhalt mit Auto-Ausrichtung */}
+          <div class="p-6 md:p-8 flex flex-col flex-grow">
+            <h3 class="text-xl font-bold text-neutral-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+              {a.data.title}
+            </h3>
+
+            {a.data.description && (
+              <p class="text-neutral-500 text-sm leading-relaxed mb-6 line-clamp-3">
+                {a.data.description}
+              </p>
+            )}
+
+            {/* mt-auto drückt den Button nach unten */}
+            <div class="mt-auto flex items-center text-sm font-bold text-blue-600 gap-2">
+              Artikel lesen
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+</BaseLayout>

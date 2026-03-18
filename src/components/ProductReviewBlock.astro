@@ -1,0 +1,29 @@
+---
+const { produkt } = Astro.props;
+const n = produkt.data;
+---
+
+<section class="mt-10 max-w-3xl">
+
+  <h2 class="text-lg font-bold mb-4">Einordnung</h2>
+
+  <p class="text-neutral-700 mb-4">
+    Die {n.title} ist ein WLAN-Router ohne integriertes Modem, der für stabile Verbindungen im Heimnetz konzipiert ist.
+    Besonders in Umgebungen mit mehreren Geräten kann die Kombination aus Wi-Fi 6 und Mesh Vorteile bieten.
+  </p>
+
+  <p class="text-neutral-700 mb-6">
+    Die Einrichtung erfolgt über die bekannte FRITZ!OS-Oberfläche und ist in typischen Heimnetzwerken gut umsetzbar.
+  </p>
+
+  <h3 class="font-semibold mt-6 mb-2">Wichtiger Hinweis</h3>
+  <p class="text-sm text-neutral-600 mb-6">
+    In komplexeren Netzwerken (z. B. VLAN oder erweiterte Konfigurationen) sind die Möglichkeiten eingeschränkt.
+  </p>
+
+  <h3 class="font-semibold mt-6 mb-2">Kurzfazit</h3>
+  <p class="text-neutral-800 font-medium">
+    Ein solider Router für stabiles WLAN im Alltag – besonders geeignet für typische Heimnetzwerke ohne Spezialanforderungen.
+  </p>
+
+</section>

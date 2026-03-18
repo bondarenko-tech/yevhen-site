@@ -1,0 +1,25 @@
+---
+const { typ } = Astro.props;
+---
+
+<section class="bg-neutral-50 p-6 rounded-xl mb-10">
+  <h2 class="text-lg font-semibold mb-4">
+    Welche {typ} passt zu dir?
+  </h2>
+
+  {typ === "tuerklingel" && (
+    <ul class="space-y-2 text-sm">
+      <li>✓ Akku → flexible Montage</li>
+      <li>✓ Kabel → dauerhaft & wartungsfrei</li>
+      <li>✓ Mit Chime → besser für große Häuser</li>
+    </ul>
+  )}
+
+  {typ === "innenkamera" && (
+    <ul class="space-y-2 text-sm">
+      <li>✓ 360° → Raumüberwachung</li>
+      <li>✓ 2K → schärferes Bild</li>
+      <li>✓ microSD → ohne Cloud</li>
+    </ul>
+  )}
+</section>

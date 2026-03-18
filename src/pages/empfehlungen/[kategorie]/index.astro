@@ -1,0 +1,272 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import CategoryProductCard from "../../../components/CategoryProductCard.astro";
+
+import { kategorien } from "../../../data/kategorien";
+import type { KategorieId } from "../../../types/kategorie";
+
+import { getCollection } from "astro:content";
+
+import {
+  normalizeAll
+} from "../../../lib/product-engine";
+
+import {
+  pickCategoryWinners
+} from "../../../lib/product-engine/category";
+
+/* SITE */
+
+const SITE =
+  Astro.site?.toString().replace(/\/$/, "") ??
+  "https://yevhenbondarenko.com";
+
+const abs = (u: string) => new URL(u, SITE).toString();
+const ensureSlash = (u: string) =>
+  u.endsWith("/") ? u : `${u}/`;
+
+/* STATIC PATHS */
+
+export function getStaticPaths() {
+  return kategorien.map((k) => ({
+    params: { kategorie: k.id },
+  }));
+}
+
+/* PARAM */
+
+const { kategorie } = Astro.params as { kategorie: string };
+
+const id = kategorie as KategorieId;
+
+const cat = kategorien.find((k) => k.id === id);
+
+if (!cat) {
+  throw new Error(`Kategorie "${kategorie}" nicht gefunden`);
+}
+
+/* LOAD PRODUKTE */
+
+const allProdukte = await getCollection("produkte");
+
+const items = allProdukte.filter(
+  (p) => p.data.kategorie === id
+);
+
+/* NORMALIZE */
+
+const normalized = normalizeAll(items);
+
+const typ = normalized[0]?.typ ?? "sonstiges";
+
+const { top, sorted } =
+  pickCategoryWinners(normalized, typ);
+
+/* SEO */
+
+const canonical = ensureSlash(
+  abs(`/empfehlungen/${cat.id}/`)
+);
+
+const ogImage = abs(`/og/category/${cat.id}.png`);
+
+const title = `${cat.name} Empfehlungen`;
+
+const description =
+  cat.teaser ??
+  `Geräte aus dem Bereich ${cat.name}`;
+
+/* JSON LD */
+
+const itemListJsonLd = {
+  "@type": "ItemList",
+  "@id": `${canonical}#items`,
+  name: `Produkte in ${cat.name}`,
+  itemListOrder:
+    "https://schema.org/ItemListOrderDescending",
+  numberOfItems: sorted.length,
+  itemListElement: sorted.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: abs(ensureSlash(p.linkIntern)),
+  })),
+};
+
+const breadcrumb = [
+  { name: "Startseite", url: abs("/") },
+  { name: "Empfehlungen", url: abs("/empfehlungen/") },
+  { name: cat.name, url: canonical },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  breadcrumb={breadcrumb}
+  jsonLd={[itemListJsonLd]}
+>
+
+<main class="mx-auto max-w-6xl px-4 py-12">
+
+<!-- BREADCRUMB -->
+
+<nav class="text-sm text-neutral-500 mb-6">
+
+<a href="/" class="hover:text-blue-600">
+Startseite
+</a>
+
+<span> / </span>
+
+<a
+href="/empfehlungen/"
+class="hover:text-blue-600"
+>
+Empfehlungen
+</a>
+
+<span> / </span>
+
+<span class="text-neutral-900 font-medium">
+{cat.name}
+</span>
+
+</nav>
+
+
+<!-- HEADER -->
+
+<header class="max-w-3xl mb-12">
+
+<h1 class="text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl mb-6">
+
+{cat.name}
+<span class="text-blue-600">
+Empfehlungen
+</span>
+
+</h1>
+
+<p class="text-lg text-neutral-600 leading-relaxed border-l-4 border-blue-500 pl-4">
+
+{cat.teaser}
+
+</p>
+
+</header>
+
+
+<!-- TOP PRODUKT -->
+
+{top && (
+
+<section class="mb-12 bg-blue-50 border rounded-2xl p-8">
+
+<div class="text-sm font-semibold text-blue-600 mb-2">
+Top Empfehlung
+</div>
+
+<h2 class="text-xl font-bold mb-3">
+{top.title}
+</h2>
+
+{top.preis && (
+
+<div class="mb-4 font-semibold">
+
+{new Intl.NumberFormat("de-DE", {
+style: "currency",
+currency: top.currency
+}).format(top.preis)}
+
+</div>
+
+)}
+
+<a
+href={top.linkIntern}
+class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+>
+
+Zum Produkt →
+
+</a>
+
+</section>
+
+)}
+
+
+<!-- PRODUKT GRID -->
+
+<section class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+{sorted.map((p) => (
+
+<CategoryProductCard p={p} />
+
+))}
+
+</section>
+
+
+<!-- TRUST BLOCK -->
+
+<section class="mt-20 bg-neutral-50 rounded-3xl p-8 border border-neutral-100">
+
+<h2 class="text-2xl font-bold mb-4">
+Warum diese Auswahl?
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<div>
+
+<h4 class="font-bold text-blue-600">
+Unabhängig
+</h4>
+
+<p class="text-sm text-neutral-600">
+Geräte werden nach Funktion und
+Alltagstauglichkeit ausgewählt.
+</p>
+
+</div>
+
+<div>
+
+<h4 class="font-bold text-blue-600">
+Aktualität
+</h4>
+
+<p class="text-sm text-neutral-600">
+Preise und Verfügbarkeit werden
+regelmäßig geprüft.
+</p>
+
+</div>
+
+<div>
+
+<h4 class="font-bold text-blue-600">
+Transparenz
+</h4>
+
+<p class="text-sm text-neutral-600">
+Einige Links sind Partnerlinks.
+Der Preis bleibt für dich gleich.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</BaseLayout>

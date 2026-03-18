@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap&subset=cyrillic");
+@import "./buttons.css";
+
+/* 1. Глобальный фон сайта — делаем его едва серым, чтобы белые карточки «ожили» */
+body {
+  background-color: #f9fafb; /* Очень светлый серый (neutral-50) */
+  color: #111827;           /* Глубокий темный для текста */
+}
+
+/* 2. Делаем блоки характеристик и карточки более четкими */
+/* Эти стили помогут блокам из image_6ddd64.png не сливаться с фоном */
+.tech-details-container, 
+.product-card, 
+[class*="card"] { 
+  background-color: #ffffff !important;
+  border: 1px solid #e5e7eb !important; /* Тонкая серая граница */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Легкая тень */
+}
+
+/* 3. Улучшаем видимость таблицы характеристик */
+table, .technical-details {
+  background: #ffffff;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Заметка под кнопкой (твой оригинальный код) */
+.note-under-btn {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 0.5rem; /* Чуть увеличил отступ */
+  opacity: 0.85;
+}
+
+.note-under-btn span:first-child {
+  font-size: 0.9rem;
+}

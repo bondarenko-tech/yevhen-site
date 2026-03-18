@@ -1,0 +1,63 @@
+.klaro {
+  font-family: system-ui, sans-serif;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 40px auto;
+  max-width: 640px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  color: #111;
+}
+
+.klaro h1,
+.klaro h2 {
+  color: #111;
+  font-size: 1.4em;
+  margin-bottom: 16px;
+}
+
+.klaro p {
+  font-size: 0.95em;
+  margin-bottom: 16px;
+}
+
+.klaro button {
+  font-size: 0.9em;
+  padding: 10px 16px;
+  margin: 6px 6px 0 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #2a2a2a;
+  color: #fff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.klaro button:hover {
+  background-color: #444;
+}
+
+.klaro .cookie-category,
+.klaro .cookie-modal__service,
+.klaro .cookie-modal__meta {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.klaro label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.klaro input[type="checkbox"],
+.klaro input[type="radio"] {
+  margin-right: 8px;
+}
+
+.klaro .cookie-modal__footer {
+  margin-top: 16px;
+  text-align: right;
+}

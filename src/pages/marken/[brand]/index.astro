@@ -1,0 +1,117 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import CategoryProductCard from "../../../components/CategoryProductCard.astro";
+
+import { getCollection } from "astro:content";
+import { normalizeAll } from "../../../lib/product-engine";
+
+import { getBrandName, getBrandSlug } from "../../../lib/brand";
+
+/* ───────── SITE ───────── */
+
+const SITE =
+  Astro.site?.toString().replace(/\/$/, "") ??
+  "https://yevhenbondarenko.com";
+
+const abs = (u: string) => new URL(u, SITE).toString();
+const ensureSlash = (u: string) =>
+  u.endsWith("/") ? u : `${u}/`;
+
+/* ───────── Static paths ───────── */
+
+export async function getStaticPaths() {
+
+  const produkte = await getCollection("produkte");
+
+  const normalized = normalizeAll(produkte);
+
+  const set = new Set<string>();
+
+  for (const p of normalized) {
+    const slug = getBrandSlug(p.brand);
+    if (slug) set.add(slug);
+  }
+
+  return Array.from(set).map((brand) => ({
+    params: { brand }
+  }));
+}
+
+/* ───────── Params ───────── */
+
+const { brand } = Astro.params as { brand: string };
+
+/* ───────── Content Layer ───────── */
+
+const produkte = await getCollection("produkte");
+
+const normalized = normalizeAll(produkte);
+
+const items = normalized.filter(
+  (p) => getBrandSlug(p.brand) === brand
+);
+
+if (items.length === 0) {
+  throw new Error("Marke nicht gefunden");
+}
+
+/* ───────── Brand name ───────── */
+
+const brandName =
+  getBrandName(items[0].brand) ?? brand;
+
+/* ───────── SEO ───────── */
+
+const canonical = ensureSlash(
+  abs(`/marken/${brand}/`)
+);
+
+const title =
+  `${brandName} – Technik Empfehlungen`;
+
+const description =
+  `Produkte der Marke ${brandName} – kurz vorgestellt mit transparenten Partnerlinks.`;
+
+/* ───────── Breadcrumb ───────── */
+
+const breadcrumb = [
+  { name: "Startseite", url: abs("/") },
+  { name: "Marken", url: abs("/marken/") },
+  { name: brandName, url: canonical },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  breadcrumb={breadcrumb}
+>
+
+<main class="mx-auto max-w-5xl px-4 py-10">
+
+<header class="mb-8">
+
+<h1 class="text-3xl font-bold">
+{brandName}
+</h1>
+
+<p class="mt-2 text-neutral-700">
+{items.length} Produkte
+</p>
+
+</header>
+
+<section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+{items.map((p) => (
+<CategoryProductCard p={p} />
+))}
+
+</section>
+
+</main>
+
+</BaseLayout>

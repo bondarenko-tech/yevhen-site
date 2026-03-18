@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("verstehen");
+
+const current = Astro.url.pathname;
+
+const related = posts
+  .filter((p) => !current.includes(p.slug))
+  .slice(0, 6);
+---
+
+<section class="mt-12">
+  <h2 class="text-xl font-semibold mb-4">
+    Weitere WLAN Themen
+  </h2>
+
+  <ul class="space-y-2">
+    {related.map((post) => (
+      <li>
+        <a
+          href={`/verstehen/${post.slug}/`}
+          class="text-blue-600 hover:underline"
+        >
+          {post.data.title}
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

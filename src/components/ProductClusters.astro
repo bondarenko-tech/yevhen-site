@@ -1,0 +1,74 @@
+---
+import { type NormalizedProduct } from "../lib/product-engine";
+import { slugify } from "../lib/slugify";
+
+export interface Props {
+  current: NormalizedProduct;
+  products: NormalizedProduct[];
+}
+
+const { current, products } = Astro.props;
+
+/**
+ * Фильтруем текущий продукт и берем 3 похожих
+ */
+const relatedProducts = products
+  .filter((p) => p.title !== current.title)
+  .slice(0, 3);
+
+/* BRAND LOGIC */
+// Проверяем тип, чтобы slugify не ругался на объект
+const brandName = typeof current.brand === 'string' ? current.brand : null;
+const brandSlug = brandName ? slugify(brandName) : null;
+
+/* PRICE FORMATTING */
+const priceFormatted = current.preis
+  ? new Intl.NumberFormat("de-DE", {
+      style: "currency",
+      currency: current.currency || "EUR",
+      maximumFractionDigits: 0,
+    }).format(current.preis)
+  : null;
+---
+
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  {relatedProducts.map((p) => (
+    <a 
+      href={p.linkIntern} 
+      class="group bg-white border border-neutral-100 rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1"
+    >
+      <div class="aspect-square mb-6 bg-neutral-50 rounded-2xl p-4 flex items-center justify-center overflow-hidden">
+        <img 
+          src={p.image || "/og-cover.jpg"} 
+          alt={p.title}
+          class="max-h-full w-auto object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-110"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="font-bold text-neutral-900 leading-tight group-hover:text-blue-600 transition-colors line-clamp-2">
+          {p.title}
+        </h3>
+        
+        <div class="flex items-center justify-between pt-2">
+          {p.preis ? (
+            <span class="text-sm font-black text-neutral-900">
+              {new Intl.NumberFormat("de-DE", { 
+                style: "currency", 
+                currency: p.currency || "EUR" 
+              }).format(p.preis)}
+            </span>
+          ) : (
+            <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Details</span>
+          )}
+          
+          <div class="h-8 w-8 rounded-full bg-neutral-50 flex items-center justify-center text-neutral-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 11-1.04-1.08l4.158-3.92H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </a>
+  ))}
+</section>

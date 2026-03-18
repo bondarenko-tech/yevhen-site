@@ -1,0 +1,23 @@
+---
+type Props = {
+  videoId: string;
+  label?: string;
+};
+
+const { videoId, label = "Video auf YouTube ansehen" } = Astro.props as Props;
+
+// ❗ ВАЖНО: обычная ссылка, НЕ embed, НЕ shorts embed
+const url = `https://www.youtube.com/watch?v=${videoId}`;
+---
+
+<div class="mx-auto max-w-6xl px-4">
+  <a
+    href={url}
+    target="_blank"
+    rel="nofollow noopener noreferrer"
+    class="inline-flex items-center gap-2 rounded-lg border bg-white px-4 py-2 text-sm font-semibold hover:bg-neutral-50 transition"
+  >
+    <span aria-hidden="true">▶</span>
+    <span>{label}</span>
+  </a>
+</div>

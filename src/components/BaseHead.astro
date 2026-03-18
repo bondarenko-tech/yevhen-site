@@ -1,0 +1,80 @@
+---
+// Файл: src/components/BaseHead.astro
+interface Props {
+  title: string;
+  description: string;
+  currentUrl: string;
+  canonical?: string;
+  robots?: string;
+  image?: string;
+  isProduct?: boolean;
+}
+
+const {
+  title,
+  description,
+  currentUrl,
+  canonical,
+  robots = "index, follow",
+  image = "/og/site.webp",
+} = Astro.props as Props;
+
+const site = "https://yevhenbondarenko.com";
+const siteName = "Bondarenko Empfehlungen – Smarte Technik";
+
+/* ───────── URL нормализация ───────── */
+const formattedUrl = currentUrl.replace(/\/?$/, '/');
+const finalUrl = formattedUrl.startsWith("http") ? formattedUrl : `${site}${formattedUrl}`;
+const canonicalUrl = (canonical?.trim() || finalUrl).replace(/\/?$/, '/');
+
+/* ───────── Описание (чистое) ───────── */
+function safeDescription(text?: string): string {
+  const base =
+    text?.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim() ||
+    "Unabhängige Produktübersichten und einfache technische Erklärungen für Smart Home und Netzwerke.";
+
+  return base.length <= 160
+    ? base
+    : base.slice(0, 160).replace(/\s+\S*$/, "");
+}
+
+const ogTitle = title && title.trim() ? title.trim() : siteName;
+const ogDescription = safeDescription(description);
+const ogImage = image.startsWith("http") ? image : `${site}${image}`;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#ffffff" />
+<meta name="generator" content={Astro.generator} />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<title>{ogTitle}</title>
+<link rel="canonical" href={canonicalUrl} />
+<meta name="description" content={ogDescription} />
+<meta name="robots" content={robots} />
+<meta name="author" content="Yevhen Bondarenko" />
+<meta name="language" content="de" />
+<meta http-equiv="content-language" content="de" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={ogTitle} />
+<meta property="og:description" content={ogDescription} />
+<meta property="og:url" content={finalUrl} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:alt" content={ogTitle} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="de_DE" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={ogTitle} />
+<meta name="twitter:description" content={ogDescription} />
+<meta name="twitter:image" content={ogImage} />

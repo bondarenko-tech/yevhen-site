@@ -1,0 +1,156 @@
+---
+import "../styles/base.css";
+import "../styles/global.css";
+import "../styles/prose.css";
+import "../styles/buttons.css";
+
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface LayoutProps {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  robots?: string;
+  ogImage?: string;
+  breadcrumb?: { name: string; url: string }[];
+  jsonLd?: any[];
+  produkt?: CollectionEntry<"produkte">;
+  updated?: string;
+}
+
+const BASE_URL = "https://yevhenbondarenko.com";
+
+let {
+  title,
+  description,
+  canonical,
+  robots = "index, follow",
+  ogImage = `${BASE_URL}/og/site.webp`,
+  breadcrumb = [],
+  jsonLd = [],
+  produkt,
+  updated,
+} = Astro.props as LayoutProps;
+
+/* ───────── УМНЫЙ URL (фикс дублей) ───────── */
+const currentPath = Astro.url.pathname.replace(/\/?$/, '/');
+const currentUrl = new URL(currentPath, BASE_URL).toString();
+
+/* ───────── SEO & ROBOTS ───────── */
+const robotsFinal = `${robots}, max-snippet:-1, max-image-preview:large, max-video-preview:-1`;
+const canonicalUrl = canonical ?? currentUrl;
+
+/* ───────── UTILS ───────── */
+const clean = (s: string) => s.trim().replace(/\s+/g, " ");
+
+function safeMetaDescription(src?: string) {
+  const base =
+    src?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() ||
+    "Unabhängige Produktübersichten und technische Informationen.";
+
+  return base.length <= 160
+    ? base
+    : base.slice(0, 160).replace(/\s+\S*$/, "").trim();
+}
+
+/* ───────── PRODUCT OVERRIDES ───────── */
+if (produkt) {
+  title = clean(produkt.data.title);
+  description = safeMetaDescription(
+    produkt.data.description ??
+    produkt.data.teaser ??
+    produkt.data.title
+  );
+}
+
+const computedTitle = title ?? "Bondarenko Empfehlungen";
+
+/* ───────── JSON-LD GRAPH (ЧИСТЫЙ) ───────── */
+const graph: any[] = [
+  {
+    "@type": "Person",
+    "@id": `${BASE_URL}/#author`,
+    "name": "Yevhen Bondarenko",
+    "url": BASE_URL,
+    "image": `${BASE_URL}/yevhen-avatar.png`
+  },
+  {
+    "@type": "WebSite",
+    "@id": `${BASE_URL}/#website`,
+    "url": BASE_URL,
+    "name": "Bondarenko Empfehlungen",
+    "publisher": { "@id": `${BASE_URL}/#author` }
+  },
+  {
+    "@type": "WebPage",
+    "@id": `${currentUrl}#webpage`,
+    "url": currentUrl,
+    "name": computedTitle,
+    "description": safeMetaDescription(description),
+    "inLanguage": "de",
+    "isPartOf": { "@id": `${BASE_URL}/#website` },
+    "dateModified": updated ?? new Date().toISOString().split("T")[0]
+  }
+];
+
+/* ───────── Breadcrumb ───────── */
+if (breadcrumb.length) {
+  graph.push({
+    "@type": "BreadcrumbList",
+    "@id": `${currentUrl}#breadcrumb`,
+    "itemListElement": breadcrumb.map((b, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": b.name,
+      "item": new URL(b.url, BASE_URL).toString()
+    }))
+  });
+}
+
+/* ───────── FINAL JSON-LD ───────── */
+const jsonLdGraph = {
+  "@context": "https://schema.org",
+  "@graph": graph,
+};
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <BaseHead
+      title={computedTitle}
+      description={safeMetaDescription(description)}
+      currentUrl={currentUrl}
+      canonical={canonicalUrl}
+      robots={robotsFinal}
+      image={ogImage}
+      isProduct={!!produkt}
+    />
+
+    <!-- Consent -->
+    <script is:inline src="/klaro-config.js"></script>
+    <script is:inline defer src="https://cdn.kiprotect.com/klaro/v0.7.18/klaro.js"></script>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLdGraph)} />
+  </head>
+
+  <body class="bg-neutral-50 text-gray-900 font-sans antialiased">
+    <Header />
+
+    <main>
+      <slot />
+    </main>
+
+    <!-- 🔐 Affiliate Transparency (ОБЯЗАТЕЛЬНО) -->
+    <div class="max-w-5xl mx-auto px-4 py-6 text-sm text-gray-600">
+      Hinweis: Diese Website ist kein Online-Shop. Wir verkaufen keine Produkte.
+      Einige Links sind Partnerlinks (z. B. Amazon). Preise und Verfügbarkeit können variieren.
+    </div>
+
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,238 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import InfoPage from "../../components/InfoPage.astro";
+import { getGitDates } from "../../lib/utils/gitDates";
+import { buildArticleSchema } from "../../lib/seo/article";
+import { buildComparisonSchema } from "../../lib/seo/comparison";
+import { kategorien } from "../../data/kategorien";
+import { getRelatedVergleiche } from "@/lib/domain/vergleiche";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+/* ───────── SITE ───────── */
+
+const SITE =
+  Astro.site?.toString().replace(/\/$/, "") ??
+  "https://yevhenbondarenko.com";
+
+
+/* ───────── Static paths ───────── */
+
+export async function getStaticPaths() {
+
+  const entries = await getCollection("vergleiche");
+
+  return entries.map((e) => ({
+
+    params: { slug: e.slug },
+
+  }));
+
+}
+
+/* ───────── Params ───────── */
+const { slug } = Astro.params as { slug: string };
+
+/* ───────── Load Entry ───────── */
+
+const all = await getCollection("vergleiche");
+
+const entry = all.find((e) => e.slug === slug) as
+
+  | CollectionEntry<"vergleiche">
+
+  | undefined;
+
+if (!entry) {
+
+  throw new Error(`MDX für "${slug}" nicht gefunden`);
+
+}
+
+const { Content } = await entry.render();
+const current = entry.data;
+
+/* ───────── Category resolve ───────── */
+
+const cat = kategorien.find((k) => k.id === current.kategorie);
+const catName = cat?.name ?? current.kategorie;
+
+/* ───────── Related Vergleiche ───────── */
+
+const related = getRelatedVergleiche(all, entry);
+
+/* ───────── Dates ───────── */
+
+const sourcePath =
+  entry.filePath ?? `src/content/vergleiche/${entry.slug}.mdx`;
+
+const { datePublished, dateModified } = getGitDates(sourcePath);
+
+/* ───────── Meta ───────── */
+
+const canonical = `${SITE}/vergleiche/${slug}/`;
+const title = current.title;
+const description = current.description ?? "";
+
+/* ───────── Breadcrumb ───────── */
+
+const breadcrumb = [
+  { name: "Startseite", url: `${SITE}/` },
+  { name: "Vergleiche", url: `${SITE}/vergleiche/` },
+  { name: title, url: canonical },
+];
+
+/* ───────── Schemas ───────── */
+
+const articleJsonLd = buildArticleSchema({
+  title,
+  description,
+  canonical,
+  datePublished,
+  dateModified,
+
+});
+
+const comparisonJsonLd = buildComparisonSchema({
+
+  title,
+  description,
+  canonical,
+
+});
+
+const faqJsonLd =
+
+  current.faq?.length
+
+    ? {
+
+        "@type": "FAQPage",
+
+        mainEntity: current.faq.map((q: { q: string; a: string }) => ({
+
+          "@type": "Question",
+
+          name: q.q,
+
+          acceptedAnswer: {
+
+            "@type": "Answer",
+
+            text: q.a,
+
+          },
+
+        })),
+
+      }
+
+    : null;
+
+const relatedItemListJsonLd =
+
+  related.length > 0
+
+    ? {
+
+        "@type": "ItemList",
+
+        "@id": `${canonical}#related`,
+
+        name: `Weitere passende Vergleiche im Bereich ${catName}`,
+
+        itemListElement: related.map((v, i) => ({
+
+          "@type": "ListItem",
+
+          position: i + 1,
+
+          url: `${SITE}/vergleiche/${v.slug}/`,
+
+          name: v.data.title,
+
+        })),
+
+      }
+
+    : null;
+
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  breadcrumb={breadcrumb}
+  jsonLd={[
+    articleJsonLd,
+    comparisonJsonLd,
+    ...(faqJsonLd ? [faqJsonLd] : []),
+    ...(relatedItemListJsonLd ? [relatedItemListJsonLd] : []),
+  ]}
+>
+  <InfoPage
+    title={title}
+    description={description}
+    h1={title}
+    datePublished={datePublished}
+    dateModified={dateModified}
+  >
+    <div class="prose prose-neutral max-w-none">
+       <Content />
+    </div>
+
+    {related.length > 0 && (
+      <section class="mt-16 bg-neutral-50 rounded-[32px] p-8 md:p-10 border border-neutral-100">
+        <h2 class="text-2xl font-black text-neutral-900 mb-6 tracking-tight">
+          Passende Vergleiche im Bereich {catName}
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {related.map((v) => (
+            <a
+              href={`/vergleiche/${v.slug}/`}
+              class="flex items-center p-4 bg-white border border-neutral-200 rounded-2xl hover:border-blue-500 hover:shadow-md transition-all group"
+            >
+              <span class="text-blue-600 mr-3 group-hover:translate-x-1 transition-transform">→</span>
+              <span class="text-sm font-bold text-neutral-800 group-hover:text-blue-600 transition-colors">
+                {v.data.title}
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="mt-8 bg-blue-600 rounded-[32px] p-8 md:p-10 text-white relative overflow-hidden">
+      <div class="absolute top-0 right-0 p-8 opacity-10 text-9xl italic font-black select-none pointer-events-none">
+        {catName}
+      </div>
+      
+      <div class="relative z-10">
+        <h2 class="text-2xl font-black mb-4">Weitere Technik-Empfehlungen</h2>
+        <p class="text-blue-100 mb-8 max-w-xl leading-relaxed font-medium">
+          Suchen Sie konkrete Geräte? In unserer Kategorie <strong>{catName}</strong> haben wir die besten Modelle für Sie analysiert.
+        </p>
+        <a
+          href={`/empfehlungen/${current.kategorie}/`}
+          class="inline-flex items-center bg-white text-blue-600 px-8 py-4 rounded-xl font-black text-sm hover:bg-neutral-100 transition-all active:scale-95"
+        >
+          Alle {catName} Empfehlungen
+        </a>
+      </div>
+    </section>
+
+    <section class="mt-12 text-center border-t border-neutral-100 pt-10">
+      <div class="inline-flex items-center gap-2 bg-neutral-50 px-4 py-2 rounded-full border border-neutral-200 mb-4">
+        <span class="text-xs font-black uppercase tracking-widest text-neutral-400">Transparenz-Hinweis</span>
+      </div>
+      <p class="text-[13px] leading-relaxed text-neutral-500 max-w-2xl mx-auto italic font-medium">
+        Bei den Links handelt es sich um Partnerlinks. Wenn Sie über diese Links einkaufen, erhalten wir ggf. eine kleine Provision. 
+        <strong>Der Preis bleibt für Sie exakt gleich.</strong> Damit unterstützen Sie unsere unabhängige Arbeit.
+      </p>
+    </section>
+  </InfoPage>
+</BaseLayout>

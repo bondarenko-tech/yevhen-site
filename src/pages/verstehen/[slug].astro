@@ -1,0 +1,326 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import InfoPage from "../../components/InfoPage.astro";
+import { getRelatedVergleicheForVerstehen } from "@/lib/domain/verstehen";
+import { getRelatedProdukteForVerstehen } from "@/lib/domain/verstehen";
+import { kategorien } from "../../data/kategorien";
+import { getGitDates } from "../../lib/utils/gitDates";
+import { getCollection, getEntry } from "astro:content";
+
+/* ───────── SITE ───────── */
+
+const SITE =
+
+  Astro.site?.toString().replace(/\/$/, "") ??
+
+  "https://yevhenbondarenko.com";
+
+/* ───────── Static paths ───────── */
+
+export async function getStaticPaths() {
+
+  const entries = await getCollection("verstehen");
+
+  return entries.map((entry) => ({
+
+    params: { slug: entry.slug },
+
+  }));
+
+}
+
+/* ───────── Params ───────── */
+
+const { slug } = Astro.params as { slug: string };
+
+/* ───────── Load entry ───────── */
+
+const entry = await getEntry("verstehen", slug);
+
+if (!entry) {
+
+  throw new Error(`Verstehen-Seite "${slug}" nicht gefunden`);
+
+}
+
+const { Content } = await entry.render();
+const current = entry.data;
+
+/* ───────── Content collections ───────── */
+
+const produkte = await getCollection("produkte");
+const allVergleiche = await getCollection("vergleiche");
+const allVerstehen = await getCollection("verstehen");
+
+/* ───────── Related products ───────── */
+
+const relatedProducts =
+
+  getRelatedProdukteForVerstehen(
+
+    produkte,
+
+    entry.data.kategorie
+
+  ).slice(0, 3);
+
+/* ───────── Related vergleiche ───────── */
+
+const relatedVergleiche =
+
+  getRelatedVergleicheForVerstehen(
+
+    allVergleiche,
+
+    slug
+
+  ).slice(0, 4);
+
+/* ───────── Related articles (same category, without current) ───────── */
+
+const relatedThemen = allVerstehen
+
+  .filter(
+
+    (v) =>
+
+      v.slug !== slug &&
+
+      v.data.kategorie === current.kategorie
+
+  )
+  .slice(0, 6);
+
+/* ───────── Category ───────── */
+
+const cat = kategorien.find((k) => k.id === current.kategorie);
+const catName = cat?.name ?? current.kategorie;
+const catUrl = `${SITE}/empfehlungen/${current.kategorie}/`;
+
+/* ───────── Canonical ───────── */
+
+const canonical = `${SITE}/verstehen/${slug}/`;
+
+/* ───────── Breadcrumb ───────── */
+
+const breadcrumb = [
+
+  { name: "Startseite", url: `${SITE}/` },
+  { name: "Verstehen", url: `${SITE}/verstehen/` },
+  { name: current.title, url: canonical },
+
+];
+
+/* ───────── Schema ───────── */
+
+const faqJsonLd =
+
+  current.faq?.length
+
+    ? {
+
+        "@type": "FAQPage",
+
+        mainEntity: current.faq.map((q: { q: string; a: string }) => ({
+
+          "@type": "Question",
+
+          name: q.q,
+
+          acceptedAnswer: {
+
+            "@type": "Answer",
+
+            text: q.a,
+
+          },
+
+        })),
+
+      }
+
+    : null;
+
+
+
+const itemListJsonLd =
+
+  relatedVergleiche.length > 0
+
+    ? {
+
+        "@type": "ItemList",
+
+        name: `Vergleiche zu ${current.title}`,
+
+        itemListElement: relatedVergleiche.map((v, i) => ({
+
+          "@type": "ListItem",
+
+          position: i + 1,
+
+          url: `${SITE}/vergleiche/${v.slug}/`,
+
+          name: v.data.title,
+
+        })),
+
+      }
+
+    : null;
+
+
+/* ───────── Dates ───────── */
+
+const { datePublished, dateModified } = getGitDates(
+  new URL(import.meta.url).pathname
+
+);
+---
+
+<BaseLayout
+  title={current.title}
+  description={current.description}
+  canonical={canonical}
+  breadcrumb={breadcrumb}
+  jsonLd={[
+    ...(faqJsonLd ? [faqJsonLd] : []),
+    ...(itemListJsonLd ? [itemListJsonLd] : []),
+  ]}
+>
+  <InfoPage
+    title={current.title}
+    description={current.description}
+    h1={current.title}
+    datePublished={datePublished}
+    dateModified={dateModified}
+  >
+    
+    <div class="mb-8 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-neutral-400">
+      <span>Kategorie:</span>
+      <a href={catUrl} class="text-blue-600 hover:text-blue-800 transition-colors">
+        {catName}
+      </a>
+    </div>
+
+    {(relatedProducts.length > 0 || relatedVergleiche.length > 0) && (
+      <section class="mb-12 rounded-[32px] border border-blue-100 bg-blue-50/30 p-8 md:p-10">
+        <h2 class="mb-4 text-2xl font-black text-neutral-900 tracking-tight">
+          Schnell-Einstieg: Lösungen
+        </h2>
+
+        <p class="mb-8 text-neutral-600 leading-relaxed font-medium">
+          Sie möchten direkt zu den Ergebnissen? Hier finden Sie die passenden Geräte und detaillierte Vergleiche für {catName}.
+        </p>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <a
+            href={`/empfehlungen/${current.kategorie}/`}
+            class="group rounded-2xl border border-white bg-white p-6 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500"
+          >
+            <div class="font-black text-blue-600 mb-2 flex items-center gap-2">
+              <span class="group-hover:translate-x-1 transition-transform">👉</span> 
+              Geräte-Empfehlungen
+            </div>
+            <div class="text-sm text-neutral-500 leading-relaxed">
+              Die besten Modelle aus der Kategorie <strong>{catName}</strong> im Test.
+            </div>
+          </a>
+
+          <a
+            href="/vergleiche/"
+            class="group rounded-2xl border border-white bg-white p-6 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500"
+          >
+            <div class="font-black text-blue-600 mb-2 flex items-center gap-2">
+              <span class="group-hover:translate-x-1 transition-transform">👉</span> 
+              Vergleiche lesen
+            </div>
+            <div class="text-sm text-neutral-500 leading-relaxed">
+              Mesh, Repeater oder Powerline? Wir klären die Unterschiede.
+            </div>
+          </a>
+        </div>
+      </section>
+    )}
+
+    <div class="prose prose-neutral max-w-none mb-20">
+      <Content />
+    </div>
+
+    {relatedProducts.length > 0 && (
+      <section class="mt-20 border-t border-neutral-100 pt-12">
+        <h2 class="mb-8 text-3xl font-black text-neutral-900 tracking-tight">
+          Empfohlene Geräte
+        </h2>
+
+        <div class="space-y-4">
+          {relatedProducts.map((p) => (
+            <a
+              href={`/empfehlungen/${p.data.kategorie}/${p.slug}/`}
+              class="group block p-6 bg-neutral-50 rounded-2xl border border-neutral-100 hover:border-blue-300 hover:bg-white transition-all"
+            >
+              <h3 class="font-bold text-neutral-900 group-hover:text-blue-600 transition-colors mb-1">
+                {p.data.title}
+              </h3>
+              {p.data.teaser && (
+                <p class="text-sm text-neutral-500 m-0">
+                  {p.data.teaser}
+                </p>
+              )}
+            </a>
+          ))}
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href={`/empfehlungen/${current.kategorie}/`} class="inline-flex items-center gap-2 font-black text-sm text-blue-600 hover:underline">
+            ALLE {catName.toUpperCase()}-EMPFEHLUNGEN ANSEHEN →
+          </a>
+        </div>
+      </section>
+    )}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-20 border-t border-neutral-100 pt-12">
+      
+      {/* RELATED VERGLEICHE */}
+      {relatedVergleiche.length > 0 && (
+        <section>
+          <h2 class="text-xs font-black uppercase tracking-[0.2em] text-neutral-400 mb-6">
+            Passende Vergleiche
+          </h2>
+          <ul class="space-y-4">
+            {relatedVergleiche.map((v) => (
+              <li>
+                <a href={`/vergleiche/${v.slug}/`} class="text-sm font-bold text-neutral-800 hover:text-blue-600 flex items-center gap-2 group">
+                  <span class="text-blue-600 group-hover:translate-x-1 transition-transform">→</span>
+                  {v.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* RELATED THEMEN */}
+      {relatedThemen.length > 0 && (
+        <section>
+          <h2 class="text-xs font-black uppercase tracking-[0.2em] text-neutral-400 mb-6">
+            Weitere {catName} Themen
+          </h2>
+          <ul class="space-y-4">
+            {relatedThemen.map((v) => (
+              <li>
+                <a href={`/verstehen/${v.slug}/`} class="text-sm font-bold text-neutral-800 hover:text-blue-600 flex items-center gap-2 group">
+                  <span class="text-blue-600 group-hover:translate-x-1 transition-transform">→</span>
+                  {v.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+
+  </InfoPage>
+</BaseLayout>

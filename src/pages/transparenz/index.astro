@@ -1,0 +1,107 @@
+---
+export const prerender = true;
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const site = Astro.site ?? new URL("https://yevhenbondarenko.com");
+const canonical = new URL("/transparenz/", site).toString();
+const title = "Transparenz & Affiliate-Hinweis | Bondarenko Empfehlungen";
+---
+
+<BaseLayout title={title} canonical={canonical}>
+  <main class="max-w-4xl mx-auto px-4 py-12 md:py-20 text-neutral-800">
+    
+    <header class="mb-16 border-b border-neutral-100 pb-10">
+      <div class="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+        Offenlegung gemäß TMG
+      </div>
+
+      <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tighter text-neutral-900">
+        Transparenz <span class="text-blue-600">& Hinweise</span>
+      </h1>
+
+      <p class="text-xl text-neutral-600 leading-relaxed max-w-2xl">
+        Diese Website wird unabhängig betrieben. Hier wird erklärt, wie Inhalte entstehen und wie die Finanzierung funktioniert.
+      </p>
+    </header>
+
+    <section class="grid gap-12 lg:grid-cols-2">
+      
+      {/* LEFT */}
+      <div class="space-y-8">
+
+        <div class="p-8 bg-neutral-50 rounded-[2rem] border border-neutral-100">
+          <div class="text-3xl mb-4">🤝</div>
+          <h2 class="text-2xl font-bold text-neutral-900 mb-4">Affiliate-Links</h2>
+
+          <p class="text-neutral-600 text-sm leading-relaxed">
+            Einige Links auf dieser Website sind sogenannte Affiliate-Links. Wenn Sie auf einen solchen Link klicken und anschließend bei einem externen Anbieter (z. B. Amazon) einkaufen, kann eine Provision entstehen.
+          </p>
+
+          <div class="mt-6 p-4 bg-white rounded-xl border border-blue-100">
+            <p class="text-blue-700 font-bold text-sm">
+              Für Sie entstehen keine zusätzlichen Kosten.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-8 bg-white rounded-[2rem] border border-neutral-100">
+          <div class="text-3xl mb-4">📄</div>
+          <h2 class="text-2xl font-bold text-neutral-900 mb-4">Inhalte dieser Website</h2>
+
+          <p class="text-neutral-600 text-sm leading-relaxed">
+            Die Inhalte basieren auf öffentlich verfügbaren Informationen sowie allgemeinen Produkteigenschaften.
+          </p>
+
+          <p class="text-neutral-600 text-sm leading-relaxed mt-4">
+            Es handelt sich nicht um individuelle Beratung oder verbindliche Bewertung.
+          </p>
+        </div>
+
+      </div>
+
+      {/* RIGHT */}
+      <div class="space-y-8">
+
+        <div class="p-8 bg-red-50 rounded-[2rem] border border-red-100">
+          <div class="text-3xl mb-4">🚫</div>
+          <h2 class="text-2xl font-bold text-red-900 mb-4">Kein Online-Shop</h2>
+
+          <p class="text-red-800 text-sm leading-relaxed">
+            Diese Website verkauft keine Produkte und bietet keine Dienstleistungen an.
+          </p>
+
+          <ul class="mt-6 space-y-3 text-xs text-red-900/70">
+            <li>✕ Keine Lieferung oder Versand</li>
+            <li>✕ Kein Zugriff auf Bestellungen</li>
+            <li>✕ Kein Support zu Käufen</li>
+          </ul>
+        </div>
+
+        <div class="p-8 bg-blue-600 rounded-[2rem] text-white">
+          <h3 class="text-xl font-bold mb-4">Finanzierung</h3>
+
+          <p class="text-blue-100 text-sm leading-relaxed">
+            Affiliate-Links ermöglichen es, diese Inhalte bereitzustellen und weiter auszubauen.
+          </p>
+
+          <a href="/ueber-uns/" class="inline-block mt-6 text-white font-bold text-sm underline hover:text-blue-200">
+            Mehr über das Projekt →
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+    <div class="mt-20 pt-10 border-t border-neutral-100 text-center">
+      <a href="/empfehlungen/" class="inline-block bg-neutral-900 text-white px-10 py-5 rounded-2xl font-black hover:bg-blue-600 transition-all">
+        ZU DEN EMPFEHLUNGEN
+      </a>
+
+      <p class="mt-6 text-xs text-neutral-400">
+        Stand: März 2026 | Deutschland
+      </p>
+    </div>
+
+  </main>
+</BaseLayout>

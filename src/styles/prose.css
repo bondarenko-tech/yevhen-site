@@ -1,0 +1,95 @@
+.prose {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #374151; /* neutral-700 */
+  max-width: 65ch;
+  margin: 0 auto;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #111827; /* neutral-900 */
+  border-bottom: 2px solid #f97316; /* orange accent */
+  padding-bottom: 0.25rem;
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #1f2937; /* neutral-800 */
+}
+
+.prose p {
+  margin-bottom: 1rem;
+}
+
+.prose ul,
+.prose ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: #111827;
+}
+
+.prose a {
+  color: #f97316; /* orange-500 */
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.prose a:hover {
+  color: #ea580c; /* orange-600 */
+}
+
+.prose blockquote {
+  border-left: 4px solid #f97316;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #4b5563; /* neutral-600 */
+  background: #fff7ed; /* orange-50 */
+  border-radius: 0.25rem;
+}
+
+/* 🔥 Таблицы */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  background: #fff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.prose th,
+.prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb; /* neutral-200 */
+  text-align: left;
+}
+
+.prose th {
+  background: #f97316; /* orange-500 */
+  color: #fff;
+  font-weight: 600;
+}
+
+.prose tr:nth-child(even) td {
+  background: #f9fafb; /* neutral-50 */
+}

@@ -1,0 +1,12 @@
+/* TEAM */
+Developer: Yevhen Bondarenko
+Email: info@yevhenbondarenko.com
+From: Harrislee, Germany
+
+/* SITE */
+Last update: 2025-06-15
+Standards: HTML5, CSS3, Astro, JSON-LD
+Components: TailwindCSS, Klaro, Zoho Mail, Google Analytics
+
+/* THANKS */
+Tools: ChatGPT, VS Code, Cloudflare, Zoho, Amazon PartnerNet

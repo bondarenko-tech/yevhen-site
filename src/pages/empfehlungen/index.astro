@@ -1,0 +1,192 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { kategorien } from "../../data/kategorien";
+import CategoryCard from "../../components/CategoryCard.astro";
+
+const title = "Technik Empfehlungen für Zuhause";
+const description =
+  "Übersicht sinnvoller Technik für Zuhause: WLAN Lösungen, Smart Home Geräte, Sicherheit und Strom. Kurz erklärt und schnell vergleichbar.";
+---
+
+<BaseLayout title={title} description={description}>
+
+<main class="mx-auto max-w-7xl px-4 py-16">
+
+<!-- HERO -->
+
+<header class="text-center mb-16">
+
+<h1 class="text-4xl md:text-5xl font-extrabold text-neutral-900 mb-6 tracking-tight">
+Technik-Empfehlungen für Zuhause
+</h1>
+
+<p class="text-xl text-neutral-600 max-w-3xl mx-auto leading-relaxed">
+Hier findest du Geräte für WLAN, Smart Home, Sicherheit und Strom.
+Alle Produkte werden kurz erklärt und helfen dabei,
+passende Technik für Zuhause schneller zu finden.
+</p>
+
+</header>
+
+
+<!-- CATEGORY GRID -->
+
+<section class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+{kategorien.map((cat) => (
+<CategoryCard cat={cat} />
+))}
+
+</section>
+
+
+<!-- WHY THIS SITE -->
+
+<section class="mt-24 py-14 border-y border-neutral-100 bg-neutral-50 rounded-3xl px-10">
+
+<div class="grid md:grid-cols-3 gap-12 text-center">
+
+<div>
+
+<div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 font-bold">
+01
+</div>
+
+<h3 class="font-bold text-lg mb-2">
+Kurz erklärt
+</h3>
+
+<p class="text-sm text-neutral-600">
+Technik verständlich erklärt – ohne lange Tests
+oder komplizierte Fachbegriffe.
+</p>
+
+</div>
+
+
+<div>
+
+<div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 font-bold">
+02
+</div>
+
+<h3 class="font-bold text-lg mb-2">
+Relevante Geräte
+</h3>
+
+<p class="text-sm text-neutral-600">
+Nur Technik, die im Alltag wirklich sinnvoll ist
+und typische Probleme zuhause lösen kann.
+</p>
+
+</div>
+
+
+<div>
+
+<div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 font-bold">
+03
+</div>
+
+<h3 class="font-bold text-lg mb-2">
+Schneller Überblick
+</h3>
+
+<p class="text-sm text-neutral-600">
+Kurze Videos und kompakte Infos helfen dabei,
+passende Geräte schneller zu finden.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- POPULAR PROBLEMS (CTR BOOST) -->
+
+<section class="mt-24 max-w-4xl mx-auto text-center">
+
+<h2 class="text-2xl font-bold mb-8">
+Häufig gesuchte Lösungen
+</h2>
+
+<div class="grid sm:grid-cols-2 gap-6 text-left">
+
+<a
+href="/verstehen/wlan-im-altbau/"
+class="border rounded-xl p-6 hover:shadow-md transition"
+>
+<h3 class="font-semibold mb-2">
+WLAN im Altbau verbessern
+</h3>
+<p class="text-sm text-neutral-600">
+Welche Geräte helfen bei dicken Wänden und schwachem WLAN?
+</p>
+</a>
+
+
+<a
+href="/vergleiche/powerline-oder-mesh-wlan/"
+class="border rounded-xl p-6 hover:shadow-md transition"
+>
+<h3 class="font-semibold mb-2">
+Powerline vs Mesh WLAN
+</h3>
+<p class="text-sm text-neutral-600">
+Welche Lösung ist besser für größere Wohnungen?
+</p>
+</a>
+
+
+<a
+href="/verstehen/smarte-steckdose/"
+class="border rounded-xl p-6 hover:shadow-md transition"
+>
+<h3 class="font-semibold mb-2">
+Smarte Steckdose erklärt
+</h3>
+<p class="text-sm text-neutral-600">
+Was bringt eine smarte Steckdose wirklich?
+</p>
+</a>
+
+
+<a
+href="/verstehen/steckdosenleiste/"
+class="border rounded-xl p-6 hover:shadow-md transition"
+>
+<h3 class="font-semibold mb-2">
+Steckdosenleisten Überblick
+</h3>
+<p class="text-sm text-neutral-600">
+Welche Steckdosenleiste ist sinnvoll für TV, Büro oder Gaming?
+</p>
+</a>
+
+</div>
+
+</section>
+
+
+<!-- INFO -->
+
+<section class="mt-24 max-w-3xl mx-auto text-center">
+
+<h2 class="text-2xl font-bold mb-4">
+Wie diese Seite funktioniert
+</h2>
+
+<p class="text-neutral-600 leading-relaxed">
+Die Seite stellt Technik aus verschiedenen Bereichen vor
+und hilft dabei, passende Geräte schneller zu finden.
+Einige Links können Partnerlinks sein – für dich bleibt der Preis gleich.
+</p>
+
+</section>
+
+
+</main>
+
+</BaseLayout>
