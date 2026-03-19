@@ -56,9 +56,6 @@ export default defineConfig({
     "/video/ring-akku-videoturklingel-2024-/": { status: 301, destination: "/empfehlungen/sicherheit/ring-battery-doorbell-2024/" },
     "/video/hilook-indoor-pt/": { status: 301, destination: "/empfehlungen/sicherheit/hilook-indoor-pt/" },
 
-    // ВСЁ остальное из видео
-    "/video/[...slug]": { status: 301, destination: "/empfehlungen/" },
-
     // мусорный search
     "/links/?q=%7Bsearch_term_string%7D": { status: 301, destination: "/links/" }
   }
