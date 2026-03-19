@@ -11,8 +11,8 @@ const latestVergleiche = vergleiche
   .sort((a, b) => new Date(b.data.datum ?? 0).getTime() - new Date(a.data.datum ?? 0).getTime())
   .slice(0, 3);
 
-const title = "Yevhen Bondarenko – Technik Empfehlungen & Netzwerk Lösungen";
-const description = "Unabhängige Empfehlungen für Netzwerk, Smart Home und Sicherheit. Technik verständlich erklärt für Ihr Zuhause.";
+const title = "WLAN, Smart Home & Technik Empfehlungen für Zuhause | Bondarenko";
+const description = "Probleme mit WLAN im Altbau? Hier finden Sie einfache Lösungen, ehrliche Technik-Empfehlungen und verständliche Erklärungen für Ihr Zuhause.";
 ---
 
 <BaseLayout title={title} description={description}>

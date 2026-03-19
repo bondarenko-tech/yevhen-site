@@ -35,11 +35,11 @@ let {
   updated,
 } = Astro.props as LayoutProps;
 
-/* ───────── УМНЫЙ URL (фикс дублей) ───────── */
-const currentPath = Astro.url.pathname.replace(/\/?$/, '/');
+/* ───────── ЧИСТЫЙ URL (фикс дублей) ───────── */
+const currentPath = Astro.url.pathname.replace(/\/?$/, "/");
 const currentUrl = new URL(currentPath, BASE_URL).toString();
 
-/* ───────── SEO & ROBOTS ───────── */
+/* ───────── SEO ───────── */
 const robotsFinal = `${robots}, max-snippet:-1, max-image-preview:large, max-video-preview:-1`;
 const canonicalUrl = canonical ?? currentUrl;
 
@@ -49,14 +49,14 @@ const clean = (s: string) => s.trim().replace(/\s+/g, " ");
 function safeMetaDescription(src?: string) {
   const base =
     src?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() ||
-    "Unabhängige Produktübersichten und technische Informationen.";
+    "Unabhängige Technik-Empfehlungen für Zuhause.";
 
   return base.length <= 160
     ? base
     : base.slice(0, 160).replace(/\s+\S*$/, "").trim();
 }
 
-/* ───────── PRODUCT OVERRIDES ───────── */
+/* ───────── PRODUCT SEO ───────── */
 if (produkt) {
   title = clean(produkt.data.title);
   description = safeMetaDescription(
@@ -66,9 +66,10 @@ if (produkt) {
   );
 }
 
-const computedTitle = title ?? "Bondarenko Empfehlungen";
+const computedTitle =
+  title ?? "WLAN, Smart Home & Technik Empfehlungen | Bondarenko";
 
-/* ───────── JSON-LD GRAPH (ЧИСТЫЙ) ───────── */
+/* ───────── JSON-LD GRAPH ───────── */
 const graph: any[] = [
   {
     "@type": "Person",
@@ -78,11 +79,18 @@ const graph: any[] = [
     "image": `${BASE_URL}/yevhen-avatar.png`
   },
   {
+    "@type": "Organization",
+    "@id": `${BASE_URL}/#organization`,
+    "name": "Bondarenko Empfehlungen",
+    "url": BASE_URL,
+    "logo": `${BASE_URL}/og/site.webp`
+  },
+  {
     "@type": "WebSite",
     "@id": `${BASE_URL}/#website`,
     "url": BASE_URL,
     "name": "Bondarenko Empfehlungen",
-    "publisher": { "@id": `${BASE_URL}/#author` }
+    "publisher": { "@id": `${BASE_URL}/#organization` }
   },
   {
     "@type": "WebPage",
@@ -135,7 +143,11 @@ const jsonLdGraph = {
     <script is:inline defer src="https://cdn.kiprotect.com/klaro/v0.7.18/klaro.js"></script>
 
     <!-- JSON-LD -->
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLdGraph)} />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(jsonLdGraph)}
+    />
   </head>
 
   <body class="bg-neutral-50 text-gray-900 font-sans antialiased">
@@ -145,7 +157,7 @@ const jsonLdGraph = {
       <slot />
     </main>
 
-    <!-- 🔐 Affiliate Transparency (ОБЯЗАТЕЛЬНО) -->
+    <!-- Affiliate Hinweis -->
     <div class="max-w-5xl mx-auto px-4 py-6 text-sm text-gray-600">
       Hinweis: Diese Website ist kein Online-Shop. Wir verkaufen keine Produkte.
       Einige Links sind Partnerlinks (z. B. Amazon). Preise und Verfügbarkeit können variieren.
