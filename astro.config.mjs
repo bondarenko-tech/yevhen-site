@@ -42,6 +42,7 @@ export default defineConfig({
     "/marken/medion/": { status: 301, destination: "/marken/" },
     "/verstehen/wlan-repeater-oder-mesh/": { status: 301, destination: "/vergleiche/wlan-repeater-oder-mesh/" },
     "/mesh-vs-repeater/": { status: 301, destination: "/vergleiche/wlan-repeater-oder-mesh/" },
+    "/vergleiche/brennenstuhl-eco-vs-premium/": { status: 301, destination: "/vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/" },
 
     // ───────── VIDEO → ДЕНЬГИ ─────────
     "/video/tapo-p300-smart-wlan-steckdosenleiste/": { status: 301, destination: "/empfehlungen/smarthome/tapo-p300/" },
