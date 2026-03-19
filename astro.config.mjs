@@ -58,6 +58,6 @@ export default defineConfig({
     "/video/hilook-indoor-pt/": { status: 301, destination: "/empfehlungen/sicherheit/hilook-indoor-pt/" },
 
     // мусорный search
-    "/links/?q=%7Bsearch_term_string%7D": { status: 301, destination: "/links/" }
+    "/links/": { status: 301, destination: "/links/alle/" }
   }
 });
