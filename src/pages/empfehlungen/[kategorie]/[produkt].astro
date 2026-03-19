@@ -24,11 +24,11 @@ if (!entry) throw new Error("Produkt-Datei nicht gefunden");
 const { Content } = await entry.render();
 const n = normalizeProduct(entry);
 
-/* ───────── SEO ───────── */
+/* SEO */
 const title = n.title;
 const description = n.teaser;
 
-/* ───────── Breadcrumb ───────── */
+/* Breadcrumb */
 const breadcrumb = [
   { name: "Start", url: "/" },
   { name: "Empfehlungen", url: "/empfehlungen/" },
@@ -36,7 +36,7 @@ const breadcrumb = [
   { name: n.title, url: `/empfehlungen/${kategorie}/${produkt}/` }
 ];
 
-/* ───────── PRODUCT SCHEMA (Affiliate-safe) ───────── */
+/* Schema */
 const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -66,40 +66,39 @@ const jsonLd = [
   produkt={entry}
 >
 
-<main class="max-w-[1000px] mx-auto px-4 py-10">
+<main class="max-w-[920px] mx-auto px-4 py-10">
 
-  <!-- 🔥 HERO -->
+  <!-- HERO -->
   <header class="mb-10">
-    <h1 class="text-2xl md:text-3xl font-black mb-4">
+    <h1 class="text-2xl md:text-3xl font-semibold text-zinc-900 mb-4">
       {n.title}
     </h1>
 
-    <p class="text-lg text-gray-600 max-w-2xl">
+    <p class="text-base text-zinc-600 max-w-xl leading-relaxed">
       {n.teaser}
     </p>
   </header>
 
-  <!-- 🔥 GRID -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
     <!-- LEFT -->
     <div class="lg:col-span-4">
 
-      <div class="sticky top-6 space-y-6">
+      <div class="sticky top-6 space-y-5">
 
-        <img src={n.image} alt={n.title} class="rounded-xl shadow-md" />
+        <img src={n.image} alt={n.title} class="rounded-lg shadow-sm" />
 
         <!-- SPECS -->
-        <div class="bg-white border rounded-xl p-4">
-          <h2 class="font-bold mb-4 text-sm uppercase text-gray-500">
+        <div class="bg-white border border-zinc-200 rounded-lg p-4">
+          <h2 class="text-xs uppercase tracking-wide text-zinc-400 mb-3">
             Kurzfakten
           </h2>
 
           <ul class="space-y-2 text-sm">
             {n.kurzfakten?.map(k => (
               <li class="flex justify-between">
-                <span class="text-gray-500">{k.label}</span>
-                <strong>{k.value}</strong>
+                <span class="text-zinc-500">{k.label}</span>
+                <span class="text-zinc-900 font-medium">{k.value}</span>
               </li>
             ))}
           </ul>
@@ -109,14 +108,13 @@ const jsonLd = [
         <a
           href={n.linkExtern}
           target="_blank"
-          class="block w-full bg-[#FF9900] hover:bg-black text-white text-center py-4 rounded-xl font-bold transition"
+          class="block w-full bg-[#FF9900] hover:bg-[#e68a00] text-white text-center py-3 rounded-lg text-sm font-medium transition"
         >
-          Preis bei Amazon prüfen →
+          Bei Amazon ansehen →
         </a>
 
-        <!-- TRUST -->
-        <div class="text-xs text-gray-500">
-          Hinweis: Partnerlink. Preis kann variieren.
+        <div class="text-xs text-zinc-400">
+          Partnerlink · Preis kann variieren
         </div>
 
       </div>
@@ -125,9 +123,22 @@ const jsonLd = [
     <!-- RIGHT -->
     <div class="lg:col-span-8">
 
+      <!-- INFO BLOCK -->
+      <div class="mb-8 p-4 bg-zinc-50 border border-zinc-200 rounded-lg text-sm text-zinc-600">
+        <strong class="block mb-1 text-zinc-700">Gut zu wissen</strong>
+        Dieses Gerät ist ideal für stabile WLAN-Verbindungen im Alltag.
+        Für sehr spezielle Profi-Setups ist es weniger gedacht.
+      </div>
+
       <!-- CONTENT -->
-      <article class="prose max-w-none">
+      <article class="prose prose-zinc max-w-none 
+        prose-h2:font-semibold 
+        prose-h2:text-lg 
+        prose-p:text-zinc-600 
+        prose-strong:text-zinc-900">
+
         <Content />
+
       </article>
 
     </div>
