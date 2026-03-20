@@ -36,7 +36,7 @@ const breadcrumb = [
   { name: n.title, url: `/empfehlungen/${kategorie}/${produkt}/` }
 ];
 
-/* Schema */
+/* JSON-LD */
 const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -68,82 +68,88 @@ const jsonLd = [
 
 <main class="max-w-[920px] mx-auto px-4 py-10">
 
-  <!-- HERO -->
-  <header class="mb-10">
-    <h1 class="text-2xl md:text-3xl font-semibold text-zinc-900 mb-4">
+  <!-- 🔥 TITLE -->
+  <header class="mb-8">
+    <h1 class="text-2xl md:text-3xl font-semibold text-neutral-900 mb-4 leading-snug">
       {n.title}
     </h1>
 
-    <p class="text-base text-zinc-600 max-w-xl leading-relaxed">
+    <p class="text-base text-neutral-600 max-w-2xl leading-relaxed">
       {n.teaser}
     </p>
   </header>
 
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-
-    <!-- LEFT -->
-    <div class="lg:col-span-4">
-
-      <div class="sticky top-6 space-y-5">
-
-        <img src={n.image} alt={n.title} class="rounded-lg shadow-sm" />
-
-        <!-- SPECS -->
-        <div class="bg-white border border-zinc-200 rounded-lg p-4">
-          <h2 class="text-xs uppercase tracking-wide text-zinc-400 mb-3">
-            Kurzfakten
-          </h2>
-
-          <ul class="space-y-2 text-sm">
-            {n.kurzfakten?.map(k => (
-              <li class="flex justify-between">
-                <span class="text-zinc-500">{k.label}</span>
-                <span class="text-zinc-900 font-medium">{k.value}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- CTA -->
-        <a
-          href={n.linkExtern}
-          target="_blank"
-          class="block w-full bg-[#FF9900] hover:bg-[#e68a00] text-white text-center py-3 rounded-lg text-sm font-medium transition"
-        >
-          Bei Amazon ansehen →
-        </a>
-
-        <div class="text-xs text-zinc-400">
-          Partnerlink · Preis kann variieren
-        </div>
-
-      </div>
-    </div>
-
-    <!-- RIGHT -->
-    <div class="lg:col-span-8">
-
-      <!-- INFO BLOCK -->
-      <div class="mb-8 p-4 bg-zinc-50 border border-zinc-200 rounded-lg text-sm text-zinc-600">
-        <strong class="block mb-1 text-zinc-700">Gut zu wissen</strong>
-        Dieses Gerät ist ideal für stabile WLAN-Verbindungen im Alltag.
-        Für sehr spezielle Profi-Setups ist es weniger gedacht.
-      </div>
-
-      <!-- CONTENT -->
-      <article class="prose prose-zinc max-w-none 
-        prose-h2:font-semibold 
-        prose-h2:text-lg 
-        prose-p:text-zinc-600 
-        prose-strong:text-zinc-900">
-
-        <Content />
-
-      </article>
-
-    </div>
-
+  <!-- 🔥 IMAGE -->
+  <div class="mb-10">
+    <img 
+      src={n.image} 
+      alt={n.title} 
+      class="w-full max-w-md mx-auto rounded-xl"
+    />
   </div>
+
+  <!-- 🔥 EINORDNUNG -->
+  <section class="mb-10">
+    <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
+      <h2 class="text-sm font-semibold text-neutral-900 mb-2">
+        Kurz erklärt
+      </h2>
+
+      <p class="text-sm text-neutral-600 leading-relaxed">
+        Dieses Gerät ist für typische Alltagsnutzung gedacht.
+        Es hilft dabei, die Funktion zu erfüllen, ohne dass man sich
+        mit vielen technischen Details beschäftigen muss.
+      </p>
+    </div>
+  </section>
+
+  <!-- 🔥 SPECS -->
+  {n.kurzfakten && (
+    <section class="mb-10">
+      <h2 class="text-sm font-semibold text-neutral-900 mb-4">
+        Technische Daten (vereinfacht)
+      </h2>
+
+      <div class="border rounded-xl divide-y">
+        {n.kurzfakten.map(k => (
+          <div class="flex justify-between px-4 py-3 text-sm">
+            <span class="text-neutral-500">{k.label}</span>
+            <span class="text-neutral-900 font-medium">{k.value}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- 🔥 CONTENT -->
+  <article class="prose prose-zinc max-w-none mb-12
+    prose-h2:text-base
+    prose-h2:font-semibold
+    prose-h2:mt-8
+    prose-p:text-[15px]
+    prose-p:leading-relaxed
+    prose-li:text-[15px]
+  ">
+    <Content />
+  </article>
+
+  <!-- 🔥 CTA -->
+  {n.linkExtern && (
+    <div class="mb-6">
+      <a
+        href={n.linkExtern}
+        target="_blank"
+        class="block text-center bg-[#FF9900] hover:bg-black text-white py-4 rounded-xl font-semibold transition"
+      >
+        Preis bei Amazon ansehen →
+      </a>
+    </div>
+  )}
+
+  <!-- 🔥 DISCLAIMER -->
+  <p class="text-xs text-neutral-500 text-center">
+    Hinweis: Partnerlink. Preis und Verfügbarkeit können variieren.
+  </p>
 
 </main>
 
