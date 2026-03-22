@@ -87,33 +87,33 @@ const jsonLd = [
 <main class="max-w-[920px] mx-auto px-4 py-10">
 
   <!-- HERO GRID -->
-<section class="mb-10">
+   <section class="mb-8">
 
-  <div class="grid md:grid-cols-2 gap-8 items-start">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
 
-    <!-- LEFT: IMAGE -->
-    <div>
+    <!-- IMAGE -->
+    <div class="flex justify-center md:justify-start">
       <img 
         src={n.image} 
         alt={n.title} 
-        class="w-full max-w-sm rounded-xl"
+        class="w-full max-w-[260px] md:max-w-sm rounded-xl"
       />
     </div>
 
-    <!-- RIGHT: TEXT -->
+    <!-- TEXT -->
     <div>
 
-      <h1 class="text-xl md:text-2xl font-semibold text-neutral-900 mb-3 leading-snug">
+      <h1 class="text-lg md:text-2xl font-semibold text-neutral-900 mb-2 leading-snug">
         {n.title}
       </h1>
 
-      <p class="text-sm text-neutral-600 leading-relaxed mb-4">
+      <p class="text-sm text-neutral-600 leading-relaxed mb-3">
         {n.teaser}
       </p>
 
       <!-- VIDEO -->
       {n.videoShortId && (
-        <div class="mb-4">
+        <div class="mb-3">
           <div class="aspect-video rounded-xl overflow-hidden">
             <iframe
               class="w-full h-full"
@@ -126,12 +126,12 @@ const jsonLd = [
         </div>
       )}
 
-      <!-- CTA -->
+      <!-- CTA (desktop only) -->
       {n.linkExtern && (
         <a
           href={n.linkExtern}
           target="_blank"
-          class="inline-block bg-[#FF9900] hover:bg-black text-white px-6 py-3 rounded-xl text-sm font-semibold transition"
+          class="hidden md:inline-block bg-[#FF9900] hover:bg-black text-white px-6 py-3 rounded-xl text-sm font-semibold transition"
         >
           Bei Amazon ansehen →
         </a>
