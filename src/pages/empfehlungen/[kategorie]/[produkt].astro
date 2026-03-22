@@ -7,7 +7,7 @@ import { normalizeProduct } from "@lib/product-engine";
 
 export async function getStaticPaths() {
   const p = await getCollection("produkte");
-  return p.map(e => ({
+  return p.map((e) => ({
     params: { kategorie: e.data.kategorie, produkt: e.slug }
   }));
 }
@@ -15,38 +15,33 @@ export async function getStaticPaths() {
 const { kategorie, produkt } = Astro.params;
 const entries = await getCollection("produkte");
 
-/* ✅ СНАЧАЛА НАХОДИМ ТЕКУЩИЙ ПРОДУКТ */
 const entry = entries.find(
-  e => e.slug === produkt && e.data.kategorie === kategorie
+  (e) => e.slug === produkt && e.data.kategorie === kategorie
 );
 
 if (!entry) throw new Error("Produkt-Datei nicht gefunden");
 
-/* ✅ ПОТОМ СЧИТАЕМ ПОХОЖИЕ */
 const related = entries
-  .filter(e => e.slug !== entry.slug)
-  .map(e => {
-    const commonTags = e.data.tags?.filter(tag =>
-      entry.data.tags?.includes(tag)
-    ) || [];
+  .filter((e) => e.slug !== entry.slug)
+  .map((e) => {
+    const commonTags =
+      e.data.tags?.filter((tag) => entry.data.tags?.includes(tag)) || [];
 
     return {
       entry: e,
       score: commonTags.length
     };
   })
-  .filter(e => e.score > 0)
+  .filter((e) => e.score > 0)
   .sort((a, b) => b.score - a.score)
   .slice(0, 3);
 
 const { Content } = await entry.render();
 const n = normalizeProduct(entry);
 
-/* SEO */
 const title = n.title;
 const description = n.teaser;
 
-/* Breadcrumb */
 const breadcrumb = [
   { name: "Start", url: "/" },
   { name: "Empfehlungen", url: "/empfehlungen/" },
@@ -54,7 +49,6 @@ const breadcrumb = [
   { name: n.title, url: `/empfehlungen/${kategorie}/${produkt}/` }
 ];
 
-/* JSON-LD */
 const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -69,11 +63,21 @@ const jsonLd = [
     "offers": {
       "@type": "Offer",
       "url": n.linkExtern,
-      "priceCurrency": "EUR",
+      "priceCurrency": n.priceCurrency || "EUR",
       "availability": "https://schema.org/InStock"
     }
   }
 ];
+
+const displayPrice =
+  typeof n.preis === "number"
+    ? new Intl.NumberFormat("de-DE", {
+        style: "currency",
+        currency: n.priceCurrency || "EUR",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }).format(n.preis)
+    : null;
 ---
 
 <BaseLayout
@@ -83,224 +87,281 @@ const jsonLd = [
   jsonLd={jsonLd}
   produkt={entry}
 >
+  <main class="max-w-[1120px] mx-auto px-4 py-8 pb-24">
+    <!-- HERO -->
+    <section class="mb-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- LEFT CONTENT -->
+        <div class="lg:col-span-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            <!-- IMAGE -->
+            <div class="flex justify-center md:justify-start">
+              <img
+                src={n.image}
+                alt={n.title}
+                class="w-full max-w-[280px] md:max-w-sm rounded-xl"
+              />
+            </div>
 
-<main class="max-w-[920px] mx-auto px-4 py-10 pb-24">
+            <!-- TEXT -->
+            <div>
+              <h1 class="text-xl md:text-3xl font-semibold text-neutral-900 mb-3 leading-snug">
+                {n.title}
+              </h1>
 
-  <!-- HERO GRID -->
-   <section class="mb-8">
+              <p class="text-sm md:text-base text-neutral-600 leading-relaxed mb-4">
+                {n.teaser}
+              </p>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+              <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-4">
+                <h2 class="text-sm font-semibold text-neutral-900 mb-2">
+                  Kurz erklärt
+                </h2>
+                <p class="text-sm text-neutral-600 leading-relaxed">
+                  {n.teaser}
+                </p>
+              </div>
 
-    <!-- IMAGE -->
-    <div class="flex justify-center md:justify-start">
-      <img 
-        src={n.image} 
-        alt={n.title} 
-        class="w-full max-w-[260px] md:max-w-sm rounded-xl"
-      />
-    </div>
+              <!-- VIDEO -->
+              {n.videoShortId && (
+                <div class="mb-4">
+                  <div class="aspect-video rounded-xl overflow-hidden bg-neutral-100">
+                    <iframe
+                      class="w-full h-full"
+                      src={`https://www.youtube.com/embed/${n.videoShortId}`}
+                      title="YouTube video"
+                      frameborder="0"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                </div>
+              )}
 
-    <!-- TEXT -->
-    <div>
-
-      <h1 class="text-lg md:text-2xl font-semibold text-neutral-900 mb-2 leading-snug">
-        {n.title}
-      </h1>
-
-      <p class="text-sm text-neutral-600 leading-relaxed mb-3">
-        {n.teaser}
-      </p>
-
-      <!-- VIDEO -->
-      {n.videoShortId && (
-        <div class="mb-3">
-          <div class="aspect-video rounded-xl overflow-hidden">
-            <iframe
-              class="w-full h-full"
-              src={`https://www.youtube.com/embed/${n.videoShortId}`}
-              title="YouTube video"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
+              <!-- CTA mobile/medium inline -->
+              {n.linkExtern && (
+                <a
+                  href={n.linkExtern}
+                  target="_blank"
+                  rel="nofollow sponsored noopener"
+                  class="inline-block lg:hidden bg-[#FF9900] hover:bg-black text-white px-5 py-3 rounded-xl text-sm font-semibold transition"
+                >
+                  Preis & Details bei Amazon ansehen →
+                </a>
+              )}
+            </div>
           </div>
         </div>
-      )}
 
-      <!-- CTA (desktop only) -->
-      {n.linkExtern && (
+        <!-- RIGHT STICKY BUY BOX -->
+        <aside class="hidden lg:block lg:col-span-4">
+          <div class="sticky top-24">
+            <div class="border border-neutral-200 rounded-2xl p-5 bg-white shadow-sm">
+              <div class="mb-4">
+                <p class="text-xs uppercase tracking-wide text-neutral-500 mb-1">
+                  Preis
+                </p>
+                <p class="text-2xl font-semibold text-neutral-900">
+                  {displayPrice ?? "Preis siehe Amazon"}
+                </p>
+              </div>
+
+              <div class="mb-4">
+                <p class="text-xs uppercase tracking-wide text-neutral-500 mb-1">
+                  Einordnung
+                </p>
+                <div class="flex items-center gap-2">
+                  <span class="text-base">★★★★☆</span>
+                  <span class="text-sm text-neutral-600">stark für Alltag & Zuhause</span>
+                </div>
+              </div>
+
+              <div class="mb-4 space-y-2 text-sm text-neutral-700">
+                <p>✔ Router + Modem in einem Gerät</p>
+                <p>✔ Sinnvoll bei vielen Geräten gleichzeitig</p>
+                <p>✔ Geeignet für Kabelanschluss</p>
+              </div>
+
+              {n.linkExtern && (
+                <a
+                  href={n.linkExtern}
+                  target="_blank"
+                  rel="nofollow sponsored noopener"
+                  class="block text-center bg-[#FF9900] hover:bg-black text-white py-4 rounded-xl font-semibold transition"
+                >
+                  Bei Amazon ansehen →
+                </a>
+              )}
+
+              <p class="text-[11px] text-neutral-500 leading-relaxed mt-3">
+                Hinweis: Partnerlink. Preis und Verfügbarkeit können variieren.
+              </p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MAIN CONTENT + INFO -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-8">
+        <!-- FÜR WEN -->
+        <section class="mb-10">
+          <h2 class="text-sm font-semibold text-neutral-900 mb-4">
+            Für wen geeignet
+          </h2>
+
+          <div class="border rounded-xl p-4 text-sm text-neutral-700 leading-relaxed space-y-2 bg-white">
+            <p>✔ Sinnvoll für stabiles Internet im ganzen Zuhause</p>
+            <p>✔ Geeignet für mehrere Geräte gleichzeitig</p>
+            <p>✔ Gute Wahl bei schnellen Kabelanschlüssen</p>
+            <p class="text-neutral-400 pt-2">
+              Nicht ideal, wenn nur DSL oder VDSL vorhanden ist
+            </p>
+          </div>
+        </section>
+
+        <!-- SPECS -->
+        {n.kurzfakten && (
+          <section class="mb-10">
+            <h2 class="text-sm font-semibold text-neutral-900 mb-4">
+              Technische Daten (vereinfacht)
+            </h2>
+
+            <div class="border rounded-xl divide-y hover:shadow-sm transition bg-white">
+              {n.kurzfakten.map((k) => (
+                <div class="flex justify-between gap-4 px-4 py-3 text-sm">
+                  <span class="text-neutral-500">{k.label}</span>
+                  <span class="text-neutral-900 font-medium text-right">{k.value}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- CONTENT -->
+        <article
+          class="prose prose-zinc max-w-none mb-12
+          prose-h2:text-base
+          prose-h2:font-semibold
+          prose-h2:mt-8
+          prose-p:text-[15px]
+          prose-p:leading-relaxed
+          prose-li:text-[15px]"
+        >
+          <Content />
+        </article>
+
+        <!-- FAQ -->
+        <section class="mb-12">
+          <h2 class="text-sm font-semibold text-neutral-900 mb-4">
+            Häufige Fragen
+          </h2>
+
+          <div class="space-y-4 text-sm text-neutral-700">
+            <div>
+              <strong>Ist dieses Gerät für große Wohnungen geeignet?</strong>
+              <p class="text-neutral-600">
+                Ja, besonders bei mehreren Räumen oder Etagen und vielen Geräten.
+              </p>
+            </div>
+
+            <div>
+              <strong>Funktioniert es mit Glasfaser?</strong>
+              <p class="text-neutral-600">
+                Nein. Dieses Modell ist für Kabelanschlüsse gedacht, nicht für DSL oder Glasfaser direkt.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ALTERNATIVEN -->
+        <section class="mb-12">
+          <h2 class="text-sm font-semibold text-neutral-900 mb-4">
+            Alternative Optionen
+          </h2>
+
+          <div class="border rounded-xl p-4 text-sm text-neutral-700 space-y-2 bg-white">
+            <p>Je nach Anschluss oder Wohnsituation können auch andere Lösungen sinnvoll sein:</p>
+
+            <ul class="list-disc pl-5 space-y-1">
+              <li>FRITZ!Box für DSL — wenn kein Kabelanschluss vorhanden ist</li>
+              <li>Mesh-System — wenn das WLAN in mehrere Räume verteilt werden soll</li>
+              <li>WLAN-Repeater — für einzelne problematische Bereiche</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ÄHNLICHE PRODUKTE -->
+        {related.length > 0 && (
+          <section class="mb-12">
+            <h2 class="text-sm font-semibold text-neutral-900 mb-4">
+              Ähnliche Produkte
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              {related.map((r) => {
+                const p = normalizeProduct(r.entry);
+
+                return (
+                  <a
+                    href={`/empfehlungen/${p.kategorie}/${r.entry.slug}/`}
+                    class="block border rounded-xl overflow-hidden hover:shadow-sm transition bg-white"
+                  >
+                    <div class="aspect-video bg-neutral-100 flex items-center justify-center">
+                      {p.image ? (
+                        <img src={p.image} alt={p.title} class="object-contain max-h-full" />
+                      ) : (
+                        <span class="text-neutral-400 text-sm">Kein Bild</span>
+                      )}
+                    </div>
+
+                    <div class="p-3">
+                      <h3 class="text-sm font-semibold text-neutral-900 line-clamp-2">
+                        {p.title}
+                      </h3>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        <!-- DESKTOP CTA fallback under content -->
+        {n.linkExtern && (
+          <div class="hidden lg:block mb-6">
+            <a
+              href={n.linkExtern}
+              target="_blank"
+              rel="nofollow sponsored noopener"
+              class="inline-block bg-[#FF9900] hover:bg-black text-white px-6 py-3 rounded-xl font-semibold transition"
+            >
+              Preis & Details bei Amazon ansehen →
+            </a>
+          </div>
+        )}
+
+        <p class="text-xs text-neutral-500">
+          Hinweis: Partnerlink. Preis und Verfügbarkeit können variieren.
+        </p>
+      </div>
+
+      <!-- RIGHT SECONDARY SPACE -->
+      <div class="hidden lg:block lg:col-span-4"></div>
+    </section>
+
+    <!-- MOBILE STICKY CTA -->
+    {n.linkExtern && (
+      <div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t p-3 md:hidden">
         <a
           href={n.linkExtern}
           target="_blank"
-          class="hidden md:inline-block bg-[#FF9900] hover:bg-black text-white px-6 py-3 rounded-xl text-sm font-semibold transition"
+          rel="nofollow sponsored noopener"
+          class="block text-center bg-[#FF9900] text-white py-3 rounded-xl font-semibold"
         >
           Bei Amazon ansehen →
         </a>
-      )}
-
-    </div>
-
-  </div>
-
-</section>
-
-  <!-- KURZ ERKLÄRT -->
-  <section class="mb-10">
-    <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
-      <h2 class="text-sm font-semibold text-neutral-900 mb-2">
-        Kurz erklärt
-      </h2>
-
-      <p class="text-sm text-neutral-600 leading-relaxed">
-        {n.teaser}
-      </p>
-    </div>
-  </section>
-
-  <!-- FÜR WEN -->
-  <section class="mb-10">
-    <h2 class="text-sm font-semibold text-neutral-900 mb-4">
-      Für wen geeignet
-    </h2>
-
-    <div class="border rounded-xl p-4 text-sm text-neutral-700 leading-relaxed space-y-2">
-      <p>✔ Sinnvoll für stabiles WLAN im ganzen Zuhause</p>
-      <p>✔ Geeignet für mehrere Geräte gleichzeitig</p>
-      <p>✔ Gute Wahl bei schnellen Internetanschlüssen</p>
-
-      <p class="text-neutral-400 pt-2">
-        Nicht ideal für sehr kleine Wohnungen oder einfache Nutzung
-      </p>
-    </div>
-  </section>
-
-  <!-- SPECS -->
-  {n.kurzfakten && (
-    <section class="mb-10">
-      <h2 class="text-sm font-semibold text-neutral-900 mb-4">
-        Technische Daten (vereinfacht)
-      </h2>
-
-      <div class="border rounded-xl divide-y hover:shadow-sm transition">
-        {n.kurzfakten.map(k => (
-          <div class="flex justify-between px-4 py-3 text-sm">
-            <span class="text-neutral-500">{k.label}</span>
-            <span class="text-neutral-900 font-medium">{k.value}</span>
-          </div>
-        ))}
       </div>
-    </section>
-  )}
-
-  <!-- CONTENT -->
-  <article class="prose prose-zinc max-w-none mb-12
-    prose-h2:text-base
-    prose-h2:font-semibold
-    prose-h2:mt-8
-    prose-p:text-[15px]
-    prose-p:leading-relaxed
-    prose-li:text-[15px]
-  ">
-    <Content />
-  </article>
-
-  <!-- FAQ -->
-  <section class="mb-12">
-    <h2 class="text-sm font-semibold text-neutral-900 mb-4">
-      Häufige Fragen
-    </h2>
-
-    <div class="space-y-4 text-sm text-neutral-700">
-      <div>
-        <strong>Ist dieses Gerät für große Wohnungen geeignet?</strong>
-        <p class="text-neutral-600">
-          Ja, besonders bei mehreren Räumen oder Etagen.
-        </p>
-      </div>
-
-      <div>
-        <strong>Funktioniert es mit Glasfaser?</strong>
-        <p class="text-neutral-600">
-          Ja, vor allem bei schnellen Anschlüssen sinnvoll.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ALTERNATIVEN -->
-  <section class="mb-12">
-    <h2 class="text-sm font-semibold text-neutral-900 mb-4">
-      Alternative Optionen
-    </h2>
-
-    <div class="border rounded-xl p-4 text-sm text-neutral-700 space-y-2">
-      <p>
-        Je nach Wohnung können auch einfachere Lösungen sinnvoll sein:
-      </p>
-
-      <ul class="list-disc pl-5 space-y-1">
-        <li>WLAN-Repeater – für einzelne Räume</li>
-        <li>Kleines Mesh-System – für mittlere Wohnungen</li>
-        <li>Powerline – bei dicken Wänden</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ÄHNLICHE PRODUKTE -->
-  {related.length > 0 && (
-    <section class="mb-12">
-      <h2 class="text-sm font-semibold text-neutral-900 mb-4">
-        Ähnliche Produkte
-      </h2>
-
-      <div class="grid md:grid-cols-3 gap-6">
-
-        {related.map(r => {
-          const p = normalizeProduct(r.entry);
-
-          return (
-            <a
-              href={`/empfehlungen/${p.kategorie}/${r.entry.slug}/`}
-              class="block border rounded-xl overflow-hidden hover:shadow-sm transition bg-white"
-            >
-              <div class="aspect-video bg-neutral-100 flex items-center justify-center">
-                {p.image ? (
-                  <img src={p.image} alt={p.title} class="object-contain max-h-full" />
-                ) : (
-                  <span class="text-neutral-400 text-sm">Kein Bild</span>
-                )}
-              </div>
-
-              <div class="p-3">
-                <h3 class="text-sm font-semibold text-neutral-900 line-clamp-2">
-                  {p.title}
-                </h3>
-              </div>
-            </a>
-          );
-        })}
-
-      </div>
-    </section>
-  )}
-
-  <!-- DISCLAIMER -->
-  <p class="text-xs text-neutral-500 text-center">
-    Hinweis: Partnerlink. Preis und Verfügbarkeit können variieren.
-  </p>
-
-  <!-- MOBILE STICKY CTA -->
-{n.linkExtern && (
-  <div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t p-3 md:hidden">
-    <a
-      href={n.linkExtern}
-      target="_blank"
-      class="block text-center bg-[#FF9900] text-white py-3 rounded-xl font-semibold"
-    >
-      Bei Amazon ansehen →
-    </a>
-  </div>
-)}
-
-</main>
-
+    )}
+  </main>
 </BaseLayout>

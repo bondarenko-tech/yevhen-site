@@ -31,6 +31,7 @@ export interface NormalizedProduct {
   // Цена
   preis?: number;
   currency: string;
+  priceCurrency?: string;
 
   // Плюсы и Минусы (МЫ ДОБАВИЛИ ЭТО)
   pros?: string[];

@@ -134,6 +134,8 @@ export function normalizeProduct(
 
     preis,
     currency,
+    priceCurrency: currency,
+  
 
     /* links */
 
