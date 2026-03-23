@@ -1,39 +1,20 @@
+// src/pages/robots.txt.ts
+
 import type { APIRoute } from "astro";
 
 export const prerender = true;
 
-const SITE = "https://yevhenbondarenko.com";
-
 export const GET: APIRoute = () => {
+  return new Response(`User-agent: *
 
-  const today = new Date().toISOString().split("T")[0];
-
-  const body = `# robots.txt — Bondarenko Empfehlungen
-# Updated: ${today}
-
-User-agent: *
 Allow: /
 
-###############################
-# Technische Ordner
-###############################
+Disallow: /links/
+Disallow: /shorts/
+Disallow: /marken/
 
-Disallow: /_astro/
-Disallow: /og/
-Disallow: /cdn-cgi/
-
-###############################
-# Sitemap
-###############################
-
-Sitemap: ${SITE}/sitemap.xml
-Sitemap: ${SITE}/sitemap-images.xml
-`;
-
-  return new Response(body.trim() + "\n", {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8"
-    }
+Sitemap: https://yevhenbondarenko.com/sitemap.xml
+`, {
+    headers: { "Content-Type": "text/plain" }
   });
-
 };
