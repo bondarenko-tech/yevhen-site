@@ -5,9 +5,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 const site = Astro.site ?? new URL("https://yevhenbondarenko.com");
 const canonical = new URL("/impressum/", site).toString();
 
-const title = "Impressum | Bondarenko Empfehlungen";
+const title = "Impressum | Yevhen Bondarenko";
 const description =
-  "Rechtliche Angaben gemäß § 5 TMG – Betreiberinformationen und Kontakt von Yevhen Bondarenko.";
+  "Rechtliche Angaben gemäß § 5 DDG – Betreiberinformationen und Kontakt von Yevhen Bondarenko.";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -43,18 +43,19 @@ const jsonLd = {
     <h1 class="text-4xl font-black mb-10 tracking-tighter">Impressum</h1>
 
     <div class="space-y-10">
-
       <section>
         <h2 class="text-sm font-black uppercase tracking-widest text-blue-600 mb-3">
-          Angaben gemäß § 5 TMG
+          Angaben gemäß § 5 DDG
         </h2>
         <p class="text-lg leading-relaxed font-medium">
           Yevhen Bondarenko<br />
-          Bondarenko Empfehlungen<br />
           Schloßberg 9<br />
           24955 Harrislee<br />
           Deutschland
         </p>
+        <p class="text-sm text-neutral-500 mt-3">
+  Dieses Projekt wird unter dem Namen „Bondarenko Empfehlungen“ betrieben.
+</p>
       </section>
 
       <section>
@@ -68,7 +69,7 @@ const jsonLd = {
           </a>
         </p>
         <p class="text-xs text-neutral-500 mt-2">
-          Hinweis: Anfragen zu Bestellungen oder Lieferungen können nicht beantwortet werden, da dies kein Online-Shop ist.
+          Hinweis: Diese Website ist kein Online-Shop. Es erfolgen kein Verkauf, keine Lagerhaltung und kein Versand von Produkten.
         </p>
       </section>
 
@@ -77,7 +78,7 @@ const jsonLd = {
           Umsatzsteuer-ID
         </h2>
         <p class="text-sm leading-relaxed">
-          Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
+          Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br />
           <span class="font-mono font-bold text-neutral-900">DE400274226</span>
         </p>
       </section>
@@ -95,37 +96,28 @@ const jsonLd = {
 
       <section class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
         <h2 class="text-sm font-black uppercase tracking-widest text-blue-700 mb-3">
-          Hinweis zum Amazon-Partnerprogramm
+          Hinweis zu Partnerlinks
         </h2>
         <p class="text-xs text-blue-900 leading-relaxed">
-          Yevhen Bondarenko ist Teilnehmer des Partnerprogramms von Amazon EU, das zur Bereitstellung eines Mediums für Websites konzipiert wurde, mittels dessen durch die Platzierung von Links zu Amazon.de eine Werbekostenerstattung verdient werden kann.
+          Diese Website enthält teilweise Partnerlinks, unter anderem zum Amazon-Partnerprogramm.
+          Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen.
+          Für Sie entstehen dadurch keine zusätzlichen Kosten.
         </p>
       </section>
 
       <section class="pt-6 border-t border-neutral-100">
         <h2 class="text-sm font-black uppercase tracking-widest text-neutral-900 mb-3">
-          EU-Streitbeilegung
-        </h2>
-        <p class="text-xs text-neutral-500 leading-relaxed mb-4">
-          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
-          <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener" class="underline hover:text-blue-600">
-            https://ec.europa.eu/consumers/odr
-          </a>.
-        </p>
-
-        <h2 class="text-sm font-black uppercase tracking-widest text-neutral-900 mb-3">
           Verbraucherstreitbeilegung
         </h2>
         <p class="text-xs text-neutral-500 leading-relaxed">
-          Es besteht keine Bereitschaft oder Verpflichtung zur Teilnahme an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle.
+          Es besteht keine Bereitschaft oder Verpflichtung zur Teilnahme an Streitbeilegungsverfahren
+          vor einer Verbraucherschlichtungsstelle.
         </p>
       </section>
-
     </div>
 
     <div class="mt-20 text-[10px] text-neutral-400 uppercase tracking-widest">
-      Erstellt am 15.03.2026 | Deutschland
+      Stand: März 2026 | Deutschland
     </div>
-
   </main>
 </BaseLayout>

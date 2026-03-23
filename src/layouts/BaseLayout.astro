@@ -48,7 +48,7 @@ const clean = (s: string) => s.trim().replace(/\s+/g, " ");
 function safeMetaDescription(src?: string) {
   const base =
     src?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() ||
-    "Unabhängige Technik-Empfehlungen für Zuhause.";
+    "Unabhängige Produktübersichten, technische Einordnung und verständliche Vergleiche für Zuhause.";
 
   return base.length <= 155
     ? base
@@ -66,7 +66,7 @@ if (produkt) {
 }
 
 const computedTitle =
-  title ?? "WLAN, Smart Home & Technik Empfehlungen | Bondarenko";
+  title ?? "Technik Übersichten, Vergleiche & Erklärungen | Yevhen Bondarenko";
 
 /* ───────── JSON-LD (МИНИМАЛЬНЫЙ И ЧИСТЫЙ) ───────── */
 const graph: any[] = [
@@ -134,9 +134,10 @@ const jsonLdGraph = {
 
     <!-- Affiliate Hinweis -->
     <div class="max-w-5xl mx-auto px-4 py-6 text-sm text-gray-600">
-      Hinweis: Diese Website ist kein Online-Shop. Wir verkaufen keine Produkte.
-      Einige Links sind Partnerlinks (z. B. Amazon). Preise und Verfügbarkeit können variieren.
-    </div>
+  Hinweis: Diese Website ist kein Online-Shop. Es erfolgt kein Verkauf, keine Lagerhaltung
+  und kein Versand von Produkten. Einige Verlinkungen sind Partnerlinks, zum Beispiel zu Amazon.
+  Bei einem Kauf über solche Links kann eine Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.
+</div>
 
     <Footer />
   </body>

@@ -1,61 +1,71 @@
 ---
-// Header.astro
 ---
 <header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-neutral-100 shadow-sm">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <div class="flex items-center justify-between h-20">
-
       <a href="/" class="flex items-center gap-3 group transition-all">
         <div class="flex flex-col">
           <span class="text-lg md:text-xl font-black tracking-tight text-neutral-900 leading-none">
             Yevhen Bondarenko
           </span>
           <span class="text-[9px] uppercase tracking-[0.2em] text-blue-600 font-bold mt-1">
-            Technik Empfehlungen
+            Technik Übersichten
           </span>
         </div>
       </a>
 
       <nav class="hidden lg:flex items-center gap-6">
         {[
-          { name: 'Start', href: '/' },
-          { name: 'Datenbank', href: '/links/alle/' }, // Твоя главная страница
-          { name: 'Vergleiche', href: '/vergleiche/' },
-          { name: 'Verstehen', href: '/verstehen/' },
-          { name: 'Transparenz', href: '/transparenz/' }
+          { name: "Start", href: "/" },
+          { name: "Alle Themen", href: "/links/alle/" },
+          { name: "Vergleiche", href: "/vergleiche/" },
+          { name: "Verstehen", href: "/verstehen/" },
+          { name: "Transparenz", href: "/transparenz/" }
         ].map((link) => (
-          <a 
-            href={link.href} 
+          <a
+            href={link.href}
             class="text-sm font-bold text-neutral-600 hover:text-blue-600 transition-colors"
           >
             {link.name}
           </a>
         ))}
-        <a 
-          href="/kontakt/" 
+
+        <a
+          href="/kontakt/"
           class="bg-neutral-900 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all shadow-md active:scale-95"
         >
           Kontakt
         </a>
       </nav>
 
-      <button id="menu-btn" type="button" class="lg:hidden p-3 -mr-2 rounded-xl text-neutral-600 hover:bg-neutral-50 transition-all">
-        <div class="w-6 h-5 relative flex flex-col justify-between" id="burger-icon">
-          <span class="w-full h-0.5 bg-current rounded-full transition-all duration-300"></span>
-          <span class="w-full h-0.5 bg-current rounded-full transition-all duration-300"></span>
-          <span class="w-full h-0.5 bg-current rounded-full transition-all duration-300"></span>
+      <button
+        id="menu-btn"
+        type="button"
+        class="lg:hidden p-3 -mr-2 rounded-xl text-neutral-600 hover:bg-neutral-50 transition-all"
+        aria-label="Menü öffnen"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <div class="w-6 h-5 relative" id="burger-icon">
+          <span id="line1" class="absolute left-0 top-0 w-full h-0.5 bg-current rounded-full transition-all duration-300"></span>
+          <span id="line2" class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-current rounded-full transition-all duration-300"></span>
+          <span id="line3" class="absolute left-0 bottom-0 w-full h-0.5 bg-current rounded-full transition-all duration-300"></span>
         </div>
       </button>
     </div>
   </div>
 
-  <div id="mobile-menu" class="max-h-0 lg:hidden border-t border-neutral-100 bg-white overflow-hidden transition-all duration-500">
+  <div
+    id="mobile-menu"
+    class="max-h-0 lg:hidden border-t border-neutral-100 bg-white overflow-hidden transition-all duration-500"
+  >
     <nav class="flex flex-col space-y-1 p-4 pb-8">
       <a href="/" class="mobile-link">Startseite</a>
-      <a href="/links/alle/" class="mobile-link font-bold text-blue-600">Datenbank (Alle Produkte)</a>
-      <a href="/vergleiche/" class="mobile-link">Technik Vergleiche</a>
+      <a href="/links/alle/" class="mobile-link font-bold text-blue-600">Alle Themen</a>
+      <a href="/vergleiche/" class="mobile-link">Vergleiche</a>
       <a href="/verstehen/" class="mobile-link">Technik verstehen</a>
       <a href="/transparenz/" class="mobile-link">Transparenz</a>
+      <a href="/kontakt/" class="mobile-link">Kontakt</a>
     </nav>
   </div>
 </header>
@@ -65,44 +75,50 @@
     @apply block px-4 py-4 text-base font-bold text-neutral-700 hover:bg-neutral-50 hover:text-blue-600 rounded-2xl transition-all;
   }
 
-  /* Анимация бургера */
-  .menu-open #line1 { transform: rotate(45deg); width: 28px; }
-  .menu-open #line2 { opacity: 0; transform: translateX(10px); }
-  .menu-open #line3 { transform: rotate(-45deg); width: 28px; }
+  #burger-icon.menu-open #line1 {
+    transform: translateY(9px) rotate(45deg);
+  }
+
+  #burger-icon.menu-open #line2 {
+    opacity: 0;
+  }
+
+  #burger-icon.menu-open #line3 {
+    transform: translateY(-9px) rotate(-45deg);
+  }
 </style>
 
 <script is:inline>
   function setupMenu() {
-    const btn = document.getElementById('menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    const burger = document.getElementById('burger-icon');
+    const btn = document.getElementById("menu-btn");
+    const menu = document.getElementById("mobile-menu");
+    const burger = document.getElementById("burger-icon");
 
-    if (btn && menu) {
-      btn.onclick = () => {
-        const isOpen = menu.style.maxHeight && menu.style.maxHeight !== '0px';
-        
-        if (isOpen) {
-          menu.style.maxHeight = '0px';
-          burger.classList.remove('menu-open');
-        } else {
-          // Устанавливаем высоту в зависимости от контента для плавного раскрытия
-          menu.style.maxHeight = menu.scrollHeight + 'px';
-          burger.classList.add('menu-open');
-        }
+    if (!btn || !menu || !burger) return;
+
+    btn.onclick = () => {
+      const isOpen = menu.style.maxHeight && menu.style.maxHeight !== "0px";
+
+      if (isOpen) {
+        menu.style.maxHeight = "0px";
+        burger.classList.remove("menu-open");
+        btn.setAttribute("aria-expanded", "false");
+      } else {
+        menu.style.maxHeight = menu.scrollHeight + "px";
+        burger.classList.add("menu-open");
+        btn.setAttribute("aria-expanded", "true");
+      }
+    };
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.onclick = () => {
+        menu.style.maxHeight = "0px";
+        burger.classList.remove("menu-open");
+        btn.setAttribute("aria-expanded", "false");
       };
-
-      // Закрываем при клике на любую ссылку
-      menu.querySelectorAll('a').forEach(link => {
-        link.onclick = () => {
-          menu.style.maxHeight = '0px';
-          burger.classList.remove('menu-open');
-        };
-      });
-    }
+    });
   }
-// Запуск при загрузке
-  document.addEventListener('DOMContentLoaded', setupMenu);
-  // Запуск при смене страниц (если используешь Astro Transitions)
-  document.addEventListener('astro:page-load', setupMenu);
 
+  document.addEventListener("DOMContentLoaded", setupMenu);
+  document.addEventListener("astro:page-load", setupMenu);
 </script>
