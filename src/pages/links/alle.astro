@@ -1,183 +1,93 @@
 ---
-<meta name="robots" content="noindex, follow" />
 export const prerender = true;
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { kategorien } from "../../data/kategorien";
-import type { KategorieId } from "../../types/kategorie";
 
-/* ───────── HELPERS ───────── */
-function isAbs(url?: string) {
-  return !!url && /^https?:\/\//i.test(url);
-}
-
-/* ───────── DATA LAYER ───────── */
 const produkte = await getCollection("produkte");
 
-// Сортировка: Новое сверху (по дате), если даты нет — в конец
+/* Сортировка по дате */
 const items = [...produkte].sort((a, b) => {
   const dateA = a.data.datum ? new Date(a.data.datum).getTime() : 0;
   const dateB = b.data.datum ? new Date(b.data.datum).getTime() : 0;
   return dateB - dateA;
 });
 
-const catMap = Object.fromEntries(
-  kategorien.map((k) => [k.id, k.name])
-) as Record<KategorieId, string>;
+const view = items.map((p) => ({
+  title: p.data.title,
+  teaser: p.data.description || p.data.teaser || "",
+  link: `/empfehlungen/${p.data.kategorie}/${p.slug}/`,
+  image: p.data.image || "/og-cover.jpg",
+  cat: p.data.kategorie
+}));
 
-const view = items.map((p) => {
-  const image = p.data.image && isAbs(p.data.image)
-      ? p.data.image
-      : p.data.image || "/og-cover.jpg";
-
-  return {
-    title: p.data.title,
-    teaser: p.data.description || p.data.teaser || "",
-    link: `/empfehlungen/${p.data.kategorie}/${p.slug}/`,
-    image,
-    catId: p.data.kategorie as KategorieId,
-    catLabel: catMap[p.data.kategorie as KategorieId] ?? "Technik",
-  };
-});
-
-const siteUrl = Astro.site ?? new URL("https://yevhenbondarenko.com");
-const canonical = new URL("/links/alle/", siteUrl).toString();
-
-const title = "Technik Datenbank: Alle Empfehlungen | Bondarenko";
-const description = "Durchsuchen Sie über 300 Geräteanalysen. Kompakte Infos zu Smart Home, Netzwerk и Sicherheit.";
+const title = "Technik Datenbank – Alle Geräte";
+const description = "Übersicht aller analysierten Technikgeräte.";
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  canonical={canonical}
->
-  <main class="min-h-screen bg-neutral-50/50 mx-auto max-w-7xl px-4 py-12">
+<BaseLayout title={title} description={description}>
 
-    <header class="mb-12">
-      <nav class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400 mb-6">
-        <a href="/" class="hover:text-blue-600 transition-colors">Home</a>
-        <span>/</span>
-        <span class="text-neutral-900">Datenbank</span>
-      </nav>
+<!-- 🔴 ВАЖНО: закрываем от индекса -->
+<meta name="robots" content="noindex, follow" />
 
-      <h1 class="text-4xl md:text-5xl font-black text-neutral-900 tracking-tight">
-        Technik <span class="text-blue-600">Datenbank</span>
-      </h1>
-      <p class="mt-4 text-lg text-neutral-600 max-w-2xl font-medium leading-relaxed">
-        Hier findest du alle Geräte из моих анализов. Schnell, kompakt и без лишней воды.
-      </p>
-    </header>
+<main class="max-w-7xl mx-auto px-4 py-12">
 
-    <div class="sticky top-24 z-30 bg-neutral-50/95 backdrop-blur-md pb-8 pt-2 mb-12 border-b border-neutral-200/60">
-      <div class="flex flex-col gap-6">
-        <div class="relative w-full max-w-xl">
-          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
-          <input
-            id="q"
-            type="search"
-            placeholder="Modell oder Marke suchen..."
-            class="w-full rounded-2xl border border-neutral-200 bg-white pl-12 pr-12 py-4 text-sm font-medium focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all shadow-sm"
-          />
-        </div>
+  <header class="mb-10">
+    <h1 class="text-4xl font-bold mb-4">
+      Technik Datenbank
+    </h1>
 
-        <div class="flex flex-wrap gap-2">
-          <button class="chip is-active" data-cat="__all">Alle</button>
-          {kategorien.map((k) => (
-            <button class="chip" data-cat={k.id}>{k.name}</button>
-          ))}
-        </div>
-      </div>
-      
-      <p id="rescount" class="text-[10px] uppercase tracking-widest font-black text-blue-600 mt-8 flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-        Initialisiere Datenbank...
-      </p>
-    </div>
+    <p class="text-neutral-600">
+      Übersicht aller Geräte. Nutze die Suche, um schnell passende Produkte zu finden.
+    </p>
+  </header>
 
-    <section id="cards" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-32">
-      {view.map((item) => (
-        <a 
-          href={item.link} 
-          class="card group flex flex-col bg-white rounded-2xl border border-neutral-200 hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
-          data-title={item.title.toLowerCase()}
-          data-teaser={item.teaser.toLowerCase()}
-          data-cat={item.catId}
-        >
-          <div class="aspect-video bg-neutral-50 flex items-center justify-center p-6 border-b border-neutral-50 overflow-hidden">
-            <img 
-              src={item.image} 
-              alt={item.title} 
-              class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-110" 
-              loading="lazy"
-            />
-          </div>
-          <div class="p-5 flex flex-col flex-1">
-            <span class="text-[9px] font-black uppercase tracking-widest text-blue-500 mb-2">{item.catLabel}</span>
-            <h3 class="text-base font-bold text-neutral-900 group-hover:text-blue-600 transition-colors leading-snug line-clamp-2">
-              {item.title}
-            </h3>
-            <p class="mt-3 text-xs text-neutral-500 leading-relaxed line-clamp-2 font-medium">
-              {item.teaser}
-            </p>
-          </div>
-        </a>
-      ))}
-    </section>
+  <!-- Поиск -->
+  <input
+    id="q"
+    type="search"
+    placeholder="Suche nach Modell oder Marke..."
+    class="w-full max-w-xl border rounded-xl px-4 py-3 mb-8"
+  />
 
-    <div id="nores" class="hidden py-32 text-center">
-      <div class="text-6xl mb-6">🏜️</div>
-      <h3 class="text-2xl font-black text-neutral-900">Keine Treffer</h3>
-      <p class="text-neutral-500 mt-2 font-medium">Versuche es mit einem anderen Begriff.</p>
-    </div>
+  <!-- Карточки -->
+  <section id="cards" class="grid md:grid-cols-3 gap-6">
 
-  </main>
-</BaseLayout>
+    {view.map(item => (
+      <a
+        href={item.link}
+        class="border rounded-xl p-4 hover:shadow-sm transition block"
+        data-title={item.title.toLowerCase()}
+      >
+        <img src={item.image} alt={item.title} class="mb-3" />
 
-<style>
-  .chip {
-    @apply px-5 py-2.5 rounded-xl text-xs font-black border border-neutral-200 bg-white text-neutral-500 transition-all hover:border-blue-200 hover:text-blue-600 shadow-sm active:scale-95;
-  }
-  .chip.is-active {
-    @apply bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100;
-  }
-</style>
+        <h3 class="font-semibold">
+          {item.title}
+        </h3>
+
+        <p class="text-sm text-neutral-600">
+          {item.teaser}
+        </p>
+      </a>
+    ))}
+
+  </section>
+
+</main>
 
 <script is:inline>
-  function apply() {
-    const q = document.getElementById("q");
-    const cards = Array.from(document.querySelectorAll("#cards .card"));
-    const chips = Array.from(document.querySelectorAll(".chip"));
-    const nores = document.getElementById("nores");
-    const rescount = document.getElementById("rescount");
+  const q = document.getElementById("q");
+  const cards = document.querySelectorAll("#cards a");
 
-    const query = q.value.trim().toLowerCase();
-    const activeChip = chips.find((c) => c.classList.contains("is-active"));
-    const cat = activeChip ? activeChip.dataset.cat : "__all";
+  q.addEventListener("input", () => {
+    const val = q.value.toLowerCase();
 
-    let visible = 0;
-    cards.forEach((el) => {
-      const okQ = !query || el.dataset.title.includes(query) || el.dataset.teaser.includes(query);
-      const okCat = cat === "__all" || el.dataset.cat === cat;
-      const show = okQ && okCat;
-      el.style.display = show ? "flex" : "none";
-      if (show) visible++;
+    cards.forEach(card => {
+      const text = card.dataset.title;
+      card.style.display = text.includes(val) ? "block" : "none";
     });
-
-    if (nores) nores.classList.toggle("hidden", visible !== 0);
-    rescount.innerHTML = `Gefunden: <span class="text-blue-600">${visible}</span> Produkte in <span class="text-neutral-900">${cat === "__all" ? "Alle Kategorien" : activeChip.textContent}</span>`;
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("q").addEventListener("input", apply);
-    document.querySelectorAll(".chip").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".chip").forEach(c => c.classList.remove("is-active"));
-        btn.classList.add("is-active");
-        apply();
-      });
-    });
-    apply();
   });
 </script>
+
+</BaseLayout>

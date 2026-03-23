@@ -4,13 +4,22 @@ export const prerender = true;
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
+export async function getStaticPaths() {
+  const produkte = await getCollection("produkte");
+
+  const kategorien = [...new Set(produkte.map((p) => p.data.kategorie).filter(Boolean))];
+
+  return kategorien.map((kategorie) => ({
+    params: { kategorie },
+  }));
+}
+
 const { kategorie } = Astro.params;
 
 const produkte = await getCollection("produkte");
+const filtered = produkte.filter((p) => p.data.kategorie === kategorie);
 
-const filtered = produkte.filter(p => p.data.kategorie === kategorie);
-
-/* 🔥 SEO */
+/* SEO */
 const title = `Beste ${kategorie} Geräte 2026 – Empfehlungen & Vergleich`;
 const description = `Die besten ${kategorie} Lösungen im Überblick. Wir zeigen dir, welche Geräte sich wirklich lohnen.`;
 ---

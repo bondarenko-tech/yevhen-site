@@ -7,9 +7,20 @@ import { normalizeProduct } from "@lib/product-engine";
 
 export async function getStaticPaths() {
   const p = await getCollection("produkte");
-  return p.map(e => ({
-    params: { kategorie: e.data.kategorie, produkt: e.slug }
-  }));
+
+  return p
+    .filter(e => {
+      if (!e.slug) return false;
+      if (!e.data) return false;
+      if (!e.data.kategorie) return false;
+      return true;
+    })
+    .map(e => ({
+      params: {
+        kategorie: e.data.kategorie,
+        produkt: e.slug
+      }
+    }));
 }
 
 const { kategorie, produkt } = Astro.params;
@@ -52,7 +63,7 @@ const breadcrumb = [
   produkt={entry}
 >
 
-{isThin && <meta name="robots" content="noindex, follow" />}
+
 
 <main class="max-w-[900px] mx-auto px-4 py-10">
 
