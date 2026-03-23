@@ -35,12 +35,11 @@ let {
   updated,
 } = Astro.props as LayoutProps;
 
-/* ───────── ЧИСТЫЙ URL (фикс дублей) ───────── */
-const currentPath = Astro.url.pathname.replace(/\/?$/, "/");
-const currentUrl = new URL(currentPath, BASE_URL).toString();
+/* ───────── ЧИСТЫЙ URL (ВАЖНО ДЛЯ SEO) ───────── */
+const currentUrl = new URL(Astro.url.pathname, BASE_URL).toString();
 
 /* ───────── SEO ───────── */
-const robotsFinal = `${robots}, max-snippet:-1, max-image-preview:large, max-video-preview:-1`;
+const robotsFinal = robots;
 const canonicalUrl = canonical ?? currentUrl;
 
 /* ───────── UTILS ───────── */
@@ -51,9 +50,9 @@ function safeMetaDescription(src?: string) {
     src?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() ||
     "Unabhängige Technik-Empfehlungen für Zuhause.";
 
-  return base.length <= 160
+  return base.length <= 155
     ? base
-    : base.slice(0, 160).replace(/\s+\S*$/, "").trim();
+    : base.slice(0, 155).replace(/\s+\S*$/, "").trim();
 }
 
 /* ───────── PRODUCT SEO ───────── */
@@ -69,29 +68,8 @@ if (produkt) {
 const computedTitle =
   title ?? "WLAN, Smart Home & Technik Empfehlungen | Bondarenko";
 
-/* ───────── JSON-LD GRAPH ───────── */
+/* ───────── JSON-LD (МИНИМАЛЬНЫЙ И ЧИСТЫЙ) ───────── */
 const graph: any[] = [
-  {
-    "@type": "Person",
-    "@id": `${BASE_URL}/#author`,
-    "name": "Yevhen Bondarenko",
-    "url": BASE_URL,
-    "image": `${BASE_URL}/yevhen-avatar.png`
-  },
-  {
-    "@type": "Organization",
-    "@id": `${BASE_URL}/#organization`,
-    "name": "Bondarenko Empfehlungen",
-    "url": BASE_URL,
-    "logo": `${BASE_URL}/og/site.webp`
-  },
-  {
-    "@type": "WebSite",
-    "@id": `${BASE_URL}/#website`,
-    "url": BASE_URL,
-    "name": "Bondarenko Empfehlungen",
-    "publisher": { "@id": `${BASE_URL}/#organization` }
-  },
   {
     "@type": "WebPage",
     "@id": `${currentUrl}#webpage`,
@@ -99,12 +77,11 @@ const graph: any[] = [
     "name": computedTitle,
     "description": safeMetaDescription(description),
     "inLanguage": "de",
-    "isPartOf": { "@id": `${BASE_URL}/#website` },
     "dateModified": updated ?? new Date().toISOString().split("T")[0]
   }
 ];
 
-/* ───────── Breadcrumb ───────── */
+/* Breadcrumb */
 if (breadcrumb.length) {
   graph.push({
     "@type": "BreadcrumbList",
@@ -118,10 +95,9 @@ if (breadcrumb.length) {
   });
 }
 
-/* ───────── FINAL JSON-LD ───────── */
 const jsonLdGraph = {
   "@context": "https://schema.org",
-  "@graph": graph,
+  "@graph": graph
 };
 ---
 
@@ -138,9 +114,8 @@ const jsonLdGraph = {
       isProduct={!!produkt}
     />
 
-    <!-- Consent -->
-    <script is:inline src="/klaro-config.js"></script>
-    <script is:inline defer src="https://cdn.kiprotect.com/klaro/v0.7.18/klaro.js"></script>
+    <!-- 🔥 CRITICAL SEO FIX -->
+    <link rel="canonical" href={canonicalUrl} />
 
     <!-- JSON-LD -->
     <script
