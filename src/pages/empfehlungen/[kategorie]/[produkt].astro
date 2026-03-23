@@ -36,15 +36,15 @@ const { Content } = await entry.render();
 const n = normalizeProduct(entry);
 
 /* 🔥 SEO (новый формат) */
-const title = `${n.title} Test 2026: Lohnt sich das wirklich?`;
-const description = `Echte Einschätzung zu ${n.title}: Vorteile, Nachteile und Alternativen.`;
+const title = `${n.title} einfach erklärt: Einordnung, Vorteile und Alternativen`;
+const description = `${n.title} verständlich eingeordnet: Funktionen, Vorteile, Nachteile und mögliche Alternativen im Überblick.`;
 
 /* 🔥 NOINDEX для слабых страниц */
 const isThin = !entry.body || entry.body.length < 800;
 
 /* 🔗 RELATED */
 const related = entries
-  .filter(e => e.slug !== entry.slug)
+  .filter(e => e.slug !== entry.slug && e.data.kategorie === entry.data.kategorie)
   .slice(0, 3);
 
 /* Breadcrumb */
@@ -61,6 +61,7 @@ const breadcrumb = [
   description={description}
   breadcrumb={breadcrumb}
   produkt={entry}
+  robots={isThin ? "noindex, follow" : "index, follow"}
 >
 
 
@@ -71,12 +72,12 @@ const breadcrumb = [
   <section class="mb-8">
 
     <h1 class="text-2xl font-semibold mb-3">
-      {n.title} im Test: Für wen lohnt sich das wirklich?
+      {n.title} einfach erklärt: Für wen ist dieses Gerät sinnvoll?
     </h1>
 
     <p class="text-neutral-600 mb-6">
-      Wir haben uns dieses Produkt genauer angesehen und zeigen dir,
-      wann es sinnvoll ist – und wann du besser eine Alternative wählen solltest.
+      Auf dieser Seite finden Sie eine kompakte Einordnung zu diesem Gerät:
+  Funktionen, typische Einsatzbereiche sowie Hinweise dazu, wann sich auch eine Alternative anbieten kann.
     </p>
 
     <div class="grid md:grid-cols-2 gap-6 items-start">
@@ -105,7 +106,7 @@ const breadcrumb = [
             target="_blank"
             class="inline-block bg-[#FF9900] text-white px-5 py-3 rounded-xl font-semibold"
           >
-            Preis bei Amazon prüfen →
+            Bei Amazon ansehen →
           </a>
         )}
 
@@ -118,17 +119,17 @@ const breadcrumb = [
   <!-- 🧠 EINORDNUNG -->
   <section class="mb-10">
     <h2 class="text-lg font-semibold mb-3">
-      Unsere Einschätzung
+      Kurz eingeordnet
     </h2>
 
     <p class="text-neutral-700 mb-3">
-      Dieses Gerät ist besonders sinnvoll für Nutzer, die Probleme mit der WLAN-Abdeckung haben
-      oder mehrere Räume zuverlässig versorgen möchten.
-    </p>
+  Dieses Gerät kann sinnvoll sein, wenn eine stabile WLAN-Abdeckung in mehreren Räumen benötigt wird
+  oder typische Verbindungsprobleme im Alltag reduziert werden sollen.
+</p>
 
-    <p class="text-neutral-700">
-      In kleineren Wohnungen lohnt sich der Kauf oft nicht, da einfachere Lösungen ausreichend sind.
-    </p>
+<p class="text-neutral-700">
+  In kleineren Wohnungen oder bei einfachen Anforderungen reicht häufig bereits eine günstigere Lösung aus.
+</p>
   </section>
 
   <!-- ⚔️ PRO / CONTRA -->
@@ -142,17 +143,17 @@ const breadcrumb = [
       <div>
         <strong>✔ Vorteile</strong>
         <ul class="mt-2 space-y-1">
-          <li>Stabile Verbindung</li>
-          <li>Gute Reichweite</li>
-          <li>Einfache Einrichtung</li>
+          <li>Kann für eine stabile Verbindung sorgen</li>
+          <li>Für größere Wohnbereiche besser geeignet</li>
+          <li>In vielen Fällen einfach einzurichten</li>
         </ul>
       </div>
 
       <div>
         <strong>✖ Nachteile</strong>
         <ul class="mt-2 space-y-1">
-          <li>Relativ teuer</li>
-          <li>Für kleine Wohnungen oft unnötig</li>
+          <li>Im Vergleich zu einfachen Lösungen oft teurer</li>
+          <li>Für kleine Wohnungen nicht immer notwendig</li>
         </ul>
       </div>
 
@@ -166,9 +167,9 @@ const breadcrumb = [
     </h2>
 
     <p class="text-neutral-700">
-      Im Vergleich zu günstigeren Repeatern bietet dieses Modell eine stabilere Verbindung,
-      ist aber auch deutlich teurer. Mesh-Systeme von TP-Link sind oft günstiger,
-      während AVM-Geräte besser für DSL-Nutzer geeignet sind.
+      Im Vergleich zu einfachen Repeatern kann dieses Modell je nach Einsatzbereich mehr Stabilität und Komfort bieten,
+      ist jedoch meist teurer. Wer vor allem auf den Preis achtet, findet oft günstigere Alternativen.
+      Für größere Wohnungen oder komplexere Netzwerke kann dagegen auch ein Mesh-System sinnvoll sein.
     </p>
   </section>
 
@@ -223,9 +224,11 @@ const breadcrumb = [
   )}
 
   <!-- DISCLAIMER -->
-  <p class="text-xs text-neutral-500 text-center">
-    Hinweis: Affiliate-Link. Wenn du kaufst, erhalten wir ggf. eine Provision.
-  </p>
+  <p class="text-xs text-neutral-500 text-center leading-relaxed">
+  Hinweis: Diese Seite ist kein Online-Shop. Einige Verlinkungen sind Partnerlinks,
+  zum Beispiel zu Amazon. Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen.
+  Für Sie entstehen keine zusätzlichen Kosten.
+</p>
 
 </main>
 
