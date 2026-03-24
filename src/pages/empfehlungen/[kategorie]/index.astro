@@ -4,15 +4,19 @@ export const prerender = true;
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
+type CategoryInfo = {
+  label: string;
+  title: string;
+  intro: string;
+  useCases: string[];
+  compareLinks: { href: string; label: string }[];
+};
+
 export async function getStaticPaths() {
   const produkte = await getCollection("produkte");
 
   const kategorien = [
-    ...new Set(
-      produkte
-        .map((p) => p.data.kategorie)
-        .filter(Boolean)
-    ),
+    ...new Set(produkte.map((p) => p.data.kategorie).filter(Boolean)),
   ];
 
   return kategorien.map((kategorie) => ({
@@ -20,66 +24,274 @@ export async function getStaticPaths() {
   }));
 }
 
-const { kategorie } = Astro.params;
+const { kategorie } = Astro.params as { kategorie: string };
 
 const produkte = await getCollection("produkte");
 
-const filtered = produkte.filter(
-  (p) => p.data.kategorie === kategorie
-);
+const filtered = produkte
+  .filter((p) => p.data.kategorie === kategorie)
+  .sort((a, b) => {
+    const aFeatured = a.data.featured ? 1 : 0;
+    const bFeatured = b.data.featured ? 1 : 0;
+
+    if (aFeatured !== bFeatured) return bFeatured - aFeatured;
+
+    return (
+      new Date(b.data.datum ?? 0).getTime() -
+      new Date(a.data.datum ?? 0).getTime()
+    );
+  });
+
+const categoryMap: Record<string, CategoryInfo> = {
+  netzwerk: {
+    label: "Netzwerk",
+    title: "Netzwerk-Geräte im Überblick",
+    intro:
+      "Hier finden Sie Produktübersichten zu Routern, Repeatern, Mesh-Lösungen und weiteren Geräten für stabiles Internet zuhause.",
+    useCases: [
+      "schwaches WLAN in einzelnen Räumen",
+      "instabile Verbindung im Homeoffice",
+      "größere Wohnungen oder mehrere Etagen",
+      "viele gleichzeitig aktive Geräte im Heimnetz",
+    ],
+    compareLinks: [
+      {
+        href: "/vergleiche/wlan-repeater-vergleich/",
+        label: "WLAN Repeater Vergleich",
+      },
+      {
+        href: "/verstehen/mesh-oder-repeater/",
+        label: "Mesh oder Repeater erklärt",
+      },
+    ],
+  },
+  sicherheit: {
+    label: "Sicherheit",
+    title: "Sicherheitsgeräte im Überblick",
+    intro:
+      "Hier finden Sie Produktübersichten zu smarten Türschlössern, Kameras und weiteren Lösungen für mehr Sicherheit im Alltag.",
+    useCases: [
+      "mehr Kontrolle über Zugänge",
+      "Benachrichtigungen bei Ereignissen",
+      "einfache Nachrüstung ohne großen Umbau",
+      "mehr Übersicht zuhause oder unterwegs",
+    ],
+    compareLinks: [
+      { href: "/vergleiche/", label: "Alle Vergleiche ansehen" },
+      { href: "/verstehen/", label: "Technik einfach erklärt" },
+    ],
+  },
+  "smart-home": {
+    label: "Smart Home",
+    title: "Smart-Home-Geräte im Überblick",
+    intro:
+      "Hier finden Sie Produktübersichten zu smarten Geräten, die den Alltag einfacher, vernetzter und komfortabler machen sollen.",
+    useCases: [
+      "Abläufe im Alltag automatisieren",
+      "Geräte zentral steuern",
+      "mehr Komfort in einzelnen Räumen",
+      "bestehende Technik sinnvoll erweitern",
+    ],
+    compareLinks: [
+      { href: "/vergleiche/", label: "Passende Vergleiche ansehen" },
+      { href: "/verstehen/", label: "Smart Home besser verstehen" },
+    ],
+  },
+  klima: {
+    label: "Klima & Luft",
+    title: "Klima- und Luftgeräte im Überblick",
+    intro:
+      "Hier finden Sie Produktübersichten zu Geräten für Luftqualität, Raumklima und mehr Komfort im Alltag.",
+    useCases: [
+      "schlechte Luft in Innenräumen",
+      "zu trockene oder zu warme Räume",
+      "mehr Komfort beim Wohnen",
+      "gezielte Verbesserung des Raumklimas",
+    ],
+    compareLinks: [
+      { href: "/vergleiche/", label: "Vergleiche ansehen" },
+      { href: "/verstehen/", label: "Technik besser verstehen" },
+    ],
+  },
+};
+
+const currentCategory: CategoryInfo = categoryMap[kategorie] ?? {
+  label: kategorie,
+  title: `${kategorie} Geräte im Überblick`,
+  intro:
+    "Hier finden Sie Produktübersichten, Einordnungen und Empfehlungen zu dieser Kategorie.",
+  useCases: [
+    "typische Probleme im Alltag lösen",
+    "Geräte besser vergleichen",
+    "passende Funktionen schneller einordnen",
+    "unnötige Fehlkäufe vermeiden",
+  ],
+  compareLinks: [
+    { href: "/vergleiche/", label: "Vergleiche ansehen" },
+    { href: "/verstehen/", label: "Technik einfach erklärt" },
+  ],
+};
 
 /* SEO */
-const title = `Beste ${kategorie} Geräte 2026 – Empfehlungen & Vergleich`;
-const description = `Die besten ${kategorie} Lösungen im Überblick. Wir zeigen dir, welche Geräte sich wirklich lohnen.`;
+const title = `${currentCategory.title} | Empfehlungen & Einordnung`;
+const description = currentCategory.intro;
 ---
 
 <BaseLayout title={title} description={description}>
-  <main class="max-w-5xl mx-auto px-4 py-12">
-    <header class="mb-10">
-      <h1 class="text-3xl font-bold mb-4">
-        Beste {kategorie} Geräte im Vergleich
+  <main class="max-w-6xl mx-auto px-4 py-12">
+    <header class="mb-12 max-w-3xl">
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+        {currentCategory.title}
       </h1>
 
-      <p class="text-neutral-600">
-        Wir zeigen dir, welche Geräte in dieser Kategorie wirklich sinnvoll sind
-        und worauf du beim Kauf achten solltest.
+      <p class="text-neutral-600 leading-relaxed">
+        {currentCategory.intro}
       </p>
     </header>
 
     <section class="mb-12">
-      <h2 class="text-xl font-semibold mb-4">
-        Wann lohnt sich diese Technik?
-      </h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="border rounded-2xl p-6 bg-white">
+          <h2 class="text-xl font-semibold mb-4">
+            Wann lohnt sich diese Technik?
+          </h2>
 
-      <p class="text-neutral-700 mb-3">
-        Geräte aus dieser Kategorie sind besonders dann sinnvoll, wenn typische Probleme
-        im Alltag gelöst werden sollen. Dazu gehören zum Beispiel schlechte Verbindungen,
-        ineffiziente Lösungen oder unnötig komplizierte Setups.
-      </p>
+          <p class="text-neutral-700 mb-4 leading-relaxed">
+            Geräte aus dieser Kategorie sind besonders dann sinnvoll, wenn typische Probleme
+            im Alltag gelöst werden sollen und eine klarere, stabilere oder komfortablere Lösung
+            gesucht wird.
+          </p>
 
-      <p class="text-neutral-700">
-        Wichtig ist, dass du nicht einfach das teuerste Produkt kaufst,
-        sondern eine Lösung wählst, die zu deiner Wohnsituation passt.
-      </p>
+          <ul class="space-y-2 text-sm text-neutral-700">
+            {currentCategory.useCases.map((item: string) => (
+              <li>• {item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="border rounded-2xl p-6 bg-white">
+          <h2 class="text-xl font-semibold mb-4">
+            Bevor Sie ein Gerät auswählen
+          </h2>
+
+          <p class="text-neutral-700 mb-4 leading-relaxed">
+            Wichtig ist, nicht einfach das teuerste Modell zu wählen, sondern eine Lösung,
+            die wirklich zur Wohnsituation, zum Nutzungsprofil und zum gewünschten Funktionsumfang passt.
+          </p>
+
+          <div class="flex flex-col gap-3">
+            {currentCategory.compareLinks.map(
+              (link: { href: string; label: string }) => (
+                <a
+                  href={link.href}
+                  class="text-sm font-semibold text-blue-600 hover:underline"
+                >
+                  → {link.label}
+                </a>
+              )
+            )}
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="grid md:grid-cols-2 gap-6">
-      {filtered.slice(0, 20).map((p) => (
-        <a
-          href={`/empfehlungen/${kategorie}/${p.slug}/`}
-          class="border rounded-xl p-4 hover:shadow-sm transition block"
-        >
-          <img src={p.data.image} alt={p.data.title} class="mb-3" />
+    {filtered.length > 0 ? (
+      <section>
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold">
+            Passende Geräte in dieser Kategorie
+          </h2>
 
-          <h3 class="font-semibold text-neutral-900">
-            {p.data.title}
-          </h3>
+          <span class="text-sm text-neutral-500">
+            {filtered.length} {filtered.length === 1 ? "Gerät" : "Geräte"}
+          </span>
+        </div>
 
-          <p class="text-sm text-neutral-600 mt-1">
-            {p.data.teaser}
-          </p>
-        </a>
-      ))}
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {filtered.slice(0, 20).map((p) => (
+            <a
+              href={`/empfehlungen/${kategorie}/${p.slug}/`}
+              class="border rounded-2xl p-4 hover:shadow-sm transition block bg-white"
+            >
+              <div class="aspect-[4/3] bg-neutral-50 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+                <img
+                  src={p.data.image}
+                  alt={p.data.title}
+                  class="max-h-full object-contain"
+                  loading="lazy"
+                />
+              </div>
+
+              <h3 class="font-semibold text-neutral-900 mb-2 line-clamp-2">
+                {p.data.title}
+              </h3>
+
+              <p class="text-sm text-neutral-600 line-clamp-3">
+                {p.data.teaser}
+              </p>
+
+              <div class="mt-4 text-sm font-semibold text-blue-600">
+                Mehr erfahren →
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ) : (
+      <section class="border rounded-2xl p-6 bg-white">
+        <h2 class="text-xl font-semibold mb-3">
+          Noch keine Geräte in dieser Kategorie
+        </h2>
+
+        <p class="text-neutral-600 leading-relaxed">
+          Für diese Kategorie sind aktuell noch keine Produktübersichten veröffentlicht.
+          Schauen Sie in der Zwischenzeit bei den Vergleichen oder bei den allgemeinen Erklärseiten vorbei.
+        </p>
+
+        <div class="mt-4 flex flex-col gap-2">
+          <a
+            href="/vergleiche/"
+            class="text-sm font-semibold text-blue-600 hover:underline"
+          >
+            → Zu den Vergleichen
+          </a>
+          <a
+            href="/verstehen/"
+            class="text-sm font-semibold text-blue-600 hover:underline"
+          >
+            → Technik einfach erklärt
+          </a>
+        </div>
+      </section>
+    )}
+
+    <section class="mt-16">
+      <div class="border rounded-2xl p-6 bg-neutral-50">
+        <h2 class="text-xl font-semibold mb-3">
+          Noch unsicher?
+        </h2>
+
+        <p class="text-neutral-700 text-sm leading-relaxed mb-4">
+          Wenn Sie noch nicht sicher sind, welches Gerät wirklich zu Ihrer Situation passt,
+          starten Sie am besten mit einem Vergleich oder einer kurzen Erklärung der wichtigsten Unterschiede.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="/vergleiche/"
+            class="inline-flex items-center justify-center bg-neutral-900 text-white px-5 py-3 rounded-xl font-semibold hover:bg-blue-600 transition"
+          >
+            Vergleiche ansehen
+          </a>
+
+          <a
+            href="/verstehen/"
+            class="inline-flex items-center justify-center border border-neutral-200 px-5 py-3 rounded-xl font-semibold text-neutral-800 hover:bg-white transition"
+          >
+            Technik verstehen
+          </a>
+        </div>
+      </div>
     </section>
   </main>
 </BaseLayout>

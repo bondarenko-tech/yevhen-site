@@ -9,13 +9,13 @@ export async function getStaticPaths() {
   const p = await getCollection("produkte");
 
   return p
-    .filter(e => {
+    .filter((e) => {
       if (!e.slug) return false;
       if (!e.data) return false;
       if (!e.data.kategorie) return false;
       return true;
     })
-    .map(e => ({
+    .map((e) => ({
       params: {
         kategorie: e.data.kategorie,
         produkt: e.slug
@@ -27,7 +27,7 @@ const { kategorie, produkt } = Astro.params;
 const entries = await getCollection("produkte");
 
 const entry = entries.find(
-  e => e.slug === produkt && e.data.kategorie === kategorie
+  (e) => e.slug === produkt && e.data.kategorie === kategorie
 );
 
 if (!entry) throw new Error("Produkt-Datei nicht gefunden");
@@ -35,19 +35,15 @@ if (!entry) throw new Error("Produkt-Datei nicht gefunden");
 const { Content } = await entry.render();
 const n = normalizeProduct(entry);
 
-/* 🔥 SEO (новый формат) */
 const title = `${n.title} einfach erklärt: Einordnung, Vorteile und Alternativen`;
 const description = `${n.title} verständlich eingeordnet: Funktionen, Vorteile, Nachteile und mögliche Alternativen im Überblick.`;
 
-/* 🔥 NOINDEX для слабых страниц */
 const isThin = !entry.body || entry.body.length < 800;
 
-/* 🔗 RELATED */
 const related = entries
-  .filter(e => e.slug !== entry.slug && e.data.kategorie === entry.data.kategorie)
+  .filter((e) => e.slug !== entry.slug && e.data.kategorie === entry.data.kategorie)
   .slice(0, 3);
 
-/* Breadcrumb */
 const breadcrumb = [
   { name: "Start", url: "/" },
   { name: "Empfehlungen", url: "/empfehlungen/" },
@@ -63,173 +59,307 @@ const breadcrumb = [
   produkt={entry}
   robots={isThin ? "noindex, follow" : "index, follow"}
 >
+  <main class="max-w-[980px] mx-auto px-4 py-10">
+    <!-- HERO -->
+    <section class="mb-10">
+      <div class="max-w-3xl mb-6">
+        <h1 class="text-2xl md:text-3xl font-semibold tracking-tight mb-3">
+          {n.title} einfach erklärt: Für wen ist dieses Gerät sinnvoll?
+        </h1>
 
+        <p class="text-neutral-600 leading-relaxed">
+          Auf dieser Seite finden Sie eine kompakte Einordnung zu diesem Gerät:
+          typische Einsatzbereiche, wichtige Funktionen sowie Hinweise dazu,
+          wann sich dieses Modell lohnt – und wann eher eine Alternative sinnvoll ist.
+        </p>
+      </div>
 
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div class="bg-white border rounded-2xl p-4">
+          <img
+            src={n.image}
+            alt={n.title}
+            class="rounded-xl w-full max-w-md mx-auto"
+            loading="eager"
+          />
+        </div>
 
-<main class="max-w-[900px] mx-auto px-4 py-10">
+        <div class="space-y-5">
+          {n.videoShortId && (
+            <div>
+              <p class="text-sm font-semibold text-neutral-800 mb-2">
+                Kurz erklärt im Video
+              </p>
+              <div class="aspect-video">
+                <iframe
+                  class="w-full h-full rounded-2xl border"
+                  src={`https://www.youtube.com/embed/${n.videoShortId}`}
+                  title={`${n.title} Video`}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </div>
+          )}
 
-  <!-- HERO -->
-  <section class="mb-8">
+          <div class="border rounded-2xl p-5 bg-white">
+            <h2 class="text-base font-semibold mb-3">
+              Kurzfazit
+            </h2>
 
-    <h1 class="text-2xl font-semibold mb-3">
-      {n.title} einfach erklärt: Für wen ist dieses Gerät sinnvoll?
-    </h1>
+            <p class="text-sm text-neutral-700 leading-relaxed mb-4">
+              Dieses Gerät ist vor allem dann interessant, wenn mehrere Geräte gleichzeitig
+              stabil verbunden werden sollen oder wenn eine leistungsstärkere Lösung
+              für größere Wohnbereiche gesucht wird.
+            </p>
 
-    <p class="text-neutral-600 mb-6">
-      Auf dieser Seite finden Sie eine kompakte Einordnung zu diesem Gerät:
-  Funktionen, typische Einsatzbereiche sowie Hinweise dazu, wann sich auch eine Alternative anbieten kann.
-    </p>
+            <div class="flex flex-wrap gap-3">
+              {n.linkExtern && (
+                <a
+                  href={n.linkExtern}
+                  target="_blank"
+                  rel="nofollow sponsored noopener noreferrer"
+                  class="inline-flex items-center justify-center bg-[#FF9900] text-white px-5 py-3 rounded-xl font-semibold hover:opacity-90 transition"
+                >
+                  Bei Amazon ansehen →
+                </a>
+              )}
 
-    <div class="grid md:grid-cols-2 gap-6 items-start">
+              <a
+                href="/vergleiche/wlan-repeater-vergleich/"
+                class="inline-flex items-center justify-center border border-neutral-200 px-5 py-3 rounded-xl font-semibold text-neutral-800 hover:bg-neutral-50 transition"
+              >
+                Erst vergleichen
+              </a>
+            </div>
 
-      <img 
-        src={n.image} 
-        alt={n.title} 
-        class="rounded-xl w-full max-w-sm"
-      />
-
-      <div>
-
-        {n.videoShortId && (
-          <div class="aspect-video mb-4">
-            <iframe
-              class="w-full h-full rounded-xl"
-              src={`https://www.youtube.com/embed/${n.videoShortId}`}
-              allowfullscreen
-            ></iframe>
+            <p class="text-xs text-neutral-500 mt-4 leading-relaxed">
+              Hinweis: Einige Verlinkungen sind Partnerlinks. Wenn über einen solchen Link
+              ein Kauf erfolgt, kann eine Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.
+            </p>
           </div>
-        )}
+        </div>
+      </div>
+    </section>
 
-        {n.linkExtern && (
+    <!-- FÜR WEN / EHER NICHT -->
+    <section class="mb-10">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="border rounded-2xl p-5 bg-white">
+          <h2 class="text-lg font-semibold mb-3">
+            Für wen sinnvoll?
+          </h2>
+
+          <ul class="space-y-2 text-sm text-neutral-700">
+            <li>• Für Haushalte mit mehreren gleichzeitig aktiven Geräten</li>
+            <li>• Für größere Wohnungen oder mehrere Räume mit WLAN-Bedarf</li>
+            <li>• Wenn Stabilität und einfachere Heimnetz-Nutzung wichtig sind</li>
+            <li>• Wenn eine modernere oder stärkere Lösung gesucht wird</li>
+          </ul>
+        </div>
+
+        <div class="border rounded-2xl p-5 bg-white">
+          <h2 class="text-lg font-semibold mb-3">
+            Eher nicht ideal, wenn …
+          </h2>
+
+          <ul class="space-y-2 text-sm text-neutral-700">
+            <li>• nur ein kleiner Problemraum betroffen ist</li>
+            <li>• eine sehr günstige Lösung gesucht wird</li>
+            <li>• die Anforderungen insgesamt eher einfach sind</li>
+            <li>• ein klassischer Repeater bereits ausreicht</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- EINORDNUNG -->
+    <section class="mb-10">
+      <h2 class="text-lg font-semibold mb-3">
+        Kurz eingeordnet
+      </h2>
+
+      <div class="bg-white border rounded-2xl p-5">
+        <p class="text-neutral-700 mb-3 leading-relaxed">
+          Dieses Gerät kann sinnvoll sein, wenn eine stabile WLAN-Abdeckung in mehreren Räumen
+          benötigt wird oder typische Verbindungsprobleme im Alltag reduziert werden sollen.
+        </p>
+
+        <p class="text-neutral-700 leading-relaxed">
+          In kleineren Wohnungen oder bei einfachen Anforderungen reicht häufig bereits
+          eine günstigere Lösung aus. Wer vor allem einzelne Funklöcher schließen möchte,
+          sollte vor dem Kauf auch einen Repeater-Vergleich ansehen.
+        </p>
+
+        <div class="mt-4">
           <a
-            href={n.linkExtern}
-            target="_blank"
-            class="inline-block bg-[#FF9900] text-white px-5 py-3 rounded-xl font-semibold"
+            href="/vergleiche/wlan-repeater-vergleich/"
+            class="text-sm font-semibold text-blue-600 hover:underline"
           >
-            Bei Amazon ansehen →
+            → WLAN Repeater Vergleich ansehen
           </a>
-        )}
-
+        </div>
       </div>
+    </section>
 
-    </div>
-
-  </section>
-
-  <!-- 🧠 EINORDNUNG -->
-  <section class="mb-10">
-    <h2 class="text-lg font-semibold mb-3">
-      Kurz eingeordnet
-    </h2>
-
-    <p class="text-neutral-700 mb-3">
-  Dieses Gerät kann sinnvoll sein, wenn eine stabile WLAN-Abdeckung in mehreren Räumen benötigt wird
-  oder typische Verbindungsprobleme im Alltag reduziert werden sollen.
-</p>
-
-<p class="text-neutral-700">
-  In kleineren Wohnungen oder bei einfachen Anforderungen reicht häufig bereits eine günstigere Lösung aus.
-</p>
-  </section>
-
-  <!-- ⚔️ PRO / CONTRA -->
-  <section class="mb-10">
-    <h2 class="text-lg font-semibold mb-4">
-      Vorteile und Nachteile
-    </h2>
-
-    <div class="grid md:grid-cols-2 gap-6 text-sm">
-
-      <div>
-        <strong>✔ Vorteile</strong>
-        <ul class="mt-2 space-y-1">
-          <li>Kann für eine stabile Verbindung sorgen</li>
-          <li>Für größere Wohnbereiche besser geeignet</li>
-          <li>In vielen Fällen einfach einzurichten</li>
-        </ul>
-      </div>
-
-      <div>
-        <strong>✖ Nachteile</strong>
-        <ul class="mt-2 space-y-1">
-          <li>Im Vergleich zu einfachen Lösungen oft teurer</li>
-          <li>Für kleine Wohnungen nicht immer notwendig</li>
-        </ul>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ⚔️ VERGLEICH -->
-  <section class="mb-10">
-    <h2 class="text-lg font-semibold mb-3">
-      Alternativen im Vergleich
-    </h2>
-
-    <p class="text-neutral-700">
-      Im Vergleich zu einfachen Repeatern kann dieses Modell je nach Einsatzbereich mehr Stabilität und Komfort bieten,
-      ist jedoch meist teurer. Wer vor allem auf den Preis achtet, findet oft günstigere Alternativen.
-      Für größere Wohnungen oder komplexere Netzwerke kann dagegen auch ein Mesh-System sinnvoll sein.
-    </p>
-  </section>
-
-  <!-- 📊 SPECS -->
-  {n.kurzfakten && (
+    <!-- PRO / CONTRA -->
     <section class="mb-10">
       <h2 class="text-lg font-semibold mb-4">
-        Technische Daten
+        Vorteile und Nachteile
       </h2>
 
-      <div class="border rounded-xl divide-y">
-        {n.kurzfakten.map(k => (
-          <div class="flex justify-between px-4 py-2 text-sm">
-            <span class="text-neutral-500">{k.label}</span>
-            <span class="font-medium">{k.value}</span>
-          </div>
-        ))}
+      <div class="grid md:grid-cols-2 gap-6 text-sm">
+        <div class="border rounded-2xl p-5 bg-white">
+          <strong class="text-neutral-900">✔ Vorteile</strong>
+          <ul class="mt-3 space-y-2 text-neutral-700">
+            <li>Kann für eine stabilere Verbindung sorgen</li>
+            <li>Für größere Wohnbereiche besser geeignet</li>
+            <li>In vielen Fällen einfach einzurichten</li>
+            <li>Oft sinnvoll bei mehreren gleichzeitig genutzten Geräten</li>
+          </ul>
+        </div>
+
+        <div class="border rounded-2xl p-5 bg-white">
+          <strong class="text-neutral-900">✖ Nachteile</strong>
+          <ul class="mt-3 space-y-2 text-neutral-700">
+            <li>Im Vergleich zu einfachen Lösungen oft teurer</li>
+            <li>Für kleine Wohnungen nicht immer notwendig</li>
+            <li>Die Vorteile lohnen sich vor allem bei höherem Bedarf</li>
+            <li>Nicht automatisch die beste Wahl für jedes Zuhause</li>
+          </ul>
+        </div>
       </div>
     </section>
-  )}
 
-  <!-- 📝 MAIN CONTENT -->
-  <article class="prose prose-zinc max-w-none mb-12">
-    <Content />
-  </article>
+    <!-- ALTERNATIVEN -->
+    <section class="mb-10">
+      <h2 class="text-lg font-semibold mb-3">
+        Alternativen im Vergleich
+      </h2>
 
-  <!-- 🔗 RELATED -->
-  {related.length > 0 && (
+      <div class="bg-white border rounded-2xl p-5">
+        <p class="text-neutral-700 leading-relaxed">
+          Im Vergleich zu einfachen Repeatern kann dieses Modell je nach Einsatzbereich mehr
+          Stabilität und Komfort bieten, ist jedoch meist teurer. Wer vor allem auf den Preis achtet,
+          findet oft günstigere Alternativen. Für größere Wohnungen oder komplexere Netzwerke
+          kann dagegen auch ein Mesh-System sinnvoll sein.
+        </p>
+
+        <div class="mt-4 flex flex-col gap-2 text-sm">
+          <a href="/vergleiche/wlan-repeater-vergleich/" class="text-blue-600 font-semibold hover:underline">
+            → WLAN Repeater Vergleich
+          </a>
+          <a href="/verstehen/mesh-oder-repeater/" class="text-blue-600 font-semibold hover:underline">
+            → Mesh oder Repeater einfach erklärt
+          </a>
+          <a href={`/empfehlungen/${kategorie}/`} class="text-blue-600 font-semibold hover:underline">
+            → Weitere Geräte dieser Kategorie
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPECS -->
+    {n.kurzfakten && (
+      <section class="mb-10">
+        <h2 class="text-lg font-semibold mb-4">
+          Technische Daten
+        </h2>
+
+        <div class="border rounded-2xl divide-y bg-white overflow-hidden">
+          {n.kurzfakten.map((k) => (
+            <div class="flex justify-between gap-4 px-4 py-3 text-sm">
+              <span class="text-neutral-500">{k.label}</span>
+              <span class="font-medium text-right">{k.value}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- CONTENT -->
+    <article class="prose prose-zinc max-w-none mb-12">
+      <Content />
+    </article>
+
+    <!-- CTA NACH CONTENT -->
     <section class="mb-12">
-      <h2 class="text-lg font-semibold mb-4">
-        Weitere Empfehlungen
-      </h2>
+      <div class="border rounded-2xl p-6 bg-neutral-50">
+        <h2 class="text-lg font-semibold mb-3">
+          Noch unsicher?
+        </h2>
 
-      <div class="grid md:grid-cols-3 gap-6">
+        <p class="text-neutral-700 text-sm leading-relaxed mb-4">
+          Wenn Sie noch nicht sicher sind, ob dieses Modell wirklich zu Ihrem Zuhause passt,
+          vergleichen Sie zuerst die wichtigsten Lösungen für Reichweite, Stabilität und Preis.
+        </p>
 
-        {related.map(r => {
-          const p = normalizeProduct(r);
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="/vergleiche/wlan-repeater-vergleich/"
+            class="inline-flex items-center justify-center bg-neutral-900 text-white px-5 py-3 rounded-xl font-semibold hover:bg-blue-600 transition"
+          >
+            Vergleich ansehen
+          </a>
 
-          return (
-            <a
-              href={`/empfehlungen/${p.kategorie}/${r.slug}/`}
-              class="block border rounded-xl p-3 hover:shadow-sm"
-            >
-              <img src={p.image} alt={p.title} class="mb-2" />
-              <h3 class="text-sm font-semibold">{p.title}</h3>
-            </a>
-          );
-        })}
-
+          <a
+            href="/verstehen/mesh-oder-repeater/"
+            class="inline-flex items-center justify-center border border-neutral-200 px-5 py-3 rounded-xl font-semibold text-neutral-800 hover:bg-white transition"
+          >
+            Unterschied verstehen
+          </a>
+        </div>
       </div>
     </section>
-  )}
 
-  <!-- DISCLAIMER -->
-  <p class="text-xs text-neutral-500 text-center leading-relaxed">
-  Hinweis: Diese Seite ist kein Online-Shop. Einige Verlinkungen sind Partnerlinks,
-  zum Beispiel zu Amazon. Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen.
-  Für Sie entstehen keine zusätzlichen Kosten.
-</p>
+    <!-- RELATED -->
+    {related.length > 0 && (
+      <section class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold">
+            Weitere Empfehlungen
+          </h2>
 
-</main>
+          <a
+            href={`/empfehlungen/${kategorie}/`}
+            class="text-sm text-blue-600 hover:underline"
+          >
+            Alle anzeigen →
+          </a>
+        </div>
 
+        <div class="grid md:grid-cols-3 gap-6">
+          {related.map((r) => {
+            const p = normalizeProduct(r);
+
+            return (
+              <a
+                href={`/empfehlungen/${p.kategorie}/${r.slug}/`}
+                class="block border rounded-2xl p-4 hover:shadow-sm transition bg-white"
+              >
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  class="mb-3 rounded-xl"
+                  loading="lazy"
+                />
+                <h3 class="text-sm font-semibold text-neutral-900">
+                  {p.title}
+                </h3>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
+    <!-- DISCLAIMER -->
+    <p class="text-xs text-neutral-500 text-center leading-relaxed max-w-3xl mx-auto">
+      Hinweis: Diese Seite ist kein Online-Shop. Es erfolgt kein Verkauf, keine Lagerhaltung
+      und kein Versand von Produkten. Einige Verlinkungen sind Partnerlinks, zum Beispiel zu Amazon.
+      Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen.
+      Für Sie entstehen keine zusätzlichen Kosten.
+    </p>
+  </main>
 </BaseLayout>
