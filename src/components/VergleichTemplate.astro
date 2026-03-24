@@ -3,28 +3,31 @@ import { getCollection } from "astro:content";
 import { buildVergleich } from "../lib/buildVergleich";
 import CategoryProductCard from "./CategoryProductCard.astro";
 import { normalizeProduct } from "../lib/product-engine";
+import WeitereThemen from "./WeitereThemen.astro";
 
 interface Props {
   title: string;
   intro: string;
   slugs: string[];
+  kategorie?: string;
 }
 
-const { title, intro, slugs } = Astro.props;
+const {
+  title,
+  intro,
+  slugs,
+  kategorie = "netzwerk",
+} = Astro.props as Props;
 
 /* ───────── Content Layer ───────── */
 
 const allProdukteRaw = await getCollection("produkte");
 
-/* 🔐 ЖЁСТКАЯ НОРМАЛИЗАЦИЯ */
 const allProdukte = allProdukteRaw.map((p) => ({
   ...p,
   data: {
     ...p.data,
-    preis:
-      typeof p.data.preis === "number"
-        ? p.data.preis
-        : undefined,
+    preis: typeof p.data.preis === "number" ? p.data.preis : undefined,
     brand:
       typeof p.data.brand === "string"
         ? p.data.brand
@@ -48,7 +51,6 @@ const formatPrice = (price?: number) =>
 const buildLink = (p: typeof produkte[number]) =>
   `/empfehlungen/${p.data.kategorie}/${p.slug}/`;
 
-/* 🔐 SAFE PREISE */
 const budgetPreis =
   typeof winnerBudget?.data?.preis === "number"
     ? winnerBudget.data.preis
@@ -58,30 +60,118 @@ const premiumPreis =
   typeof winnerPremium?.data?.preis === "number"
     ? winnerPremium.data.preis
     : undefined;
+
+const compareMap: Record<
+  string,
+  {
+    compareLinks: { href: string; label: string }[];
+    categoryLink: { href: string; label: string };
+    explainLink: { href: string; label: string };
+  }
+> = {
+  netzwerk: {
+    compareLinks: [
+      {
+        href: "/vergleiche/wlan-repeater-vergleich/",
+        label: "WLAN Repeater Vergleich",
+      },
+      {
+        href: "/vergleiche/wlan-repeater-oder-mesh/",
+        label: "Repeater oder Mesh",
+      },
+      {
+        href: "/vergleiche/powerline-oder-mesh-wlan/",
+        label: "Powerline oder Mesh",
+      },
+    ],
+    categoryLink: {
+      href: "/empfehlungen/netzwerk/",
+      label: "Alle Netzwerk-Geräte ansehen",
+    },
+    explainLink: {
+      href: "/verstehen/mesh-oder-repeater/",
+      label: "Unterschied einfach erklärt",
+    },
+  },
+  sicherheit: {
+    compareLinks: [{ href: "/vergleiche/", label: "Weitere Vergleiche ansehen" }],
+    categoryLink: {
+      href: "/empfehlungen/sicherheit/",
+      label: "Alle Sicherheitsgeräte ansehen",
+    },
+    explainLink: {
+      href: "/verstehen/",
+      label: "Technik einfach erklärt",
+    },
+  },
+  "smart-home": {
+    compareLinks: [{ href: "/vergleiche/", label: "Weitere Vergleiche ansehen" }],
+    categoryLink: {
+      href: "/empfehlungen/smart-home/",
+      label: "Alle Smart-Home-Geräte ansehen",
+    },
+    explainLink: {
+      href: "/verstehen/",
+      label: "Technik einfach erklärt",
+    },
+  },
+  klima: {
+    compareLinks: [{ href: "/vergleiche/", label: "Weitere Vergleiche ansehen" }],
+    categoryLink: {
+      href: "/empfehlungen/klima/",
+      label: "Alle Klima- & Luftgeräte ansehen",
+    },
+    explainLink: {
+      href: "/verstehen/",
+      label: "Technik einfach erklärt",
+    },
+  },
+};
+
+const funnelConfig =
+  compareMap[kategorie] ?? {
+    compareLinks: [{ href: "/vergleiche/", label: "Weitere Vergleiche ansehen" }],
+    categoryLink: {
+      href: "/empfehlungen/",
+      label: "Alle Empfehlungen ansehen",
+    },
+    explainLink: {
+      href: "/verstehen/",
+      label: "Technik einfach erklärt",
+    },
+  };
+
+const currentPath = Astro.url.pathname;
+const filteredCompareLinks = funnelConfig.compareLinks.filter(
+  (link) => link.href !== currentPath
+);
 ---
 
 <section class="mx-auto max-w-6xl px-4 py-12">
+  <header class="mb-10 max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4">
+      {title}
+    </h1>
 
-  <h1 class="text-3xl font-bold mb-4">
-    {title}
-  </h1>
+    <p class="text-neutral-700 leading-relaxed">
+      {intro}
+    </p>
+  </header>
 
-  <p class="text-neutral-700 mb-10 max-w-2xl">
-    {intro}
-  </p>
-
-  {/* 🎯 Schnellentscheidung */}
   {(winnerBudget || winnerPremium) && (
-    <div class="mb-14 bg-blue-50 border rounded-2xl p-8">
-      <h2 class="text-xl font-semibold mb-6">
+    <section class="mb-14 bg-blue-50 border rounded-2xl p-8">
+      <h2 class="text-xl font-semibold mb-3">
         Schnellentscheidung
       </h2>
 
-      <div class="grid md:grid-cols-2 gap-6 text-sm">
+      <p class="text-sm text-neutral-700 mb-6 max-w-2xl">
+        Wenn Sie direkt eine sinnvolle Richtung suchen, finden Sie hier zwei schnelle Empfehlungen:
+        ein Modell mit gutem Preis-Leistungs-Verhältnis und eine stärkere Premium-Option.
+      </p>
 
+      <div class="grid md:grid-cols-2 gap-6 text-sm">
         {winnerBudget && (
           <div class="bg-white rounded-xl p-5 border">
-
             <div class="text-green-600 font-semibold mb-2">
               🏆 Preis-Leistungs-Tipp
             </div>
@@ -90,7 +180,7 @@ const premiumPreis =
               {winnerBudget.data.title}
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4 text-neutral-700">
               {formatPrice(budgetPreis)}
             </div>
 
@@ -100,13 +190,11 @@ const premiumPreis =
             >
               Zum Produkt →
             </a>
-
           </div>
         )}
 
         {winnerPremium && (
           <div class="bg-white rounded-xl p-5 border">
-
             <div class="text-blue-600 font-semibold mb-2">
               ⭐ Premium-Empfehlung
             </div>
@@ -115,7 +203,7 @@ const premiumPreis =
               {winnerPremium.data.title}
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4 text-neutral-700">
               {formatPrice(premiumPreis)}
             </div>
 
@@ -125,57 +213,112 @@ const premiumPreis =
             >
               Zum Produkt →
             </a>
-
           </div>
         )}
-
       </div>
-    </div>
+    </section>
   )}
 
-  {/* 📊 Vergleichstabelle */}
-  <div class="overflow-x-auto mb-14">
-    <table class="w-full border text-sm">
-      <thead class="bg-neutral-100">
-        <tr>
-          <th class="p-3 text-left">Produkt</th>
-          <th class="p-3 text-left">Preis</th>
-          <th class="p-3 text-left">Typ</th>
-          <th class="p-3 text-left">Marke</th>
-        </tr>
-      </thead>
-      <tbody>
-        {produkte.map((p) => (
-          <tr class="border-t">
-            <td class="p-3 font-medium">
-              {p.data.title}
-            </td>
-            <td class="p-3">
-              {formatPrice(
-                typeof p.data.preis === "number"
-                  ? p.data.preis
-                  : undefined
-              )}
-            </td>
-            <td class="p-3">
-              {p.data.typ ?? "-"}
-            </td>
-            <td class="p-3">
-              {p.data.brand || "-"}
-            </td>
+  <section class="mb-14">
+    <h2 class="text-xl font-semibold mb-5">
+      Vergleich im Überblick
+    </h2>
+
+    <div class="overflow-x-auto">
+      <table class="w-full border text-sm bg-white">
+        <thead class="bg-neutral-100">
+          <tr>
+            <th class="p-3 text-left">Produkt</th>
+            <th class="p-3 text-left">Preis</th>
+            <th class="p-3 text-left">Typ</th>
+            <th class="p-3 text-left">Marke</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          {produkte.map((p) => (
+            <tr class="border-t">
+              <td class="p-3 font-medium">
+                {p.data.title}
+              </td>
+              <td class="p-3">
+                {formatPrice(
+                  typeof p.data.preis === "number"
+                    ? p.data.preis
+                    : undefined
+                )}
+              </td>
+              <td class="p-3">
+                {p.data.typ ?? "-"}
+              </td>
+              <td class="p-3">
+                {p.data.brand || "-"}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-  {/* 🧩 Produktkarten */}
-  <div class="grid gap-6 sm:grid-cols-2">
+  <section class="mb-14">
+    <h2 class="text-xl font-semibold mb-5">
+      Passende Produkte
+    </h2>
 
-{produkte.map((p) => (
-  <CategoryProductCard p={normalizeProduct(p)} />
-))}
+    <div class="grid gap-6 sm:grid-cols-2">
+      {produkte.map((p) => (
+        <CategoryProductCard p={normalizeProduct(p)} />
+      ))}
+    </div>
+  </section>
 
-</div>
+  <section class="mb-14">
+    <div class="border rounded-2xl p-6 bg-neutral-50">
+      <h2 class="text-xl font-semibold mb-3">
+        Noch unsicher?
+      </h2>
 
+      <p class="text-sm text-neutral-700 leading-relaxed mb-5">
+        Wenn Sie noch nicht sicher sind, welches Gerät wirklich zu Ihrer Situation passt,
+        starten Sie mit einer kurzen Einordnung oder sehen Sie sich weitere passende Geräte dieser Kategorie an.
+      </p>
+
+      <div class="flex flex-wrap gap-3 mb-6">
+        <a
+          href={funnelConfig.categoryLink.href}
+          class="inline-flex items-center justify-center bg-neutral-900 text-white px-5 py-3 rounded-xl font-semibold hover:bg-blue-600 transition"
+        >
+          {funnelConfig.categoryLink.label}
+        </a>
+
+        <a
+          href={funnelConfig.explainLink.href}
+          class="inline-flex items-center justify-center border border-neutral-200 px-5 py-3 rounded-xl font-semibold text-neutral-800 hover:bg-white transition"
+        >
+          {funnelConfig.explainLink.label}
+        </a>
+      </div>
+
+      {filteredCompareLinks.length > 0 && (
+        <div class="border-t border-neutral-200 pt-5">
+          <h3 class="text-sm font-semibold text-neutral-900 mb-3">
+            Weitere passende Vergleiche
+          </h3>
+
+          <div class="flex flex-col gap-2">
+            {filteredCompareLinks.map((link) => (
+              <a
+                href={link.href}
+                class="text-sm font-semibold text-blue-600 hover:underline"
+              >
+                → {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {kategorie === "netzwerk" && <WeitereThemen />}
 </section>
