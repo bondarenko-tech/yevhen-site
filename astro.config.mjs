@@ -19,6 +19,17 @@ export default defineConfig({
 
   redirects: {
     // Старые URL без категории → новые
+    "/ueber-das-projekt/": {
+    status: 301,
+    destination: "/ueber-uns/"
+    },
+
+  "/ueber-das-projekt": {
+    status: 301,
+    destination: "/ueber-uns/"
+    },
+
+
     "/empfehlungen/fritzbox-6690-kabel-wlan-problem/": {
       status: 301,
       destination: "/empfehlungen/netzwerk/fritzbox-6690-kabel-wlan-problem/"
