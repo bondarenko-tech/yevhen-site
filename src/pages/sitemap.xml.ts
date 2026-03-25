@@ -1,69 +1,104 @@
-// sitemap.xml.ts (SEO FIXED)
-
-import type { APIContext } from "astro";
+import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
 export const prerender = true;
 
 const SITE = "https://yevhenbondarenko.com";
 
-function url(path: string) {
+function fullUrl(path: string) {
   return `${SITE}${path}`;
 }
 
-export async function GET(_: APIContext) {
+function safeDate(input?: string) {
+  if (!input) return undefined;
+  const d = new Date(input);
+  return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
+}
 
-  const urls: string[] = [];
-  const now = new Date().toISOString();
-
+export const GET: APIRoute = async () => {
   const produkte = await getCollection("produkte");
   const verstehen = await getCollection("verstehen");
   const vergleiche = await getCollection("vergleiche");
 
-  function push(loc: string) {
+  const seen = new Set<string>();
+  const urls: string[] = [];
+
+  function push(path: string, lastmod?: string, priority = "0.8") {
+    const loc = fullUrl(path);
+    if (seen.has(loc)) return;
+    seen.add(loc);
+
     urls.push(`
   <url>
-    <loc>${url(loc)}</loc>
-    <lastmod>${now}</lastmod>
+    <loc>${loc}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ""}
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>${priority}</priority>
   </url>`);
   }
 
-  /* ✅ 1. Главная */
-  push("/");
+  // Основные страницы
+  push("/", undefined, "1.0");
+  push("/empfehlungen/", undefined, "0.9");
+  push("/vergleiche/", undefined, "0.9");
+  push("/verstehen/", undefined, "0.9");
+  push("/impressum/", undefined, "0.3");
+  push("/ueber-uns/", undefined, "0.5");
+  push("/transparenz/", undefined, "0.4");
+  push("/kontakt/", undefined, "0.5");
+  push("/datenschutzerklaerung/", undefined, "0.3");
 
-  /* ✅ 2. Категории (ВАЖНО) */
-  push("/empfehlungen/");
-  push("/empfehlungen/netzwerk/");
-  push("/empfehlungen/smart-home/");
-  push("/empfehlungen/sicherheit/");
+  // Категории на основе реальных продуктов
+  const kategorien = [
+    ...new Set(
+      produkte
+        .map((p) => p.data.kategorie)
+        .filter((value): value is string => Boolean(value))
+    ),
+  ];
 
-  /* ✅ 3. СТАТЬИ = ОСНОВА SEO */
-  for (const a of verstehen.slice(0, 20)) {
-    push(`/verstehen/${a.slug}/`);
+  for (const kategorie of kategorien) {
+    push(`/empfehlungen/${kategorie}/`, undefined, "0.8");
   }
 
-  for (const v of vergleiche.slice(0, 20)) {
-    push(`/vergleiche/${v.slug}/`);
+  // Verstehen
+  for (const entry of verstehen) {
+    push(
+      `/verstehen/${entry.slug}/`,
+      safeDate(entry.data?.datum),
+      "0.7"
+    );
   }
 
-  /* ✅ 4. ТОЛЬКО ЛУЧШИЕ ПРОДУКТЫ */
-  const bestProducts = produkte
-    .filter(p => p.body && p.body.length > 800)
-    .slice(0, 30);
-
-  for (const p of bestProducts) {
-    push(`/empfehlungen/${p.data.kategorie}/${p.slug}/`);
+  // Vergleiche
+  for (const entry of vergleiche) {
+    push(
+      `/vergleiche/${entry.slug}/`,
+      safeDate(entry.data?.datum),
+      "0.8"
+    );
   }
 
-  return new Response(
-`<?xml version="1.0" encoding="UTF-8"?>
+  // Только нормальные product pages
+  for (const entry of produkte) {
+    const bodyLength = entry.body?.length ?? 0;
+    if (!entry.data?.kategorie) continue;
+    if (bodyLength < 800) continue;
+
+    push(
+      `/empfehlungen/${entry.data.kategorie}/${entry.slug}/`,
+      safeDate(entry.data?.datum),
+      "0.7"
+    );
+  }
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.join("\n")}
-</urlset>`,
-    {
-      headers: { "Content-Type": "application/xml" }
-    }
-  );
-}
+</urlset>`;
+
+  return new Response(xml.trim(), {
+    headers: {
+      "Content-Type": "application/xml; charset=utf-8",
+    },
+  });
+};
