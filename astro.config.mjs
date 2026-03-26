@@ -29,6 +29,23 @@ export default defineConfig({
     destination: "/ueber-uns/"
     },
 
+    "/home/": {
+    status: 301,
+    destination: "/"
+    },
+    "/home": {
+    status: 301,
+    destination: "/"
+    },
+   "/bio/": {
+  status: 301,
+  destination: "/ueber-uns/"
+    },
+    "/  bio": {
+    status: 301,
+    destination: "/ueber-uns/"
+    },
+
 
     "/empfehlungen/fritzbox-6690-kabel-wlan-problem/": {
       status: 301,
