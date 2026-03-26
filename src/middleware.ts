@@ -26,7 +26,6 @@ const REDIRECTS: Record<string, string> = {
   "/empfehlungen/tapo-tp-link-c100/": "/empfehlungen/sicherheit/tp-link-tapo-c100/",
   "/empfehlungen/aqara-g5-pro-wlan-kamera/": "/empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/",
   "/empfehlungen/lupus-le-204/": "/empfehlungen/sicherheit/lupus-le204/",
-  "/empfehlungen/lupus-le204/": "/empfehlungen/sicherheit/lupus-le204/",
   "/empfehlungen/ueberwachung/imou-dual-2k-innenkamera/": "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/",
   "/empfehlungen/ueberwachung/lupus-le202-wlan-ip-kamera/": "/empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/",
   "/empfehlungen/ueberwachung/": "/empfehlungen/sicherheit/",
@@ -54,15 +53,15 @@ export const onRequest = defineMiddleware((context, next) => {
   }
 
   if (pathname.startsWith("/video/")) {
-    return context.redirect("/", 301);
+    return new Response(null, { status: 410 });
   }
 
   if (pathname.startsWith("/shorts/")) {
-    return context.redirect("/", 301);
+    return new Response(null, { status: 410 });
   }
 
   if (pathname.startsWith("/marken/")) {
-    return context.redirect("/", 301);
+    return new Response(null, { status: 410 });
   }
 
   if (pathname === "/links") {

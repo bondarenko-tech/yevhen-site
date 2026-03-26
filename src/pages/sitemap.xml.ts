@@ -82,7 +82,7 @@ export const GET: APIRoute = async () => {
   for (const entry of produkte) {
     const bodyLength = entry.body?.length ?? 0;
     if (!entry.data?.kategorie) continue;
-    if (bodyLength < 800) continue;
+    if (bodyLength < 1200) continue;
 
     push(
       `/empfehlungen/${entry.data.kategorie}/${entry.slug}/`,

@@ -7,11 +7,6 @@ export const GET: APIRoute = () => {
 
 Allow: /
 
-Disallow: /links/
-Disallow: /shorts/
-Disallow: /video/
-Disallow: /marken/
-
 Sitemap: https://yevhenbondarenko.com/sitemap.xml
 Sitemap: https://yevhenbondarenko.com/image-sitemap.xml
 `;

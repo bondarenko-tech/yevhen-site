@@ -5,6 +5,10 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { normalizeProduct } from "@lib/product-engine";
 
+const SITE =
+  Astro.site?.toString().replace(/\/$/, "") ??
+  "https://yevhenbondarenko.com";
+
 export async function getStaticPaths() {
   const p = await getCollection("produkte");
 
@@ -38,6 +42,8 @@ const n = normalizeProduct(entry);
 const title = `${n.title} einfach erklärt: Einordnung, Vorteile und Alternativen`;
 const description = `${n.title} verständlich eingeordnet: Funktionen, Vorteile, Nachteile und mögliche Alternativen im Überblick.`;
 
+const canonical = `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
+
 const isThin = !entry.body || entry.body.length < 800;
 
 const related = entries
@@ -55,6 +61,7 @@ const breadcrumb = [
 <BaseLayout
   title={title}
   description={description}
+  canonical={canonical}
   breadcrumb={breadcrumb}
   produkt={entry}
   robots={isThin ? "noindex, follow" : "index, follow"}
