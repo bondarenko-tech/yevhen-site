@@ -49,7 +49,6 @@ const jsonLd = {
   jsonLd={[jsonLd]}
 >
   <main class="mx-auto max-w-3xl px-6 py-16 md:py-24">
-    
     <header class="mb-12 text-center md:text-left">
       <h1 class="text-4xl font-extrabold text-neutral-900 mb-4 tracking-tight">
         Kontakt
@@ -60,17 +59,28 @@ const jsonLd = {
     </header>
 
     <div class="mb-12 flex justify-center md:justify-start">
-      <img
-        src="/images/bondarenko.webp"
-        alt="Yevhen Bondarenko"
-        width="420"
-        height="280"
-        class="rounded-3xl shadow-lg object-cover w-full max-w-[420px] aspect-video"
-      />
+      <div class="w-full max-w-[420px] rounded-[32px] border border-neutral-100 bg-white overflow-hidden shadow-sm">
+        <div class="aspect-video bg-neutral-50 flex items-center justify-center p-10">
+          <img
+            src="/images/bondarenko.webp"
+            alt="Bondarenko Empfehlungen"
+            class="w-full max-w-[220px] object-contain"
+          />
+        </div>
+
+        <div class="p-6 bg-neutral-900 text-white">
+          <p class="text-xs uppercase tracking-wider text-neutral-400 mb-1">
+            Projekt
+          </p>
+          <p class="text-lg font-bold">Bondarenko Empfehlungen</p>
+          <p class="text-sm text-neutral-400 mt-1">
+            von Yevhen Bondarenko
+          </p>
+        </div>
+      </div>
     </div>
 
     <div class="bg-neutral-50 rounded-[2rem] border border-neutral-100 p-8 md:p-12 shadow-sm">
-
       <section class="mb-10 text-center md:text-left">
         <h2 class="text-2xl font-bold text-neutral-900 mb-4">
           Anfragen zum Projekt
@@ -95,7 +105,6 @@ const jsonLd = {
         </h2>
 
         <div class="grid gap-5">
-
           <div class="flex gap-4 p-5 bg-white rounded-2xl border border-neutral-100">
             <span class="text-red-500 font-bold text-xl">✕</span>
             <div>
@@ -127,18 +136,17 @@ const jsonLd = {
                 Affiliate-Hinweis
               </p>
               <p class="text-xs text-blue-700 mt-1">
-                Diese Website ist kein Online-Shop. Käufe erfolgen über externe Anbieter (z. B. Amazon).
+                Diese Website ist kein Online-Shop. Käufe erfolgen über externe Anbieter, zum Beispiel Amazon.
               </p>
             </div>
           </div>
-
         </div>
       </section>
     </div>
 
     <div class="mt-16 text-center">
       <p class="text-sm text-neutral-400 mb-8 italic">
-        Rechtlich verbindliche Angaben finden Sie im 
+        Rechtlich verbindliche Angaben finden Sie im
         <a href="/impressum/" class="underline font-medium hover:text-blue-600">
           Impressum
         </a>.
@@ -148,6 +156,5 @@ const jsonLd = {
         ← Zurück zur Startseite
       </a>
     </div>
-
   </main>
 </BaseLayout>
