@@ -6,45 +6,95 @@ const currentYear = new Date().getFullYear();
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
       <div class="col-span-1">
-        <div class="flex items-center gap-3 mb-6">
+        <div class="flex flex-col mb-6">
           <span class="text-white font-black text-xl tracking-tighter">
-            Yevhen Bondarenko
+            Bondarenko Empfehlungen
+          </span>
+          <span class="text-[11px] text-neutral-500 font-medium mt-1">
+            von Yevhen Bondarenko
           </span>
         </div>
 
         <p class="text-sm leading-relaxed mb-6 font-medium">
           Unabhängige Produktübersichten, Vergleiche und verständliche technische
-Informationen rund um Smart Home, Netzwerk und Alltagstechnik.
-Dieses Projekt wird unter dem Namen „Bondarenko Empfehlungen“ betrieben.
+          Informationen rund um Smart Home, Netzwerk und Alltagstechnik.
+        </p>
+
+        <p class="text-xs leading-relaxed text-neutral-500 mb-6">
+          Dieses Projekt wird unter dem Namen „Bondarenko Empfehlungen“ betrieben.
         </p>
 
         <div class="flex gap-5 items-center">
-          <a href="https://www.youtube.com/@bondarenko-tech" class="hover:text-blue-500 transition-colors" title="YouTube">
+          <a
+            href="https://www.youtube.com/@bondarenko-tech"
+            class="hover:text-blue-500 transition-colors"
+            title="YouTube"
+          >
             <span class="text-xs font-bold tracking-widest uppercase">YouTube</span>
           </a>
-          <a href="https://www.instagram.com/bondarenko_tech/" class="hover:text-blue-500 transition-colors" title="Instagram">
+          <a
+            href="https://www.instagram.com/bondarenko_tech/"
+            class="hover:text-blue-500 transition-colors"
+            title="Instagram"
+          >
             <span class="text-xs font-bold tracking-widest uppercase">Instagram</span>
           </a>
         </div>
       </div>
 
       <div>
-        <h3 class="text-white font-bold mb-6 uppercase text-[10px] tracking-[0.2em]">Inhalte</h3>
+        <h3 class="text-white font-bold mb-6 uppercase text-[10px] tracking-[0.2em]">
+          Inhalte
+        </h3>
         <ul class="space-y-4 text-sm font-bold">
-          <li><a href="/vergleiche/" class="hover:text-white transition-colors">Vergleiche</a></li>
-          <li><a href="/verstehen/" class="hover:text-white transition-colors">Technik verstehen</a></li>
-          <li><a href="/empfehlungen/" class="hover:text-white transition-colors">Alle Übersichten</a></li>
-          <li><a href="/ueber-das-projekt/" class="hover:text-white transition-colors">Über das Projekt</a></li>
+          <li>
+            <a href="/vergleiche/" class="hover:text-white transition-colors">
+              Vergleiche
+            </a>
+          </li>
+          <li>
+            <a href="/verstehen/" class="hover:text-white transition-colors">
+              Technik verstehen
+            </a>
+          </li>
+          <li>
+            <a href="/empfehlungen/" class="hover:text-white transition-colors">
+              Alle Übersichten
+            </a>
+          </li>
+          <li>
+            <a href="/ueber-uns/" class="hover:text-white transition-colors">
+              Über das Projekt
+            </a>
+          </li>
         </ul>
       </div>
 
       <div>
-        <h3 class="text-white font-bold mb-6 uppercase text-[10px] tracking-[0.2em]">Rechtliches</h3>
+        <h3 class="text-white font-bold mb-6 uppercase text-[10px] tracking-[0.2em]">
+          Rechtliches
+        </h3>
         <ul class="space-y-4 text-sm font-bold">
-          <li><a href="/impressum/" class="hover:text-white transition-colors">Impressum</a></li>
-          <li><a href="/datenschutzerklaerung/" class="hover:text-white transition-colors">Datenschutz</a></li>
-          <li><a href="/transparenz/" class="hover:text-white transition-colors">Werbe-Transparenz</a></li>
-          <li><a href="/kontakt/" class="hover:text-white transition-colors">Kontakt</a></li>
+          <li>
+            <a href="/impressum/" class="hover:text-white transition-colors">
+              Impressum
+            </a>
+          </li>
+          <li>
+            <a href="/datenschutzerklaerung/" class="hover:text-white transition-colors">
+              Datenschutz
+            </a>
+          </li>
+          <li>
+            <a href="/transparenz/" class="hover:text-white transition-colors">
+              Werbe-Transparenz
+            </a>
+          </li>
+          <li>
+            <a href="/kontakt/" class="hover:text-white transition-colors">
+              Kontakt
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -63,7 +113,7 @@ Dieses Projekt wird unter dem Namen „Bondarenko Empfehlungen“ betrieben.
     </div>
 
     <div class="pt-8 border-t border-neutral-900 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.15em] font-bold">
-      <p>© {currentYear} Yevhen Bondarenko — Deutschland</p>
+      <p>© {currentYear} Bondarenko Empfehlungen — Deutschland</p>
       <div class="flex gap-6 text-neutral-600">
         <span>Unabhängig</span>
         <span>Transparent</span>
