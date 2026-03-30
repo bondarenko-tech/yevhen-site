@@ -15,6 +15,18 @@ function safeDate(input?: string) {
   return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
 }
 
+function shouldSkip(path: string) {
+  return (
+    path.startsWith("/video/") ||
+    path.startsWith("/shorts/") ||
+    path.startsWith("/marken/") ||
+    path.startsWith("/tests/") ||
+    path.startsWith("/links/") ||
+    path.includes("?") ||
+    path.endsWith(".astro")
+  );
+}
+
 export const GET: APIRoute = async () => {
   const produkte = await getCollection("produkte");
   const verstehen = await getCollection("verstehen");
@@ -24,15 +36,7 @@ export const GET: APIRoute = async () => {
   const urls: string[] = [];
 
   function push(path: string, lastmod?: string, priority = "0.8") {
-    if (
-      path.startsWith("/video/") ||
-      path.startsWith("/shorts/") ||
-      path.startsWith("/marken/") ||
-      path.startsWith("/tests/") ||
-      path.endsWith(".astro")
-    ) {
-      return;
-    }
+    if (!path || shouldSkip(path)) return;
 
     const loc = fullUrl(path);
     if (seen.has(loc)) return;
@@ -46,6 +50,7 @@ export const GET: APIRoute = async () => {
   </url>`);
   }
 
+  // Основные страницы
   push("/", undefined, "1.0");
   push("/empfehlungen/", undefined, "0.9");
   push("/vergleiche/", undefined, "0.9");
@@ -56,28 +61,44 @@ export const GET: APIRoute = async () => {
   push("/kontakt/", undefined, "0.5");
   push("/datenschutzerklaerung/", undefined, "0.3");
 
+  // Категории только из реальных продуктов
   const kategorien = [
     ...new Set(
       produkte
         .map((p) => p.data.kategorie)
-        .filter((value): value is string => Boolean(value))
+        .filter((value): value is string => typeof value === "string" && value.trim().length > 0)
     ),
-  ];
+  ].sort();
 
   for (const kategorie of kategorien) {
     push(`/empfehlungen/${kategorie}/`, undefined, "0.8");
   }
 
+  // Verstehen
   for (const entry of verstehen) {
-    push(`/verstehen/${entry.slug}/`, safeDate(entry.data?.datum), "0.7");
+    if (!entry.slug) continue;
+    push(
+      `/verstehen/${entry.slug}/`,
+      safeDate(entry.data?.datum),
+      "0.7"
+    );
   }
 
+  // Vergleiche
   for (const entry of vergleiche) {
-    push(`/vergleiche/${entry.slug}/`, safeDate(entry.data?.datum), "0.8");
+    if (!entry.slug) continue;
+    push(
+      `/vergleiche/${entry.slug}/`,
+      safeDate(entry.data?.datum),
+      "0.8"
+    );
   }
 
+  // Только нормальные product pages
   for (const entry of produkte) {
     const bodyLength = entry.body?.length ?? 0;
+
+    if (!entry.slug) continue;
     if (!entry.data?.kategorie) continue;
     if (bodyLength < 1200) continue;
 
@@ -96,6 +117,7 @@ ${urls.join("\n")}
   return new Response(xml.trim(), {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 };
