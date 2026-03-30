@@ -24,6 +24,16 @@ export const GET: APIRoute = async () => {
   const urls: string[] = [];
 
   function push(path: string, lastmod?: string, priority = "0.8") {
+    if (
+      path.startsWith("/video/") ||
+      path.startsWith("/shorts/") ||
+      path.startsWith("/marken/") ||
+      path.startsWith("/tests/") ||
+      path.endsWith(".astro")
+    ) {
+      return;
+    }
+
     const loc = fullUrl(path);
     if (seen.has(loc)) return;
     seen.add(loc);
@@ -36,7 +46,6 @@ export const GET: APIRoute = async () => {
   </url>`);
   }
 
-  // Основные страницы
   push("/", undefined, "1.0");
   push("/empfehlungen/", undefined, "0.9");
   push("/vergleiche/", undefined, "0.9");
@@ -47,7 +56,6 @@ export const GET: APIRoute = async () => {
   push("/kontakt/", undefined, "0.5");
   push("/datenschutzerklaerung/", undefined, "0.3");
 
-  // Категории на основе реальных продуктов
   const kategorien = [
     ...new Set(
       produkte
@@ -60,25 +68,14 @@ export const GET: APIRoute = async () => {
     push(`/empfehlungen/${kategorie}/`, undefined, "0.8");
   }
 
-  // Verstehen
   for (const entry of verstehen) {
-    push(
-      `/verstehen/${entry.slug}/`,
-      safeDate(entry.data?.datum),
-      "0.7"
-    );
+    push(`/verstehen/${entry.slug}/`, safeDate(entry.data?.datum), "0.7");
   }
 
-  // Vergleiche
   for (const entry of vergleiche) {
-    push(
-      `/vergleiche/${entry.slug}/`,
-      safeDate(entry.data?.datum),
-      "0.8"
-    );
+    push(`/vergleiche/${entry.slug}/`, safeDate(entry.data?.datum), "0.8");
   }
 
-  // Только нормальные product pages
   for (const entry of produkte) {
     const bodyLength = entry.body?.length ?? 0;
     if (!entry.data?.kategorie) continue;

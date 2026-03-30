@@ -4,11 +4,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const title = "Seite nicht gefunden (404) | Bondarenko Empfehlungen";
 const description = "Die angeforderte Seite existiert leider nicht. Bitte kehren Sie zur Startseite zurück.";
-const canonical = "https://yevhenbondarenko.com/404";
+const canonical = "https://yevhenbondarenko.com/404/";
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex, nofollow">
-
   <main class="min-h-[60vh] flex flex-col justify-center items-center text-center px-4 py-16">
     <img src="/logo.webp" alt="Logo" class="w-20 h-auto mb-6 opacity-80" />
 
@@ -17,15 +16,15 @@ const canonical = "https://yevhenbondarenko.com/404";
     </h1>
 
     <p class="text-gray-600 max-w-md mb-6">
-      Leider können wir die gewünschte Seite nicht finden. 
+      Leider können wir die gewünschte Seite nicht finden.
       Vielleicht wurde sie verschoben oder existiert nicht mehr.
     </p>
 
-    <a 
-      href="/" 
-      class="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
+    <a
+      href="/"
+      class="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+    >
       Zur Startseite
     </a>
   </main>
-
 </BaseLayout>
