@@ -1,7 +1,11 @@
-# 3. РАЗДЕЛЫ И БРЕНДЫ (Убираем дубликаты)
-/verstehen/wlan-repeater-oder-mesh/     /vergleiche/wlan-repeater-oder-mesh/         301
-/mesh-vs-repeater/                      /vergleiche/wlan-repeater-oder-mesh/         301
-/marken/fritz!/                         /marken/avm/                                 301
+# 3. СТАРЫЕ СТАТЬИ / ДУБЛИ
+/verstehen/wlan-repeater-oder-mesh/ /vergleiche/wlan-repeater-oder-mesh/ 301
+/mesh-vs-repeater/ /vergleiche/wlan-repeater-oder-mesh/ 301
 
-# 4. ЧИСТКА ВИДЕО (Чтобы не плодить 404 в GSC)
-/video/* / 301
+# 4. БРЕНДЫ
+/marken/fritz!/ /marken/avm/ 301
+
+# 5. ВИДЕО / SHORTS / МУСОР
+/video/* / 410
+/shorts/* / 410
+/tests/* / 410
