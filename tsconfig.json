@@ -4,6 +4,7 @@
   "exclude": ["dist", "public", "src/_legacy"],
   "compilerOptions": {
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["src/*"],
       "@lib/*": ["src/lib/*"],

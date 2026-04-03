@@ -66,6 +66,14 @@ export default defineConfig({
       status: 301,
       destination: "/vergleiche/powerline-oder-mesh-wlan/"
     },
+    "/vergleiche/brennenstuhl-eco-vs-premium/": {
+      status: 301,
+      destination: "/vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/"
+    },
+    "/vergleiche/brennenstuhl-eco-vs-premium": {
+      status: 301,
+      destination: "/vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/"
+    },
 
     "/empfehlungen/ueberwachung/": {
       status: 301,
