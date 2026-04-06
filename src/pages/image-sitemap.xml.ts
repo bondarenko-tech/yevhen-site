@@ -3,6 +3,12 @@ import { getCollection } from "astro:content";
 
 export const prerender = true;
 
+function safeDate(input?: string) {
+  if (!input) return undefined;
+  const d = new Date(input);
+  return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
+}
+
 export const GET: APIRoute = async ({ site }) => {
   if (!site) {
     return new Response("Site URL missing", { status: 500 });
@@ -11,17 +17,18 @@ export const GET: APIRoute = async ({ site }) => {
   const produkte = await getCollection("produkte");
   const seen = new Set<string>();
 
-  function safeDate(input?: string) {
-    if (!input) return undefined;
-    const d = new Date(input);
-    return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
-  }
-
   const urls = produkte
-    .filter((p) => typeof p.data.image === "string" && p.data.image.length > 0)
-    .map((p) => {
-      if (!p.data.kategorie) return "";
+    .filter((p) => {
+      if (!p.slug) return false;
+      if (!p.data?.kategorie) return false;
+      if (typeof p.data.image !== "string" || p.data.image.trim().length === 0) return false;
 
+      const bodyLength = p.body?.length ?? 0;
+      if (bodyLength < 1200) return false;
+
+      return true;
+    })
+    .map((p) => {
       const pageUrl = new URL(
         `/empfehlungen/${p.data.kategorie}/${p.slug}/`,
         site
@@ -55,6 +62,7 @@ ${urls}
   return new Response(xml.trim(), {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 };
