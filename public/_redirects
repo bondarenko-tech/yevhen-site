@@ -1,3 +1,5 @@
+# ───────── ОСНОВА ─────────
+
 /home/ / 301
 /home / 301
 /bio/ /ueber-uns/ 301
@@ -12,15 +14,66 @@
 /datenschutzerklaerung.astro /datenschutzerklaerung/ 301
 /links.astro /links/alle/ 301
 
+# ───────── СРАВНЕНИЯ / VERSTEHEN ─────────
+
 /verstehen/mesh-oder-repeater/ /vergleiche/wlan-repeater-oder-mesh/ 301
 /verstehen/powerline-vs-mesh/ /vergleiche/powerline-oder-mesh-wlan/ 301
 /vergleiche/powerline-vs-repeater/ /vergleiche/powerline-oder-wlan-repeater/ 301
 /vergleiche/wlan-repeater-test/ /vergleiche/wlan-repeater-vergleich/ 301
 
+# ───────── КАТЕГОРИИ ─────────
+
 /empfehlungen/ueberwachung/ /empfehlungen/sicherheit/ 301
 /empfehlungen/überwachung/ /empfehlungen/sicherheit/ 301
+
+/kategorien/ /empfehlungen/ 301
+/kategorien/beleuchtung/ /empfehlungen/beleuchtung/ 301
+/kategorien/strom/ /empfehlungen/strom/ 301
+/kategorien/sonstiges/ /empfehlungen/sonstiges/ 301
+/kategorien/ueberwachung/ /empfehlungen/sicherheit/ 301
+
+# ───────── ПРОДУКТЫ (СТАРЫЕ URL → НОВЫЕ) ─────────
+
+/empfehlungen/tapo-tp-link-c100/ /empfehlungen/sicherheit/tp-link-tapo-c100/ 301
+/empfehlungen/google-nest-cam/ /empfehlungen/sicherheit/google-nest-cam/ 301
+/empfehlungen/reolink-argus-3-pro/ /empfehlungen/sicherheit/reolink-argus-3-pro/ 301
+/empfehlungen/blink-video-doorbell/ /empfehlungen/sicherheit/blink-video-doorbell/ 301
+/empfehlungen/aqara-g5-pro-wlan-kamera/ /empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/ 301
+/empfehlungen/imou-dual-2k-innenkamera/ /empfehlungen/sicherheit/imou-dual-2k-innenkamera/ 301
+/empfehlungen/überwachung/imou-dual-2k-innenkamera/ /empfehlungen/sicherheit/imou-dual-2k-innenkamera/ 301
+/empfehlungen/ueberwachung/lupus-le202-wlan-ip-kamera/ /empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/ 301
+/empfehlungen/überwachung/lupus-le202-wlan-ip-kamera/ /empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/ 301
+
+/empfehlungen/anker-usb-c-ladegerat/ /empfehlungen/strom/anker-usb-c-ladegeraet/ 301
+
+/empfehlungen/midea-4-in-1-mobile-klimaanlage/ /empfehlungen/klima/midea-4-in-1-mobile-klimaanlage/ 301
+/empfehlungen/medion-p502-klimaanlage/ /empfehlungen/klima/medion-p502-klimaanlage/ 301
+
+/empfehlungen/philips-sonicare-9900-prestige/ /empfehlungen/sonstiges/philips-sonicare-9900-prestige/ 301
+/empfehlungen/ooono-co-driver-no1/ /empfehlungen/sonstiges/ooono-co-driver-no1/ 301
+/empfehlungen/mova-e30-ultra/ /empfehlungen/sonstiges/mova-e30-ultra/ 301
+
+/empfehlungen/govee-led-strip/ /empfehlungen/beleuchtung/govee-led-strip/ 301
+/empfehlungen/led-schranklicht/ /empfehlungen/beleuchtung/led-schranklicht/ 301
+
+/empfehlungen/sygonix-video-tuersprechanlage /empfehlungen/sicherheit/sygonix-video-tuersprechanlage/ 301
+/empfehlungen/tapo-c210/ /empfehlungen/sicherheit/tp-link-tapo-c210/ 301
+/empfehlungen/lupus-le-204/ /empfehlungen/sicherheit/lupus-le204/ 301
+/empfehlungen/lupus-le-204 /empfehlungen/sicherheit/lupus-le204/ 301
+
+# ───────── МУСОР (УБИВАЕМ ЧЕРЕЗ 410) ─────────
 
 /tests/* / 410
 /video/* / 410
 /shorts/* / 410
 /marken/* / 410
+
+/vergleiche/video-tuerklingel-ezviz-vs-ring/ / 410
+/empfehlungen/sonstiges/top-3-staubsauger-unter-200-euro/ / 410
+/empfehlungen/mobile-klimaanlage-peirhw/ / 410
+/empfehlungen/klima/akku-auto-heizluefter/ / 410
+/empfehlungen/uberwachungskameras-2025/ / 410
+/empfehlungen/sicherheit/sicherheitstechnik-fur-innen-und-aussen/ / 410
+/empfehlungen/switchbot-smart-lock-pro/ / 410
+
+/kupit-zhenskij-sportivnyj-kostyum-adidas-germaniya/ / 410
