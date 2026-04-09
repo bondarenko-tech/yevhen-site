@@ -54,6 +54,66 @@ const breadcrumb = [
   { name: kategorie, url: `/empfehlungen/${kategorie}/` },
   { name: n.title, url: `/empfehlungen/${kategorie}/${produkt}/` }
 ];
+
+const categoryLabelMap = {
+  sicherheit: "Sicherheit & Überwachung",
+  "smart-home": "Smart Home",
+  strom: "Strom & Steckdosen",
+  klima: "Klima & Ventilatoren",
+  beleuchtung: "Beleuchtung",
+  netzwerk: "Netzwerk",
+  sonstiges: "Technik & Sonstiges"
+};
+
+const categoryLabel =
+  categoryLabelMap[kategorie as keyof typeof categoryLabelMap] ?? "Technik";
+
+const compareHref =
+  kategorie === "sicherheit"
+    ? "/vergleiche/ring-innenkamera-vs-pan-tilt/"
+    : `/empfehlungen/${kategorie}/`;
+
+const compareLabel =
+  kategorie === "sicherheit"
+    ? "Erst vergleichen"
+    : "Ähnliche Produkte ansehen";
+
+const affiliateHint =
+  "Hinweis: Einige Verlinkungen sind Partnerlinks. Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.";
+
+const shortDescription =
+  n.description ||
+  `${n.title} ist vor allem dann interessant, wenn eine alltagstaugliche Lösung in der Kategorie ${categoryLabel} gesucht wird.`;
+
+const useCases =
+  kategorie === "sicherheit"
+    ? [
+        "Für Wohnungen, Flur, Wohnzimmer oder einzelne wichtige Bereiche",
+        "Für Nutzer, die per App schnell nachsehen möchten",
+        "Für Menschen, die mehr Sicherheit oder Kontrolle im Alltag suchen",
+        "Für alle, die eine verständliche Lösung ohne unnötige Komplexität wollen"
+      ]
+    : [
+        "Für Nutzer, die eine einfache und verständliche Lösung suchen",
+        "Für Haushalte, in denen das Gerät regelmäßig im Alltag genutzt wird",
+        "Für alle, die Wert auf ein gutes Verhältnis aus Preis, Nutzen und Bedienung legen",
+        "Für Menschen, die lieber klare Funktionen statt unnötiger Komplexität wollen"
+      ];
+
+const notIdeal =
+  kategorie === "sicherheit"
+    ? [
+        "wenn ganz spezielle Profi-Funktionen erwartet werden",
+        "wenn nur der niedrigste Preis zählt",
+        "wenn bereits eine passende Lösung vorhanden ist",
+        "wenn der konkrete Einsatzbereich gar nicht zu diesem Modell passt"
+      ]
+    : [
+        "wenn nur das günstigste Modell gesucht wird",
+        "wenn sehr spezielle Anforderungen erfüllt werden sollen",
+        "wenn bereits eine passende Lösung vorhanden ist",
+        "wenn deutlich mehr Leistung oder Spezialfunktionen nötig sind"
+      ];
 ---
 
 <BaseLayout
@@ -114,10 +174,19 @@ const breadcrumb = [
             </h2>
 
             <p class="text-sm text-neutral-700 leading-relaxed mb-4">
-              Dieses Gerät ist vor allem dann interessant, wenn mehrere Geräte gleichzeitig
-              stabil verbunden werden sollen oder wenn eine leistungsstärkere Lösung
-              für größere Wohnbereiche gesucht wird.
+              {shortDescription}
             </p>
+
+            <div class="rounded-xl bg-neutral-50 border border-neutral-200 p-4 mb-4">
+              <p class="text-sm font-medium text-neutral-900 mb-2">
+                Wann lohnt sich dieses Modell?
+              </p>
+              <ul class="space-y-1 text-sm text-neutral-700">
+                <li>• wenn die wichtigsten Funktionen zum eigenen Alltag passen</li>
+                <li>• wenn eine unkomplizierte und verständliche Lösung gesucht wird</li>
+                <li>• wenn Preis, Nutzen und Einsatzbereich zueinander passen</li>
+              </ul>
+            </div>
 
             <div class="flex flex-wrap gap-3">
               {n.linkExtern && (
@@ -132,16 +201,15 @@ const breadcrumb = [
               )}
 
               <a
-                href="/vergleiche/wlan-repeater-vergleich/"
+                href={compareHref}
                 class="inline-flex items-center justify-center border border-neutral-200 px-5 py-3 rounded-xl font-semibold text-neutral-800 hover:bg-neutral-50 transition"
               >
-                Erst vergleichen
+                {compareLabel}
               </a>
             </div>
 
             <p class="text-xs text-neutral-500 mt-4 leading-relaxed">
-              Hinweis: Einige Verlinkungen sind Partnerlinks. Wenn über einen solchen Link
-              ein Kauf erfolgt, kann eine Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.
+              {affiliateHint}
             </p>
           </div>
         </div>
@@ -157,10 +225,7 @@ const breadcrumb = [
           </h2>
 
           <ul class="space-y-2 text-sm text-neutral-700">
-            <li>• Für Haushalte mit mehreren gleichzeitig aktiven Geräten</li>
-            <li>• Für größere Wohnungen oder mehrere Räume mit WLAN-Bedarf</li>
-            <li>• Wenn Stabilität und einfachere Heimnetz-Nutzung wichtig sind</li>
-            <li>• Wenn eine modernere oder stärkere Lösung gesucht wird</li>
+            {useCases.map((item) => <li>• {item}</li>)}
           </ul>
         </div>
 
@@ -170,10 +235,7 @@ const breadcrumb = [
           </h2>
 
           <ul class="space-y-2 text-sm text-neutral-700">
-            <li>• nur ein kleiner Problemraum betroffen ist</li>
-            <li>• eine sehr günstige Lösung gesucht wird</li>
-            <li>• die Anforderungen insgesamt eher einfach sind</li>
-            <li>• ein klassischer Repeater bereits ausreicht</li>
+            {notIdeal.map((item) => <li>• {item}</li>)}
           </ul>
         </div>
       </div>
@@ -187,22 +249,25 @@ const breadcrumb = [
 
       <div class="bg-white border rounded-2xl p-5">
         <p class="text-neutral-700 mb-3 leading-relaxed">
-          Dieses Gerät kann sinnvoll sein, wenn eine stabile WLAN-Abdeckung in mehreren Räumen
-          benötigt wird oder typische Verbindungsprobleme im Alltag reduziert werden sollen.
+          {n.title} gehört in die Kategorie <strong>{categoryLabel}</strong> und richtet
+          sich an Nutzer, die eine praxistaugliche Lösung für den Alltag suchen.
+          Entscheidend ist dabei weniger das Datenblatt allein, sondern ob das Gerät
+          zum eigenen Einsatzbereich passt.
         </p>
 
         <p class="text-neutral-700 leading-relaxed">
-          In kleineren Wohnungen oder bei einfachen Anforderungen reicht häufig bereits
-          eine günstigere Lösung aus. Wer vor allem einzelne Funklöcher schließen möchte,
-          sollte vor dem Kauf auch einen Repeater-Vergleich ansehen.
+          Wer vor allem Wert auf einfache Nutzung, nachvollziehbare Funktionen und
+          eine schnelle Einordnung legt, ist hier richtig. Wer dagegen deutlich
+          andere Anforderungen hat, sollte vor dem Kauf ähnliche Produkte oder
+          einen passenden Vergleich ansehen.
         </p>
 
         <div class="mt-4">
           <a
-            href="/vergleiche/wlan-repeater-vergleich/"
+            href={compareHref}
             class="text-sm font-semibold text-blue-600 hover:underline"
           >
-            → WLAN Repeater Vergleich ansehen
+            → {compareLabel}
           </a>
         </div>
       </div>
@@ -218,20 +283,20 @@ const breadcrumb = [
         <div class="border rounded-2xl p-5 bg-white">
           <strong class="text-neutral-900">✔ Vorteile</strong>
           <ul class="mt-3 space-y-2 text-neutral-700">
-            <li>Kann für eine stabilere Verbindung sorgen</li>
-            <li>Für größere Wohnbereiche besser geeignet</li>
-            <li>In vielen Fällen einfach einzurichten</li>
-            <li>Oft sinnvoll bei mehreren gleichzeitig genutzten Geräten</li>
+            <li>Einfacher Einstieg ohne unnötig komplizierte Einrichtung</li>
+            <li>Klare Ausrichtung auf typische Alltagsnutzung</li>
+            <li>Interessant, wenn Preis und Nutzen in einem vernünftigen Verhältnis bleiben</li>
+            <li>Für viele Nutzer schneller verständlich als technisch überladene Alternativen</li>
           </ul>
         </div>
 
         <div class="border rounded-2xl p-5 bg-white">
           <strong class="text-neutral-900">✖ Nachteile</strong>
           <ul class="mt-3 space-y-2 text-neutral-700">
-            <li>Im Vergleich zu einfachen Lösungen oft teurer</li>
-            <li>Für kleine Wohnungen nicht immer notwendig</li>
-            <li>Die Vorteile lohnen sich vor allem bei höherem Bedarf</li>
-            <li>Nicht automatisch die beste Wahl für jedes Zuhause</li>
+            <li>Nicht automatisch die beste Wahl für jeden Spezialfall</li>
+            <li>Je nach Anspruch können Zusatzfunktionen fehlen</li>
+            <li>Bei sehr einfachen Anforderungen kann auch ein günstigeres Modell reichen</li>
+            <li>Der Mehrwert zeigt sich vor allem dann, wenn das Gerät passend eingesetzt wird</li>
           </ul>
         </div>
       </div>
@@ -245,28 +310,27 @@ const breadcrumb = [
 
       <div class="bg-white border rounded-2xl p-5">
         <p class="text-neutral-700 leading-relaxed">
-          Im Vergleich zu einfachen Repeatern kann dieses Modell je nach Einsatzbereich mehr
-          Stabilität und Komfort bieten, ist jedoch meist teurer. Wer vor allem auf den Preis achtet,
-          findet oft günstigere Alternativen. Für größere Wohnungen oder komplexere Netzwerke
-          kann dagegen auch ein Mesh-System sinnvoll sein.
+          Nicht jedes Modell ist automatisch die beste Lösung für jeden Haushalt.
+          Je nach Budget, Einsatzbereich und gewünschtem Funktionsumfang kann auch
+          eine einfachere oder spezialisiertere Alternative sinnvoller sein.
         </p>
 
         <div class="mt-4 flex flex-col gap-2 text-sm">
-          <a href="/vergleiche/wlan-repeater-vergleich/" class="text-blue-600 font-semibold hover:underline">
-            → WLAN Repeater Vergleich
-          </a>
-          <a href="/verstehen/mesh-oder-repeater/" class="text-blue-600 font-semibold hover:underline">
-            → Mesh oder Repeater einfach erklärt
+          <a href={compareHref} class="text-blue-600 font-semibold hover:underline">
+            → {compareLabel}
           </a>
           <a href={`/empfehlungen/${kategorie}/`} class="text-blue-600 font-semibold hover:underline">
             → Weitere Geräte dieser Kategorie
+          </a>
+          <a href="/vergleiche/" class="text-blue-600 font-semibold hover:underline">
+            → Alle Vergleiche ansehen
           </a>
         </div>
       </div>
     </section>
 
     <!-- SPECS -->
-    {n.kurzfakten && (
+    {n.kurzfakten && n.kurzfakten.length > 0 && (
       <section class="mb-10">
         <h2 class="text-lg font-semibold mb-4">
           Technische Daten
@@ -296,23 +360,24 @@ const breadcrumb = [
         </h2>
 
         <p class="text-neutral-700 text-sm leading-relaxed mb-4">
-          Wenn Sie noch nicht sicher sind, ob dieses Modell wirklich zu Ihrem Zuhause passt,
-          vergleichen Sie zuerst die wichtigsten Lösungen für Reichweite, Stabilität und Preis.
+          Wenn Sie noch nicht sicher sind, ob dieses Modell wirklich zu Ihrem
+          Zuhause oder Alltag passt, lohnt sich vor dem Kauf ein schneller Blick
+          auf ähnliche Produkte oder einen passenden Vergleich.
         </p>
 
         <div class="flex flex-wrap gap-3">
           <a
-            href="/vergleiche/wlan-repeater-vergleich/"
+            href={compareHref}
             class="inline-flex items-center justify-center bg-neutral-900 text-white px-5 py-3 rounded-xl font-semibold hover:bg-blue-600 transition"
           >
-            Vergleich ansehen
+            {compareLabel}
           </a>
 
           <a
-            href="/verstehen/mesh-oder-repeater/"
+            href={`/empfehlungen/${kategorie}/`}
             class="inline-flex items-center justify-center border border-neutral-200 px-5 py-3 rounded-xl font-semibold text-neutral-800 hover:bg-white transition"
           >
-            Unterschied verstehen
+            Weitere Empfehlungen
           </a>
         </div>
       </div>
