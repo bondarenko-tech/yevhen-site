@@ -52,7 +52,7 @@ const categoryLabelMap = {
 const categoryLabel =
   categoryLabelMap[kategorie as keyof typeof categoryLabelMap] ?? "Technik";
 
-const title = `${n.title}: Lohnt sich das Modell wirklich? Einfach erklärt`;
+const title = `${n.title}: Lohnt sich das Modell wirklich?`;
 const description =
   n.description?.slice(0, 155) ||
   `${n.title} verständlich erklärt: Vorteile, Nachteile, Einsatzbereiche und mögliche Alternativen im Überblick.`;
@@ -122,22 +122,35 @@ const productImage =
     ? [`${SITE}${n.image}`]
     : undefined;
 
-const jsonLd = [
-  {
-    "@type": "Product",
-    name: n.title,
-    description,
-    category: categoryLabel,
-    url: canonical,
-    brand: n.brand?.name
-      ? {
-          "@type": "Brand",
-          name: n.brand.name
+const productJsonLd =
+  typeof n.preis === "number"
+    ? [{
+        "@type": "Product",
+        name: n.title,
+        description,
+        category: categoryLabel,
+        url: canonical,
+        brand: n.brand?.name
+          ? {
+              "@type": "Brand",
+              name: n.brand.name
+            }
+          : undefined,
+        image: productImage,
+        sku: entry.data.sku,
+        mpn: entry.data.mpn,
+        offers: {
+          "@type": "Offer",
+          price: n.preis.toFixed(2),
+          priceCurrency: n.currency ?? "EUR",
+          availability: entry.data.availability
+            ? `https://schema.org/${entry.data.availability}`
+            : "https://schema.org/InStock",
+          url: n.linkExtern ?? canonical,
+          itemCondition: "https://schema.org/NewCondition"
         }
-      : undefined,
-    image: productImage
-  }
-];
+      }]
+    : [];
 ---
 
 <BaseLayout
@@ -147,9 +160,9 @@ const jsonLd = [
   breadcrumb={breadcrumb}
   produkt={entry}
   robots="index, follow"
-  jsonLd={jsonLd}
+  jsonLd={productJsonLd}
 >
-  <main id="top" class="mx-auto max-w-[1120px] px-4 py-8 md:py-12">
+  <div id="top" class="mx-auto max-w-[1120px] px-4 py-8 md:py-12">
     <article class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
       <div>
         <header class="mb-8">
@@ -469,5 +482,5 @@ const jsonLd = [
         </div>
       </aside>
     </article>
-  </main>
-</BaseLayout> ഇനി?
+  </div>
+</BaseLayout>
