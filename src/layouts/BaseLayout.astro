@@ -16,7 +16,7 @@ interface LayoutProps {
   robots?: string;
   ogImage?: string;
   breadcrumb?: { name: string; url: string }[];
-  jsonLd?: any[];
+  jsonLd?: Record<string, any>[];
   produkt?: CollectionEntry<"produkte">;
   updated?: string;
 }
@@ -35,14 +35,9 @@ let {
   updated,
 } = Astro.props as LayoutProps;
 
-/* ───────── ЧИСТЫЙ URL (ВАЖНО ДЛЯ SEO) ───────── */
 const currentUrl = new URL(Astro.url.pathname, BASE_URL).toString();
-
-/* ───────── SEO ───────── */
-const robotsFinal = robots;
 const canonicalUrl = canonical ?? currentUrl;
 
-/* ───────── UTILS ───────── */
 const clean = (s: string) => s.trim().replace(/\s+/g, " ");
 
 function safeMetaDescription(src?: string) {
@@ -55,10 +50,11 @@ function safeMetaDescription(src?: string) {
     : base.slice(0, 155).replace(/\s+\S*$/, "").trim();
 }
 
-/* ───────── PRODUCT SEO ───────── */
+/* Product fallback nur wenn Seite nichts Besseres liefert */
 if (produkt) {
-  title = clean(produkt.data.title);
+  title = title ?? clean(produkt.data.title);
   description = safeMetaDescription(
+    description ??
     produkt.data.description ??
     produkt.data.teaser ??
     produkt.data.title
@@ -68,17 +64,16 @@ if (produkt) {
 const computedTitle =
   title ?? "Technik Übersichten, Vergleiche & Erklärungen | Yevhen Bondarenko";
 
-/* ───────── JSON-LD (МИНИМАЛЬНЫЙ И ЧИСТЫЙ) ───────── */
-const graph: any[] = [
+const graph: Record<string, any>[] = [
   {
     "@type": "WebPage",
     "@id": `${currentUrl}#webpage`,
-    "url": currentUrl,
-    "name": computedTitle,
-    "description": safeMetaDescription(description),
-    "inLanguage": "de",
-    "dateModified": updated ?? new Date().toISOString().split("T")[0]
-  }
+    url: currentUrl,
+    name: computedTitle,
+    description: safeMetaDescription(description),
+    inLanguage: "de",
+    dateModified: updated ?? new Date().toISOString().split("T")[0],
+  },
 ];
 
 /* Breadcrumb */
@@ -86,18 +81,22 @@ if (breadcrumb.length) {
   graph.push({
     "@type": "BreadcrumbList",
     "@id": `${currentUrl}#breadcrumb`,
-    "itemListElement": breadcrumb.map((b, i) => ({
+    itemListElement: breadcrumb.map((b, i) => ({
       "@type": "ListItem",
-      "position": i + 1,
-      "name": b.name,
-      "item": new URL(b.url, BASE_URL).toString()
-    }))
+      position: i + 1,
+      name: b.name,
+      item: new URL(b.url, BASE_URL).toString(),
+    })),
   });
+}
+
+for (const item of jsonLd) {
+  graph.push(item);
 }
 
 const jsonLdGraph = {
   "@context": "https://schema.org",
-  "@graph": graph
+  "@graph": graph,
 };
 ---
 
@@ -109,15 +108,13 @@ const jsonLdGraph = {
       description={safeMetaDescription(description)}
       currentUrl={currentUrl}
       canonical={canonicalUrl}
-      robots={robotsFinal}
+      robots={robots}
       image={ogImage}
       isProduct={!!produkt}
     />
 
-    <!-- 🔥 CRITICAL SEO FIX -->
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- JSON-LD -->
     <script
       type="application/ld+json"
       is:inline
@@ -125,19 +122,18 @@ const jsonLdGraph = {
     />
   </head>
 
-  <body class="bg-neutral-50 text-gray-900 font-sans antialiased">
+  <body class="bg-neutral-50 font-sans antialiased text-gray-900">
     <Header />
 
     <main>
       <slot />
     </main>
 
-    <!-- Affiliate Hinweis -->
-    <div class="max-w-5xl mx-auto px-4 py-6 text-sm text-gray-600">
-  Hinweis: Diese Website ist kein Online-Shop. Es erfolgt kein Verkauf, keine Lagerhaltung
-  und kein Versand von Produkten. Einige Verlinkungen sind Partnerlinks, zum Beispiel zu Amazon.
-  Bei einem Kauf über solche Links kann eine Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.
-</div>
+    <div class="mx-auto max-w-5xl px-4 py-6 text-sm text-gray-600">
+      Hinweis: Diese Website ist kein Online-Shop. Es erfolgt kein Verkauf, keine Lagerhaltung
+      und kein Versand von Produkten. Einige Verlinkungen sind Partnerlinks, zum Beispiel zu Amazon.
+      Bei einem Kauf über solche Links kann eine Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.
+    </div>
 
     <Footer />
   </body>

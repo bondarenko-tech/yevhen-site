@@ -1,0 +1,33 @@
+---
+interface Props {
+  videoId: string;
+  title: string;
+}
+
+const { videoId, title } = Astro.props;
+const thumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+---
+
+<div class="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-black">
+  <button
+    type="button"
+    class="relative block w-full"
+    aria-label={`Video laden: ${title}`}
+    onclick={`this.outerHTML = '<iframe class="aspect-video w-full h-full" src="${embedUrl}" title="${title}" loading="eager" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'`}
+  >
+    <img
+      src={thumb}
+      alt={title}
+      loading="lazy"
+      width="1280"
+      height="720"
+      class="aspect-video w-full object-cover opacity-90 transition group-hover:opacity-100"
+    />
+    <span class="absolute inset-0 flex items-center justify-center">
+      <span class="rounded-full bg-white/90 px-5 py-3 text-sm font-semibold text-neutral-950 shadow">
+        ▶ Video ansehen
+      </span>
+    </span>
+  </button>
+</div>

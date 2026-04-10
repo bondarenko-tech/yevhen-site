@@ -4,21 +4,18 @@ export const prerender = true;
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { normalizeProduct } from "@lib/product-engine";
+import { Image } from "astro:assets";
+import YouTubeLite from "@components/YouTubeLite.astro";
 
 const SITE =
   Astro.site?.toString().replace(/\/$/, "") ??
   "https://yevhenbondarenko.com";
 
 export async function getStaticPaths() {
-  const p = await getCollection("produkte");
+  const entries = await getCollection("produkte");
 
-  return p
-    .filter((e) => {
-      if (!e.slug) return false;
-      if (!e.data) return false;
-      if (!e.data.kategorie) return false;
-      return true;
-    })
+  return entries
+    .filter((e) => e.slug && e.data?.kategorie)
     .map((e) => ({
       params: {
         kategorie: e.data.kategorie,
@@ -39,21 +36,8 @@ if (!entry) throw new Error("Produkt-Datei nicht gefunden");
 const { Content } = await entry.render();
 const n = normalizeProduct(entry);
 
-const title = `${n.title} einfach erklärt: Einordnung, Vorteile und Alternativen`;
-const description = `${n.title} verständlich eingeordnet: Funktionen, Vorteile, Nachteile und mögliche Alternativen im Überblick.`;
-
-const canonical = `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
-
-const related = entries
-  .filter((e) => e.slug !== entry.slug && e.data.kategorie === entry.data.kategorie)
-  .slice(0, 3);
-
-const breadcrumb = [
-  { name: "Start", url: "/" },
-  { name: "Empfehlungen", url: "/empfehlungen/" },
-  { name: kategorie, url: `/empfehlungen/${kategorie}/` },
-  { name: n.title, url: `/empfehlungen/${kategorie}/${produkt}/` }
-];
+const hasStringImage = typeof n.image === "string" && n.image.length > 0;
+const hasAssetImage = !!n.image && typeof n.image !== "string";
 
 const categoryLabelMap = {
   sicherheit: "Sicherheit & Überwachung",
@@ -68,6 +52,13 @@ const categoryLabelMap = {
 const categoryLabel =
   categoryLabelMap[kategorie as keyof typeof categoryLabelMap] ?? "Technik";
 
+const title = `${n.title}: Lohnt sich das Modell wirklich? Einfach erklärt`;
+const description =
+  n.description?.slice(0, 155) ||
+  `${n.title} verständlich erklärt: Vorteile, Nachteile, Einsatzbereiche und mögliche Alternativen im Überblick.`;
+
+const canonical = `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
+
 const compareHref =
   kategorie === "sicherheit"
     ? "/vergleiche/ring-innenkamera-vs-pan-tilt/"
@@ -78,12 +69,12 @@ const compareLabel =
     ? "Erst vergleichen"
     : "Ähnliche Produkte ansehen";
 
-const affiliateHint =
-  "Hinweis: Einige Verlinkungen sind Partnerlinks. Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.";
-
 const shortDescription =
   n.description ||
   `${n.title} ist vor allem dann interessant, wenn eine alltagstaugliche Lösung in der Kategorie ${categoryLabel} gesucht wird.`;
+
+const affiliateHint =
+  "Werbung / Affiliate-Link: Einige Verlinkungen sind Partnerlinks. Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.";
 
 const useCases =
   kategorie === "sicherheit"
@@ -114,6 +105,39 @@ const notIdeal =
         "wenn bereits eine passende Lösung vorhanden ist",
         "wenn deutlich mehr Leistung oder Spezialfunktionen nötig sind"
       ];
+
+const related = entries
+  .filter((e) => e.slug !== entry.slug && e.data.kategorie === entry.data.kategorie)
+  .slice(0, 3);
+
+const breadcrumb = [
+  { name: "Start", url: "/" },
+  { name: "Empfehlungen", url: "/empfehlungen/" },
+  { name: categoryLabel, url: `/empfehlungen/${kategorie}/` },
+  { name: n.title, url: `/empfehlungen/${kategorie}/${produkt}/` }
+];
+
+const productImage =
+  hasStringImage
+    ? [`${SITE}${n.image}`]
+    : undefined;
+
+const jsonLd = [
+  {
+    "@type": "Product",
+    name: n.title,
+    description,
+    category: categoryLabel,
+    url: canonical,
+    brand: n.brand?.name
+      ? {
+          "@type": "Brand",
+          name: n.brand.name
+        }
+      : undefined,
+    image: productImage
+  }
+];
 ---
 
 <BaseLayout
@@ -123,305 +147,327 @@ const notIdeal =
   breadcrumb={breadcrumb}
   produkt={entry}
   robots="index, follow"
+  jsonLd={jsonLd}
 >
-  <main class="max-w-[980px] mx-auto px-4 py-10">
-    <!-- HERO -->
-    <section class="mb-10">
-      <div class="max-w-3xl mb-6">
-        <h1 class="text-2xl md:text-3xl font-semibold tracking-tight mb-3">
-          {n.title} einfach erklärt: Für wen ist dieses Gerät sinnvoll?
-        </h1>
+  <main id="top" class="mx-auto max-w-[1120px] px-4 py-8 md:py-12">
+    <article class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <div>
+        <header class="mb-8">
+          <p class="mb-3 text-sm font-medium text-blue-700">
+            {categoryLabel}
+          </p>
 
-        <p class="text-neutral-600 leading-relaxed">
-          Auf dieser Seite finden Sie eine kompakte Einordnung zu diesem Gerät:
-          typische Einsatzbereiche, wichtige Funktionen sowie Hinweise dazu,
-          wann sich dieses Modell lohnt – und wann eher eine Alternative sinnvoll ist.
-        </p>
-      </div>
+          <h1 class="mb-4 text-3xl font-semibold tracking-tight text-neutral-950 md:text-5xl">
+            {n.title}: Für wen lohnt sich dieses Modell wirklich?
+          </h1>
 
-      <div class="grid md:grid-cols-2 gap-8 items-start">
-        <div class="bg-white border rounded-2xl p-4">
-          <img
-            src={n.image}
-            alt={n.title}
-            class="rounded-xl w-full max-w-md mx-auto"
-            loading="eager"
-          />
-        </div>
+          <p class="max-w-3xl text-base leading-relaxed text-neutral-700 md:text-lg">
+            {shortDescription}
+          </p>
+        </header>
 
-        <div class="space-y-5">
-          {n.videoShortId && (
+        <section class="mb-8 rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm md:p-6">
+          <div class="grid gap-6 md:grid-cols-[minmax(0,1fr)_320px] md:items-start">
             <div>
-              <p class="text-sm font-semibold text-neutral-800 mb-2">
-                Kurz erklärt im Video
-              </p>
-              <div class="aspect-video">
-                <iframe
-                  class="w-full h-full rounded-2xl border"
-                  src={`https://www.youtube.com/embed/${n.videoShortId}`}
-                  title={`${n.title} Video`}
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                ></iframe>
-              </div>
+              {hasStringImage ? (
+                <img
+                  src={n.image as string}
+                  alt={n.title}
+                  class="h-auto w-full rounded-2xl border border-neutral-200 object-contain"
+                  loading="eager"
+                  fetchpriority="high"
+                  width="1200"
+                  height="900"
+                />
+              ) : hasAssetImage ? (
+                <Image
+                  src={n.image as Exclude<typeof n.image, string | null>}
+                  alt={n.title}
+                  widths={[480, 768, 1024, 1280]}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1120px) 60vw, 720px"
+                  width={1200}
+                  height={900}
+                  format="webp"
+                  quality={82}
+                  loading="eager"
+                  fetchpriority="high"
+                  class="h-auto w-full rounded-2xl border border-neutral-200 object-contain"
+                />
+              ) : (
+                <div class="flex aspect-[4/3] w-full items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500">
+                  Kein Produktbild verfügbar
+                </div>
+              )}
+
+              {n.videoShortId && (
+                <div class="mt-5">
+                  <p class="mb-2 text-sm font-semibold text-neutral-900">
+                    Kurz erklärt im Video
+                  </p>
+                  <YouTubeLite
+                    videoId={n.videoShortId}
+                    title={`${n.title} Video`}
+                  />
+                </div>
+              )}
             </div>
-          )}
 
-          <div class="border rounded-2xl p-5 bg-white">
-            <h2 class="text-base font-semibold mb-3">
-              Kurzfazit
+            <aside class="rounded-2xl border border-neutral-200 bg-neutral-50 p-5">
+              <h2 class="mb-3 text-base font-semibold text-neutral-950">
+                Kurzfazit
+              </h2>
+
+              <p class="mb-4 text-sm leading-relaxed text-neutral-700">
+                {shortDescription}
+              </p>
+
+              <ul class="mb-5 space-y-2 text-sm text-neutral-800">
+                <li>✔ einfache Einordnung ohne Technik-Blabla</li>
+                <li>✔ sinnvoll, wenn Alltag und Funktionen zusammenpassen</li>
+                <li>✔ schneller Überblick vor dem Kauf</li>
+              </ul>
+
+              <div class="space-y-3">
+                {n.linkExtern && (
+                  <a
+                    href={n.linkExtern}
+                    target="_blank"
+                    rel="sponsored nofollow noopener noreferrer"
+                    class="inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-5 py-3 text-center font-semibold text-white transition hover:opacity-90"
+                  >
+                    Bei Amazon ansehen →
+                  </a>
+                )}
+
+                <a
+                  href={compareHref}
+                  class="inline-flex w-full items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-center font-semibold text-neutral-900 transition hover:bg-neutral-100"
+                >
+                  {compareLabel}
+                </a>
+              </div>
+
+              <p class="mt-4 text-xs leading-relaxed text-neutral-500">
+                {affiliateHint}
+              </p>
+            </aside>
+          </div>
+        </section>
+
+        <section class="mb-8 grid gap-6 md:grid-cols-2">
+          <div class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+            <h2 class="mb-3 text-lg font-semibold text-neutral-950">
+              Für wen sinnvoll?
             </h2>
+            <ul class="space-y-2 text-sm leading-relaxed text-neutral-700">
+              {useCases.map((item) => <li>• {item}</li>)}
+            </ul>
+          </div>
 
-            <p class="text-sm text-neutral-700 leading-relaxed mb-4">
-              {shortDescription}
+          <div class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+            <h2 class="mb-3 text-lg font-semibold text-neutral-950">
+              Eher nicht ideal, wenn …
+            </h2>
+            <ul class="space-y-2 text-sm leading-relaxed text-neutral-700">
+              {notIdeal.map((item) => <li>• {item}</li>)}
+            </ul>
+          </div>
+        </section>
+
+        <section class="mb-8 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+          <h2 class="mb-3 text-lg font-semibold text-neutral-950">
+            Kurz eingeordnet
+          </h2>
+
+          <div class="space-y-4 text-neutral-700">
+            <p>
+              {n.title} gehört in die Kategorie <strong>{categoryLabel}</strong> und richtet
+              sich an Nutzer, die eine praxistaugliche Lösung für den Alltag suchen.
             </p>
 
-            <div class="rounded-xl bg-neutral-50 border border-neutral-200 p-4 mb-4">
-              <p class="text-sm font-medium text-neutral-900 mb-2">
-                Wann lohnt sich dieses Modell?
-              </p>
-              <ul class="space-y-1 text-sm text-neutral-700">
-                <li>• wenn die wichtigsten Funktionen zum eigenen Alltag passen</li>
-                <li>• wenn eine unkomplizierte und verständliche Lösung gesucht wird</li>
-                <li>• wenn Preis, Nutzen und Einsatzbereich zueinander passen</li>
+            <p>
+              Entscheidend ist weniger das Datenblatt allein, sondern ob das Gerät
+              wirklich zum eigenen Einsatzbereich passt. Wer lieber eine verständliche
+              Lösung statt unnötiger Komplexität will, ist hier richtig.
+            </p>
+          </div>
+
+          <div class="mt-5">
+            <a
+              href={compareHref}
+              class="text-sm font-semibold text-blue-700 hover:underline"
+            >
+              → {compareLabel}
+            </a>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="mb-4 text-lg font-semibold text-neutral-950">
+            Vorteile und Nachteile
+          </h2>
+
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+              <strong class="text-neutral-950">✔ Vorteile</strong>
+              <ul class="mt-3 space-y-2 text-sm text-neutral-700">
+                <li>Einfacher Einstieg ohne unnötig komplizierte Einrichtung</li>
+                <li>Klare Ausrichtung auf typische Alltagsnutzung</li>
+                <li>Interessant, wenn Preis und Nutzen in einem vernünftigen Verhältnis bleiben</li>
+                <li>Für viele Nutzer schneller verständlich als technisch überladene Alternativen</li>
               </ul>
             </div>
 
-            <div class="flex flex-wrap gap-3">
-              {n.linkExtern && (
-                <a
-                  href={n.linkExtern}
-                  target="_blank"
-                  rel="nofollow sponsored noopener noreferrer"
-                  class="inline-flex items-center justify-center bg-[#FF9900] text-white px-5 py-3 rounded-xl font-semibold hover:opacity-90 transition"
-                >
-                  Bei Amazon ansehen →
-                </a>
-              )}
-
-              <a
-                href={compareHref}
-                class="inline-flex items-center justify-center border border-neutral-200 px-5 py-3 rounded-xl font-semibold text-neutral-800 hover:bg-neutral-50 transition"
-              >
-                {compareLabel}
-              </a>
+            <div class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+              <strong class="text-neutral-950">✖ Nachteile</strong>
+              <ul class="mt-3 space-y-2 text-sm text-neutral-700">
+                <li>Nicht automatisch die beste Wahl für jeden Spezialfall</li>
+                <li>Je nach Anspruch können Zusatzfunktionen fehlen</li>
+                <li>Bei sehr einfachen Anforderungen kann auch ein günstigeres Modell reichen</li>
+                <li>Der Mehrwert zeigt sich vor allem dann, wenn das Gerät passend eingesetzt wird</li>
+              </ul>
             </div>
-
-            <p class="text-xs text-neutral-500 mt-4 leading-relaxed">
-              {affiliateHint}
-            </p>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <!-- FÜR WEN / EHER NICHT -->
-    <section class="mb-10">
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="border rounded-2xl p-5 bg-white">
-          <h2 class="text-lg font-semibold mb-3">
-            Für wen sinnvoll?
-          </h2>
+        {n.kurzfakten && n.kurzfakten.length > 0 && (
+          <section class="mb-8">
+            <h2 class="mb-4 text-lg font-semibold text-neutral-950">
+              Technische Daten
+            </h2>
 
-          <ul class="space-y-2 text-sm text-neutral-700">
-            {useCases.map((item) => <li>• {item}</li>)}
-          </ul>
-        </div>
-
-        <div class="border rounded-2xl p-5 bg-white">
-          <h2 class="text-lg font-semibold mb-3">
-            Eher nicht ideal, wenn …
-          </h2>
-
-          <ul class="space-y-2 text-sm text-neutral-700">
-            {notIdeal.map((item) => <li>• {item}</li>)}
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- EINORDNUNG -->
-    <section class="mb-10">
-      <h2 class="text-lg font-semibold mb-3">
-        Kurz eingeordnet
-      </h2>
-
-      <div class="bg-white border rounded-2xl p-5">
-        <p class="text-neutral-700 mb-3 leading-relaxed">
-          {n.title} gehört in die Kategorie <strong>{categoryLabel}</strong> und richtet
-          sich an Nutzer, die eine praxistaugliche Lösung für den Alltag suchen.
-          Entscheidend ist dabei weniger das Datenblatt allein, sondern ob das Gerät
-          zum eigenen Einsatzbereich passt.
-        </p>
-
-        <p class="text-neutral-700 leading-relaxed">
-          Wer vor allem Wert auf einfache Nutzung, nachvollziehbare Funktionen und
-          eine schnelle Einordnung legt, ist hier richtig. Wer dagegen deutlich
-          andere Anforderungen hat, sollte vor dem Kauf ähnliche Produkte oder
-          einen passenden Vergleich ansehen.
-        </p>
-
-        <div class="mt-4">
-          <a
-            href={compareHref}
-            class="text-sm font-semibold text-blue-600 hover:underline"
-          >
-            → {compareLabel}
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRO / CONTRA -->
-    <section class="mb-10">
-      <h2 class="text-lg font-semibold mb-4">
-        Vorteile und Nachteile
-      </h2>
-
-      <div class="grid md:grid-cols-2 gap-6 text-sm">
-        <div class="border rounded-2xl p-5 bg-white">
-          <strong class="text-neutral-900">✔ Vorteile</strong>
-          <ul class="mt-3 space-y-2 text-neutral-700">
-            <li>Einfacher Einstieg ohne unnötig komplizierte Einrichtung</li>
-            <li>Klare Ausrichtung auf typische Alltagsnutzung</li>
-            <li>Interessant, wenn Preis und Nutzen in einem vernünftigen Verhältnis bleiben</li>
-            <li>Für viele Nutzer schneller verständlich als technisch überladene Alternativen</li>
-          </ul>
-        </div>
-
-        <div class="border rounded-2xl p-5 bg-white">
-          <strong class="text-neutral-900">✖ Nachteile</strong>
-          <ul class="mt-3 space-y-2 text-neutral-700">
-            <li>Nicht automatisch die beste Wahl für jeden Spezialfall</li>
-            <li>Je nach Anspruch können Zusatzfunktionen fehlen</li>
-            <li>Bei sehr einfachen Anforderungen kann auch ein günstigeres Modell reichen</li>
-            <li>Der Mehrwert zeigt sich vor allem dann, wenn das Gerät passend eingesetzt wird</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ALTERNATIVEN -->
-    <section class="mb-10">
-      <h2 class="text-lg font-semibold mb-3">
-        Alternativen im Vergleich
-      </h2>
-
-      <div class="bg-white border rounded-2xl p-5">
-        <p class="text-neutral-700 leading-relaxed">
-          Nicht jedes Modell ist automatisch die beste Lösung für jeden Haushalt.
-          Je nach Budget, Einsatzbereich und gewünschtem Funktionsumfang kann auch
-          eine einfachere oder spezialisiertere Alternative sinnvoller sein.
-        </p>
-
-        <div class="mt-4 flex flex-col gap-2 text-sm">
-          <a href={compareHref} class="text-blue-600 font-semibold hover:underline">
-            → {compareLabel}
-          </a>
-          <a href={`/empfehlungen/${kategorie}/`} class="text-blue-600 font-semibold hover:underline">
-            → Weitere Geräte dieser Kategorie
-          </a>
-          <a href="/vergleiche/" class="text-blue-600 font-semibold hover:underline">
-            → Alle Vergleiche ansehen
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- SPECS -->
-    {n.kurzfakten && n.kurzfakten.length > 0 && (
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold mb-4">
-          Technische Daten
-        </h2>
-
-        <div class="border rounded-2xl divide-y bg-white overflow-hidden">
-          {n.kurzfakten.map((k) => (
-            <div class="flex justify-between gap-4 px-4 py-3 text-sm">
-              <span class="text-neutral-500">{k.label}</span>
-              <span class="font-medium text-right">{k.value}</span>
+            <div class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+              {n.kurzfakten.map((k) => (
+                <div class="flex justify-between gap-4 border-b border-neutral-200 px-4 py-3 text-sm last:border-b-0">
+                  <span class="text-neutral-500">{k.label}</span>
+                  <span class="text-right font-medium text-neutral-900">{k.value}</span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </section>
-    )}
+          </section>
+        )}
 
-    <!-- CONTENT -->
-    <article class="prose prose-zinc max-w-none mb-12">
-      <Content />
-    </article>
+        <article class="prose prose-zinc mb-10 max-w-none">
+          <Content />
+        </article>
 
-    <!-- CTA NACH CONTENT -->
-    <section class="mb-12">
-      <div class="border rounded-2xl p-6 bg-neutral-50">
-        <h2 class="text-lg font-semibold mb-3">
-          Noch unsicher?
-        </h2>
-
-        <p class="text-neutral-700 text-sm leading-relaxed mb-4">
-          Wenn Sie noch nicht sicher sind, ob dieses Modell wirklich zu Ihrem
-          Zuhause oder Alltag passt, lohnt sich vor dem Kauf ein schneller Blick
-          auf ähnliche Produkte oder einen passenden Vergleich.
-        </p>
-
-        <div class="flex flex-wrap gap-3">
-          <a
-            href={compareHref}
-            class="inline-flex items-center justify-center bg-neutral-900 text-white px-5 py-3 rounded-xl font-semibold hover:bg-blue-600 transition"
-          >
-            {compareLabel}
-          </a>
-
-          <a
-            href={`/empfehlungen/${kategorie}/`}
-            class="inline-flex items-center justify-center border border-neutral-200 px-5 py-3 rounded-xl font-semibold text-neutral-800 hover:bg-white transition"
-          >
-            Weitere Empfehlungen
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- RELATED -->
-    {related.length > 0 && (
-      <section class="mb-12">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-lg font-semibold">
-            Weitere Empfehlungen
+        <section class="mb-12 rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
+          <h2 class="mb-3 text-lg font-semibold text-neutral-950">
+            Noch unsicher?
           </h2>
 
-          <a
-            href={`/empfehlungen/${kategorie}/`}
-            class="text-sm text-blue-600 hover:underline"
-          >
-            Alle anzeigen →
-          </a>
-        </div>
+          <p class="mb-4 text-sm leading-relaxed text-neutral-700">
+            Wenn Sie noch nicht sicher sind, ob dieses Modell wirklich zu Ihrem
+            Zuhause oder Alltag passt, lohnt sich vor dem Kauf ein schneller Blick
+            auf ähnliche Produkte oder einen passenden Vergleich.
+          </p>
 
-        <div class="grid md:grid-cols-3 gap-6">
-          {related.map((r) => {
-            const p = normalizeProduct(r);
+          <div class="flex flex-wrap gap-3">
+            <a
+              href={compareHref}
+              class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
+            >
+              {compareLabel}
+            </a>
 
-            return (
+            <a
+              href={`/empfehlungen/${kategorie}/`}
+              class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
+            >
+              Weitere Empfehlungen
+            </a>
+          </div>
+        </section>
+
+        {related.length > 0 && (
+          <section class="mb-12">
+            <div class="mb-4 flex items-center justify-between">
+              <h2 class="text-lg font-semibold text-neutral-950">
+                Weitere Empfehlungen
+              </h2>
+
               <a
-                href={`/empfehlungen/${p.kategorie}/${r.slug}/`}
-                class="block border rounded-2xl p-4 hover:shadow-sm transition bg-white"
+                href={`/empfehlungen/${kategorie}/`}
+                class="text-sm font-semibold text-blue-700 hover:underline"
               >
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  class="mb-3 rounded-xl"
-                  loading="lazy"
-                />
-                <h3 class="text-sm font-semibold text-neutral-900">
-                  {p.title}
-                </h3>
+                Alle anzeigen →
               </a>
-            );
-          })}
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-3">
+              {related.map((r) => {
+                const p = normalizeProduct(r);
+                const relatedHasStringImage = typeof p.image === "string" && p.image.length > 0;
+                const relatedHasAssetImage = !!p.image && typeof p.image !== "string";
+
+                return (
+                  <a
+                    href={`/empfehlungen/${p.kategorie}/${r.slug}/`}
+                    class="block rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                  >
+                    {relatedHasStringImage ? (
+                      <img
+                        src={p.image as string}
+                        alt={p.title}
+                        class="mb-3 h-auto w-full rounded-xl object-cover"
+                        loading="lazy"
+                        width="600"
+                        height="450"
+                      />
+                    ) : relatedHasAssetImage ? (
+                      <Image
+                        src={p.image as Exclude<typeof p.image, string | null>}
+                        alt={p.title}
+                        widths={[320, 480, 640]}
+                        sizes="(max-width: 768px) 100vw, 320px"
+                        width={640}
+                        height={480}
+                        format="webp"
+                        quality={78}
+                        loading="lazy"
+                        class="mb-3 h-auto w-full rounded-xl object-cover"
+                      />
+                    ) : (
+                      <div class="mb-3 flex aspect-[4/3] items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500">
+                        Kein Bild
+                      </div>
+                    )}
+
+                    <h3 class="text-sm font-semibold text-neutral-900">
+                      {p.title}
+                    </h3>
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        )}
+      </div>
+
+      <aside class="hidden lg:block">
+        <div class="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+          <p class="mb-2 text-sm font-semibold text-neutral-900">
+            Schnell zum Punkt
+          </p>
+
+          <ul class="space-y-2 text-sm text-neutral-700">
+            <li><a href="#top" class="hover:underline">Nach oben</a></li>
+            <li><a href={compareHref} class="hover:underline">{compareLabel}</a></li>
+            <li><a href={`/empfehlungen/${kategorie}/`} class="hover:underline">Mehr aus der Kategorie</a></li>
+          </ul>
+
+          {n.linkExtern && (
+            <a
+              href={n.linkExtern}
+              target="_blank"
+              rel="sponsored nofollow noopener noreferrer"
+              class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-4 py-3 text-center font-semibold text-white transition hover:opacity-90"
+            >
+              Amazon öffnen →
+            </a>
+          )}
         </div>
-      </section>
-    )}
+      </aside>
+    </article>
   </main>
-</BaseLayout>
+</BaseLayout> ഇനി?

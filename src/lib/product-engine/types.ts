@@ -1,4 +1,5 @@
 import type { CollectionEntry } from "astro:content";
+import type { ImageMetadata } from "astro";
 
 /**
  * Сырой входной тип из коллекции 'produkte'
@@ -6,22 +7,34 @@ import type { CollectionEntry } from "astro:content";
 export type ProduktEntry = CollectionEntry<"produkte">;
 
 /**
- * Допустимые типы продуктов (для логики скоринга)
+ * Допустимые типы продуктов
  */
 export type ProduktTyp = "router" | "camera" | "smarthome" | "other";
 
-/**
- * Главный интерфейс нормализованного продукта, 
- * который используется во всех компонентах сайта.
- */
 export type Segment = "budget" | "mid" | "premium";
+
+/**
+ * Универсальный тип картинки:
+ * - старый формат: строка "/images/..."
+ * - новый формат: Astro image()
+ * - null если картинки нет
+ */
+export type ProduktImage =
+  | string
+  | ImageMetadata
+  | Promise<{ default: ImageMetadata }>
+  | null;
+
+/**
+ * Главный интерфейс нормализованного продукта
+ */
 export interface NormalizedProduct {
   slug: string;
   kategorie: string;
   title: string;
   teaser: string | null;
   description: string;
-  image: string | null;
+  image: ProduktImage;
 
   // Бренд
   brand?: {
@@ -33,7 +46,7 @@ export interface NormalizedProduct {
   currency: string;
   priceCurrency?: string;
 
-  // Плюсы и Минусы (МЫ ДОБАВИЛИ ЭТО)
+  // Плюсы и минусы
   pros?: string[];
   cons?: string[];
 
@@ -50,7 +63,7 @@ export interface NormalizedProduct {
   // Характеристики и теги
   specs?: string[];
   tags?: string[];
-  
+
   // Таблица быстрых фактов
   kurzfakten?: {
     label: string;

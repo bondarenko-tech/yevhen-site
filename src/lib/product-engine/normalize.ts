@@ -12,7 +12,6 @@ const ensureSlash = (u: string) =>
 export function getBrandName(
   brand: unknown
 ): string | undefined {
-
   if (typeof brand === "string") {
     const s = brand.trim();
     return s.length ? s : undefined;
@@ -23,18 +22,15 @@ export function getBrandName(
     typeof brand === "object" &&
     "name" in brand
   ) {
-
     const n = (brand as { name?: unknown }).name;
 
     if (typeof n === "string") {
       const s = n.trim();
       return s.length ? s : undefined;
     }
-
   }
 
   return undefined;
-
 }
 
 /* normalize product */
@@ -42,7 +38,6 @@ export function getBrandName(
 export function normalizeProduct(
   p: ProduktEntry
 ): NormalizedProduct {
-
   const d = p.data;
 
   const brandName = getBrandName(d.brand);
@@ -82,8 +77,6 @@ export function normalizeProduct(
       ? d.teaser.trim()
       : null;
 
-  /* description fallback */
-
   const description =
     typeof d.description === "string" &&
     d.description.trim().length
@@ -91,19 +84,16 @@ export function normalizeProduct(
       : teaser ?? String(d.title ?? "");
 
   const image =
-    typeof d.image === "string" &&
-    d.image.trim().length
-      ? d.image.trim()
-      : null;
-
-  /* datum normalize */
+    d.image == null
+      ? null
+      : typeof d.image === "string"
+        ? (d.image.trim().length ? d.image.trim() : null)
+        : d.image;
 
   const datum =
     typeof d.datum === "string"
       ? d.datum.slice(0, 10)
       : undefined;
-
-  /* pros & cons normalize */
 
   const pros = Array.isArray(d.pros)
     ? d.pros.filter((x): x is string => typeof x === "string")
@@ -114,7 +104,6 @@ export function normalizeProduct(
     : undefined;
 
   return {
-
     slug,
     kategorie,
 
@@ -124,30 +113,19 @@ export function normalizeProduct(
     description,
     image,
 
-    /* brand */
-
     brand: brandName
       ? { name: brandName }
       : undefined,
 
-    /* price */
-
     preis,
     currency,
     priceCurrency: currency,
-  
-
-    /* links */
 
     linkIntern,
     linkExtern,
 
-    /* pros & cons */
-
     pros,
     cons,
-
-    /* type */
 
     typ:
       typeof d.typ === "string"
@@ -155,8 +133,6 @@ export function normalizeProduct(
         : undefined,
 
     featured: d.featured === true,
-
-    /* video */
 
     videoShortId:
       typeof d.videoShortId === "string"
@@ -180,25 +156,17 @@ export function normalizeProduct(
 
     datum,
 
-    /* specs */
-
     specs: Array.isArray(d.specs)
       ? d.specs.filter(
-          (x): x is string =>
-            typeof x === "string"
+          (x): x is string => typeof x === "string"
         )
       : undefined,
-
-    /* tags */
 
     tags: Array.isArray(d.tags)
       ? d.tags.filter(
-          (x): x is string =>
-            typeof x === "string"
+          (x): x is string => typeof x === "string"
         )
       : undefined,
-
-    /* kurzfakten */
 
     kurzfakten: Array.isArray(d.kurzfakten)
       ? d.kurzfakten
@@ -219,12 +187,8 @@ export function normalizeProduct(
           }))
       : undefined,
 
-    /* entry reference */
-
     entry: p
-
   };
-
 }
 
 export function normalizeAll(
