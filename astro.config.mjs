@@ -129,6 +129,33 @@ export default defineConfig({
     "/kategorien/smart-home/echo-show-8-hd-smart-hub/": {
       status: 301,
       destination: "/empfehlungen/smart-home/echo-show-8-hd-smart-hub/"
+    },
+
+    "/vergleiche/beste-wlan-repeater/": {
+      status: 301,
+      destination: "/vergleiche/wlan-repeater-vergleich/"
+    },
+    "/vergleiche/beste-wlan-repeater": {
+      status: 301,
+      destination: "/vergleiche/wlan-repeater-vergleich/"
+    },
+
+    "/vergleiche/wlan-repeater-oder-mesh/": {
+      status: 301,
+      destination: "/vergleiche/wlan-repeater-vergleich/"
+    },
+    "/vergleiche/wlan-repeater-oder-mesh": {
+      status: 301,
+      destination: "/vergleiche/wlan-repeater-vergleich/"
+    },
+
+    "/vergleiche/powerline-oder-wlan-repeater/": {
+      status: 301,
+      destination: "/vergleiche/wlan-repeater-vergleich/"
+    },
+    "/vergleiche/powerline-oder-wlan-repeater": {
+      status: 301,
+      destination: "/vergleiche/wlan-repeater-vergleich/"
     }
   }
 });
