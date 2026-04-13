@@ -21,6 +21,7 @@ const REDIRECTS = new Map<string, string>([
   ["/vergleiche/wlan-repeater-test/", "/vergleiche/wlan-repeater-vergleich/"],
   ["/vergleiche/brennenstuhl-eco-vs-premium/", "/vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/"],
   ["/vergleiche/powerline-oder-mesh/", "/vergleiche/powerline-oder-mesh-wlan/"],
+  ["/vergleiche/video-tuerklingel-ezviz-vs-ring/", "/vergleiche/video-tuerklingel-vergleich/"],
 
   ["/empfehlungen/google-nest-cam/", "/empfehlungen/sicherheit/google-nest-cam/"],
   ["/empfehlungen/reolink-argus-3-pro/", "/empfehlungen/sicherheit/reolink-argus-3-pro/"],
@@ -34,21 +35,23 @@ const REDIRECTS = new Map<string, string>([
   ["/empfehlungen/lupus-le204/", "/empfehlungen/sicherheit/lupus-le204/"],
   ["/empfehlungen/ueberwachung/imou-dual-2k-innenkamera/", "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/"],
   ["/empfehlungen/überwachung/imou-dual-2k-innenkamera/", "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/"],
+  ["/empfehlungen/imou-dual-2k-innenkamera/", "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/"],
   ["/empfehlungen/ueberwachung/lupus-le202-wlan-ip-kamera/", "/empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/"],
   ["/empfehlungen/überwachung/lupus-le202-wlan-ip-kamera/", "/empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/"],
+  ["/empfehlungen/ueberwachung/dahua-bullet-d1-wifi-kamera/", "/empfehlungen/sicherheit/"],
   ["/empfehlungen/ueberwachung/", "/empfehlungen/sicherheit/"],
   ["/empfehlungen/überwachung/", "/empfehlungen/sicherheit/"],
   ["/empfehlungen/tp-link-tapo-c200/", "/empfehlungen/sicherheit/tp-link-tapo-c200/"],
   ["/empfehlungen/tp-link-tapo-c210/", "/empfehlungen/sicherheit/tp-link-tapo-c210/"],
   ["/empfehlungen/eufy-e220-innenkamera/", "/empfehlungen/sicherheit/eufy-e220-innenkamera/"],
   ["/empfehlungen/smart-home/eufy-e220-innenkamera/", "/empfehlungen/sicherheit/eufy-e220-innenkamera/"],
-  ["/empfehlungen/imou-dual-2k-innenkamera/", "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/"],
   ["/empfehlungen/blink-video-doorbell/", "/empfehlungen/sicherheit/blink-video-doorbell/"],
   ["/empfehlungen/boifun-wlan-video-tuerklingel/", "/empfehlungen/sicherheit/boifun-wlan-video-tuerklingel/"],
   ["/empfehlungen/mathfel-video-tuersprechanlage/", "/empfehlungen/sicherheit/mathfel-video-tuersprechanlage/"],
   ["/empfehlungen/reolink-e1-pro/", "/empfehlungen/sicherheit/reolink-e1-pro/"],
   ["/empfehlungen/abus-facexess-tuersprechanlage/", "/empfehlungen/sicherheit/abus-facexess-tuersprechanlage/"],
   ["/empfehlungen/ring-akku-videoturklingel-2024-/", "/empfehlungen/sicherheit/ring-akku-videotuerklingel-2024/"],
+  ["/empfehlungen/sicherheit/ring-akku-videoturklingel-2024-/", "/empfehlungen/sicherheit/ring-akku-videotuerklingel-2024/"],
   ["/empfehlungen/sicherheit/tapo-tp-link-c100/", "/empfehlungen/sicherheit/tp-link-tapo-c100/"],
 
   ["/empfehlungen/wlan-mesh/", "/empfehlungen/netzwerk/"],
@@ -56,8 +59,10 @@ const REDIRECTS = new Map<string, string>([
   ["/empfehlungen/google-tv-streamer/", "/empfehlungen/smart-home/google-tv-streamer/"],
   ["/empfehlungen/tp-link-kasa-kp115/", "/empfehlungen/smart-home/tp-link-kasa-kp115/"],
   ["/empfehlungen/govee-led-strip/", "/empfehlungen/beleuchtung/govee-led-strip/"],
+  ["/empfehlungen/govee-g9-smart-led-lampe/", "/empfehlungen/beleuchtung/"],
   ["/empfehlungen/led-schranklicht/", "/empfehlungen/beleuchtung/led-schranklicht/"],
   ["/empfehlungen/anker-usb-c-ladegerat/", "/empfehlungen/strom/anker-usb-c-ladegeraet/"],
+  ["/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/", "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/"],
   ["/empfehlungen/brennenstuhl-eco-line-steckdosenleiste/", "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/"],
   ["/empfehlungen/philips-sonicare-9900-prestige/", "/empfehlungen/sonstiges/philips-sonicare-9900-prestige/"],
   ["/empfehlungen/ooono-co-driver-no1/", "/empfehlungen/sonstiges/ooono-co-driver-no1/"],
@@ -85,8 +90,6 @@ const REDIRECTS = new Map<string, string>([
   ["/ueber-uns", "/ueber-uns/"],
   ["/transparenz", "/transparenz/"],
   ["/datenschutzerklaerung", "/datenschutzerklaerung/"],
-
-  ["/vergleiche/video-tuerklingel-ezviz-vs-ring/", "/vergleiche/video-tuerklingel-vergleich/"],
 ]);
 
 const GONE_PREFIXES = ["/video/", "/shorts/", "/marken/", "/tests/"];
@@ -126,18 +129,15 @@ export const onRequest = defineMiddleware((context, next) => {
   const url = new URL(context.request.url);
   const pathname = normalizePathname(url.pathname);
 
-  // www -> non-www
   if (url.hostname === "www.yevhenbondarenko.com") {
     return Response.redirect(`https://yevhenbondarenko.com${pathname}${url.search}`, 301);
   }
 
-  // exact redirects first
   const direct = REDIRECTS.get(pathname);
   if (direct && direct !== pathname) {
     return redirect(url, direct, 301);
   }
 
-  // gone URLs
   if (
     GONE_EXACT.has(pathname) ||
     GONE_PREFIXES.some((prefix) => pathname === prefix.slice(0, -1) || pathname.startsWith(prefix))
@@ -145,17 +145,14 @@ export const onRequest = defineMiddleware((context, next) => {
     return goneResponse();
   }
 
-  // umlaut cleanup
   if (pathname.includes("überwachung")) {
     return redirect(url, pathname.replaceAll("überwachung", "ueberwachung"), 301);
   }
 
-  // generic .astro cleanup
   if (pathname.endsWith(".astro")) {
     return redirect(url, pathname.replace(/\.astro$/, "/"), 301);
   }
 
-  // canonical trailing slash
   if (pathname !== "/" && !pathname.endsWith("/") && !pathname.includes(".")) {
     return redirect(url, `${pathname}/`, 301);
   }
