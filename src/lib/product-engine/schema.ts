@@ -11,35 +11,27 @@ export function buildProductSchema({
   site,
   dateModified
 }: BuildProductSchemaOptions) {
-
   const data = entry.data;
 
   const absolute = (path: string) =>
     new URL(path.replace(/^\//, ""), site).toString();
 
-  /* ───────── URLS ───────── */
+  const clean = (text?: string) =>
+    text?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
   const canonicalUrl = absolute(
     `/empfehlungen/${data.kategorie}/${entry.slug}/`
   );
 
   const externalUrl =
-    typeof data.linkExtern === "string" &&
-    data.linkExtern.startsWith("http")
+    typeof data.linkExtern === "string" && data.linkExtern.startsWith("http")
       ? data.linkExtern
       : canonicalUrl;
-
-  /* ───────── IMAGE ───────── */
 
   const imageUrl =
     typeof data.image === "string" && data.image.length
       ? absolute(data.image)
       : absolute("/images/placeholder.webp");
-
-  /* ───────── DESCRIPTION ───────── */
-
-  const clean = (text?: string) =>
-    text?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
   const description =
     clean(data.description) ??
@@ -47,27 +39,20 @@ export function buildProductSchema({
     data.specs?.[0] ??
     data.title;
 
-  /* ───────── BRAND ───────── */
-
   const brandName =
     typeof data.brand === "string"
       ? data.brand
       : data.brand?.name;
 
-  /* ───────── PRICE CHECK ───────── */
-
   const hasValidPrice =
     typeof data.preis === "number" &&
-    Number.isFinite(data.preis);
-
-  /* ───────── BASE SCHEMA ───────── */
+    Number.isFinite(data.preis) &&
+    data.preis > 0;
 
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
-
     "@id": `${canonicalUrl}#product`,
-
     name: data.title,
     description,
     url: canonicalUrl,
@@ -80,33 +65,58 @@ export function buildProductSchema({
       }
     }),
 
-    /* 🔐 Affiliate-safe Hinweis */
+    ...(data.sku && { sku: data.sku }),
+    ...(data.mpn && { mpn: data.mpn }),
+
     isRelatedTo: {
       "@type": "WebPage",
       url: canonicalUrl
     }
   };
 
-  /* ───────── OFFERS (SAFE) ───────── */
-
   if (hasValidPrice) {
     schema.offers = {
       "@type": "Offer",
       url: externalUrl,
       priceCurrency: data.priceCurrency ?? "EUR",
-      price: data.preis,
+      price: Number(data.preis).toFixed(2),
 
-      /* НЕ утверждаем наличие точно */
-      availability: "https://schema.org/InStock",
+      availability:
+        typeof data.availability === "string" && data.availability.length
+          ? data.availability
+          : "https://schema.org/InStock",
 
-      itemCondition: "https://schema.org/NewCondition"
+      itemCondition: "https://schema.org/NewCondition",
+
+      seller: {
+        "@type": "Organization",
+        name: "Bondarenko Empfehlungen"
+      },
+
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: "0",
+          currency: data.priceCurrency ?? "EUR"
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "DE"
+        }
+      },
+
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "DE",
+        returnPolicyCategory:
+          "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 30,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/FreeReturn"
+      }
     };
   }
-
-  /* ───────── EXTRA ───────── */
-
-  if (data.sku) schema.sku = data.sku;
-  if (data.mpn) schema.mpn = data.mpn;
 
   if (dateModified) {
     schema.dateModified = dateModified;
