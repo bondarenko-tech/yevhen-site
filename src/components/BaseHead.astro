@@ -41,6 +41,15 @@ function safeDescription(text?: string): string {
 const ogTitle = title && title.trim() ? title.trim() : siteName;
 const ogDescription = safeDescription(description);
 const ogImage = image.startsWith("http") ? image : `${site}${image}`;
+/* ───────── NOINDEX логика ───────── */
+const path = Astro.url.pathname;
+
+const isNoindex =
+  path.startsWith('/shorts/') ||
+  path.startsWith('/video/') ||
+  path.startsWith('/links/');
+
+const finalRobots = isNoindex ? "noindex, follow" : robots;
 ---
 
 <meta charset="utf-8" />
@@ -58,7 +67,7 @@ const ogImage = image.startsWith("http") ? image : `${site}${image}`;
 <title>{ogTitle}</title>
 <link rel="canonical" href={canonicalUrl} />
 <meta name="description" content={ogDescription} />
-<meta name="robots" content={robots} />
+<meta name="robots" content={finalRobots} />
 <meta name="author" content="Yevhen Bondarenko" />
 <meta name="language" content="de" />
 <meta http-equiv="content-language" content="de" />
