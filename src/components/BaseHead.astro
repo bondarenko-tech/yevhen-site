@@ -42,12 +42,15 @@ const ogTitle = title && title.trim() ? title.trim() : siteName;
 const ogDescription = safeDescription(description);
 const ogImage = image.startsWith("http") ? image : `${site}${image}`;
 /* ───────── NOINDEX логика ───────── */
+
 const path = Astro.url.pathname;
+const search = Astro.url.search;
 
 const isNoindex =
   path.startsWith('/shorts/') ||
   path.startsWith('/video/') ||
-  path.startsWith('/links/');
+  path.startsWith('/links/') ||
+  (path === '/links/' && search.includes('q='));
 
 const finalRobots = isNoindex ? "noindex, follow" : robots;
 ---
