@@ -93,3 +93,26 @@
 /empfehlungen/mova-e30-ultra/ /empfehlungen/sonstiges/mova-e30-ultra/ 301
 /empfehlungen/spotclean-c5/ /empfehlungen/sonstiges/spotclean-c5/ 301
 /empfehlungen/audio/apple-airpods-pro-3-kabellose-kopfhoerer/ /empfehlungen/sonstiges/apple-airpods-pro-3-kabellose-kopfhoerer/ 301
+
+# ===== GSC: sichere Redirects =====
+/empfehlungen/google-tv-streamer/ /empfehlungen/smart-home/google-tv-streamer/ 301
+/empfehlungen/tp-link-kasa-kp115/ /empfehlungen/smart-home/tp-link-kasa-kp115/ 301
+/empfehlungen/echo-show-5/ /empfehlungen/smart-home/echo-show-5/ 301
+/empfehlungen/echo-dot-5-gen-smart-plug-von-sengled/ /empfehlungen/smart-home/echo-dot-5-gen-smart-plug-von-sengled/ 301
+/empfehlungen/eightree-wlan-smart-steckdose /empfehlungen/smart-home/eightree-wlan-smart-steckdose/ 301
+/empfehlungen/eightree-wlan-smart-steckdose/ /empfehlungen/smart-home/eightree-wlan-smart-steckdose/ 301
+
+/empfehlungen/blink-mini-2/ /empfehlungen/sicherheit/blink-mini-2/ 301
+/empfehlungen/abus-ppic91000-akku-kamera/ /empfehlungen/sicherheit/abus-ppic91000-akku-kamera/ 301
+/empfehlungen/ezviz-cp5/ /empfehlungen/sicherheit/ezviz-cp5/ 301
+/empfehlungen/ezviz-ep3x-pro/ /empfehlungen/sicherheit/ezviz-ep3x-pro/ 301
+/empfehlungen/homematic-ip-thermostat/ /empfehlungen/smart-home/homematic-ip-thermostat/ 301
+/empfehlungen/aqara-hub-m3/ /empfehlungen/smart-home/aqara-hub-m3/ 301
+
+/empfehlungen/philips-sonicare-9900-prestige/ /empfehlungen/sonstiges/philips-sonicare-9900-prestige/ 301
+/empfehlungen/echo-pop-bluetooth-lautsprecher/ /empfehlungen/sonstiges/echo-pop-bluetooth-lautsprecher/ 301
+
+/empfehlungen/ueberwachung/menduner-video-cam-1080p/ /empfehlungen/sicherheit/menduner-video-cam-1080p/ 301
+/empfehlungen/eufy-security-indoor-cam-e220/ /empfehlungen/sicherheit/eufy-e220-innenkamera/ 301
+
+/empfehlungen/überwachung/menduner-video-cam-1080p/ /empfehlungen/sicherheit/menduner-video-cam-1080p/ 301
