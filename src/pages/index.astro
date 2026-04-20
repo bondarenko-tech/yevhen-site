@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
@@ -10,113 +11,206 @@ const latestVergleiche = vergleiche
   .sort((a, b) => new Date(b.data.datum ?? 0).getTime() - new Date(a.data.datum ?? 0).getTime())
   .slice(0, 3);
 
-const title = "Technik verständlich erklärt | Yevhen Bondarenko";
+const title = "Smarte Geräte für Zuhause – einfach erklärt | Yevhen Bondarenko";
 const description =
-  "Unabhängige Produktübersichten, technische Einordnung und kompakte Vergleiche für Smart Home, Netzwerk und Alltagstechnik.";
+  "Finden Sie passende Geräte für Sicherheit, WLAN, Smart Home und Alltag – verständlich erklärt, klar verglichen und schnell einordenbar.";
 ---
 
 <BaseLayout title={title} description={description}>
   <!-- HERO -->
   <section class="bg-white py-20 md:py-28">
-    <div class="max-w-5xl mx-auto px-4 text-center">
-      <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-neutral-900 mb-6">
-        Technik verständlich erklärt.<br />
-        <span class="text-blue-600">Produkte klar eingeordnet.</span>
-      </h1>
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <p class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-700 mb-6">
+          Für mehr Sicherheit, Komfort und bessere Kaufentscheidungen
+        </p>
 
-      <p class="text-lg text-neutral-600 max-w-3xl mx-auto leading-relaxed mb-10">
-        Auf dieser Website finden Sie kompakte Produktübersichten, technische Erklärungen
-        und verständliche Vergleiche zu Smart Home, Netzwerk und weiteren Geräten für den Alltag.
-      </p>
+        <h1 class="text-4xl md:text-6xl font-semibold tracking-tight text-neutral-900 mb-6 leading-tight">
+          Mehr Sicherheit und Kontrolle
+          <span class="block text-blue-600">für Ihr Zuhause.</span>
+        </h1>
 
-      <div class="flex justify-center gap-4 flex-wrap">
-        <a
-          href="/verstehen/"
-          class="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
-        >
-          Technik verstehen
-        </a>
+        <p class="text-lg md:text-xl text-neutral-600 max-w-3xl mx-auto leading-relaxed mb-10">
+          Verständliche Empfehlungen für Kamera, Türklingel, WLAN, Smart Home und Alltagstechnik –
+          damit Sie schneller das passende Gerät finden und Fehlkäufe vermeiden.
+        </p>
 
-        <a
-          href="/vergleiche/"
-          class="px-6 py-3 rounded-xl border border-neutral-200 text-neutral-800 font-semibold hover:bg-neutral-50 transition"
-        >
-          Vergleiche ansehen
-        </a>
+        <div class="flex justify-center gap-4 flex-wrap">
+          <a
+            href="/empfehlungen/"
+            class="px-7 py-3.5 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition shadow-sm"
+          >
+            Empfehlungen ansehen
+          </a>
+
+          <a
+            href="/vergleiche/"
+            class="px-7 py-3.5 rounded-xl border border-neutral-200 text-neutral-800 font-semibold hover:bg-neutral-50 transition"
+          >
+            Beste Geräte vergleichen
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- EINORDNUNG -->
-  <section class="py-16 bg-neutral-50">
-    <div class="max-w-3xl mx-auto px-4 text-center">
-      <h2 class="text-xl font-semibold text-neutral-900 mb-6">
-        Worum es hier geht
-      </h2>
+  <!-- PROBLEME -->
+  <section class="py-16 bg-neutral-50 border-y border-neutral-100">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center mb-10">
+        <h2 class="text-2xl md:text-3xl font-semibold text-neutral-900 mb-4">
+          Kennen Sie diese Probleme?
+        </h2>
+        <p class="text-neutral-600 text-lg leading-relaxed">
+          Genau dafür finden Sie hier passende Geräte, kurze Einordnungen und einfache Vergleiche.
+        </p>
+      </div>
 
-      <p class="text-neutral-600 leading-relaxed">
-        Diese Website ist kein Online-Shop. Hier werden keine Produkte verkauft,
-        gelagert oder versendet.
-      </p>
+      <div class="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+        <div class="rounded-2xl border border-neutral-200 bg-white p-6">
+          <div class="text-2xl mb-3">🔔</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Klingel nicht gehört</h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Sie sind zuhause, aber hören die Tür nicht oder bekommen Benachrichtigungen zu spät.
+          </p>
+        </div>
 
-      <p class="text-neutral-600 leading-relaxed mt-4">
-        Stattdessen finden Sie hier unabhängige Übersichten, Vergleiche und kurze Einordnungen
-        auf Basis technischer Daten, Herstellerangaben und nachvollziehbarer Kriterien.
-      </p>
+        <div class="rounded-2xl border border-neutral-200 bg-white p-6">
+          <div class="text-2xl mb-3">👀</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Unklar, wer vor der Tür steht</h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Sie möchten vor dem Öffnen sehen, wer klingelt und mehr Kontrolle am Eingang haben.
+          </p>
+        </div>
 
-      <p class="text-neutral-600 leading-relaxed mt-4">
-        Ziel ist es, Produkte schneller einzuordnen und Unterschiede verständlich zu machen
-        – ohne unnötige Fachsprache und ohne überladene Werbetexte.
-      </p>
+        <div class="rounded-2xl border border-neutral-200 bg-white p-6">
+          <div class="text-2xl mb-3">📶</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Schlechtes WLAN in einzelnen Räumen</h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Das Internet ist langsam, instabil oder reicht nicht bis Schlafzimmer, Büro oder Keller.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-neutral-200 bg-white p-6">
+          <div class="text-2xl mb-3">🏠</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Mehr Komfort im Alltag</h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Sie suchen smarte Geräte, die zuhause wirklich praktisch sind und nicht nur gut klingen.
+          </p>
+        </div>
+      </div>
+
+      <div class="text-center mt-10">
+        <a
+          href="/empfehlungen/"
+          class="inline-flex items-center px-6 py-3 rounded-xl bg-neutral-900 text-white font-semibold hover:bg-neutral-800 transition"
+        >
+          Passende Lösungen finden
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- THEMEN -->
-  <section class="py-16 bg-white">
+  <section class="py-20 bg-white">
     <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-xl font-semibold text-neutral-900 mb-10 text-center">
-        Beliebte Themen
-      </h2>
+      <div class="max-w-3xl mx-auto text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-semibold text-neutral-900 mb-4">
+          Beliebte Themen
+        </h2>
+        <p class="text-neutral-600 text-lg">
+          Wählen Sie den Bereich, der gerade für Ihr Zuhause am wichtigsten ist.
+        </p>
+      </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <a href="/empfehlungen/netzwerk/" class="p-6 border rounded-xl hover:border-blue-200 hover:bg-blue-50/30 transition text-center">
-          <div class="text-sm font-semibold text-neutral-800">WLAN & Netzwerk</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a
+          href="/empfehlungen/sicherheit/"
+          class="group rounded-2xl border border-neutral-200 bg-white p-7 hover:border-blue-200 hover:bg-blue-50/30 hover:-translate-y-0.5 transition"
+        >
+          <div class="text-2xl mb-4">🔒</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Sicherheit</h3>
+          <p class="text-neutral-600 text-sm leading-relaxed">
+            Kameras, Türklingeln, Alarmanlagen und Geräte für mehr Kontrolle am Zuhause.
+          </p>
+          <div class="mt-4 text-sm font-medium text-blue-600">Jetzt ansehen →</div>
         </a>
 
-        <a href="/empfehlungen/sicherheit/" class="p-6 border rounded-xl hover:border-blue-200 hover:bg-blue-50/30 transition text-center">
-          <div class="text-sm font-semibold text-neutral-800">Sicherheit</div>
+        <a
+          href="/empfehlungen/netzwerk/"
+          class="group rounded-2xl border border-neutral-200 bg-white p-7 hover:border-blue-200 hover:bg-blue-50/30 hover:-translate-y-0.5 transition"
+        >
+          <div class="text-2xl mb-4">📶</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">WLAN & Netzwerk</h3>
+          <p class="text-neutral-600 text-sm leading-relaxed">
+            Router, Repeater und Lösungen für stabileres Internet im ganzen Zuhause.
+          </p>
+          <div class="mt-4 text-sm font-medium text-blue-600">Jetzt ansehen →</div>
         </a>
 
-        <a href="/empfehlungen/smart-home/" class="p-6 border rounded-xl hover:border-blue-200 hover:bg-blue-50/30 transition text-center">
-          <div class="text-sm font-semibold text-neutral-800">Smart Home</div>
+        <a
+          href="/empfehlungen/smart-home/"
+          class="group rounded-2xl border border-neutral-200 bg-white p-7 hover:border-blue-200 hover:bg-blue-50/30 hover:-translate-y-0.5 transition"
+        >
+          <div class="text-2xl mb-4">🏡</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Smart Home</h3>
+          <p class="text-neutral-600 text-sm leading-relaxed">
+            Praktische Geräte für mehr Komfort, Automatisierung und einfachere Abläufe.
+          </p>
+          <div class="mt-4 text-sm font-medium text-blue-600">Jetzt ansehen →</div>
         </a>
 
-        <a href="/empfehlungen/klima/" class="p-6 border rounded-xl hover:border-blue-200 hover:bg-blue-50/30 transition text-center">
-          <div class="text-sm font-semibold text-neutral-800">Klima & Luft</div>
+        <a
+          href="/empfehlungen/klima/"
+          class="group rounded-2xl border border-neutral-200 bg-white p-7 hover:border-blue-200 hover:bg-blue-50/30 hover:-translate-y-0.5 transition"
+        >
+          <div class="text-2xl mb-4">🌬️</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Klima & Luft</h3>
+          <p class="text-neutral-600 text-sm leading-relaxed">
+            Geräte für angenehmeres Raumklima, Kühlung und mehr Komfort im Alltag.
+          </p>
+          <div class="mt-4 text-sm font-medium text-blue-600">Jetzt ansehen →</div>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- VERTRAUEN / TRANSPARENZ -->
-  <section class="py-16 bg-neutral-50">
-    <div class="max-w-4xl mx-auto px-4">
-      <div class="border border-neutral-200 rounded-2xl bg-white p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-neutral-900 mb-4">
-          Transparenz und Einordnung
+  <!-- SO FUNKTIONIERT ES -->
+  <section class="py-20 bg-neutral-50 border-y border-neutral-100">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-semibold text-neutral-900 mb-4">
+          So nutzen Sie diese Website
         </h2>
-
-        <p class="text-neutral-600 leading-relaxed">
-          Die Inhalte dienen der Orientierung und der verständlichen Einordnung von Geräten.
-          Teilweise werden Partnerlinks verwendet, etwa zum Amazon-Partnerprogramm.
-          Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen.
-          Für Sie entstehen dadurch keine zusätzlichen Kosten.
+        <p class="text-neutral-600 text-lg">
+          Schnell zum passenden Gerät – ohne Technik-Chaos und ohne stundenlange Suche.
         </p>
+      </div>
 
-        <p class="text-neutral-600 leading-relaxed mt-4">
-          Es handelt sich nicht um einen eigenen Handel: kein Warenbestand, kein Verkauf
-          und kein Versand von Produkten.
-        </p>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="rounded-2xl bg-white border border-neutral-200 p-7">
+          <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-semibold mb-4">1</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Problem erkennen</h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Wählen Sie das Thema, das zu Ihrer Situation passt – etwa Sicherheit, WLAN oder Smart Home.
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-neutral-200 p-7">
+          <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-semibold mb-4">2</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Geräte vergleichen</h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Sehen Sie schnell, welches Gerät sinnvoll ist, worin die Unterschiede liegen und wann sich etwas lohnt.
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-neutral-200 p-7">
+          <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-semibold mb-4">3</div>
+          <h3 class="text-lg font-semibold text-neutral-900 mb-2">Besser entscheiden</h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Nutzen Sie die Einordnung als Orientierung, bevor Sie sich für ein passendes Produkt entscheiden.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -124,13 +218,18 @@ const description =
   <!-- VERGLEICHE -->
   <section class="py-20 bg-white">
     <div class="max-w-6xl mx-auto px-4">
-      <div class="flex justify-between items-center mb-10">
-        <h2 class="text-xl font-semibold text-neutral-900">
-          Aktuelle Vergleiche
-        </h2>
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-10">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-semibold text-neutral-900 mb-2">
+            Aktuelle Vergleiche
+          </h2>
+          <p class="text-neutral-600">
+            Die neuesten Inhalte, um Geräte schneller einzuordnen und besser zu vergleichen.
+          </p>
+        </div>
 
-        <a href="/vergleiche/" class="text-sm text-blue-600 hover:underline">
-          Alle anzeigen →
+        <a href="/vergleiche/" class="text-sm font-medium text-blue-600 hover:underline">
+          Alle Vergleiche ansehen →
         </a>
       </div>
 
@@ -138,27 +237,64 @@ const description =
         {latestVergleiche.map((v) => (
           <a
             href={`/vergleiche/${v.slug}/`}
-            class="block border rounded-xl overflow-hidden hover:shadow-sm transition bg-white"
+            class="group block border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition bg-white"
           >
-            <div class="aspect-video bg-neutral-100 flex items-center justify-center">
+            <div class="aspect-video bg-neutral-100 flex items-center justify-center overflow-hidden">
               {v.data.image ? (
-                <img src={v.data.image} alt={v.data.title} class="object-contain max-h-full" />
-              ) : (
-                <span class="text-neutral-400 text-sm">Kein Bild</span>
-              )}
+  <div class="flex h-full w-full items-center justify-center">
+    {typeof v.data.image === "string" ? (
+      <img
+        src={v.data.image}
+        alt={v.data.title}
+        class="object-contain max-h-full w-auto transition group-hover:scale-[1.02]"
+        loading="lazy"
+      />
+    ) : (
+      <Image
+        src={v.data.image}
+        alt={v.data.title}
+        class="object-contain max-h-full w-auto transition group-hover:scale-[1.02]"
+      />
+    )}
+  </div>
+) : (
+  <span class="text-neutral-400 text-sm">Kein Bild</span>
+)}
             </div>
 
-            <div class="p-4">
-              <h3 class="text-sm font-semibold text-neutral-900 mb-2 line-clamp-2">
+            <div class="p-5">
+              <h3 class="text-base font-semibold text-neutral-900 mb-2 line-clamp-2">
                 {v.data.title}
               </h3>
 
-              <p class="text-xs text-neutral-500 line-clamp-2">
+              <p class="text-sm text-neutral-600 line-clamp-3">
                 {v.data.description}
               </p>
             </div>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- VERTRAUEN / TRANSPARENZ -->
+  <section class="py-20 bg-neutral-50">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="rounded-3xl border border-neutral-200 bg-white p-8 md:p-10">
+        <h2 class="text-2xl font-semibold text-neutral-900 mb-4">
+          Transparenz
+        </h2>
+
+        <p class="text-neutral-600 leading-relaxed">
+          Diese Website ist kein Online-Shop. Hier werden keine Produkte verkauft, gelagert oder versendet.
+          Stattdessen finden Sie Einordnungen, Vergleiche und Empfehlungen zur besseren Orientierung.
+        </p>
+
+        <p class="text-neutral-600 leading-relaxed mt-4">
+          Teilweise werden Partnerlinks verwendet, zum Beispiel zum Amazon-Partnerprogramm.
+          Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen.
+          Für Sie entstehen dadurch keine zusätzlichen Kosten.
+        </p>
       </div>
     </div>
   </section>
