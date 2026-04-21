@@ -1,127 +1,122 @@
 ---
+const navItems = [
+  { href: "/", label: "Start" },
+  { href: "/empfehlungen/", label: "Alle Themen" },
+  { href: "/vergleiche/", label: "Vergleiche" },
+  { href: "/verstehen/", label: "Verstehen" },
+  { href: "/transparenz/", label: "Transparenz" },
+];
 ---
-<header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-neutral-100 shadow-sm">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="flex items-center justify-between h-20">
-      <a href="/" class="flex items-center gap-3 group transition-all">
-        <div class="flex flex-col">
-          <span class="text-lg md:text-xl font-black tracking-tight text-neutral-900 leading-none">
-            Bondarenko Empfehlungen
-          </span>
-          <span class="text-[9px] uppercase tracking-[0.2em] text-blue-600 font-bold mt-1">
-            Technik einfach erklärt
-          </span>
-          <span class="text-[10px] text-neutral-400 font-medium mt-1 leading-none">
-            von Yevhen Bondarenko
-          </span>
+
+<header class="sticky top-0 z-50 border-b border-neutral-200/80 bg-white/92 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+    <!-- Logo / Brand -->
+    <a href="/" class="shrink-0">
+      <div class="leading-tight">
+        <div class="text-[26px] font-extrabold tracking-tight text-neutral-950">
+          Bondarenko Empfehlungen
         </div>
-      </a>
+        <div class="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-600">
+          Technik einfach erklärt
+        </div>
+        <div class="mt-1 text-[12px] text-neutral-500">
+          von Yevhen Bondarenko
+        </div>
+      </div>
+    </a>
 
-      <nav class="hidden lg:flex items-center gap-6">
-        {[
-          { name: "Start", href: "/" },
-          { name: "Alle Themen", href: "/links/alle/" },
-          { name: "Vergleiche", href: "/vergleiche/" },
-          { name: "Verstehen", href: "/verstehen/" },
-          { name: "Transparenz", href: "/transparenz/" }
-        ].map((link) => (
-          <a
-            href={link.href}
-            class="text-sm font-bold text-neutral-600 hover:text-blue-600 transition-colors"
-          >
-            {link.name}
-          </a>
-        ))}
-
+    <!-- Desktop nav -->
+    <nav class="hidden items-center gap-8 lg:flex">
+      {navItems.map((item) => (
         <a
-          href="/kontakt/"
-          class="bg-neutral-900 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all shadow-md active:scale-95"
+          href={item.href}
+          class="text-[15px] font-medium text-neutral-700 transition hover:text-neutral-950"
         >
-          Kontakt
+          {item.label}
         </a>
-      </nav>
+      ))}
 
-      <button
-        id="menu-btn"
-        type="button"
-        class="lg:hidden p-3 -mr-2 rounded-xl text-neutral-600 hover:bg-neutral-50 transition-all"
-        aria-label="Menü öffnen"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
+      <a
+        href="/kontakt/"
+        class="inline-flex items-center rounded-full bg-neutral-950 px-5 py-3 text-[15px] font-semibold text-white transition hover:bg-neutral-800"
       >
-        <div class="w-6 h-5 relative" id="burger-icon">
-          <span id="line1" class="absolute left-0 top-0 w-full h-0.5 bg-current rounded-full transition-all duration-300"></span>
-          <span id="line2" class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-current rounded-full transition-all duration-300"></span>
-          <span id="line3" class="absolute left-0 bottom-0 w-full h-0.5 bg-current rounded-full transition-all duration-300"></span>
-        </div>
-      </button>
-    </div>
+        Kontakt
+      </a>
+    </nav>
+
+    <!-- Mobile button -->
+    <button
+      id="menu-button"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      class="inline-flex items-center justify-center rounded-xl border border-neutral-200 p-3 text-neutral-800 transition hover:bg-neutral-50 lg:hidden"
+    >
+      <span class="sr-only">Menü öffnen</span>
+      <svg
+        id="menu-icon-open"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+      <svg
+        id="menu-icon-close"
+        xmlns="http://www.w3.org/2000/svg"
+        class="hidden h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
   </div>
 
+  <!-- Mobile menu -->
   <div
     id="mobile-menu"
-    class="max-h-0 lg:hidden border-t border-neutral-100 bg-white overflow-hidden transition-all duration-500"
+    class="hidden border-t border-neutral-200 bg-white lg:hidden"
   >
-    <nav class="flex flex-col space-y-1 p-4 pb-8">
-      <a href="/" class="mobile-link">Startseite</a>
-      <a href="/links/alle/" class="mobile-link font-bold text-blue-600">Alle Themen</a>
-      <a href="/vergleiche/" class="mobile-link">Vergleiche</a>
-      <a href="/verstehen/" class="mobile-link">Technik verstehen</a>
-      <a href="/transparenz/" class="mobile-link">Transparenz</a>
-      <a href="/kontakt/" class="mobile-link">Kontakt</a>
+    <nav class="mx-auto flex max-w-7xl flex-col px-4 py-4 md:px-6">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="rounded-xl px-3 py-3 text-[15px] font-medium text-neutral-800 transition hover:bg-neutral-50"
+        >
+          {item.label}
+        </a>
+      ))}
+
+      <a
+        href="/kontakt/"
+        class="mt-3 inline-flex items-center justify-center rounded-xl bg-neutral-950 px-5 py-3 text-[15px] font-semibold text-white transition hover:bg-neutral-800"
+      >
+        Kontakt
+      </a>
     </nav>
   </div>
 </header>
 
-<style>
-  .mobile-link {
-    @apply block px-4 py-4 text-base font-bold text-neutral-700 hover:bg-neutral-50 hover:text-blue-600 rounded-2xl transition-all;
-  }
+<script>
+  const button = document.getElementById("menu-button");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("menu-icon-open");
+  const iconClose = document.getElementById("menu-icon-close");
 
-  #burger-icon.menu-open #line1 {
-    transform: translateY(9px) rotate(45deg);
-  }
+  if (button && menu && iconOpen && iconClose) {
+    button.addEventListener("click", () => {
+      const isOpen = !menu.classList.contains("hidden");
 
-  #burger-icon.menu-open #line2 {
-    opacity: 0;
-  }
-
-  #burger-icon.menu-open #line3 {
-    transform: translateY(-9px) rotate(-45deg);
-  }
-</style>
-
-<script is:inline>
-  function setupMenu() {
-    const btn = document.getElementById("menu-btn");
-    const menu = document.getElementById("mobile-menu");
-    const burger = document.getElementById("burger-icon");
-
-    if (!btn || !menu || !burger) return;
-
-    btn.onclick = () => {
-      const isOpen = menu.style.maxHeight && menu.style.maxHeight !== "0px";
-
-      if (isOpen) {
-        menu.style.maxHeight = "0px";
-        burger.classList.remove("menu-open");
-        btn.setAttribute("aria-expanded", "false");
-      } else {
-        menu.style.maxHeight = menu.scrollHeight + "px";
-        burger.classList.add("menu-open");
-        btn.setAttribute("aria-expanded", "true");
-      }
-    };
-
-    menu.querySelectorAll("a").forEach((link) => {
-      link.onclick = () => {
-        menu.style.maxHeight = "0px";
-        burger.classList.remove("menu-open");
-        btn.setAttribute("aria-expanded", "false");
-      };
+      menu.classList.toggle("hidden");
+      iconOpen.classList.toggle("hidden");
+      iconClose.classList.toggle("hidden");
+      button.setAttribute("aria-expanded", String(!isOpen));
     });
   }
-
-  document.addEventListener("DOMContentLoaded", setupMenu);
-  document.addEventListener("astro:page-load", setupMenu);
 </script>
