@@ -1,124 +1,93 @@
----
-const currentYear = new Date().getFullYear();
----
-
-<footer class="bg-neutral-950 text-neutral-400 pt-20 pb-10 mt-40 border-t border-neutral-900 relative z-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-      <div class="col-span-1">
-        <div class="flex flex-col mb-6">
-          <span class="text-white font-black text-xl tracking-tighter">
+<footer class="mt-20 border-t border-neutral-200 bg-neutral-950 text-white">
+  <div class="mx-auto grid max-w-7xl gap-12 px-4 py-14 md:grid-cols-4 md:px-6">
+    <!-- Brand -->
+    <div class="md:col-span-1">
+      <a href="/" class="inline-block">
+        <div class="leading-tight">
+          <div class="text-2xl font-extrabold tracking-tight text-white">
             Bondarenko Empfehlungen
-          </span>
-          <span class="text-[11px] text-neutral-500 font-medium mt-1">
+          </div>
+          <div class="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-400">
+            Technik einfach erklärt
+          </div>
+          <div class="mt-2 text-sm text-neutral-400">
             von Yevhen Bondarenko
-          </span>
+          </div>
         </div>
+      </a>
 
-        <p class="text-sm leading-relaxed mb-6 font-medium">
-          Unabhängige Produktübersichten, Vergleiche und verständliche technische
-          Informationen rund um Smart Home, Netzwerk und Alltagstechnik.
-        </p>
+      <p class="mt-6 max-w-sm text-[15px] leading-7 text-neutral-300">
+        Verständliche Empfehlungen, Vergleiche und technische Einordnungen für
+        Sicherheit, WLAN, Smart Home und Alltagstechnik.
+      </p>
+    </div>
 
-        <p class="text-xs leading-relaxed text-neutral-500 mb-6">
-          Dieses Projekt wird unter dem Namen „Bondarenko Empfehlungen“ betrieben.
-        </p>
+    <!-- Inhalte -->
+    <div>
+      <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-neutral-400">
+        Inhalte
+      </h3>
 
-        <div class="flex gap-5 items-center">
-          <a
-            href="https://www.youtube.com/@bondarenko-tech"
-            class="hover:text-blue-500 transition-colors"
-            title="YouTube"
-          >
-            <span class="text-xs font-bold tracking-widest uppercase">YouTube</span>
-          </a>
-          <a
-            href="https://www.instagram.com/bondarenko_tech/"
-            class="hover:text-blue-500 transition-colors"
-            title="Instagram"
-          >
-            <span class="text-xs font-bold tracking-widest uppercase">Instagram</span>
-          </a>
-        </div>
-      </div>
+      <nav class="mt-5 flex flex-col gap-3">
+        <a href="/empfehlungen/" class="text-[15px] text-neutral-200 transition hover:text-white">
+          Alle Themen
+        </a>
+        <a href="/vergleiche/" class="text-[15px] text-neutral-200 transition hover:text-white">
+          Vergleiche
+        </a>
+        <a href="/verstehen/" class="text-[15px] text-neutral-200 transition hover:text-white">
+          Verstehen
+        </a>
+        <a href="/kontakt/" class="text-[15px] text-neutral-200 transition hover:text-white">
+          Kontakt
+        </a>
+      </nav>
+    </div>
 
-      <div>
-        <h3 class="text-white font-bold mb-6 uppercase text-[10px] tracking-[0.2em]">
-          Inhalte
-        </h3>
-        <ul class="space-y-4 text-sm font-bold">
-          <li>
-            <a href="/vergleiche/" class="hover:text-white transition-colors">
-              Vergleiche
-            </a>
-          </li>
-          <li>
-            <a href="/verstehen/" class="hover:text-white transition-colors">
-              Technik verstehen
-            </a>
-          </li>
-          <li>
-            <a href="/empfehlungen/" class="hover:text-white transition-colors">
-              Alle Übersichten
-            </a>
-          </li>
-          <li>
-            <a href="/ueber-uns/" class="hover:text-white transition-colors">
-              Über das Projekt
-            </a>
-          </li>
-        </ul>
-      </div>
+    <!-- Rechtliches -->
+    <div>
+      <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-neutral-400">
+        Rechtliches
+      </h3>
 
-      <div>
-        <h3 class="text-white font-bold mb-6 uppercase text-[10px] tracking-[0.2em]">
-          Rechtliches
-        </h3>
-        <ul class="space-y-4 text-sm font-bold">
-          <li>
-            <a href="/impressum/" class="hover:text-white transition-colors">
-              Impressum
-            </a>
-          </li>
-          <li>
-            <a href="/datenschutzerklaerung/" class="hover:text-white transition-colors">
-              Datenschutz
-            </a>
-          </li>
-          <li>
-            <a href="/transparenz/" class="hover:text-white transition-colors">
-              Werbe-Transparenz
-            </a>
-          </li>
-          <li>
-            <a href="/kontakt/" class="hover:text-white transition-colors">
-              Kontakt
-            </a>
-          </li>
-        </ul>
-      </div>
+      <nav class="mt-5 flex flex-col gap-3">
+        <a href="/impressum/" class="text-[15px] text-neutral-200 transition hover:text-white">
+          Impressum
+        </a>
+        <a href="/datenschutzerklaerung/" class="text-[15px] text-neutral-200 transition hover:text-white">
+          Datenschutz
+        </a>
+        <a href="/transparenz/" class="text-[15px] text-neutral-200 transition hover:text-white">
+          Transparenz
+        </a>
+      </nav>
+    </div>
 
-      <div class="bg-neutral-900/40 p-6 rounded-2xl border border-neutral-800">
-        <h3 class="text-white font-bold mb-3 text-xs uppercase tracking-wider">
+    <!-- Hinweis -->
+    <div>
+      <div class="rounded-2xl border border-neutral-800 bg-neutral-900 p-6">
+        <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-neutral-400">
           Hinweis
         </h3>
-        <p class="text-[11px] leading-relaxed text-neutral-500 font-medium">
-          Diese Website ist kein Online-Shop. Es erfolgt kein Verkauf, keine Lagerhaltung
-          und kein Versand von Produkten. Einige Verlinkungen sind Partnerlinks,
-          zum Beispiel zu Amazon. Wenn über solche Links ein Kauf erfolgt, kann eine
-          Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.
-          Preise und Verfügbarkeit können variieren.
+
+        <p class="mt-4 text-sm leading-7 text-neutral-300">
+          Diese Website ist kein Online-Shop. Es erfolgt kein Verkauf, keine Lagerhaltung und
+          kein Versand von Produkten.
+        </p>
+
+        <p class="mt-4 text-sm leading-7 text-neutral-300">
+          Einige Verlinkungen sind Partnerlinks, zum Beispiel zu Amazon. Wenn über solche
+          Links ein Kauf erfolgt, kann eine Provision anfallen. Für Sie entstehen keine
+          zusätzlichen Kosten.
         </p>
       </div>
     </div>
+  </div>
 
-    <div class="pt-8 border-t border-neutral-900 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.15em] font-bold">
-      <p>© {currentYear} Bondarenko Empfehlungen — Deutschland</p>
-      <div class="flex gap-6 text-neutral-600">
-        <span>Unabhängig</span>
-        <span>Transparent</span>
-        <span>Informationsbasiert</span>
-      </div>
+  <div class="border-t border-neutral-800">
+    <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-sm text-neutral-400 md:flex-row md:items-center md:justify-between md:px-6">
+      <p>© 2026 Bondarenko Empfehlungen</p>
+      <p>Unabhängig · Transparent · Verständlich</p>
     </div>
   </div>
 </footer>
