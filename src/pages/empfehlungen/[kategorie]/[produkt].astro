@@ -43,9 +43,9 @@ const categoryLabelMap = {
   sicherheit: "Sicherheit & Überwachung",
   "smart-home": "Smart Home",
   strom: "Strom & Steckdosen",
-  klima: "Klima & Ventilatoren",
+  klima: "Klima & Luft",
   beleuchtung: "Beleuchtung",
-  netzwerk: "Netzwerk",
+  netzwerk: "WLAN & Netzwerk",
   sonstiges: "Technik & Sonstiges"
 };
 
@@ -59,22 +59,15 @@ const description =
 
 const canonical = `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
 
-const compareHref =
-  kategorie === "sicherheit"
-    ? "/vergleiche/ring-innenkamera-vs-pan-tilt/"
-    : `/empfehlungen/${kategorie}/`;
-
-const compareLabel =
-  kategorie === "sicherheit"
-    ? "Erst vergleichen"
-    : "Ähnliche Produkte ansehen";
+const compareHref = `/empfehlungen/${kategorie}/`;
+const compareLabel = "Ähnliche Produkte vergleichen";
 
 const shortDescription =
   n.description ||
   `${n.title} ist vor allem dann interessant, wenn eine alltagstaugliche Lösung in der Kategorie ${categoryLabel} gesucht wird.`;
 
 const affiliateHint =
-  "Werbung / Affiliate-Link: Einige Verlinkungen sind Partnerlinks. Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen. Für Sie entstehen keine zusätzlichen Kosten.";
+  "Anzeige / Affiliate-Hinweis: Einige Verlinkungen sind Partnerlinks. Wenn über einen solchen Link ein Kauf erfolgt, kann eine Provision anfallen. Für Sie entstehen dadurch keine zusätzlichen Kosten.";
 
 const useCases =
   kategorie === "sicherheit"
@@ -171,11 +164,35 @@ const productJsonLd =
           </p>
 
           <h1 class="mb-4 text-3xl font-semibold tracking-tight text-neutral-950 md:text-5xl">
-            {n.title}: Für wen lohnt sich dieses Modell wirklich?
+            {n.title}
           </h1>
 
           <p class="max-w-3xl text-base leading-relaxed text-neutral-700 md:text-lg">
             {shortDescription}
+          </p>
+
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+            {n.linkExtern && (
+              <a
+                href={n.linkExtern}
+                target="_blank"
+                rel="sponsored nofollow noopener noreferrer"
+                class="inline-flex items-center justify-center rounded-xl bg-[#FF9900] px-6 py-3 text-center font-semibold text-white transition hover:opacity-90"
+              >
+                Bei Amazon ansehen →
+              </a>
+            )}
+
+            <a
+              href={compareHref}
+              class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-6 py-3 text-center font-semibold text-neutral-900 transition hover:bg-neutral-100"
+            >
+              {compareLabel}
+            </a>
+          </div>
+
+          <p class="mt-4 max-w-3xl text-xs leading-relaxed text-neutral-500">
+            {affiliateHint}
           </p>
         </header>
 
@@ -235,9 +252,9 @@ const productJsonLd =
               </p>
 
               <ul class="mb-5 space-y-2 text-sm text-neutral-800">
-                <li>✔ einfache Einordnung ohne Technik-Blabla</li>
-                <li>✔ sinnvoll, wenn Alltag und Funktionen zusammenpassen</li>
                 <li>✔ schneller Überblick vor dem Kauf</li>
+                <li>✔ verständlich eingeordnet statt unnötig kompliziert</li>
+                <li>✔ hilfreich, wenn Preis, Nutzen und Alltag zusammenpassen sollen</li>
               </ul>
 
               <div class="space-y-3">
@@ -248,7 +265,7 @@ const productJsonLd =
                     rel="sponsored nofollow noopener noreferrer"
                     class="inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-5 py-3 text-center font-semibold text-white transition hover:opacity-90"
                   >
-                    Bei Amazon ansehen →
+                    Preis bei Amazon prüfen →
                   </a>
                 )}
 
@@ -259,10 +276,6 @@ const productJsonLd =
                   {compareLabel}
                 </a>
               </div>
-
-              <p class="mt-4 text-xs leading-relaxed text-neutral-500">
-                {affiliateHint}
-              </p>
             </aside>
           </div>
         </section>
@@ -294,7 +307,7 @@ const productJsonLd =
 
           <div class="space-y-4 text-neutral-700">
             <p>
-              {n.title} gehört in die Kategorie <strong>{categoryLabel}</strong> und richtet
+              <strong>{n.title}</strong> gehört in die Kategorie <strong>{categoryLabel}</strong> und richtet
               sich an Nutzer, die eine praxistaugliche Lösung für den Alltag suchen.
             </p>
 
@@ -305,12 +318,23 @@ const productJsonLd =
             </p>
           </div>
 
-          <div class="mt-5">
+          <div class="mt-5 flex flex-wrap gap-3">
+            {n.linkExtern && (
+              <a
+                href={n.linkExtern}
+                target="_blank"
+                rel="sponsored nofollow noopener noreferrer"
+                class="inline-flex items-center justify-center rounded-xl bg-[#FF9900] px-5 py-3 font-semibold text-white transition hover:opacity-90"
+              >
+                Direkt bei Amazon ansehen →
+              </a>
+            )}
+
             <a
               href={compareHref}
-              class="text-sm font-semibold text-blue-700 hover:underline"
+              class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
             >
-              → {compareLabel}
+              {compareLabel}
             </a>
           </div>
         </section>
@@ -360,6 +384,36 @@ const productJsonLd =
           </section>
         )}
 
+        <section class="mb-8 rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
+          <h2 class="mb-3 text-lg font-semibold text-neutral-950">
+            Direkt prüfen
+          </h2>
+
+          <p class="mb-4 text-sm leading-relaxed text-neutral-700">
+            Wenn das Modell grundsätzlich interessant wirkt, lohnt sich jetzt ein kurzer Blick auf Preis, Verfügbarkeit und aktuelle Details.
+          </p>
+
+          <div class="flex flex-wrap gap-3">
+            {n.linkExtern && (
+              <a
+                href={n.linkExtern}
+                target="_blank"
+                rel="sponsored nofollow noopener noreferrer"
+                class="inline-flex items-center justify-center rounded-xl bg-[#FF9900] px-5 py-3 font-semibold text-white transition hover:opacity-90"
+              >
+                Preis bei Amazon ansehen →
+              </a>
+            )}
+
+            <a
+              href={compareHref}
+              class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
+            >
+              {compareLabel}
+            </a>
+          </div>
+        </section>
+
         <article class="prose prose-zinc mb-10 max-w-none">
           <Content />
         </article>
@@ -378,17 +432,21 @@ const productJsonLd =
           <div class="flex flex-wrap gap-3">
             <a
               href={compareHref}
-              class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
+              class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 font-semibold text-white transition hover:bg-neutral-800"
             >
               {compareLabel}
             </a>
 
-            <a
-              href={`/empfehlungen/${kategorie}/`}
-              class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
-            >
-              Weitere Empfehlungen
-            </a>
+            {n.linkExtern && (
+              <a
+                href={n.linkExtern}
+                target="_blank"
+                rel="sponsored nofollow noopener noreferrer"
+                class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
+              >
+                Trotzdem bei Amazon ansehen
+              </a>
+            )}
           </div>
         </section>
 
@@ -479,8 +537,37 @@ const productJsonLd =
               Amazon öffnen →
             </a>
           )}
+
+          <a
+            href="/links/alle/"
+            class="mt-3 inline-flex w-full items-center justify-center rounded-xl border border-neutral-300 bg-white px-4 py-3 text-center font-semibold text-neutral-900 transition hover:bg-neutral-100"
+          >
+            Weitere Produkte finden
+          </a>
         </div>
       </aside>
     </article>
   </div>
+
+  {n.linkExtern && (
+    <div class="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 p-3 backdrop-blur lg:hidden">
+      <div class="mx-auto flex max-w-[1120px] items-center gap-3">
+        <a
+          href={n.linkExtern}
+          target="_blank"
+          rel="sponsored nofollow noopener noreferrer"
+          class="inline-flex flex-1 items-center justify-center rounded-xl bg-[#FF9900] px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+        >
+          Bei Amazon ansehen →
+        </a>
+
+        <a
+          href={compareHref}
+          class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-100"
+        >
+          Vergleichen
+        </a>
+      </div>
+    </div>
+  )}
 </BaseLayout>
