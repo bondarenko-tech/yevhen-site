@@ -60,7 +60,7 @@ const description =
 const canonical = `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
 
 const compareHref = `/empfehlungen/${kategorie}/`;
-const compareLabel = "Ähnliche Produkte vergleichen";
+const compareLabel = "Ähnliche Produkte ansehen";
 
 const shortDescription =
   n.description ||
@@ -156,7 +156,7 @@ const productJsonLd =
   jsonLd={productJsonLd}
 >
   <div id="top" class="mx-auto max-w-[1120px] px-4 py-8 md:py-12">
-    <article class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
+    <article class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
       <div>
         <header class="mb-8">
           <p class="mb-3 text-sm font-medium text-blue-700">
@@ -197,7 +197,7 @@ const productJsonLd =
         </header>
 
         <section class="mb-8 rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm md:p-6">
-          <div class="grid gap-6 md:grid-cols-[minmax(0,1fr)_320px] md:items-start">
+          <div class="grid gap-6 md:grid-cols-[minmax(0,1fr)_300px] md:items-start">
             <div>
               {hasStringImage ? (
                 <img
@@ -251,31 +251,11 @@ const productJsonLd =
                 {shortDescription}
               </p>
 
-              <ul class="mb-5 space-y-2 text-sm text-neutral-800">
+              <ul class="space-y-2 text-sm text-neutral-800">
                 <li>✔ schneller Überblick vor dem Kauf</li>
                 <li>✔ verständlich eingeordnet statt unnötig kompliziert</li>
-                <li>✔ hilfreich, wenn Preis, Nutzen und Alltag zusammenpassen sollen</li>
+                <li>✔ hilfreich, wenn Preis, Nutzen und Alltag zusammenpassen</li>
               </ul>
-
-              <div class="space-y-3">
-                {n.linkExtern && (
-                  <a
-                    href={n.linkExtern}
-                    target="_blank"
-                    rel="sponsored nofollow noopener noreferrer"
-                    class="inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-5 py-3 text-center font-semibold text-white transition hover:opacity-90"
-                  >
-                    Preis bei Amazon prüfen →
-                  </a>
-                )}
-
-                <a
-                  href={compareHref}
-                  class="inline-flex w-full items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-center font-semibold text-neutral-900 transition hover:bg-neutral-100"
-                >
-                  {compareLabel}
-                </a>
-              </div>
             </aside>
           </div>
         </section>
@@ -316,26 +296,6 @@ const productJsonLd =
               wirklich zum eigenen Einsatzbereich passt. Wer lieber eine verständliche
               Lösung statt unnötiger Komplexität will, ist hier richtig.
             </p>
-          </div>
-
-          <div class="mt-5 flex flex-wrap gap-3">
-            {n.linkExtern && (
-              <a
-                href={n.linkExtern}
-                target="_blank"
-                rel="sponsored nofollow noopener noreferrer"
-                class="inline-flex items-center justify-center rounded-xl bg-[#FF9900] px-5 py-3 font-semibold text-white transition hover:opacity-90"
-              >
-                Direkt bei Amazon ansehen →
-              </a>
-            )}
-
-            <a
-              href={compareHref}
-              class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
-            >
-              {compareLabel}
-            </a>
           </div>
         </section>
 
@@ -384,36 +344,6 @@ const productJsonLd =
           </section>
         )}
 
-        <section class="mb-8 rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
-          <h2 class="mb-3 text-lg font-semibold text-neutral-950">
-            Direkt prüfen
-          </h2>
-
-          <p class="mb-4 text-sm leading-relaxed text-neutral-700">
-            Wenn das Modell grundsätzlich interessant wirkt, lohnt sich jetzt ein kurzer Blick auf Preis, Verfügbarkeit und aktuelle Details.
-          </p>
-
-          <div class="flex flex-wrap gap-3">
-            {n.linkExtern && (
-              <a
-                href={n.linkExtern}
-                target="_blank"
-                rel="sponsored nofollow noopener noreferrer"
-                class="inline-flex items-center justify-center rounded-xl bg-[#FF9900] px-5 py-3 font-semibold text-white transition hover:opacity-90"
-              >
-                Preis bei Amazon ansehen →
-              </a>
-            )}
-
-            <a
-              href={compareHref}
-              class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
-            >
-              {compareLabel}
-            </a>
-          </div>
-        </section>
-
         <article class="prose prose-zinc mb-10 max-w-none">
           <Content />
         </article>
@@ -426,7 +356,7 @@ const productJsonLd =
           <p class="mb-4 text-sm leading-relaxed text-neutral-700">
             Wenn Sie noch nicht sicher sind, ob dieses Modell wirklich zu Ihrem
             Zuhause oder Alltag passt, lohnt sich vor dem Kauf ein schneller Blick
-            auf ähnliche Produkte oder einen passenden Vergleich.
+            auf ähnliche Produkte oder weitere Empfehlungen aus derselben Kategorie.
           </p>
 
           <div class="flex flex-wrap gap-3">
@@ -437,16 +367,12 @@ const productJsonLd =
               {compareLabel}
             </a>
 
-            {n.linkExtern && (
-              <a
-                href={n.linkExtern}
-                target="_blank"
-                rel="sponsored nofollow noopener noreferrer"
-                class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
-              >
-                Trotzdem bei Amazon ansehen
-              </a>
-            )}
+            <a
+              href={`/empfehlungen/${kategorie}/`}
+              class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
+            >
+              Weitere Empfehlungen
+            </a>
           </div>
         </section>
 
@@ -534,16 +460,9 @@ const productJsonLd =
               rel="sponsored nofollow noopener noreferrer"
               class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-4 py-3 text-center font-semibold text-white transition hover:opacity-90"
             >
-              Amazon öffnen →
+              Bei Amazon ansehen →
             </a>
           )}
-
-          <a
-            href="/links/alle/"
-            class="mt-3 inline-flex w-full items-center justify-center rounded-xl border border-neutral-300 bg-white px-4 py-3 text-center font-semibold text-neutral-900 transition hover:bg-neutral-100"
-          >
-            Weitere Produkte finden
-          </a>
         </div>
       </aside>
     </article>
