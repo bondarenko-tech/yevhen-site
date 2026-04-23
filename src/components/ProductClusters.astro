@@ -1,4 +1,5 @@
 ---
+import type { ImageMetadata } from "astro";
 import { type NormalizedProduct } from "../lib/product-engine";
 import { slugify } from "../lib/slugify";
 
@@ -17,8 +18,7 @@ const relatedProducts = products
   .slice(0, 3);
 
 /* BRAND LOGIC */
-// Проверяем тип, чтобы slugify не ругался на объект
-const brandName = typeof current.brand === 'string' ? current.brand : null;
+const brandName = typeof current.brand === "string" ? current.brand : null;
 const brandSlug = brandName ? slugify(brandName) : null;
 
 /* PRICE FORMATTING */
@@ -29,19 +29,55 @@ const priceFormatted = current.preis
       maximumFractionDigits: 0,
     }).format(current.preis)
   : null;
+
+/* IMAGE NORMALIZATION */
+type ProductImage =
+  | string
+  | ImageMetadata
+  | { src: string }
+  | Promise<{ default: ImageMetadata }>
+  | null
+  | undefined;
+
+function hasSrc(value: unknown): value is { src: string } {
+  return !!value && typeof value === "object" && "src" in value;
+}
+
+async function resolveImageSrc(image: ProductImage): Promise<string> {
+  if (!image) return "/og-cover.jpg";
+
+  if (typeof image === "string") {
+    return image;
+  }
+
+  if (hasSrc(image)) {
+    return image.src;
+  }
+
+  const mod = await image;
+  return mod.default.src;
+}
+
+const relatedProductsWithImage = await Promise.all(
+  relatedProducts.map(async (p) => ({
+    ...p,
+    imageSrc: await resolveImageSrc(p.image as ProductImage),
+  }))
+);
 ---
 
 <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-  {relatedProducts.map((p) => (
+  {relatedProductsWithImage.map((p) => (
     <a 
       href={p.linkIntern} 
       class="group bg-white border border-neutral-100 rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1"
     >
       <div class="aspect-square mb-6 bg-neutral-50 rounded-2xl p-4 flex items-center justify-center overflow-hidden">
         <img 
-          src={p.image || "/og-cover.jpg"} 
+          src={p.imageSrc}
           alt={p.title}
           class="max-h-full w-auto object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-110"
+          loading="lazy"
         />
       </div>
 
