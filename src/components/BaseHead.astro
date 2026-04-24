@@ -1,5 +1,4 @@
 ---
-// Файл: src/components/BaseHead.astro
 interface Props {
   title: string;
   description: string;
@@ -22,12 +21,15 @@ const {
 const site = "https://yevhenbondarenko.com";
 const siteName = "Yevhen Bondarenko – Smarte Technik";
 
-/* ───────── URL нормализация ───────── */
-const formattedUrl = currentUrl.replace(/\/?$/, '/');
-const finalUrl = formattedUrl.startsWith("http") ? formattedUrl : `${site}${formattedUrl}`;
-const canonicalUrl = (canonical?.trim() || finalUrl).replace(/\/?$/, '/');
+const path = Astro.url.pathname;
+const searchParams = Astro.url.searchParams;
 
-/* ───────── Описание (чистое) ───────── */
+/* URL normalisieren */
+const formattedUrl = currentUrl.replace(/\/?$/, "/");
+const finalUrl = formattedUrl.startsWith("http") ? formattedUrl : `${site}${formattedUrl}`;
+const canonicalUrl = (canonical?.trim() || finalUrl).replace(/\/?$/, "/");
+
+/* Beschreibung reinigen */
 function safeDescription(text?: string): string {
   const base =
     text?.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim() ||
@@ -41,16 +43,13 @@ function safeDescription(text?: string): string {
 const ogTitle = title && title.trim() ? title.trim() : siteName;
 const ogDescription = safeDescription(description);
 const ogImage = image.startsWith("http") ? image : `${site}${image}`;
-/* ───────── NOINDEX логика ───────── */
 
-const path = Astro.url.pathname;
-const search = Astro.url.search;
-
+/* NOINDEX: мусорные страницы */
 const isNoindex =
-  path.startsWith('/shorts/') ||
-  path.startsWith('/video/') ||
-  path.startsWith('/links/') ||
-  (path === '/links/' && search.includes('q='));
+  path.startsWith("/shorts/") ||
+  path.startsWith("/video/") ||
+  path.startsWith("/links/") ||
+  searchParams.has("q");
 
 const finalRobots = isNoindex ? "noindex, follow" : robots;
 ---
