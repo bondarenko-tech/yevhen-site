@@ -8,6 +8,9 @@ type CategoryInfo = {
   label: string;
   title: string;
   intro: string;
+  problemTitle: string;
+  problemText: string;
+  decisionText: string;
   useCases: string[];
   compareLinks: { href: string; label: string }[];
 };
@@ -23,6 +26,10 @@ export async function getStaticPaths() {
     params: { kategorie },
   }));
 }
+
+const SITE =
+  Astro.site?.toString().replace(/\/$/, "") ??
+  "https://yevhenbondarenko.com";
 
 const { kategorie } = Astro.params as { kategorie: string };
 
@@ -43,87 +50,233 @@ const filtered = produkte
   });
 
 const categoryMap: Record<string, CategoryInfo> = {
-  netzwerk: {
-    label: "Netzwerk",
-    title: "Netzwerk-Geräte im Überblick",
+  sicherheit: {
+    label: "Sicherheit",
+    title: "Sicherheitsgeräte für Haus und Wohnung",
     intro:
-      "Hier finden Sie Produktübersichten zu Routern, Repeatern, Mesh-Lösungen und weiteren Geräten für stabiles Internet zuhause.",
+      "Hier finden Sie verständliche Empfehlungen zu Kameras, Video-Türklingeln, smarten Türschlössern und weiteren Sicherheitslösungen für den Alltag.",
+    problemTitle: "Mehr Kontrolle am Eingang und zuhause",
+    problemText:
+      "Viele Sicherheitsgeräte klingen auf dem Papier ähnlich. In der Praxis unterscheiden sie sich aber deutlich: Manche eignen sich eher für die Wohnung, andere für ein Haus mit Eingangstür, Garten oder Einfahrt. Wichtig ist deshalb nicht nur die Kameraauflösung, sondern auch Installation, App, Benachrichtigungen, Speicher und mögliche Folgekosten.",
+    decisionText:
+      "Wählen Sie ein Sicherheitsgerät nicht nur nach Preis oder Marke. Entscheidend ist, ob es zu Ihrer Wohnsituation passt: Akku oder Kabel, App oder Monitor, mit oder ohne Abo, Innenbereich oder Außenbereich.",
     useCases: [
-      "schwaches WLAN in einzelnen Räumen",
-      "instabile Verbindung im Homeoffice",
-      "größere Wohnungen oder mehrere Etagen",
-      "viele gleichzeitig aktive Geräte im Heimnetz",
+      "sehen, wer vor der Tür steht",
+      "Pakete und Besucher besser im Blick behalten",
+      "Eingangsbereich, Flur oder Garten überwachen",
+      "mehr Sicherheit ohne komplizierte Installation",
+    ],
+    compareLinks: [
+      {
+        href: "/vergleiche/beste-video-tuerklingel-2026/",
+        label: "Beste Video-Türklingeln 2026 vergleichen",
+      },
+      {
+        href: "/vergleiche/video-tuerklingel-ohne-abo/",
+        label: "Video-Türklingeln ohne Abo ansehen",
+      },
+      {
+        href: "/vergleiche/video-tuerklingel-unter-100-euro/",
+        label: "Günstige Video-Türklingeln unter 100 Euro",
+      },
+    ],
+  },
+
+  "smart-home": {
+    label: "Smart Home",
+    title: "Smart-Home-Geräte für den Alltag",
+    intro:
+      "Hier finden Sie Smart-Home-Geräte, die den Alltag einfacher machen können – von Sprachassistenten über Steckdosen bis zu vernetzten Geräten für zuhause.",
+    problemTitle: "Smart Home soll helfen, nicht komplizierter werden",
+    problemText:
+      "Viele Smart-Home-Produkte versprechen Komfort, sind aber im Alltag nur dann sinnvoll, wenn Einrichtung, App und Kompatibilität wirklich passen. Gerade Einsteiger sollten nicht mit zu vielen Systemen gleichzeitig starten.",
+    decisionText:
+      "Achten Sie vor allem darauf, ob ein Gerät zu Ihrem bestehenden System passt. Alexa, Google Home, Apple Home oder ein eigenes Hersteller-System können im Alltag einen großen Unterschied machen.",
+    useCases: [
+      "Licht und Geräte per Sprache steuern",
+      "einfache Routinen im Alltag nutzen",
+      "Steckdosen, Lautsprecher oder Sensoren verbinden",
+      "erste Smart-Home-Schritte ohne große Technikkenntnisse",
+    ],
+    compareLinks: [
+      {
+        href: "/verstehen/smarte-steckdose/",
+        label: "Smarte Steckdosen einfach erklärt",
+      },
+      {
+        href: "/vergleiche/smart-lock-vs-tuerklingel-vs-kamera/",
+        label: "Smart Lock, Türklingel oder Kamera vergleichen",
+      },
+      {
+        href: "/verstehen/",
+        label: "Weitere Smart-Home-Erklärungen ansehen",
+      },
+    ],
+  },
+
+  netzwerk: {
+    label: "WLAN & Netzwerk",
+    title: "WLAN- und Netzwerkgeräte für zuhause",
+    intro:
+      "Hier finden Sie Empfehlungen zu WLAN-Repeatern, Mesh-Lösungen, Routern und Netzwerkgeräten für stabileres Internet in Wohnung, Haus und Homeoffice.",
+    problemTitle: "Wenn WLAN nicht überall zuverlässig funktioniert",
+    problemText:
+      "Schwaches WLAN entsteht oft nicht durch den Internetanschluss selbst, sondern durch Wände, Entfernung, falsche Platzierung oder zu viele Geräte. Deshalb ist es wichtig, zwischen Repeater, Mesh, Powerline und Router-Lösung zu unterscheiden.",
+    decisionText:
+      "Für kleine Funklöcher reicht oft ein Repeater. Bei mehreren Etagen oder großen Wohnungen ist Mesh meist sinnvoller. Powerline kann helfen, ist aber stark von der Stromverkabelung abhängig.",
+    useCases: [
+      "besseres WLAN im Homeoffice",
+      "stabilere Verbindung in mehreren Räumen",
+      "WLAN-Probleme in Altbau oder Keller lösen",
+      "Streaming, Videocalls und Smart Home stabiler nutzen",
     ],
     compareLinks: [
       {
         href: "/vergleiche/wlan-repeater-vergleich/",
-        label: "WLAN Repeater Vergleich",
+        label: "WLAN-Repeater vergleichen",
       },
       {
-        href: "/verstehen/mesh-oder-repeater/",
-        label: "Mesh oder Repeater erklärt",
+        href: "/verstehen/mesh-vs-repeater/",
+        label: "Mesh oder Repeater verstehen",
+      },
+      {
+        href: "/verstehen/powerline-vs-mesh/",
+        label: "Powerline oder Mesh erklären lassen",
       },
     ],
   },
-  sicherheit: {
-    label: "Sicherheit",
-    title: "Sicherheitsgeräte im Überblick",
+
+  strom: {
+    label: "Strom & Energie",
+    title: "Stromgeräte, Steckdosen und Powerstations",
     intro:
-      "Hier finden Sie Produktübersichten zu smarten Türschlössern, Kameras und weiteren Lösungen für mehr Sicherheit im Alltag.",
+      "Hier finden Sie Geräte rund um Strom, Energie, Steckdosen, Ladegeräte und mobile Stromversorgung – verständlich eingeordnet für Alltag, Zuhause und unterwegs.",
+    problemTitle: "Stromlösungen müssen zuverlässig und sicher sein",
+    problemText:
+      "Bei Stromprodukten zählt nicht nur der Preis. Wichtig sind Sicherheit, Leistung, Anschlussmöglichkeiten und der konkrete Einsatzbereich. Eine smarte Steckdose, ein Ladegerät oder eine Powerstation erfüllen völlig unterschiedliche Aufgaben.",
+    decisionText:
+      "Vor dem Kauf sollte klar sein, ob Sie ein Gerät für den Alltag, für Notstrom, für Camping oder für mehrere Verbraucher gleichzeitig benötigen. Genau davon hängt ab, ob eine einfache Steckdose reicht oder eine stärkere Lösung sinnvoller ist.",
     useCases: [
-      "mehr Kontrolle über Zugänge",
-      "Benachrichtigungen bei Ereignissen",
-      "einfache Nachrüstung ohne großen Umbau",
-      "mehr Übersicht zuhause oder unterwegs",
+      "Geräte sicher und bequem mit Strom versorgen",
+      "mehr Steckplätze im Alltag nutzen",
+      "mobile Energie für Camping oder Notfälle",
+      "Ladegeräte, Steckdosen und Powerstations besser einordnen",
     ],
     compareLinks: [
-      { href: "/vergleiche/", label: "Alle Vergleiche ansehen" },
-      { href: "/verstehen/", label: "Technik einfach erklärt" },
+      {
+        href: "/verstehen/steckdosenleiste/",
+        label: "Steckdosenleisten richtig verstehen",
+      },
+      {
+        href: "/verstehen/smarte-steckdose/",
+        label: "Smarte Steckdose einfach erklärt",
+      },
+      {
+        href: "/vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/",
+        label: "Brennenstuhl Steckdosenleisten vergleichen",
+      },
     ],
   },
-  "smart-home": {
-    label: "Smart Home",
-    title: "Smart-Home-Geräte im Überblick",
-    intro:
-      "Hier finden Sie Produktübersichten zu smarten Geräten, die den Alltag einfacher, vernetzter und komfortabler machen sollen.",
-    useCases: [
-      "Abläufe im Alltag automatisieren",
-      "Geräte zentral steuern",
-      "mehr Komfort in einzelnen Räumen",
-      "bestehende Technik sinnvoll erweitern",
-    ],
-    compareLinks: [
-      { href: "/vergleiche/", label: "Passende Vergleiche ansehen" },
-      { href: "/verstehen/", label: "Smart Home besser verstehen" },
-    ],
-  },
+
   klima: {
     label: "Klima & Luft",
-    title: "Klima- und Luftgeräte im Überblick",
+    title: "Klima- und Luftgeräte für zuhause",
     intro:
-      "Hier finden Sie Produktübersichten zu Geräten für Luftqualität, Raumklima und mehr Komfort im Alltag.",
+      "Hier finden Sie Empfehlungen zu mobilen Klimageräten, Luftlösungen, Heizlüftern und Geräten für ein angenehmeres Raumklima.",
+    problemTitle: "Raumklima ist im Alltag wichtiger als reine Leistung",
+    problemText:
+      "Bei Klima- und Luftgeräten kommt es nicht nur auf Watt, BTU oder technische Daten an. Entscheidend ist, ob das Gerät zum Raum passt, wie laut es ist und ob es im Alltag wirklich entlastet.",
+    decisionText:
+      "Für kleine Räume reicht oft eine kompakte Lösung. Größere Räume brauchen mehr Leistung. Bei Schlafzimmer oder Büro sind Lautstärke, Bedienung und Energieverbrauch besonders wichtig.",
     useCases: [
-      "schlechte Luft in Innenräumen",
-      "zu trockene oder zu warme Räume",
-      "mehr Komfort beim Wohnen",
-      "gezielte Verbesserung des Raumklimas",
+      "Räume im Sommer angenehmer kühlen",
+      "gezielte Zusatzwärme im Winter nutzen",
+      "Luftqualität und Komfort verbessern",
+      "passende Geräte für Schlafzimmer, Büro oder Wohnzimmer finden",
     ],
     compareLinks: [
-      { href: "/vergleiche/", label: "Vergleiche ansehen" },
-      { href: "/verstehen/", label: "Technik besser verstehen" },
+      {
+        href: "/verstehen/",
+        label: "Technik einfach erklärt",
+      },
+      {
+        href: "/vergleiche/",
+        label: "Weitere Vergleiche ansehen",
+      },
+    ],
+  },
+
+  beleuchtung: {
+    label: "Beleuchtung",
+    title: "Beleuchtung und smarte Lichtlösungen",
+    intro:
+      "Hier finden Sie Empfehlungen zu Lampen, LED-Lösungen und smarter Beleuchtung für mehr Komfort, Atmosphäre und praktische Nutzung zuhause.",
+    problemTitle: "Gutes Licht muss zum Raum passen",
+    problemText:
+      "Bei Beleuchtung geht es nicht nur um Helligkeit. Farbtemperatur, Steuerung, Montage und Einsatzbereich entscheiden darüber, ob eine Lampe im Alltag wirklich angenehm ist.",
+    decisionText:
+      "Smarte Beleuchtung lohnt sich besonders, wenn Licht automatisiert oder per App gesteuert werden soll. Für einfache Zwecke reicht oft eine klassische LED-Lösung.",
+    useCases: [
+      "angenehmeres Licht im Wohnbereich",
+      "smarte Steuerung per App oder Sprache",
+      "LED-Lösungen für Küche, Schrank oder Flur",
+      "Atmosphäre und Alltagstauglichkeit kombinieren",
+    ],
+    compareLinks: [
+      {
+        href: "/verstehen/",
+        label: "Technik einfach erklärt",
+      },
+      {
+        href: "/empfehlungen/smart-home/",
+        label: "Weitere Smart-Home-Geräte ansehen",
+      },
+    ],
+  },
+
+  sonstiges: {
+    label: "Weitere Technik",
+    title: "Weitere Technikprodukte im Überblick",
+    intro:
+      "Hier finden Sie weitere Technikprodukte, die nicht klar in eine einzelne Hauptkategorie passen, aber im Alltag trotzdem nützlich sein können.",
+    problemTitle: "Nicht jedes nützliche Gerät passt in eine feste Kategorie",
+    problemText:
+      "Manche Produkte sind weder klassisches Smart Home noch reine Sicherheitstechnik. Trotzdem können sie im Alltag sinnvoll sein – etwa Kopfhörer, Tracker, Übersetzer, Reinigungsgeräte oder andere praktische Techniklösungen.",
+    decisionText:
+      "Bei solchen Geräten ist besonders wichtig, ob der Nutzen wirklich klar ist. Nicht jede Zusatzfunktion ist relevant. Entscheidend ist, ob das Produkt ein konkretes Problem löst.",
+    useCases: [
+      "praktische Technik für Alltag und Haushalt finden",
+      "Geräte besser einordnen, die nicht in Standardkategorien passen",
+      "Fehlkäufe bei Spezialprodukten vermeiden",
+      "nützliche Produkte mit echtem Alltagseffekt entdecken",
+    ],
+    compareLinks: [
+      {
+        href: "/vergleiche/",
+        label: "Alle Vergleiche ansehen",
+      },
+      {
+        href: "/verstehen/",
+        label: "Technik einfach erklärt",
+      },
     ],
   },
 };
 
 const currentCategory: CategoryInfo = categoryMap[kategorie] ?? {
-  label: kategorie,
-  title: `${kategorie} Geräte im Überblick`,
+  label: "Technik",
+  title: "Technikprodukte im Überblick",
   intro:
-    "Hier finden Sie Produktübersichten, Einordnungen und Empfehlungen zu dieser Kategorie.",
+    "Hier finden Sie Produktübersichten und verständliche Einordnungen zu ausgewählten Technikgeräten für den Alltag.",
+  problemTitle: "Technik sollte ein konkretes Problem lösen",
+  problemText:
+    "Nicht jedes Gerät ist automatisch sinnvoll. Wichtig ist, ob es im Alltag wirklich hilft, zuverlässig funktioniert und zum eigenen Bedarf passt.",
+  decisionText:
+    "Vergleichen Sie vor dem Kauf Funktionen, Einsatzbereich und mögliche Einschränkungen. So vermeiden Sie Fehlkäufe und finden schneller eine passende Lösung.",
   useCases: [
-    "typische Probleme im Alltag lösen",
     "Geräte besser vergleichen",
-    "passende Funktionen schneller einordnen",
+    "typische Probleme im Alltag lösen",
+    "passende Funktionen schneller verstehen",
     "unnötige Fehlkäufe vermeiden",
   ],
   compareLinks: [
@@ -132,105 +285,120 @@ const currentCategory: CategoryInfo = categoryMap[kategorie] ?? {
   ],
 };
 
-/* SEO */
-const title = `${currentCategory.title} | Empfehlungen & Einordnung`;
+const title = `${currentCategory.title} | Bondarenko Empfehlungen`;
 const description = currentCategory.intro;
+const canonical = `${SITE}/empfehlungen/${kategorie}/`;
 ---
 
-<BaseLayout title={title} description={description}>
-  <main class="max-w-6xl mx-auto px-4 py-12">
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  robots={filtered.length > 0 ? "index, follow" : "noindex, follow"}
+>
+  <main class="mx-auto max-w-6xl px-4 py-10 md:py-14">
     <header class="mb-12 max-w-3xl">
-      <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+      <p class="mb-3 text-sm font-semibold text-blue-700">
+        {currentCategory.label}
+      </p>
+
+      <h1 class="mb-4 text-3xl font-bold tracking-tight text-neutral-950 md:text-5xl">
         {currentCategory.title}
       </h1>
 
-      <p class="text-neutral-600 leading-relaxed">
+      <p class="text-base leading-relaxed text-neutral-700 md:text-lg">
         {currentCategory.intro}
       </p>
     </header>
 
-    <section class="mb-12">
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="border rounded-2xl p-6 bg-white">
-          <h2 class="text-xl font-semibold mb-4">
-            Wann lohnt sich diese Technik?
-          </h2>
+    <section class="mb-12 grid gap-6 md:grid-cols-2">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+        <h2 class="mb-4 text-xl font-semibold text-neutral-950">
+          {currentCategory.problemTitle}
+        </h2>
 
-          <p class="text-neutral-700 mb-4 leading-relaxed">
-            Geräte aus dieser Kategorie sind besonders dann sinnvoll, wenn typische Probleme
-            im Alltag gelöst werden sollen und eine klarere, stabilere oder komfortablere Lösung
-            gesucht wird.
-          </p>
+        <p class="mb-5 leading-relaxed text-neutral-700">
+          {currentCategory.problemText}
+        </p>
 
-          <ul class="space-y-2 text-sm text-neutral-700">
-            {currentCategory.useCases.map((item: string) => (
-              <li>• {item}</li>
-            ))}
-          </ul>
-        </div>
+        <ul class="space-y-2 text-sm leading-relaxed text-neutral-700">
+          {currentCategory.useCases.map((item: string) => (
+            <li>• {item}</li>
+          ))}
+        </ul>
+      </div>
 
-        <div class="border rounded-2xl p-6 bg-white">
-          <h2 class="text-xl font-semibold mb-4">
-            Bevor Sie ein Gerät auswählen
-          </h2>
+      <div class="rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
+        <h2 class="mb-4 text-xl font-semibold text-neutral-950">
+          Vor dem Kauf richtig einordnen
+        </h2>
 
-          <p class="text-neutral-700 mb-4 leading-relaxed">
-            Wichtig ist, nicht einfach das teuerste Modell zu wählen, sondern eine Lösung,
-            die wirklich zur Wohnsituation, zum Nutzungsprofil und zum gewünschten Funktionsumfang passt.
-          </p>
+        <p class="mb-5 leading-relaxed text-neutral-700">
+          {currentCategory.decisionText}
+        </p>
 
-          <div class="flex flex-col gap-3">
-            {currentCategory.compareLinks.map(
-              (link: { href: string; label: string }) => (
-                <a
-                  href={link.href}
-                  class="text-sm font-semibold text-blue-600 hover:underline"
-                >
-                  → {link.label}
-                </a>
-              )
-            )}
-          </div>
+        <div class="flex flex-col gap-3">
+          {currentCategory.compareLinks.map(
+            (link: { href: string; label: string }) => (
+              <a
+                href={link.href}
+                class="text-sm font-semibold text-blue-700 hover:underline"
+              >
+                → {link.label}
+              </a>
+            )
+          )}
         </div>
       </div>
     </section>
 
     {filtered.length > 0 ? (
       <section>
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-semibold">
-            Passende Geräte in dieser Kategorie
-          </h2>
+        <div class="mb-6 flex items-end justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-semibold text-neutral-950">
+              Passende Geräte
+            </h2>
+            <p class="mt-2 text-sm text-neutral-600">
+              Ausgewählte Produktübersichten aus dieser Kategorie.
+            </p>
+          </div>
 
           <span class="text-sm text-neutral-500">
             {filtered.length} {filtered.length === 1 ? "Gerät" : "Geräte"}
           </span>
         </div>
 
-        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filtered.slice(0, 20).map((p) => (
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {filtered.map((p) => (
             <a
               href={`/empfehlungen/${kategorie}/${p.slug}/`}
-              class="border rounded-2xl p-4 hover:shadow-sm transition block bg-white"
+              class="group block rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
-              <div class="aspect-[4/3] bg-neutral-50 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
-                <img
-                  src={p.data.image}
-                  alt={p.data.title}
-                  class="max-h-full object-contain"
-                  loading="lazy"
-                />
+              <div class="mb-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-neutral-50">
+                {typeof p.data.image === "string" && p.data.image.length > 0 ? (
+  <img
+    src={p.data.image}
+    alt={p.data.title}
+    class="max-h-full object-contain transition group-hover:scale-[1.02]"
+    loading="lazy"
+  />
+) : (
+  <span class="text-sm text-neutral-400">
+    Kein Bild verfügbar
+  </span>
+)}
               </div>
 
-              <h3 class="font-semibold text-neutral-900 mb-2 line-clamp-2">
+              <h3 class="mb-2 line-clamp-2 font-semibold text-neutral-950">
                 {p.data.title}
               </h3>
 
-              <p class="text-sm text-neutral-600 line-clamp-3">
-                {p.data.teaser}
+              <p class="line-clamp-3 text-sm leading-relaxed text-neutral-600">
+                {p.data.teaser || p.data.description}
               </p>
 
-              <div class="mt-4 text-sm font-semibold text-blue-600">
+              <div class="mt-4 text-sm font-semibold text-blue-700">
                 Mehr erfahren →
               </div>
             </a>
@@ -238,26 +406,26 @@ const description = currentCategory.intro;
         </div>
       </section>
     ) : (
-      <section class="border rounded-2xl p-6 bg-white">
-        <h2 class="text-xl font-semibold mb-3">
+      <section class="rounded-2xl border border-neutral-200 bg-white p-6">
+        <h2 class="mb-3 text-xl font-semibold text-neutral-950">
           Noch keine Geräte in dieser Kategorie
         </h2>
 
-        <p class="text-neutral-600 leading-relaxed">
+        <p class="leading-relaxed text-neutral-600">
           Für diese Kategorie sind aktuell noch keine Produktübersichten veröffentlicht.
-          Schauen Sie in der Zwischenzeit bei den Vergleichen oder bei den allgemeinen Erklärseiten vorbei.
+          Nutzen Sie in der Zwischenzeit die Vergleiche oder die Erklärseiten.
         </p>
 
-        <div class="mt-4 flex flex-col gap-2">
+        <div class="mt-5 flex flex-col gap-2">
           <a
             href="/vergleiche/"
-            class="text-sm font-semibold text-blue-600 hover:underline"
+            class="text-sm font-semibold text-blue-700 hover:underline"
           >
             → Zu den Vergleichen
           </a>
           <a
             href="/verstehen/"
-            class="text-sm font-semibold text-blue-600 hover:underline"
+            class="text-sm font-semibold text-blue-700 hover:underline"
           >
             → Technik einfach erklärt
           </a>
@@ -265,32 +433,31 @@ const description = currentCategory.intro;
       </section>
     )}
 
-    <section class="mt-16">
-      <div class="border rounded-2xl p-6 bg-neutral-50">
-        <h2 class="text-xl font-semibold mb-3">
-          Noch unsicher?
-        </h2>
+    <section class="mt-16 rounded-2xl border border-neutral-200 bg-neutral-50 p-6 md:p-8">
+      <h2 class="mb-3 text-xl font-semibold text-neutral-950">
+        Noch unsicher?
+      </h2>
 
-        <p class="text-neutral-700 text-sm leading-relaxed mb-4">
-          Wenn Sie noch nicht sicher sind, welches Gerät wirklich zu Ihrer Situation passt,
-          starten Sie am besten mit einem Vergleich oder einer kurzen Erklärung der wichtigsten Unterschiede.
-        </p>
+      <p class="mb-5 max-w-3xl text-sm leading-relaxed text-neutral-700 md:text-base">
+        Wenn Sie noch nicht sicher sind, welches Gerät wirklich zu Ihrer Situation passt,
+        ist ein Vergleich oft sinnvoller als ein schneller Einzelkauf. So lassen sich
+        Unterschiede bei Preis, Funktionen, Installation und Alltagstauglichkeit besser erkennen.
+      </p>
 
-        <div class="flex flex-wrap gap-3">
-          <a
-            href="/vergleiche/"
-            class="inline-flex items-center justify-center bg-neutral-900 text-white px-5 py-3 rounded-xl font-semibold hover:bg-blue-600 transition"
-          >
-            Vergleiche ansehen
-          </a>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="/vergleiche/"
+          class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
+        >
+          Vergleiche ansehen
+        </a>
 
-          <a
-            href="/verstehen/"
-            class="inline-flex items-center justify-center border border-neutral-200 px-5 py-3 rounded-xl font-semibold text-neutral-800 hover:bg-white transition"
-          >
-            Technik verstehen
-          </a>
-        </div>
+        <a
+          href="/verstehen/"
+          class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
+        >
+          Technik verstehen
+        </a>
       </div>
     </section>
   </main>
