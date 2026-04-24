@@ -6,25 +6,38 @@ export const prerender = true;
 const SITE = "https://yevhenbondarenko.com";
 
 function fullUrl(path: string) {
-  return `${SITE}${path}`;
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${SITE}${cleanPath}`;
 }
 
-function safeDate(input?: string) {
+function safeDate(input?: string | Date) {
   if (!input) return undefined;
   const d = new Date(input);
   return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
 }
 
+function normalizePath(path: string) {
+  const clean = path.split("?")[0].split("#")[0];
+  return clean.endsWith("/") ? clean : `${clean}/`;
+}
+
 function shouldSkip(path: string) {
+  const p = normalizePath(path);
+
   return (
-    path.startsWith("/video/") ||
-    path.startsWith("/shorts/") ||
-    path.startsWith("/marken/") ||
-    path.startsWith("/tests/") ||
-    path.startsWith("/links/") ||
-    path.includes("?") ||
-    path.endsWith(".astro")
+    p.startsWith("/video/") ||
+    p.startsWith("/shorts/") ||
+    p.startsWith("/marken/") ||
+    p.startsWith("/tests/") ||
+    p.startsWith("/links/") ||
+    p.includes("?") ||
+    p.endsWith(".astro/")
   );
+}
+
+function hasEnoughContent(entry: any, minLength = 1200) {
+  const bodyLength = entry.body?.trim().length ?? 0;
+  return bodyLength >= minLength;
 }
 
 export const GET: APIRoute = async () => {
@@ -36,10 +49,13 @@ export const GET: APIRoute = async () => {
   const urls: string[] = [];
 
   function push(path: string, lastmod?: string, priority = "0.8") {
-    if (!path || shouldSkip(path)) return;
+    const normalizedPath = normalizePath(path);
 
-    const loc = fullUrl(path);
+    if (!normalizedPath || shouldSkip(normalizedPath)) return;
+
+    const loc = fullUrl(normalizedPath);
     if (seen.has(loc)) return;
+
     seen.add(loc);
 
     urls.push(`
@@ -55,58 +71,57 @@ export const GET: APIRoute = async () => {
   push("/empfehlungen/", undefined, "0.9");
   push("/vergleiche/", undefined, "0.9");
   push("/verstehen/", undefined, "0.9");
+  push("/ratgeber/", undefined, "0.8");
   push("/impressum/", undefined, "0.3");
-  push("/ueber-uns/", undefined, "0.5");
-  push("/transparenz/", undefined, "0.4");
-  push("/kontakt/", undefined, "0.5");
   push("/datenschutzerklaerung/", undefined, "0.3");
+  push("/ueber-uns/", undefined, "0.4");
+  push("/transparenz/", undefined, "0.4");
+  push("/kontakt/", undefined, "0.4");
 
-  // Категории только из реальных продуктов
-  const kategorien = [
-    ...new Set(
-      produkte
-        .map((p) => p.data.kategorie)
-        .filter((value): value is string => typeof value === "string" && value.trim().length > 0)
-    ),
-  ].sort();
+  // Категории: только если в категории есть минимум 2 нормальные страницы
+  const categoryCounts = new Map<string, number>();
 
-  for (const kategorie of kategorien) {
-    push(`/empfehlungen/${kategorie}/`, undefined, "0.8");
+  for (const entry of produkte) {
+    const category = entry.data?.kategorie;
+
+    if (!entry.slug) continue;
+    if (!category || typeof category !== "string") continue;
+    if (!hasEnoughContent(entry, 1200)) continue;
+
+    categoryCounts.set(category, (categoryCounts.get(category) ?? 0) + 1);
   }
 
-  // Verstehen
+  for (const [category, count] of categoryCounts.entries()) {
+    if (count >= 2) {
+      push(`/empfehlungen/${category}/`, undefined, "0.7");
+    }
+  }
+
+  // Verstehen: только нормальный контент
   for (const entry of verstehen) {
     if (!entry.slug) continue;
-    push(
-      `/verstehen/${entry.slug}/`,
-      safeDate(entry.data?.datum),
-      "0.7"
-    );
+    if (!hasEnoughContent(entry, 1200)) continue;
+
+    push(`/verstehen/${entry.slug}/`, safeDate(entry.data?.datum), "0.7");
   }
 
-  // Vergleiche
+  // Vergleiche: это главные SEO-страницы
   for (const entry of vergleiche) {
     if (!entry.slug) continue;
-    push(
-      `/vergleiche/${entry.slug}/`,
-      safeDate(entry.data?.datum),
-      "0.8"
-    );
+    if (!hasEnoughContent(entry, 1500)) continue;
+
+    push(`/vergleiche/${entry.slug}/`, safeDate(entry.data?.datum), "0.8");
   }
 
-  // Только нормальные product pages
+  // Produkte: только страницы с достаточным текстом
   for (const entry of produkte) {
-    const bodyLength = entry.body?.length ?? 0;
+    const category = entry.data?.kategorie;
 
     if (!entry.slug) continue;
-    if (!entry.data?.kategorie) continue;
-    if (bodyLength < 1200) continue;
+    if (!category || typeof category !== "string") continue;
+    if (!hasEnoughContent(entry, 1500)) continue;
 
-    push(
-      `/empfehlungen/${entry.data.kategorie}/${entry.slug}/`,
-      safeDate(entry.data?.datum),
-      "0.7"
-    );
+    push(`/empfehlungen/${category}/${entry.slug}/`, safeDate(entry.data?.datum), "0.6");
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
