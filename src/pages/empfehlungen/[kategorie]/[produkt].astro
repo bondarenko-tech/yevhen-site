@@ -161,7 +161,7 @@ const productJsonLd =
   canonical={canonical}
   breadcrumb={breadcrumb}
   produkt={entry}
-  robots="index, follow"
+  robots={entry.body && entry.body.trim().length >= 1500 ? "index, follow" : "noindex, follow"}
   jsonLd={productJsonLd}
 >
   <div id="top" class="mx-auto max-w-[1120px] px-4 py-8 md:py-12">
