@@ -31,7 +31,8 @@ function shouldSkip(path: string) {
     p.startsWith("/tests/") ||
     p.startsWith("/links/") ||
     p.includes("?") ||
-    p.endsWith(".astro/")
+    p.endsWith(".astro/") ||
+    p.includes("/empfehlungen/") && !p.split("/").filter(Boolean)[2]
   );
 }
 
