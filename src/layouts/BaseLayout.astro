@@ -28,15 +28,12 @@ let {
   description,
   canonical,
   robots = "index, follow",
-  ogImage = `${BASE_URL}/og/site.webp`,
+  ogImage,
   breadcrumb = [],
   jsonLd = [],
   produkt,
   updated,
 } = Astro.props as LayoutProps;
-
-const currentUrl = new URL(Astro.url.pathname, BASE_URL).toString();
-const canonicalUrl = canonical ?? currentUrl;
 
 const clean = (s: string) => s.trim().replace(/\s+/g, " ");
 
@@ -50,42 +47,95 @@ function safeMetaDescription(src?: string) {
     : base.slice(0, 155).replace(/\s+\S*$/, "").trim();
 }
 
-/* Product fallback nur wenn Seite nichts Besseres liefert */
+const currentUrl = new URL(Astro.url.pathname, BASE_URL).toString();
+const canonicalUrl = canonical ?? currentUrl;
+
 if (produkt) {
   title = title ?? clean(produkt.data.title);
+
   description = safeMetaDescription(
     description ??
-    produkt.data.description ??
-    produkt.data.teaser ??
-    produkt.data.title
+      produkt.data.description ??
+      produkt.data.teaser ??
+      produkt.data.title
   );
+
+  if (!ogImage && typeof produkt.data.image === "string") {
+    ogImage = new URL(produkt.data.image, BASE_URL).toString();
+  }
 }
 
 const computedTitle =
   title ?? "Technik Übersichten, Vergleiche & Erklärungen | Yevhen Bondarenko";
 
+const computedDescription = safeMetaDescription(description);
+
+const computedImage =
+  ogImage ?? `${BASE_URL}/og/site.webp`;
+
+const dateModified =
+  updated ??
+  (produkt?.data as any)?.dateModified
+  produkt?.data.datum ??
+  undefined;
+
 const graph: Record<string, any>[] = [
   {
+    "@type": "Organization",
+    "@id": `${BASE_URL}/#organization`,
+    name: "Bondarenko Empfehlungen",
+    url: BASE_URL,
+  },
+  {
+    "@type": "WebSite",
+    "@id": `${BASE_URL}/#website`,
+    url: BASE_URL,
+    name: "Bondarenko Empfehlungen",
+    publisher: {
+      "@id": `${BASE_URL}/#organization`,
+    },
+    inLanguage: "de-DE",
+  },
+  {
     "@type": "WebPage",
-    "@id": `${currentUrl}#webpage`,
-    url: currentUrl,
+    "@id": `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
     name: computedTitle,
-    description: safeMetaDescription(description),
-    inLanguage: "de",
-    dateModified: updated ?? new Date().toISOString().split("T")[0],
+    description: computedDescription,
+    inLanguage: "de-DE",
+    isPartOf: {
+      "@id": `${BASE_URL}/#website`,
+    },
+    ...(dateModified ? { dateModified } : {}),
   },
 ];
 
-/* Breadcrumb */
 if (breadcrumb.length) {
   graph.push({
     "@type": "BreadcrumbList",
-    "@id": `${currentUrl}#breadcrumb`,
+    "@id": `${canonicalUrl}#breadcrumb`,
     itemListElement: breadcrumb.map((b, i) => ({
       "@type": "ListItem",
       position: i + 1,
       name: b.name,
       item: new URL(b.url, BASE_URL).toString(),
+    })),
+  });
+}
+
+const faq = (produkt?.data as any)?.faq;
+
+if (Array.isArray(faq) && faq.length > 0) {
+  graph.push({
+    "@type": "FAQPage",
+    "@id": `${canonicalUrl}#faq`,
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
     })),
   });
 }
@@ -105,15 +155,13 @@ const jsonLdGraph = {
   <head>
     <BaseHead
       title={computedTitle}
-      description={safeMetaDescription(description)}
+      description={computedDescription}
       currentUrl={currentUrl}
       canonical={canonicalUrl}
       robots={robots}
-      image={ogImage}
+      image={computedImage}
       isProduct={!!produkt}
     />
-
-    <link rel="canonical" href={canonicalUrl} />
 
     <script
       type="application/ld+json"
