@@ -4,16 +4,20 @@ export const prerender = true;
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const SITE = Astro.site?.toString().replace(/\/$/, "") ?? "https://yevhenbondarenko.com";
+const SITE =
+  Astro.site?.toString().replace(/\/$/, "") ??
+  "https://yevhenbondarenko.com";
+
 const canonical = `${SITE}/vergleiche/`;
 
-const title = "Technik Vergleiche – Unabhängig & Praxisnah";
-const description = "Strukturierte Vergleiche zu Smart Home, Sicherheit und Haustechnik. Ehrlich bewertet für Ihre Entscheidung.";
+const title = "Technik Vergleiche 2026 – Smart Home, Sicherheit & Haushalt";
+const description =
+  "Vergleiche für Smart Home, Sicherheit, WLAN und Haushaltstechnik. Praxisnah erklärt, damit Sie schneller das passende Gerät finden.";
 
 const vergleiche = (await getCollection("vergleiche")).sort((a, b) => {
   const dateA = new Date(a.data.datum ?? 0).getTime();
   const dateB = new Date(b.data.datum ?? 0).getTime();
-  return dateB - dateA; // Сначала новые
+  return dateB - dateA;
 });
 ---
 
@@ -21,79 +25,105 @@ const vergleiche = (await getCollection("vergleiche")).sort((a, b) => {
   title={title}
   description={description}
   canonical={canonical}
+  robots="index, follow"
 >
-  <main class="mx-auto max-w-6xl px-4 py-12 md:py-20">
-    
-    <header class="mb-12 md:mb-16 max-w-3xl">
-      <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-[0.2em] mb-4">
-        Kaufberatung
+  <div class="mx-auto max-w-6xl px-4 py-12 md:py-20">
+    <header class="mb-12 max-w-3xl md:mb-16">
+      <span class="mb-4 inline-block rounded-full bg-blue-50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-blue-700">
+        Kaufberatung & Vergleiche
       </span>
-      <h1 class="text-4xl md:text-6xl font-black text-neutral-900 leading-tight mb-6">
-        Technik <span class="text-blue-600">vergleichen</span>
+
+      <h1 class="mb-6 text-4xl font-black leading-tight text-neutral-900 md:text-6xl">
+        Technik vergleichen – klar, ehrlich und praxisnah
       </h1>
-      <p class="text-lg md:text-xl text-neutral-600 leading-relaxed">
-        Hier finden Sie strukturierte Analysen zu Geräten aus den Bereichen Strom, Sicherheit und Smart Home. 
-        Kein Marketing-Blabla, sondern echte Fakten für Ihre Entscheidung.
+
+      <p class="text-lg leading-relaxed text-neutral-600 md:text-xl">
+        Hier finden Sie verständliche Vergleiche zu Smart Home, Sicherheit,
+        WLAN, Strom und Haushaltstechnik. Ziel ist nicht das teuerste Gerät,
+        sondern die Lösung, die wirklich zu Ihrem Alltag passt.
       </p>
     </header>
 
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {vergleiche.map((v) => (
-        <a
-          href={`/vergleiche/${v.slug}/`}
-          class="group flex flex-col bg-white border border-neutral-100 rounded-[32px] overflow-hidden hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500 active:scale-[0.98]"
-        >
-          {/* Визуальный блок */}
-          <div class="relative aspect-video bg-neutral-50 flex items-center justify-center p-8 overflow-hidden">
-            {v.data.image ? (
-              <img 
-                src={v.data.image} 
-                alt={v.data.title}
-                class="max-h-full object-contain group-hover:scale-105 transition-transform duration-700"
-              />
-            ) : (
-              <span class="text-5xl">📊</span>
-            )}
-            
-            {v.data.kategorie && (
-              <div class="absolute top-4 left-4">
-                <span class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-blue-600 shadow-sm border border-neutral-100">
-                  {v.data.kategorie}
-                </span>
+    {vergleiche.length > 0 ? (
+      <section
+        class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+        aria-label="Technik Vergleiche"
+      >
+        {vergleiche.map((v) => {
+          const image =
+            typeof v.data.image === "string" && v.data.image.length > 0
+              ? v.data.image
+              : null;
+
+          return (
+            <a
+              href={`/vergleiche/${v.slug}/`}
+              class="group flex flex-col overflow-hidden rounded-[32px] border border-neutral-100 bg-white transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/5 active:scale-[0.98]"
+            >
+              <div class="relative flex aspect-video items-center justify-center overflow-hidden bg-neutral-50 p-6">
+                {image ? (
+                  <img
+                    src={image}
+                    alt={v.data.title}
+                    class="max-h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                    width="800"
+                    height="450"
+                  />
+                ) : (
+                  <span class="text-5xl" aria-hidden="true">📊</span>
+                )}
+
+                {v.data.kategorie && (
+                  <div class="absolute left-4 top-4">
+                    <span class="rounded-full border border-neutral-100 bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-blue-600 shadow-sm backdrop-blur">
+                      {v.data.kategorie}
+                    </span>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          {/* Текстовый блок */}
-          <div class="p-8 flex flex-col flex-grow">
-            <h2 class="text-xl font-bold text-neutral-900 mb-3 group-hover:text-blue-600 transition-colors leading-snug">
-              {v.data.title}
-            </h2>
-            
-            {v.data.description && (
-              <p class="text-neutral-500 text-sm leading-relaxed mb-6 line-clamp-2">
-                {v.data.description}
-              </p>
-            )}
+              <div class="flex flex-grow flex-col p-8">
+                <h2 class="mb-3 text-xl font-bold leading-snug text-neutral-900 transition-colors group-hover:text-blue-600">
+                  {v.data.title}
+                </h2>
 
-            <div class="mt-auto flex items-center text-sm font-bold text-blue-600 gap-2">
-              Vergleich lesen
-              <span class="group-hover:translate-x-1 transition-transform">→</span>
-            </div>
-          </div>
-        </a>
-      ))}
-    </section>
+                {v.data.description && (
+                  <p class="mb-6 line-clamp-3 text-sm leading-relaxed text-neutral-500">
+                    {v.data.description}
+                  </p>
+                )}
 
-    <div class="mt-24 p-8 md:p-12 bg-neutral-50 rounded-[40px] border border-neutral-100 flex flex-col md:flex-row items-center gap-8">
-      <div class="text-4xl">🛡️</div>
+                <div class="mt-auto flex items-center gap-2 text-sm font-bold text-blue-600">
+                  Vergleich lesen
+                  <span class="transition-transform group-hover:translate-x-1">→</span>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </section>
+    ) : (
+      <section class="rounded-3xl border border-neutral-200 bg-white p-8 text-neutral-600">
+        Noch keine Vergleiche vorhanden.
+      </section>
+    )}
+
+    <section class="mt-24 flex flex-col gap-8 rounded-[40px] border border-neutral-100 bg-neutral-50 p-8 md:flex-row md:items-center md:p-12">
+      <div class="text-4xl" aria-hidden="true">🛡️</div>
+
       <div>
-        <h3 class="text-xl font-bold text-neutral-900 mb-2 uppercase tracking-tight">100% Unabhängig</h3>
-        <p class="text-neutral-600 m-0 leading-relaxed">
-          Alle Vergleiche basieren auf technischer Analyse und Praxiserfahrung. 
-          Mein Ziel ist es, dass Sie das Gerät finden, das wirklich zu Ihrem Bedarf passt – nicht das teuerste.
+        <h2 class="mb-2 text-xl font-bold uppercase tracking-tight text-neutral-900">
+          Warum diese Vergleiche?
+        </h2>
+
+        <p class="m-0 leading-relaxed text-neutral-600">
+          Die Vergleiche sollen helfen, typische Fehlkäufe zu vermeiden:
+          zu teuer, zu kompliziert oder für den eigenen Einsatz einfach nicht
+          passend. Deshalb stehen Nutzen, Alltag und klare Entscheidungshilfe
+          im Vordergrund.
         </p>
       </div>
-    </div>
-  </main>
+    </section>
+  </div>
 </BaseLayout>
