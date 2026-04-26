@@ -4,7 +4,6 @@ export const prerender = true;
 
 export const GET: APIRoute = () => {
   const body = `User-agent: *
-
 Allow: /
 
 Sitemap: https://yevhenbondarenko.com/sitemap.xml
