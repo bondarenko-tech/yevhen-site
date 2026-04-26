@@ -8,100 +8,100 @@ type Props = {
 };
 
 const {
-  title,
   description,
   h1,
   datePublished,
   dateModified,
-} = Astro.props;
+} = Astro.props as Props;
 
-/* ───────── Date formatting ───────── */
 const formatDate = (d?: string) => {
   if (!d) return "";
   const date = new Date(d);
-  if (isNaN(date.getTime())) return "";
+  if (Number.isNaN(date.getTime())) return "";
 
   return date.toLocaleDateString("de-DE", {
     year: "numeric",
-    month: "long", // Месяц словом (z.B. "Januar")
+    month: "long",
     day: "2-digit",
   });
 };
 
-const showUpdated = dateModified && dateModified !== datePublished;
+const showUpdated = !!dateModified && dateModified !== datePublished;
 ---
 
-<main class="mx-auto max-w-4xl px-4 py-12 md:py-20 text-neutral-900">
-  
+<div class="mx-auto max-w-4xl px-4 py-12 text-neutral-900 md:py-20">
   <header class="mb-12">
-    <h1 id="artikel" class="text-3xl md:text-5xl font-black leading-[1.15] tracking-tight text-neutral-900 mb-6">
+    <h1 id="artikel" class="mb-6 text-3xl font-black leading-[1.15] tracking-tight text-neutral-900 md:text-5xl">
       {h1}
     </h1>
 
     <div class="flex flex-wrap items-center gap-4 text-[13px] font-bold uppercase tracking-widest text-neutral-400">
-      <div class="flex items-center gap-2">
-        <span class="text-blue-600">📅</span>
-        <time datetime={datePublished}>{formatDate(datePublished)}</time>
-      </div>
-      
+      {datePublished && (
+        <div class="flex items-center gap-2">
+          <span class="text-blue-600">📅</span>
+          <time datetime={datePublished}>{formatDate(datePublished)}</time>
+        </div>
+      )}
+
       {showUpdated && (
-        <div class="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-[11px]">
+        <div class="flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-[11px] text-blue-700">
           <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
           </span>
-          <span>Aktualisiert: <time datetime={dateModified}>{formatDate(dateModified)}</time></span>
+          <span>
+            Aktualisiert: <time datetime={dateModified}>{formatDate(dateModified)}</time>
+          </span>
         </div>
       )}
     </div>
 
     {description && (
-      <p class="mt-8 text-lg md:text-xl leading-relaxed text-neutral-600 font-medium border-l-4 border-blue-600 pl-6">
+      <p class="mt-8 border-l-4 border-blue-600 pl-6 text-lg font-medium leading-relaxed text-neutral-600 md:text-xl">
         {description}
       </p>
     )}
   </header>
 
-  <div class="h-px bg-neutral-100 w-full mb-12"></div>
+  <div class="mb-12 h-px w-full bg-neutral-100"></div>
 
   <article class="prose prose-neutral max-w-none 
     prose-headings:font-black prose-headings:tracking-tight 
-    prose-h2:text-2xl prose-h2:md:text-3xl prose-h2:pt-8
-    prose-p:text-neutral-600 prose-p:leading-relaxed prose-p:text-lg
-    prose-a:text-blue-600 prose-a:font-bold prose-a:no-underline hover:prose-a:underline
-    prose-img:rounded-[2rem] prose-img:shadow-xl prose-img:border prose-img:border-neutral-100
-    prose-strong:text-neutral-900 prose-strong:font-bold">
-    
+    prose-h2:pt-8 prose-h2:text-2xl prose-h2:md:text-3xl
+    prose-p:text-lg prose-p:leading-relaxed prose-p:text-neutral-600
+    prose-a:font-bold prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+    prose-img:rounded-[2rem] prose-img:border prose-img:border-neutral-100 prose-img:shadow-xl
+    prose-strong:font-bold prose-strong:text-neutral-900">
     <slot />
-
   </article>
 
   <section class="mt-20">
-    <div class="bg-neutral-50 rounded-[32px] p-8 md:p-10 border border-neutral-100 flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
-      
+    <div class="flex flex-col items-center gap-8 rounded-[32px] border border-neutral-100 bg-neutral-50 p-8 text-center md:flex-row md:items-start md:p-10 md:text-left">
       <div class="relative shrink-0">
-        <div class="w-20 h-20 rounded-2xl bg-blue-600 flex items-center justify-center font-black text-2xl text-white shadow-lg shadow-blue-500/20 rotate-3">
+        <div class="flex h-20 w-20 rotate-3 items-center justify-center rounded-2xl bg-blue-600 text-2xl font-black text-white shadow-lg shadow-blue-500/20">
           YB
         </div>
       </div>
 
       <div>
-        <div class="text-xs font-black uppercase tracking-[0.2em] text-blue-600 mb-2">Autor & Experte</div>
-        <div class="text-2xl font-black text-neutral-900 mb-3">
+        <div class="mb-2 text-xs font-black uppercase tracking-[0.2em] text-blue-600">
+          Autor & Einordnung
+        </div>
+
+        <div class="mb-3 text-2xl font-black text-neutral-900">
           Yevhen Bondarenko
         </div>
 
-        <p class="text-neutral-600 leading-relaxed mb-6 font-medium">
-          Seit über 10 Jahren analysiere ich Sicherheits- und Smart-Home-Technik. 
-          Mein Fokus liegt auf der <strong>praxisnahen Einordnung</strong> und 
-          transparenten Empfehlungen für Nutzer in Schleswig-Holstein und ganz Deutschland.
+        <p class="mb-6 font-medium leading-relaxed text-neutral-600">
+          Ich analysiere Sicherheits-, Smart-Home- und Haushaltstechnik mit Fokus auf verständliche Einordnung,
+          praktische Nutzung und nachvollziehbare Empfehlungen für Deutschland.
         </p>
 
-        <a href="/ueber-uns/" rel="author" class="inline-flex items-center gap-2 text-sm font-black text-blue-600 hover:text-blue-700 transition-colors">
+        <a href="/ueber-uns/" rel="author" class="inline-flex items-center gap-2 text-sm font-black text-blue-600 transition-colors hover:text-blue-700">
           MEHR ÜBER MEINE METHODIK ERFAHREN
           <span class="text-lg">→</span>
         </a>
       </div>
     </div>
-  </section
- </main>
+  </section>
+</div>

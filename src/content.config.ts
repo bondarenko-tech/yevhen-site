@@ -12,44 +12,55 @@ const faqSchema = z.array(
   })
 );
 
-const baseSchema = z.object({
+const imageSchema = (image: any) => z.union([z.string(), image()]).optional();
+
+const kurzfaktenSchema = z
+  .array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    })
+  )
+  .optional();
+
+const baseContentFields = {
   title: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   kategorie: kategorieEnum,
+  typ: z.string().optional(),
+  image: z.any().optional(),
   datum: z.string().optional(),
+  dateModified: z.string().optional(),
   tags: z.array(z.string()).optional(),
   faq: faqSchema.optional(),
-  sku: z.string().optional(),
-  mpn: z.string().optional(),
-});
+  featured: z.boolean().optional(),
+  familyFriendly: z.boolean().optional(),
+};
 
 const produkte = defineCollection({
   type: "content",
   schema: ({ image }) =>
     z.object({
-      pros: z.array(z.string()).optional(),
-      cons: z.array(z.string()).optional(),
+      ...baseContentFields,
 
-      title: z.string(),
-      kategorie: kategorieEnum,
-
-      typ: z.string().optional(),
-
+      link: z.string().optional(),
       teaser: z.string().optional(),
-      description: z.string().optional(),
-      image: z.union([z.string(), image()]).optional(),
 
-      brand: z.union([
-        z.string(),
-        z.object({
-          name: z.string(),
-        }),
-      ]).optional(),
+      image: imageSchema(image),
+
+      brand: z
+        .union([
+          z.string(),
+          z.object({
+            name: z.string(),
+          }),
+        ])
+        .optional(),
 
       preis: z.number().optional(),
       priceCurrency: z.string().default("EUR"),
-      datum: z.string().optional(),
       availability: z.string().optional(),
+
       sku: z.string().optional(),
       mpn: z.string().optional(),
 
@@ -60,25 +71,22 @@ const produkte = defineCollection({
       videoDuration: z.number().optional(),
       videoLang: z.string().optional(),
 
-      featured: z.boolean().optional(),
-
       specs: z.array(z.string()).optional(),
-      tags: z.array(z.string()).optional(),
-      kurzfakten: z.array(
-        z.object({
-          label: z.string(),
-          value: z.string(),
-        })
-      ).optional(),
+      pros: z.array(z.string()).optional(),
+      cons: z.array(z.string()).optional(),
+      kurzfakten: kurzfaktenSchema,
     }),
 });
 
 const vergleiche = defineCollection({
   type: "content",
   schema: ({ image }) =>
-    baseSchema.extend({
-      image: z.union([z.string(), image()]).optional(),
-      kategorie: z.string().optional(),
+    z.object({
+      ...baseContentFields,
+
+      typ: z.string().default("vergleich"),
+      image: imageSchema(image),
+
       themen: z.array(z.string()).optional(),
       vergleichTyp: z.string().optional(),
     }),
@@ -87,9 +95,11 @@ const vergleiche = defineCollection({
 const verstehen = defineCollection({
   type: "content",
   schema: ({ image }) =>
-    baseSchema.extend({
+    z.object({
+      ...baseContentFields,
+
+      image: imageSchema(image),
       fokusProduktTyp: z.string().optional(),
-      image: z.union([z.string(), image()]).optional(),
     }),
 });
 
