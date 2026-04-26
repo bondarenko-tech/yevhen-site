@@ -1,121 +1,116 @@
 import type {
   ProduktEntry,
   NormalizedProduct,
-  ProduktTyp
+  ProduktTyp,
+  ProduktImage,
 } from "./types";
 
-const ensureSlash = (u: string) =>
-  u.endsWith("/") ? u : `${u}/`;
+const ensureSlash = (u: string) => (u.endsWith("/") ? u : `${u}/`);
 
-/* brand helper */
+const cleanString = (v: unknown): string | undefined => {
+  if (typeof v !== "string") return undefined;
+  const s = v.trim().replace(/\s+/g, " ");
+  return s.length ? s : undefined;
+};
 
-export function getBrandName(
-  brand: unknown
-): string | undefined {
-  if (typeof brand === "string") {
-    const s = brand.trim();
-    return s.length ? s : undefined;
+const normalizeImagePath = (image: unknown): ProduktImage => {
+  if (image == null) return null;
+
+  if (typeof image !== "string") {
+    return image as ProduktImage;
   }
 
-  if (
-    brand &&
-    typeof brand === "object" &&
-    "name" in brand
-  ) {
-    const n = (brand as { name?: unknown }).name;
+  const s = image.trim();
+  if (!s) return null;
 
-    if (typeof n === "string") {
-      const s = n.trim();
-      return s.length ? s : undefined;
-    }
+  if (s.startsWith("http")) return s;
+  return s.startsWith("/") ? s : `/${s}`;
+};
+
+export function getBrandName(brand: unknown): string | undefined {
+  if (typeof brand === "string") {
+    return cleanString(brand);
+  }
+
+  if (brand && typeof brand === "object" && "name" in brand) {
+    return cleanString((brand as { name?: unknown }).name);
   }
 
   return undefined;
 }
 
-/* normalize product */
-
-export function normalizeProduct(
-  p: ProduktEntry
-): NormalizedProduct {
+export function normalizeProduct(p: ProduktEntry): NormalizedProduct {
   const d = p.data;
 
+  const title = cleanString(d.title) ?? "";
   const brandName = getBrandName(d.brand);
 
   const preis =
-    typeof d.preis === "number" &&
-    Number.isFinite(d.preis)
+    typeof d.preis === "number" && Number.isFinite(d.preis)
       ? d.preis
       : undefined;
 
-  const currency =
-    typeof d.priceCurrency === "string" &&
-    d.priceCurrency.trim().length
-      ? d.priceCurrency
-      : "EUR";
+  const currency = cleanString(d.priceCurrency) ?? "EUR";
+  const kategorie = cleanString(d.kategorie) ?? "";
+  const slug = cleanString(p.slug) ?? "";
 
-  const kategorie =
-    typeof d.kategorie === "string"
-      ? d.kategorie
-      : "";
+  const linkIntern = ensureSlash(`/empfehlungen/${kategorie}/${slug}/`);
 
-  const slug = p.slug;
-
-  const linkIntern = ensureSlash(
-    `/empfehlungen/${kategorie}/${slug}/`
-  );
-
+  const linkExternRaw = cleanString(d.linkExtern);
   const linkExtern =
-    typeof d.linkExtern === "string" &&
-    d.linkExtern.startsWith("http")
-      ? d.linkExtern
+    linkExternRaw && linkExternRaw.startsWith("http")
+      ? linkExternRaw
       : undefined;
 
-  const teaser =
-    typeof d.teaser === "string" &&
-    d.teaser.trim().length
-      ? d.teaser.trim()
-      : null;
+  const teaser = cleanString(d.teaser) ?? null;
+  const description = cleanString(d.description) ?? teaser ?? title;
 
-  const description =
-    typeof d.description === "string" &&
-    d.description.trim().length
-      ? d.description.trim()
-      : teaser ?? String(d.title ?? "");
+  const image = normalizeImagePath(d.image);
 
-  const image =
-    d.image == null
-      ? null
-      : typeof d.image === "string"
-        ? (d.image.trim().length ? d.image.trim() : null)
-        : d.image;
-
-  const datum =
-    typeof d.datum === "string"
-      ? d.datum.slice(0, 10)
-      : undefined;
+  const datum = cleanString(d.datum)?.slice(0, 10);
 
   const pros = Array.isArray(d.pros)
-    ? d.pros.filter((x): x is string => typeof x === "string")
+    ? d.pros.map(cleanString).filter((x): x is string => !!x)
     : undefined;
 
   const cons = Array.isArray(d.cons)
-    ? d.cons.filter((x): x is string => typeof x === "string")
+    ? d.cons.map(cleanString).filter((x): x is string => !!x)
+    : undefined;
+
+  const specs = Array.isArray(d.specs)
+    ? d.specs.map(cleanString).filter((x): x is string => !!x)
+    : undefined;
+
+  const tags = Array.isArray(d.tags)
+    ? d.tags.map(cleanString).filter((x): x is string => !!x)
+    : undefined;
+
+  const kurzfakten = Array.isArray(d.kurzfakten)
+    ? d.kurzfakten
+        .filter(
+          (x): x is { label: string; value: string } =>
+            !!x &&
+            typeof x.label === "string" &&
+            typeof x.value === "string"
+        )
+        .map((x) => ({
+          label: x.label.trim(),
+          value: x.value.trim(),
+        }))
+        .filter((x) => x.label.length > 0 && x.value.length > 0)
     : undefined;
 
   return {
     slug,
     kategorie,
 
-    title: String(d.title ?? ""),
+    title,
 
     teaser,
     description,
     image,
 
-    brand: brandName
-      ? { name: brandName }
-      : undefined,
+    brand: brandName ? { name: brandName } : undefined,
 
     preis,
     currency,
@@ -127,72 +122,28 @@ export function normalizeProduct(
     pros,
     cons,
 
-    typ:
-      typeof d.typ === "string"
-        ? (d.typ as ProduktTyp)
-        : undefined,
+    typ: cleanString(d.typ) as ProduktTyp | undefined,
 
     featured: d.featured === true,
 
-    videoShortId:
-      typeof d.videoShortId === "string"
-        ? d.videoShortId
-        : undefined,
-
-    videoMainId:
-      typeof d.videoMainId === "string"
-        ? d.videoMainId
-        : undefined,
+    videoShortId: cleanString(d.videoShortId),
+    videoMainId: cleanString(d.videoMainId),
 
     videoDuration:
-      typeof d.videoDuration === "number"
-        ? d.videoDuration
-        : undefined,
+      typeof d.videoDuration === "number" ? d.videoDuration : undefined,
 
-    videoLang:
-      typeof d.videoLang === "string"
-        ? d.videoLang
-        : undefined,
+    videoLang: cleanString(d.videoLang),
 
     datum,
 
-    specs: Array.isArray(d.specs)
-      ? d.specs.filter(
-          (x): x is string => typeof x === "string"
-        )
-      : undefined,
+    specs,
+    tags,
+    kurzfakten,
 
-    tags: Array.isArray(d.tags)
-      ? d.tags.filter(
-          (x): x is string => typeof x === "string"
-        )
-      : undefined,
-
-    kurzfakten: Array.isArray(d.kurzfakten)
-      ? d.kurzfakten
-          .filter(
-            (
-              x
-            ): x is {
-              label: string;
-              value: string;
-            } =>
-              !!x &&
-              typeof x.label === "string" &&
-              typeof x.value === "string"
-          )
-          .map((x) => ({
-            label: x.label,
-            value: x.value
-          }))
-      : undefined,
-
-    entry: p
+    entry: p,
   };
 }
 
-export function normalizeAll(
-  products: ProduktEntry[]
-) {
+export function normalizeAll(products: ProduktEntry[]) {
   return products.map(normalizeProduct);
 }

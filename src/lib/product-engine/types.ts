@@ -22,7 +22,6 @@ export type Segment = "budget" | "mid" | "premium";
 export type ProduktImage =
   | string
   | ImageMetadata
-  | Promise<{ default: ImageMetadata }>
   | null;
 
 /**

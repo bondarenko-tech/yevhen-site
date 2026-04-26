@@ -16,6 +16,7 @@ const {
   canonical,
   robots = "index, follow",
   image = "/og/site.webp",
+  isProduct = false,
 } = Astro.props as Props;
 
 const site = "https://yevhenbondarenko.com";
@@ -24,34 +25,49 @@ const siteName = "Yevhen Bondarenko – Smarte Technik";
 const path = Astro.url.pathname;
 const searchParams = Astro.url.searchParams;
 
-/* URL normalisieren */
-const formattedUrl = currentUrl.replace(/\/?$/, "/");
-const finalUrl = formattedUrl.startsWith("http") ? formattedUrl : `${site}${formattedUrl}`;
-const canonicalUrl = (canonical?.trim() || finalUrl).replace(/\/?$/, "/");
-
-/* Beschreibung reinigen */
-function safeDescription(text?: string): string {
-  const base =
-    text?.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim() ||
-    "Unabhängige Produktübersichten und einfache technische Erklärungen für Smart Home und Netzwerke.";
-
-  return base.length <= 160
-    ? base
-    : base.slice(0, 160).replace(/\s+\S*$/, "");
+function ensureAbsoluteUrl(url: string) {
+  return url.startsWith("http") ? url : new URL(url, site).toString();
 }
 
-const ogTitle = title && title.trim() ? title.trim() : siteName;
-const ogDescription = safeDescription(description);
-const ogImage = image.startsWith("http") ? image : `${site}${image}`;
+function normalizeUrl(url: string) {
+  const u = ensureAbsoluteUrl(url);
+  return u.endsWith("/") ? u : `${u}/`;
+}
 
-/* NOINDEX: мусорные страницы */
+function safeDescription(text?: string): string {
+  const base =
+    text?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() ||
+    "Unabhängige Produktübersichten und verständliche Technik-Vergleiche für Smart Home, Sicherheit und Haushalt.";
+
+  return base.length <= 155
+    ? base
+    : base.slice(0, 155).replace(/\s+\S*$/, "").trim();
+}
+
+function safeTitle(text?: string): string {
+  const base = text?.replace(/\s+/g, " ").trim() || siteName;
+  return base.length <= 65
+    ? base
+    : base.slice(0, 65).replace(/\s+\S*$/, "").trim();
+}
+
+const finalTitle = safeTitle(title);
+const finalDescription = safeDescription(description);
+
+const finalUrl = normalizeUrl(currentUrl);
+const canonicalUrl = normalizeUrl(canonical || finalUrl);
+const ogImage = ensureAbsoluteUrl(image);
+
 const isNoindex =
   path.startsWith("/shorts/") ||
   path.startsWith("/video/") ||
   path.startsWith("/links/") ||
+  path.startsWith("/admin/") ||
+  path.includes(".astro") ||
   searchParams.has("q");
 
 const finalRobots = isNoindex ? "noindex, follow" : robots;
+const ogType = isProduct ? "product" : "website";
 ---
 
 <meta charset="utf-8" />
@@ -66,26 +82,27 @@ const finalRobots = isNoindex ? "noindex, follow" : robots;
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 
-<title>{ogTitle}</title>
+<title>{finalTitle}</title>
 <link rel="canonical" href={canonicalUrl} />
-<meta name="description" content={ogDescription} />
+
+<meta name="description" content={finalDescription} />
 <meta name="robots" content={finalRobots} />
 <meta name="author" content="Yevhen Bondarenko" />
 <meta name="language" content="de" />
-<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-language" content="de-DE" />
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={siteName} />
-<meta property="og:title" content={ogTitle} />
-<meta property="og:description" content={ogDescription} />
-<meta property="og:url" content={finalUrl} />
+<meta property="og:title" content={finalTitle} />
+<meta property="og:description" content={finalDescription} />
+<meta property="og:url" content={canonicalUrl} />
 <meta property="og:image" content={ogImage} />
-<meta property="og:image:alt" content={ogTitle} />
+<meta property="og:image:alt" content={finalTitle} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:locale" content="de_DE" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={ogTitle} />
-<meta name="twitter:description" content={ogDescription} />
+<meta name="twitter:title" content={finalTitle} />
+<meta name="twitter:description" content={finalDescription} />
 <meta name="twitter:image" content={ogImage} />

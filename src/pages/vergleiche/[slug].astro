@@ -73,10 +73,19 @@ const articleJsonLd = buildArticleSchema({
   dateModified,
 });
 
+const comparisonItems = [
+  { name: "Roborock Q7 M5", url: `${SITE}/empfehlungen/smart-home/roborock-q7-m5/` },
+  { name: "Dreame L10s Ultra", url: `${SITE}/empfehlungen/sonstiges/dreame-l10s-ultra/` },
+  { name: "MOVA E30 Ultra", url: `${SITE}/empfehlungen/sonstiges/mova-e30-ultra/` },
+  { name: "Roomba Combo Essential", url: `${SITE}/empfehlungen/sonstiges/roomba-combo-essential-y011040/` },
+  { name: "Roborock Saros 10R", url: `${SITE}/empfehlungen/sonstiges/roborock-saros-10r/` },
+];
+
 const comparisonJsonLd = buildComparisonSchema({
   title,
   description,
   canonical,
+  items: comparisonItems,
 });
 
 const faq = (current as any).faq;

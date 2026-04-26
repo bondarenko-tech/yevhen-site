@@ -1,30 +1,45 @@
+type ComparisonItem = {
+  name: string;
+  url: string;
+};
+
 type ComparisonSchemaParams = {
   title: string;
   description: string;
   canonical: string;
+  items?: ComparisonItem[];
 };
 
 export function buildComparisonSchema({
   title,
   description,
   canonical,
+  items = [],
 }: ComparisonSchemaParams) {
   return {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": canonical,
-    name: title,
-    description,
-    url: canonical,
-    inLanguage: "de",
-    isPartOf: {
-      "@type": "WebSite",
-      name: "Bondarenko Empfehlungen",
-      url: "https://yevhenbondarenko.com",
-    },
-    about: {
-      "@type": "Thing",
-      name: "Produktvergleich",
-    },
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${canonical}#webpage`,
+        url: canonical,
+        name: title,
+        description,
+        inLanguage: "de",
+      },
+
+      {
+        "@type": "ItemList",
+        "@id": `${canonical}#list`,
+        name: title,
+        description,
+        itemListElement: items.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: item.url,
+          name: item.name,
+        })),
+      },
+    ],
   };
 }
