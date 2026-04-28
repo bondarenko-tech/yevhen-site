@@ -10,9 +10,10 @@ Sitemap: https://yevhenbondarenko.com/sitemap.xml
 Sitemap: https://yevhenbondarenko.com/image-sitemap.xml
 `;
 
-  return new Response(body, {
+  return new Response(body.trim(), {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 };

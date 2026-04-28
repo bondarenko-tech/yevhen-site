@@ -1,5 +1,9 @@
-# ===== УБИВАЕМ МУСОР =====
-/marken/*  /404  410
+# ===== GSC CLEANUP: убрать мусорные старые URL =====
+/marken/* /404.html 404
+/video/* /404.html 404
+/shorts/* /404.html 404
+/tests/* /404.html 404
+
 # ===== ОСНОВА =====
 /home/ / 301
 /home / 301
@@ -80,7 +84,7 @@
 /empfehlungen/wlan-mesh/ /empfehlungen/netzwerk/ 301
 /empfehlungen/viture-luma-pro-xr-brille/ /empfehlungen/sonstiges/viture-luma-pro-xr-brille/ 301
 /empfehlungen/google-tv-streamer/ /empfehlungen/smart-home/google-tv-streamer/ 301
-/empfehlungen/tp-link-kasa-kp115/ /empfehlungen/smart-home/tp-link-kasa-kp115/ 301
+/empfehlungen/tp-link-kasa-kp115/ /empfehlungen/strom/tp-link-kasa-kp115/ 301
 /empfehlungen/govee-led-strip/ /empfehlungen/beleuchtung/govee-led-strip/ 301
 /empfehlungen/govee-g9-smart-led-lampe/ /empfehlungen/beleuchtung/ 301
 /empfehlungen/led-schranklicht/ /empfehlungen/beleuchtung/led-schranklicht/ 301

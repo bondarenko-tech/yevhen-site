@@ -5,23 +5,21 @@ export const prerender = true;
 
 const SITE = "https://yevhenbondarenko.com";
 
+function normalizePath(path: string) {
+  const clean = path.split("?")[0].split("#")[0];
+  const withSlash = clean.startsWith("/") ? clean : `/${clean}`;
+  return withSlash.endsWith("/") ? withSlash : `${withSlash}/`;
+}
+
 function fullUrl(path: string) {
-  const cleanPath = path.startsWith("/") ? path : `/${path}`;
-  return `${SITE}${cleanPath}`;
+  return `${SITE}${normalizePath(path)}`;
 }
 
 function safeDate(input?: string | Date) {
   if (!input) return undefined;
-
   const d = new Date(input);
   if (Number.isNaN(d.getTime())) return undefined;
-
   return d.toISOString().split("T")[0];
-}
-
-function normalizePath(path: string) {
-  const clean = path.split("?")[0].split("#")[0];
-  return clean.endsWith("/") ? clean : `${clean}/`;
 }
 
 function escapeXml(value: string) {
@@ -41,7 +39,7 @@ function shouldSkip(path: string) {
     p.startsWith("/marken/") ||
     p.startsWith("/tests/") ||
     p.startsWith("/links/") ||
-    p.endsWith(".astro/")
+    p.includes(".astro")
   );
 }
 
@@ -64,8 +62,7 @@ export const GET: APIRoute = async () => {
 
   function push(path: string, lastmod?: string, priority = "0.8") {
     const normalizedPath = normalizePath(path);
-
-    if (!normalizedPath || shouldSkip(normalizedPath)) return;
+    if (shouldSkip(normalizedPath)) return;
 
     const loc = fullUrl(normalizedPath);
     if (seen.has(loc)) return;
@@ -79,7 +76,6 @@ export const GET: APIRoute = async () => {
   </url>`);
   }
 
-  // Main pages
   push("/", undefined, "1.0");
   push("/empfehlungen/", undefined, "0.9");
   push("/vergleiche/", undefined, "0.9");
@@ -89,8 +85,8 @@ export const GET: APIRoute = async () => {
   push("/datenschutzerklaerung/", undefined, "0.3");
   push("/transparenz/", undefined, "0.4");
   push("/kontakt/", undefined, "0.4");
+  push("/ueber-uns/", undefined, "0.4");
 
-  // Empfehlung categories
   const categoryCounts = new Map<string, number>();
 
   for (const entry of produkte) {
@@ -109,7 +105,6 @@ export const GET: APIRoute = async () => {
     }
   }
 
-  // Verstehen pages
   for (const entry of verstehen) {
     if (!entry.slug) continue;
     if (!hasEnoughContent(entry, 900)) continue;
@@ -117,7 +112,6 @@ export const GET: APIRoute = async () => {
     push(`/verstehen/${entry.slug}/`, getEntryDate(entry), "0.7");
   }
 
-  // Vergleich pages
   for (const entry of vergleiche) {
     if (!entry.slug) continue;
     if (!hasEnoughContent(entry, 900)) continue;
@@ -125,7 +119,6 @@ export const GET: APIRoute = async () => {
     push(`/vergleiche/${entry.slug}/`, getEntryDate(entry), "0.8");
   }
 
-  // Product pages
   for (const entry of produkte) {
     const category = entry.data?.kategorie;
 
@@ -133,7 +126,11 @@ export const GET: APIRoute = async () => {
     if (!category || typeof category !== "string") continue;
     if (!hasEnoughContent(entry, 900)) continue;
 
-    push(`/empfehlungen/${category}/${entry.slug}/`, getEntryDate(entry), "0.6");
+    push(
+      `/empfehlungen/${category}/${entry.slug}/`,
+      getEntryDate(entry),
+      "0.6"
+    );
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
