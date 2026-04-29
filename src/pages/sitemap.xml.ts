@@ -52,10 +52,15 @@ function getEntryDate(entry: any) {
   return safeDate(entry.data?.dateModified ?? entry.data?.datum);
 }
 
+function getSlug(entry: any) {
+  return entry.id.replace(/\.mdx?$/, "");
+}
+
 export const GET: APIRoute = async () => {
   const produkte = await getCollection("produkte");
   const verstehen = await getCollection("verstehen");
   const vergleiche = await getCollection("vergleiche");
+  const ratgeber = await getCollection("ratgeber");
 
   const seen = new Set<string>();
   const urls: string[] = [];
@@ -90,9 +95,10 @@ export const GET: APIRoute = async () => {
   const categoryCounts = new Map<string, number>();
 
   for (const entry of produkte) {
+    const slug = getSlug(entry);
     const category = entry.data?.kategorie;
 
-    if (!entry.slug) continue;
+    if (!slug) continue;
     if (!category || typeof category !== "string") continue;
     if (!hasEnoughContent(entry, 900)) continue;
 
@@ -106,28 +112,42 @@ export const GET: APIRoute = async () => {
   }
 
   for (const entry of verstehen) {
-    if (!entry.slug) continue;
+    const slug = getSlug(entry);
+
+    if (!slug) continue;
     if (!hasEnoughContent(entry, 900)) continue;
 
-    push(`/verstehen/${entry.slug}/`, getEntryDate(entry), "0.7");
+    push(`/verstehen/${slug}/`, getEntryDate(entry), "0.7");
   }
 
   for (const entry of vergleiche) {
-    if (!entry.slug) continue;
+    const slug = getSlug(entry);
+
+    if (!slug) continue;
     if (!hasEnoughContent(entry, 900)) continue;
 
-    push(`/vergleiche/${entry.slug}/`, getEntryDate(entry), "0.8");
+    push(`/vergleiche/${slug}/`, getEntryDate(entry), "0.8");
+  }
+
+  for (const entry of ratgeber) {
+    const slug = getSlug(entry);
+
+    if (!slug) continue;
+    if (!hasEnoughContent(entry, 900)) continue;
+
+    push(`/ratgeber/${slug}/`, getEntryDate(entry), "0.8");
   }
 
   for (const entry of produkte) {
+    const slug = getSlug(entry);
     const category = entry.data?.kategorie;
 
-    if (!entry.slug) continue;
+    if (!slug) continue;
     if (!category || typeof category !== "string") continue;
     if (!hasEnoughContent(entry, 900)) continue;
 
     push(
-      `/empfehlungen/${category}/${entry.slug}/`,
+      `/empfehlungen/${category}/${slug}/`,
       getEntryDate(entry),
       "0.6"
     );
