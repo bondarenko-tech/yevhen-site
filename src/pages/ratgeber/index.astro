@@ -1,0 +1,153 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const SITE =
+  Astro.site?.toString().replace(/\/$/, "") ??
+  "https://yevhenbondarenko.com";
+
+const posts = await getCollection("ratgeber");
+
+const sortedPosts = posts.sort((a, b) => {
+  return (
+    new Date(b.data.datum ?? 0).getTime() -
+    new Date(a.data.datum ?? 0).getTime()
+  );
+});
+
+const title = "Ratgeber – Technik einfach erklärt";
+const description =
+  "Verständliche Ratgeber zu Smart Home, WLAN, Sicherheit, Strom, Klima und Technik im Alltag. Einfach erklärt für bessere Kaufentscheidungen.";
+
+const canonical = `${SITE}/ratgeber/`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  robots="index, follow"
+>
+  <main class="mx-auto max-w-6xl px-4 py-10 md:py-14">
+    <header class="mb-10 max-w-3xl">
+      <p class="mb-3 text-sm font-semibold text-blue-700">
+        Technik einfach erklärt
+      </p>
+
+      <h1 class="mb-4 text-3xl font-bold tracking-tight text-neutral-950 md:text-5xl">
+        Ratgeber
+      </h1>
+
+      <p class="text-base leading-relaxed text-neutral-700 md:text-lg">
+        Hier findest du verständliche Erklärungen zu Smart Home, WLAN,
+        Sicherheit, Strom, Klima und Technik im Alltag. Ziel ist nicht
+        Technik-Blabla, sondern eine klare Einordnung: Was lohnt sich wirklich,
+        worauf solltest du achten und welche Lösung passt zu deinem Zuhause?
+      </p>
+    </header>
+
+    <section class="mb-12 grid gap-6 md:grid-cols-3">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+        <h2 class="mb-2 text-lg font-semibold text-neutral-950">
+          Kauf besser verstehen
+        </h2>
+        <p class="text-sm leading-relaxed text-neutral-700">
+          Vor dem Kauf erklären wir wichtige Unterschiede, typische Fehler und
+          sinnvolle Einsatzbereiche.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+        <h2 class="mb-2 text-lg font-semibold text-neutral-950">
+          Technik ohne Fachchinesisch
+        </h2>
+        <p class="text-sm leading-relaxed text-neutral-700">
+          WLAN, Smart Home, Kameras oder Stromlösungen werden hier einfach und
+          alltagstauglich erklärt.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+        <h2 class="mb-2 text-lg font-semibold text-neutral-950">
+          Weniger Fehlkäufe
+        </h2>
+        <p class="text-sm leading-relaxed text-neutral-700">
+          Du bekommst Orientierung, bevor du Geld für Geräte ausgibst, die am
+          Ende nicht zu deiner Situation passen.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="mb-6 flex items-center justify-between gap-4">
+        <h2 class="text-xl font-semibold text-neutral-950">
+          Aktuelle Ratgeber
+        </h2>
+
+        <span class="text-sm text-neutral-500">
+          {sortedPosts.length} {sortedPosts.length === 1 ? "Artikel" : "Artikel"}
+        </span>
+      </div>
+
+      {sortedPosts.length > 0 ? (
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {sortedPosts.map((post) => (
+            <a
+              href={`/ratgeber/${post.id.replace(/\.mdx?$/, "")}/`}
+              class="group block rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-blue-700">
+                Ratgeber
+              </p>
+
+              <h3 class="mb-3 text-lg font-semibold leading-snug text-neutral-950 group-hover:text-blue-700">
+                {post.data.title}
+              </h3>
+
+              {post.data.description && (
+                <p class="mb-4 line-clamp-3 text-sm leading-relaxed text-neutral-700">
+                  {post.data.description}
+                </p>
+              )}
+
+              <span class="text-sm font-semibold text-blue-700">
+                Jetzt lesen →
+              </span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-2xl border border-neutral-200 bg-white p-6">
+          <h2 class="mb-2 text-lg font-semibold text-neutral-950">
+            Noch keine Ratgeber veröffentlicht
+          </h2>
+          <p class="text-sm leading-relaxed text-neutral-700">
+            Sobald Ratgeber-Artikel vorhanden sind, erscheinen sie automatisch
+            auf dieser Seite.
+          </p>
+        </div>
+      )}
+    </section>
+
+    <section class="mt-14 rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
+      <h2 class="mb-3 text-xl font-semibold text-neutral-950">
+        Produkte besser einordnen
+      </h2>
+
+      <p class="mb-5 max-w-3xl text-sm leading-relaxed text-neutral-700">
+        Wenn du nach konkreten Geräten suchst, findest du in den Empfehlungen
+        passende Produktseiten mit Kurzfazit, Einsatzbereich und ehrlicher
+        Einordnung.
+      </p>
+
+      <a
+        href="/empfehlungen/"
+        class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
+      >
+        Zu den Empfehlungen →
+      </a>
+    </section>
+  </main>
+</BaseLayout>
