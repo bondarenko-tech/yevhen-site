@@ -2,7 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = await getCollection("ratgeber");
@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const Content = post.rendered?.html ?? "";
+const { Content } = await render(post);
 
 const SITE =
   Astro.site?.toString().replace(/\/$/, "") ??
@@ -60,7 +60,7 @@ const canonical = `${SITE}/ratgeber/${post.id.replace(/\.mdx?$/, "")}/`;
       </header>
 
       <div class="prose prose-zinc max-w-none">
-        <Fragment set:html={Content} />
+        <Content />
       </div>
     </article>
   </main>
