@@ -60,7 +60,7 @@ const canonical = `${SITE}/ratgeber/${post.id.replace(/\.mdx?$/, "")}/`;
       </header>
 
       <div class="prose prose-zinc max-w-none">
-        <Content />
+        <Fragment set:html={Content} />
       </div>
     </article>
   </main>
