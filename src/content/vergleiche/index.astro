@@ -4,6 +4,10 @@ import { getCollection } from "astro:content";
 
 const articles = await getCollection("vergleiche");
 
+function getSlug(entry: any) {
+  return entry.id.replace(/\.mdx?$/, "");
+}
+
 articles.sort((a, b) => {
   const da = new Date(a.data?.datum ?? "2020-01-01").getTime();
   const db = new Date(b.data?.datum ?? "2020-01-01").getTime();
@@ -26,20 +30,21 @@ articles.sort((a, b) => {
       </h1>
 
       <p class="text-lg text-neutral-700 max-w-3xl leading-relaxed">
-        Hier finden Sie strukturierte Analysen zu Geräten aus den Bereichen Strom,
-        Sicherheit und Smart Home. Kein Marketing-Blabla, sondern echte Fakten für
-        Ihre Entscheidung.
+        Hier finden Sie strukturierte Vergleiche zu Netzwerk, Sicherheit, Strom und Smart Home.
+        Ziel ist eine klare Entscheidung: Welche Lösung passt wirklich zu Ihrem Zuhause?
       </p>
     </header>
 
     <section class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
       {articles.map((article) => {
+        const slug = getSlug(article);
+
         const imageSrc =
           typeof article.data.image === "string"
             ? article.data.image
             : article.data.image?.src;
 
-        const href = `/vergleiche/${article.slug}/`;
+        const href = `/vergleiche/${slug}/`;
 
         return (
           <a
@@ -68,9 +73,11 @@ articles.sort((a, b) => {
                 {article.data.title}
               </h2>
 
-              <p class="text-neutral-600 leading-relaxed">
-                {article.data.description}
-              </p>
+              {article.data.description && (
+                <p class="text-neutral-600 leading-relaxed">
+                  {article.data.description}
+                </p>
+              )}
             </div>
           </a>
         );
