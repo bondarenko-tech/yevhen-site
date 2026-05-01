@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "check:lang": "node scripts/check-language.js",
+    "build": "npm run check:lang && astro build",
     "dev": "astro dev",
-    "build": "astro build",
     "deploy": "npm run build",
     "gen:og:categories": "tsx scripts/make-og-categories.ts",
     "migrate:seo": "tsx scripts/migrate-produkte-seo.ts",
