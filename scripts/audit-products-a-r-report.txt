@@ -1,0 +1,32 @@
+Checked files: 260
+Files with issues: 3
+
+
+src\content\produkte\homematic-ip-home-control-unit-anthrazit.mdx
+  - MISSING_linkExtern
+
+src\content\produkte\philips-hue-secure-akku-ueberwachungskamera.mdx
+  - MISSING_image
+
+src\content\produkte\rootoma-12in1-steckdosenleiste-6usb-2000j.mdx
+  - NO_FRONTMATTER
+  - MISSING_title
+  - MISSING_description
+  - MISSING_link
+  - MISSING_kategorie
+  - MISSING_typ
+  - MISSING_brand
+  - MISSING_image
+  - MISSING_preis
+  - MISSING_priceCurrency
+  - MISSING_availability
+  - MISSING_linkExtern
+  - MISSING_videoShortId
+  - MISSING_videoDuration
+  - MISSING_videoLang
+  - MISSING_featured
+  - MISSING_familyFriendly
+  - MISSING_tags
+  - MISSING_specs
+  - MISSING_kurzfakten
+  - MISSING_date
