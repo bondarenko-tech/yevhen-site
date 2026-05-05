@@ -51,6 +51,8 @@
 /empfehlungen/überwachung/ /empfehlungen/sicherheit/ 301
 
 # ===== EMPFEHLUNGEN / SICHERHEIT =====
+
+/empfehlungen/ezviz-ep3x-pro-tuerklingel/ /empfehlungen/sicherheit/ezviz-ep3x-pro/ 301
 /empfehlungen/ezviz-4k-h3k-poe-kit /empfehlungen/sicherheit/ezviz-4k-h3k-poe-kit/ 301
 /empfehlungen/google-nest-cam/ /empfehlungen/sicherheit/google-nest-cam/ 301
 /empfehlungen/reolink-argus-3-pro/ /empfehlungen/sicherheit/reolink-argus-3-pro/ 301
@@ -84,6 +86,12 @@
 /empfehlungen/sygonix-video-tuersprechanlage /empfehlungen/sicherheit/sygonix-video-tuersprechanlage/ 301
 
 # ===== EMPFEHLUNGEN / ANDERE KATEGORIEN =====
+/empfehlungen/klima/akku-auto-heizluefter/ /empfehlungen/klima/wohnmobil-klimaanlage-12v-24v/ 301
+/empfehlungen/lupus-le202-wlan-ip-kamera /empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/ 301
+/empfehlungen/uebersetzer-ohrhoerer-lcd/ /empfehlungen/sonstiges/uebersetzer-ohrhorer-lcd/ 301
+/empfehlungen/hikam-s6/ /empfehlungen/sicherheit/hikam-s6/ 301
+/empfehlungen/bosch-smart-home-controller-ii /empfehlungen/smart-home/bosch-smart-home-controller-ii/ 301
+/empfehlungen/comfee-breezy-cool-pro-2-6/ /empfehlungen/klima/comfee-breezy-cool-pro-2-6/ 301
 /empfehlungen/sicherheit/innenkamera/ /empfehlungen/sicherheit/somfy-innenkamera/ 301
 /empfehlungen/roku-express-4k/ /empfehlungen/smart-home/roku-express-4k/ 301
 /empfehlungen/smart-home/fritz-repeater-3000-ax/ /empfehlungen/netzwerk/fritz-repeater-3000-ax/ 301
@@ -107,8 +115,12 @@
 /empfehlungen/spotclean-c5/ /empfehlungen/sonstiges/spotclean-c5/ 301
 /empfehlungen/audio/apple-airpods-pro-3-kabellose-kopfhoerer/ /empfehlungen/sonstiges/apple-airpods-pro-3-kabellose-kopfhoerer/ 301
 /empfehlungen/homematic-ip-thermostat/ /empfehlungen/klima/homematic-ip-thermostat/ 301
+/empfehlungen/homematic-ip-starter-set-beschattung /empfehlungen/smart-home/homematic-ip-starter-set-beschattung/ 301
+
 
 # ===== GSC: korrigierte Redirects (source exakt wie gegeben) =====
+
+
 /empfehlungen/sonstiges/top-3-staubsauger-unter-200-euro/ /ratgeber/top-3-staubsauger-unter-200-euro/ 301
 /empfehlungen/google-tv-streamer/ /empfehlungen/smart-home/google-tv-streamer/ 301
 /empfehlungen/tp-link-kasa-kp115/ /empfehlungen/smart-home/tp-link-kasa-kp115/ 301
