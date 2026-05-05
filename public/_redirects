@@ -28,6 +28,8 @@
 /datenschutzerklaerung /datenschutzerklaerung/ 301
 
 # ===== VERGLEICHE / VERSTEHEN =====
+/vergleiche/mesh-vs-repeater/ /vergleiche/powerline-oder-mesh-wlan/ 301
+/vergleiche/beste-wlan-repeater/ /wlan repeater vergleich/ 301
 /verstehen/mesh-oder-repeater/ /vergleiche/wlan-repeater-vergleich/ 301
 /verstehen/powerline-vs-mesh/ /vergleiche/powerline-oder-mesh-wlan/ 301
 /vergleiche/powerline-vs-repeater/ /vergleiche/wlan-repeater-vergleich/ 301
@@ -35,7 +37,7 @@
 /vergleiche/brennenstuhl-eco-vs-premium/ /vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/ 301
 /vergleiche/powerline-oder-mesh/ /vergleiche/powerline-oder-mesh-wlan/ 301
 /vergleiche/video-tuerklingel-ezviz-vs-ring/ /vergleiche/video-tuerklingel-vergleich/ 301
-/vergleiche/wlan-repeater-oder-mesh/  /vergleiche/wlan-repeater-vergleich/ 301
+/vergleiche/wlan-repeater-oder-mesh/ /vergleiche/wlan-repeater-vergleich/ 301
 
 # ===== KATEGORIEN =====
 /kategorien/ /empfehlungen/ 301
@@ -49,6 +51,7 @@
 /empfehlungen/überwachung/ /empfehlungen/sicherheit/ 301
 
 # ===== EMPFEHLUNGEN / SICHERHEIT =====
+/empfehlungen/ezviz-4k-h3k-poe-kit /empfehlungen/sicherheit/ezviz-4k-h3k-poe-kit/ 301
 /empfehlungen/google-nest-cam/ /empfehlungen/sicherheit/google-nest-cam/ 301
 /empfehlungen/reolink-argus-3-pro/ /empfehlungen/sicherheit/reolink-argus-3-pro/ 301
 /empfehlungen/tapo-c210/ /empfehlungen/sicherheit/tp-link-tapo-c210/ 301
@@ -81,6 +84,8 @@
 /empfehlungen/sygonix-video-tuersprechanlage /empfehlungen/sicherheit/sygonix-video-tuersprechanlage/ 301
 
 # ===== EMPFEHLUNGEN / ANDERE KATEGORIEN =====
+/empfehlungen/sicherheit/innenkamera/ /empfehlungen/sicherheit/somfy-innenkamera/ 301
+/empfehlungen/roku-express-4k/ /empfehlungen/smart-home/roku-express-4k/ 301
 /empfehlungen/smart-home/fritz-repeater-3000-ax/ /empfehlungen/netzwerk/fritz-repeater-3000-ax/ 301
 /empfehlungen/wlan-mesh/ /empfehlungen/netzwerk/ 301
 /empfehlungen/viture-luma-pro-xr-brille/ /empfehlungen/sonstiges/viture-luma-pro-xr-brille/ 301
@@ -104,7 +109,7 @@
 /empfehlungen/homematic-ip-thermostat/ /empfehlungen/klima/homematic-ip-thermostat/ 301
 
 # ===== GSC: korrigierte Redirects (source exakt wie gegeben) =====
-
+/empfehlungen/sonstiges/top-3-staubsauger-unter-200-euro/ /ratgeber/top-3-staubsauger-unter-200-euro/ 301
 /empfehlungen/google-tv-streamer/ /empfehlungen/smart-home/google-tv-streamer/ 301
 /empfehlungen/tp-link-kasa-kp115/ /empfehlungen/smart-home/tp-link-kasa-kp115/ 301
 /empfehlungen/echo-show-5/ /empfehlungen/smart-home/echo-show-5/ 301
