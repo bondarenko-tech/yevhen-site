@@ -6,7 +6,7 @@ export const prerender = true;
 const SITE = "https://yevhenbondarenko.com";
 
 function normalizePath(path: string) {
-  const clean = path.split("?")[0].split("#")[0];
+  const clean = String(path || "").split("?")[0].split("#")[0].trim();
   const withSlash = clean.startsWith("/") ? clean : `/${clean}`;
   return withSlash.endsWith("/") ? withSlash : `${withSlash}/`;
 }
@@ -39,7 +39,10 @@ function shouldSkip(path: string) {
     p.startsWith("/marken/") ||
     p.startsWith("/tests/") ||
     p.startsWith("/links/") ||
-    p.includes(".astro")
+    p.startsWith("/kategorien/") ||
+    p.includes(".astro") ||
+    p.includes("?") ||
+    p.includes("#")
   );
 }
 
@@ -49,11 +52,23 @@ function hasEnoughContent(entry: any, minLength = 900) {
 }
 
 function getEntryDate(entry: any) {
-  return safeDate(entry.data?.dateModified ?? entry.data?.datum);
+  return safeDate(
+    entry.data?.dateModified ??
+      entry.data?.datum ??
+      entry.data?.datePublished
+  );
 }
 
 function getSlug(entry: any) {
   return entry.id.replace(/\.mdx?$/, "");
+}
+
+function getEntryPath(entry: any, fallbackBase: string) {
+  if (entry.data?.link && typeof entry.data.link === "string") {
+    return normalizePath(entry.data.link);
+  }
+
+  return normalizePath(`${fallbackBase}/${getSlug(entry)}/`);
 }
 
 export const GET: APIRoute = async () => {
@@ -67,6 +82,7 @@ export const GET: APIRoute = async () => {
 
   function push(path: string, lastmod?: string, priority = "0.8") {
     const normalizedPath = normalizePath(path);
+
     if (shouldSkip(normalizedPath)) return;
 
     const loc = fullUrl(normalizedPath);
@@ -86,6 +102,7 @@ export const GET: APIRoute = async () => {
   push("/vergleiche/", undefined, "0.9");
   push("/verstehen/", undefined, "0.9");
   push("/ratgeber/", undefined, "0.8");
+
   push("/impressum/", undefined, "0.3");
   push("/datenschutzerklaerung/", undefined, "0.3");
   push("/transparenz/", undefined, "0.4");
@@ -95,10 +112,8 @@ export const GET: APIRoute = async () => {
   const categoryCounts = new Map<string, number>();
 
   for (const entry of produkte) {
-    const slug = getSlug(entry);
     const category = entry.data?.kategorie;
 
-    if (!slug) continue;
     if (!category || typeof category !== "string") continue;
     if (!hasEnoughContent(entry, 900)) continue;
 
@@ -112,45 +127,30 @@ export const GET: APIRoute = async () => {
   }
 
   for (const entry of verstehen) {
-    const slug = getSlug(entry);
-
-    if (!slug) continue;
     if (!hasEnoughContent(entry, 900)) continue;
-
-    push(`/verstehen/${slug}/`, getEntryDate(entry), "0.7");
+    push(getEntryPath(entry, "/verstehen"), getEntryDate(entry), "0.7");
   }
 
   for (const entry of vergleiche) {
-    const slug = getSlug(entry);
-
-    if (!slug) continue;
     if (!hasEnoughContent(entry, 900)) continue;
-
-    push(`/vergleiche/${slug}/`, getEntryDate(entry), "0.8");
+    push(getEntryPath(entry, "/vergleiche"), getEntryDate(entry), "0.8");
   }
 
   for (const entry of ratgeber) {
-    const slug = getSlug(entry);
-
-    if (!slug) continue;
     if (!hasEnoughContent(entry, 900)) continue;
-
-    push(`/ratgeber/${slug}/`, getEntryDate(entry), "0.8");
+    push(getEntryPath(entry, "/ratgeber"), getEntryDate(entry), "0.8");
   }
 
   for (const entry of produkte) {
-    const slug = getSlug(entry);
     const category = entry.data?.kategorie;
 
-    if (!slug) continue;
     if (!category || typeof category !== "string") continue;
     if (!hasEnoughContent(entry, 900)) continue;
 
-    push(
-      `/empfehlungen/${category}/${slug}/`,
-      getEntryDate(entry),
-      "0.6"
-    );
+    const fallbackPath = `/empfehlungen/${category}/${getSlug(entry)}/`;
+    const path = entry.data?.link ? entry.data.link : fallbackPath;
+
+    push(path, getEntryDate(entry), "0.6");
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
