@@ -47,11 +47,12 @@
 /kategorien/strom/ /empfehlungen/strom/ 301
 /kategorien/sonstiges/ /empfehlungen/sonstiges/ 301
 
+/empfehlungen/uberwachungskameras-2025/ /empfehlungen/sicherheit/ 301
 /empfehlungen/ueberwachung/ /empfehlungen/sicherheit/ 301
 /empfehlungen/überwachung/ /empfehlungen/sicherheit/ 301
 
 # ===== EMPFEHLUNGEN / SICHERHEIT =====
-
+/empfehlungen/sicherheit/sicherheitstechnik-fur-innen-und-aussen/ /empfehlungen/sicherheit/ 301
 /empfehlungen/ezviz-ep3x-pro-tuerklingel/ /empfehlungen/sicherheit/ezviz-ep3x-pro/ 301
 /empfehlungen/ezviz-4k-h3k-poe-kit /empfehlungen/sicherheit/ezviz-4k-h3k-poe-kit/ 301
 /empfehlungen/google-nest-cam/ /empfehlungen/sicherheit/google-nest-cam/ 301
@@ -86,6 +87,8 @@
 /empfehlungen/sygonix-video-tuersprechanlage /empfehlungen/sicherheit/sygonix-video-tuersprechanlage/ 301
 
 # ===== EMPFEHLUNGEN / ANDERE KATEGORIEN =====
+/empfehlungen/spotclean-c5/ /empfehlungen/sonstiges/spotclean-c5/ 301
+/empfehlungen/audio/apple-airpods-pro-3-kabellose-kopfhoerer/ /empfehlungen/smart-home/apple-airpods-pro-3-kabellose-kopfhoerer/ 301
 /empfehlungen/homematic-ip-starter-set-beschattung /empfehlungen/smart-home/homematic-ip-starter-set-beschattung/ 301
 /empfehlungen/homematic-ip-starter-set-beschattung/ /empfehlungen/smart-home/homematic-ip-starter-set-beschattung/ 301
 /empfehlungen/klima/akku-auto-heizluefter/ /empfehlungen/klima/wohnmobil-klimaanlage-12v-24v/ 301
