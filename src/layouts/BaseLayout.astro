@@ -37,6 +37,18 @@ let {
 
 const clean = (s: string) => s.trim().replace(/\s+/g, " ");
 
+function normalizeUrl(url: string) {
+  const u = new URL(url, BASE_URL);
+  u.search = "";
+  u.hash = "";
+
+  if (!u.pathname.endsWith("/")) {
+    u.pathname = `${u.pathname}/`;
+  }
+
+  return u.toString();
+}
+
 function safeMetaDescription(src?: string) {
   const base =
     src?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() ||
@@ -47,8 +59,8 @@ function safeMetaDescription(src?: string) {
     : base.slice(0, 155).replace(/\s+\S*$/, "").trim();
 }
 
-const currentUrl = new URL(Astro.url.pathname, BASE_URL).toString();
-const canonicalUrl = canonical ?? currentUrl;
+const currentUrl = normalizeUrl(Astro.url.pathname);
+const canonicalUrl = normalizeUrl(canonical ?? currentUrl);
 
 if (produkt) {
   title = title ?? clean(produkt.data.title);
@@ -70,13 +82,13 @@ const computedTitle =
 
 const computedDescription = safeMetaDescription(description);
 
-const computedImage =
-  ogImage ?? `${BASE_URL}/og/site.webp`;
+const computedImage = ogImage ?? `${BASE_URL}/og/site.webp`;
 
 const dateModified =
   updated ??
-  (produkt?.data as any)?.dateModified
+  (produkt?.data as any)?.dateModified ??
   produkt?.data.datum ??
+  (produkt?.data as any)?.datePublished ??
   undefined;
 
 const graph: Record<string, any>[] = [
@@ -84,12 +96,12 @@ const graph: Record<string, any>[] = [
     "@type": "Organization",
     "@id": `${BASE_URL}/#organization`,
     name: "Bondarenko Empfehlungen",
-    url: BASE_URL,
+    url: `${BASE_URL}/`,
   },
   {
     "@type": "WebSite",
     "@id": `${BASE_URL}/#website`,
-    url: BASE_URL,
+    url: `${BASE_URL}/`,
     name: "Bondarenko Empfehlungen",
     publisher: {
       "@id": `${BASE_URL}/#organization`,
@@ -118,7 +130,7 @@ if (breadcrumb.length) {
       "@type": "ListItem",
       position: i + 1,
       name: b.name,
-      item: new URL(b.url, BASE_URL).toString(),
+      item: normalizeUrl(b.url),
     })),
   });
 }
