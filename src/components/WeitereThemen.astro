@@ -2,33 +2,123 @@
 import { getCollection } from "astro:content";
 
 const posts = await getCollection("verstehen");
-
 const current = Astro.url.pathname;
 
-const related = posts
+const topicMap: Record<string, string[]> = {
+  sicherheit: [
+    "smart-home-grundlagen",
+  ],
+
+  netzwerk: [
+    "wlan-langsam-was-tun",
+    "wlan-im-altbau",
+    "wlan-5ghz-vs-2-4ghz",
+    "mesh-vs-repeater",
+    "powerline-vs-mesh",
+    "wlan-router-richtig-platzieren",
+  ],
+
+  strom: [
+    "smarte-steckdose",
+    "steckdosenleiste",
+  ],
+
+  klima: [
+    "smart-home-grundlagen",
+  ],
+
+  smartHome: [
+    "smart-home-grundlagen",
+    "smarte-steckdose",
+  ],
+};
+
+function detectTopic(path: string) {
+  if (path.includes("/sicherheit/") || path.includes("kamera") || path.includes("tuerklingel")) {
+    return "sicherheit";
+  }
+
+  if (
+    path.includes("/netzwerk/") ||
+    path.includes("wlan") ||
+    path.includes("wifi") ||
+    path.includes("repeater") ||
+    path.includes("mesh") ||
+    path.includes("powerline") ||
+    path.includes("router")
+  ) {
+    return "netzwerk";
+  }
+
+  if (
+    path.includes("/strom/") ||
+    path.includes("steckdose") ||
+    path.includes("steckdosenleiste") ||
+    path.includes("powerbank") ||
+    path.includes("strom")
+  ) {
+    return "strom";
+  }
+
+  if (
+    path.includes("/klima/") ||
+    path.includes("klimaanlage") ||
+    path.includes("ventilator") ||
+    path.includes("luftentfeuchter") ||
+    path.includes("heizung")
+  ) {
+    return "klima";
+  }
+
+  if (path.includes("/smart-home/") || path.includes("smart")) {
+    return "smartHome";
+  }
+
+  return "netzwerk";
+}
+
+const topic = detectTopic(current);
+const preferredSlugs = topicMap[topic] ?? [];
+
+type VerstehenPost = (typeof posts)[number];
+
+function isVerstehenPost(post: VerstehenPost | undefined): post is VerstehenPost {
+  return Boolean(post);
+}
+
+const preferred = preferredSlugs
+  .map((slug) => posts.find((p) => p.slug === slug))
+  .filter(isVerstehenPost);
+
+const fallback = posts
   .filter((p) => !current.includes(p.slug))
-  .slice(0, 6);
+  .filter((p) => !preferredSlugs.includes(p.slug))
+  .slice(0, 6 - preferred.length);
+
+const related = [...preferred, ...fallback].slice(0, 6);
 ---
 
-<section class="mt-12">
-  <h2 class="text-xl font-semibold mb-4">
-    Weitere hilfreiche Themen
-  </h2>
+{related.length > 0 && (
+  <section class="mt-12 rounded-3xl border border-neutral-200 bg-white p-6">
+    <h2 class="text-xl font-semibold mb-4">
+      Weitere hilfreiche Themen
+    </h2>
 
-  <p class="text-sm text-neutral-600 mb-4 max-w-2xl">
-    Wenn Sie die Unterschiede noch besser verstehen möchten, helfen diese kurzen Erklärseiten beim Einordnen.
-  </p>
+    <p class="text-sm text-neutral-600 mb-4 max-w-2xl">
+      Diese Erklärseiten helfen dabei, Technik besser einzuordnen und die passende Lösung für den eigenen Alltag zu finden.
+    </p>
 
-  <ul class="space-y-2">
-    {related.map((post) => (
-      <li>
-        <a
-          href={`/verstehen/${post.slug}/`}
-          class="text-blue-600 hover:underline"
-        >
-          {post.data.title}
-        </a>
-      </li>
-    ))}
-  </ul>
-</section>
+    <ul class="space-y-2">
+      {related.map((post) => (
+        <li>
+          <a
+            href={`/verstehen/${post.slug}/`}
+            class="text-blue-600 hover:underline"
+          >
+            {post.data.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
