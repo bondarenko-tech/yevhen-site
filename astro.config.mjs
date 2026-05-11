@@ -10,6 +10,8 @@ export default defineConfig({
   redirects: {
     "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming-edition/":
       "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming/",
+    "/empfehlungen/netzwerk/telekom-speedport-7-wifi7-router/":
+      "/empfehlungen/netzwerk/speedport-7-wifi7-router/",
   },
 
   integrations: [
