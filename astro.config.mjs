@@ -15,6 +15,5 @@ export default defineConfig({
     format: "directory"
   },
 
-  compressHTML: true,
-  }
-);
+  compressHTML: true
+});

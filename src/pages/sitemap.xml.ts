@@ -6,9 +6,18 @@ export const prerender = true;
 const SITE = "https://yevhenbondarenko.com";
 
 function normalizePath(path: string) {
-  const clean = String(path || "").split("?")[0].split("#")[0].trim();
-  const withSlash = clean.startsWith("/") ? clean : `/${clean}`;
-  return withSlash.endsWith("/") ? withSlash : `${withSlash}/`;
+  const clean = String(path || "")
+    .split("?")[0]
+    .split("#")[0]
+    .trim();
+
+  const withSlash = clean.startsWith("/")
+    ? clean
+    : `/${clean}`;
+
+  return withSlash.endsWith("/")
+    ? withSlash
+    : `${withSlash}/`;
 }
 
 function fullUrl(path: string) {
@@ -17,8 +26,13 @@ function fullUrl(path: string) {
 
 function safeDate(input?: string | Date) {
   if (!input) return undefined;
+
   const d = new Date(input);
-  if (Number.isNaN(d.getTime())) return undefined;
+
+  if (Number.isNaN(d.getTime())) {
+    return undefined;
+  }
+
   return d.toISOString().split("T")[0];
 }
 
@@ -48,27 +62,49 @@ function shouldSkip(path: string) {
 
 function hasEnoughContent(entry: any, minLength = 900) {
   const bodyLength = entry.body?.trim().length ?? 0;
+
   return bodyLength >= minLength;
 }
 
 function getEntryDate(entry: any) {
   return safeDate(
     entry.data?.dateModified ??
-      entry.data?.datum ??
-      entry.data?.datePublished
+    entry.data?.datum ??
+    entry.data?.datePublished
   );
 }
 
 function getSlug(entry: any) {
-  return entry.id.replace(/\.mdx?$/, "");
+  return entry.id
+    .replace(/\.mdx?$/, "")
+    .trim();
 }
 
 function getEntryPath(entry: any, fallbackBase: string) {
-  if (entry.data?.link && typeof entry.data.link === "string") {
+  if (
+    entry.data?.link &&
+    typeof entry.data.link === "string"
+  ) {
     return normalizePath(entry.data.link);
   }
 
-  return normalizePath(`${fallbackBase}/${getSlug(entry)}/`);
+  return normalizePath(
+    `${fallbackBase}/${getSlug(entry)}/`
+  );
+}
+
+function isValidEntryPath(path: string) {
+  const p = normalizePath(path);
+
+  if (
+    p.includes("undefined") ||
+    p.includes("null") ||
+    p.includes("//")
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 export const GET: APIRoute = async () => {
@@ -80,24 +116,40 @@ export const GET: APIRoute = async () => {
   const seen = new Set<string>();
   const urls: string[] = [];
 
-  function push(path: string, lastmod?: string, priority = "0.8") {
+  function push(
+    path: string,
+    lastmod?: string,
+    priority = "0.8"
+  ) {
     const normalizedPath = normalizePath(path);
 
     if (shouldSkip(normalizedPath)) return;
 
+    if (!isValidEntryPath(normalizedPath)) return;
+
     const loc = fullUrl(normalizedPath);
+
     if (seen.has(loc)) return;
 
     seen.add(loc);
 
     urls.push(`  <url>
-    <loc>${escapeXml(loc)}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ""}
+    <loc>${escapeXml(loc)}</loc>${
+      lastmod
+        ? `\n    <lastmod>${lastmod}</lastmod>`
+        : ""
+    }
     <changefreq>weekly</changefreq>
     <priority>${priority}</priority>
   </url>`);
   }
 
+  /*
+    ===== STATIC PAGES =====
+  */
+
   push("/", undefined, "1.0");
+
   push("/empfehlungen/", undefined, "0.9");
   push("/vergleiche/", undefined, "0.9");
   push("/verstehen/", undefined, "0.9");
@@ -109,59 +161,125 @@ export const GET: APIRoute = async () => {
   push("/kontakt/", undefined, "0.4");
   push("/ueber-uns/", undefined, "0.4");
 
+  /*
+    ===== CATEGORY PAGES =====
+  */
+
   const categoryCounts = new Map<string, number>();
 
   for (const entry of produkte) {
     const category = entry.data?.kategorie;
 
-    if (!category || typeof category !== "string") continue;
-    if (!hasEnoughContent(entry, 900)) continue;
+    if (
+      !category ||
+      typeof category !== "string"
+    ) {
+      continue;
+    }
 
-    categoryCounts.set(category, (categoryCounts.get(category) ?? 0) + 1);
+    if (!hasEnoughContent(entry, 900)) {
+      continue;
+    }
+
+    categoryCounts.set(
+      category,
+      (categoryCounts.get(category) ?? 0) + 1
+    );
   }
 
   for (const [category, count] of categoryCounts.entries()) {
     if (count >= 2) {
-      push(`/empfehlungen/${category}/`, undefined, "0.7");
+      push(
+        `/empfehlungen/${category}/`,
+        undefined,
+        "0.7"
+      );
     }
   }
 
+  /*
+    ===== VERSTEHEN =====
+  */
+
   for (const entry of verstehen) {
     if (!hasEnoughContent(entry, 900)) continue;
-    push(getEntryPath(entry, "/verstehen"), getEntryDate(entry), "0.7");
+
+    const path = getEntryPath(entry, "/verstehen");
+
+    push(path, getEntryDate(entry), "0.7");
   }
+
+  /*
+    ===== VERGLEICHE =====
+  */
 
   for (const entry of vergleiche) {
     if (!hasEnoughContent(entry, 900)) continue;
-    push(getEntryPath(entry, "/vergleiche"), getEntryDate(entry), "0.8");
+
+    const path = getEntryPath(entry, "/vergleiche");
+
+    push(path, getEntryDate(entry), "0.8");
   }
+
+  /*
+    ===== RATGEBER =====
+  */
 
   for (const entry of ratgeber) {
     if (!hasEnoughContent(entry, 900)) continue;
-    push(getEntryPath(entry, "/ratgeber"), getEntryDate(entry), "0.8");
+
+    const path = getEntryPath(entry, "/ratgeber");
+
+    push(path, getEntryDate(entry), "0.8");
   }
+
+  /*
+    ===== PRODUKTE =====
+  */
 
   for (const entry of produkte) {
     const category = entry.data?.kategorie;
 
-    if (!category || typeof category !== "string") continue;
-    if (!hasEnoughContent(entry, 900)) continue;
+    if (
+      !category ||
+      typeof category !== "string"
+    ) {
+      continue;
+    }
 
-    const fallbackPath = `/empfehlungen/${category}/${getSlug(entry)}/`;
-    const path = entry.data?.link ? entry.data.link : fallbackPath;
+    if (!hasEnoughContent(entry, 900)) {
+      continue;
+    }
+
+    const fallbackPath =
+      `/empfehlungen/${category}/${getSlug(entry)}/`;
+
+    const path =
+      entry.data?.link &&
+      typeof entry.data.link === "string"
+        ? entry.data.link
+        : fallbackPath;
 
     push(path, getEntryDate(entry), "0.6");
   }
 
+  /*
+    ===== FINAL XML =====
+  */
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.join("\n")}
 </urlset>`;
 
   return new Response(xml.trim(), {
     headers: {
-      "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, max-age=3600",
-    },
+      "Content-Type":
+        "application/xml; charset=utf-8",
+
+      "Cache-Control":
+        "public, max-age=3600"
+    }
   });
 };
