@@ -1,16 +1,6 @@
-# ===== GSC CLEANUP: alte Müll-URLs bewusst entfernen =====
-/marken/ /404.html 404
-/marken /404.html 404
-/marken/* /404.html 404
-/video/* /404.html 404
-/shorts/* /404.html 404
-/tests/ /404.html 404
-/tests /404.html 404
-/tests/* /404.html 404
-
 # ===== BASIS =====
-/home/ / 301
-/home / 301
+/home/ /
+/home /
 
 /bio/ /ueber-uns/ 301
 /bio /ueber-uns/ 301
@@ -32,18 +22,6 @@
 /transparenz /transparenz/ 301
 /datenschutzerklaerung /datenschutzerklaerung/ 301
 
-# ===== VERGLEICHE / VERSTEHEN =====
-/vergleiche/mesh-vs-repeater/ /vergleiche/powerline-oder-mesh-wlan/ 301
-/vergleiche/beste-wlan-repeater/ /vergleiche/wlan-repeater-vergleich/ 301
-/verstehen/mesh-oder-repeater/ /vergleiche/wlan-repeater-vergleich/ 301
-/verstehen/powerline-vs-mesh/ /vergleiche/powerline-oder-mesh-wlan/ 301
-/vergleiche/powerline-vs-repeater/ /vergleiche/wlan-repeater-vergleich/ 301
-/vergleiche/wlan-repeater-test/ /vergleiche/wlan-repeater-vergleich/ 301
-/vergleiche/brennenstuhl-eco-vs-premium/ /vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/ 301
-/vergleiche/powerline-oder-mesh/ /vergleiche/powerline-oder-mesh-wlan/ 301
-/vergleiche/video-tuerklingel-ezviz-vs-ring/ /vergleiche/video-tuerklingel-vergleich/ 301
-/vergleiche/wlan-repeater-oder-mesh/ /vergleiche/wlan-repeater-vergleich/ 301
-
 # ===== KATEGORIEN =====
 /kategorien/ /empfehlungen/ 301
 /kategorien /empfehlungen/ 301
@@ -53,130 +31,103 @@
 /kategorien/strom/ /empfehlungen/strom/ 301
 /kategorien/sonstiges/ /empfehlungen/sonstiges/ 301
 
-/empfehlungen/uberwachungskameras-2025/ /empfehlungen/sicherheit/ 301
 /empfehlungen/ueberwachung/ /empfehlungen/sicherheit/ 301
 /empfehlungen/überwachung/ /empfehlungen/sicherheit/ 301
+/empfehlungen/uberwachungskameras-2025/ /empfehlungen/sicherheit/ 301
 
-# ===== EMPFEHLUNGEN / SICHERHEIT =====
-/empfehlungen/ueberwachung/aqara-e1-kamera/ /empfehlungen/sicherheit/aqara-e1-kamera/ 301
-/empfehlungen/ueberwachung/baseus-ueberwachungskamera-solar/ /empfehlungen/sicherheit/baseus-ueberwachungskamera-solar/ 301
+# ===== VERGLEICHE / VERSTEHEN =====
+/vergleiche/mesh-vs-repeater/ /vergleiche/powerline-oder-mesh-wlan/ 301
+/vergleiche/beste-wlan-repeater/ /vergleiche/wlan-repeater-vergleich/ 301
+/verstehen/mesh-oder-repeater/ /vergleiche/wlan-repeater-vergleich/ 301
+/verstehen/powerline-vs-mesh/ /vergleiche/powerline-oder-mesh-wlan/ 301
+/verstehen/powerline-vs-mesh /vergleiche/powerline-oder-mesh-wlan/ 301
+/vergleiche/powerline-vs-repeater/ /vergleiche/wlan-repeater-vergleich/ 301
+/vergleiche/wlan-repeater-test/ /vergleiche/wlan-repeater-vergleich/ 301
+/vergleiche/brennenstuhl-eco-vs-premium/ /vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/ 301
+/vergleiche/powerline-oder-mesh/ /vergleiche/powerline-oder-mesh-wlan/ 301
+/vergleiche/video-tuerklingel-ezviz-vs-ring/ /vergleiche/video-tuerklingel-vergleich/ 301
+/vergleiche/wlan-repeater-oder-mesh/ /vergleiche/wlan-repeater-vergleich/ 301
+
+# ===== SICHERHEIT =====
 /empfehlungen/sicherheit/sicherheitstechnik-fur-innen-und-aussen/ /empfehlungen/sicherheit/ 301
 
-
-/empfehlungen/ezviz-ep3x-pro-tuerklingel/ /empfehlungen/sicherheit/ezviz-ep3x-pro/ 301
-/empfehlungen/ezviz-4k-h3k-poe-kit /empfehlungen/sicherheit/ezviz-4k-h3k-poe-kit/ 301
-/empfehlungen/google-nest-cam/ /empfehlungen/sicherheit/google-nest-cam/ 301
-/empfehlungen/reolink-argus-3-pro/ /empfehlungen/sicherheit/reolink-argus-3-pro/ 301
-
-/empfehlungen/tapo-c210/ /empfehlungen/sicherheit/tp-link-tapo-c210/ 301
-/empfehlungen/tapo-tp-link-c100/ /empfehlungen/sicherheit/tp-link-tapo-c100/ 301
-/empfehlungen/tp-link-tapo-c100/ /empfehlungen/sicherheit/tp-link-tapo-c100/ 301
-/empfehlungen/sicherheit/tapo-tp-link-c100/ /empfehlungen/sicherheit/tp-link-tapo-c100/ 301
-/empfehlungen/tp-link-tapo-c200/ /empfehlungen/sicherheit/tp-link-tapo-c200/ 301
-/empfehlungen/tp-link-tapo-c210/ /empfehlungen/sicherheit/tp-link-tapo-c210/ 301
-
+/empfehlungen/ueberwachung/aqara-e1-kamera/ /empfehlungen/sicherheit/aqara-e1-kamera/ 301
+/empfehlungen/überwachung/aqara-e1-kamera/ /empfehlungen/sicherheit/aqara-e1-kamera/ 301
 /empfehlungen/aqara-e1-kamera/ /empfehlungen/sicherheit/aqara-e1-kamera/ 301
+
 /empfehlungen/ueberwachung/aqara-g5-pro-wlan-kamera/ /empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/ 301
+/empfehlungen/überwachung/aqara-g5-pro-wlan-kamera/ /empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/ 301
 /empfehlungen/aqara-g5-pro-wlan-kamera/ /empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/ 301
 /empfehlungen/aqara-g5-pro-wlan-kamera /empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/ 301
+
+/empfehlungen/ueberwachung/baseus-ueberwachungskamera-solar/ /empfehlungen/sicherheit/baseus-ueberwachungskamera-solar/ 301
+/empfehlungen/ueberwachung/reolink-argus-3-pro/ /empfehlungen/sicherheit/reolink-argus-3-pro/ 301
+/empfehlungen/ueberwachung/ezviz-cp1-pro/ /empfehlungen/sicherheit/ezviz-cp1-pro/ 301
+/empfehlungen/ueberwachung/eufy-e220-innenkamera/ /empfehlungen/sicherheit/eufy-e220-innenkamera/ 301
+/empfehlungen/ueberwachung/eufy-solocam-s340/ /empfehlungen/sicherheit/eufy-solocam-s340/ 301
+/empfehlungen/ueberwachung/lupus-le202-wlan-ip-kamera/ /empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/ 301
+/empfehlungen/überwachung/lupus-le202-wlan-ip-kamera/ /empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/ 301
+
+/empfehlungen/tp-link-tapo-c200/ /empfehlungen/sicherheit/tp-link-tapo-c200/ 301
+/empfehlungen/tp-link-tapo-c210/ /empfehlungen/sicherheit/tp-link-tapo-c210/ 301
+/empfehlungen/tapo-c210/ /empfehlungen/sicherheit/tp-link-tapo-c210/ 301
+/empfehlungen/tp-link-tapo-c100/ /empfehlungen/sicherheit/tp-link-tapo-c100/ 301
+/empfehlungen/tapo-tp-link-c100/ /empfehlungen/sicherheit/tp-link-tapo-c100/ 301
+
+/empfehlungen/reolink-argus-3-pro/ /empfehlungen/sicherheit/reolink-argus-3-pro/ 301
+/empfehlungen/google-nest-cam/ /empfehlungen/sicherheit/google-nest-cam/ 301
+/empfehlungen/eufy-e220-innenkamera/ /empfehlungen/sicherheit/eufy-e220-innenkamera/ 301
+/empfehlungen/eufy-security-indoor-cam-e220/ /empfehlungen/sicherheit/eufy-e220-innenkamera/ 301
+/empfehlungen/smart-home/eufy-e220-innenkamera/ /empfehlungen/sicherheit/eufy-e220-innenkamera/ 301
 
 /empfehlungen/lupus-le-204/ /empfehlungen/sicherheit/lupus-le204/ 301
 /empfehlungen/lupus-le-204 /empfehlungen/sicherheit/lupus-le204/ 301
 /empfehlungen/lupus-le204/ /empfehlungen/sicherheit/lupus-le204/ 301
 /empfehlungen/lupus-le202-wlan-ip-kamera /empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/ 301
-/empfehlungen/ueberwachung/lupus-le202-wlan-ip-kamera/ /empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/ 301
-/empfehlungen/überwachung/lupus-le202-wlan-ip-kamera/ /empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/ 301
-
-/empfehlungen/ueberwachung/imou-dual-2k-innenkamera/ /empfehlungen/sicherheit/imou-dual-2k-innenkamera/ 301
-/empfehlungen/überwachung/imou-dual-2k-innenkamera/ /empfehlungen/sicherheit/imou-dual-2k-innenkamera/ 301
-/empfehlungen/imou-dual-2k-innenkamera/ /empfehlungen/sicherheit/imou-dual-2k-innenkamera/ 301
-
-/empfehlungen/ueberwachung/dahua-bullet-d1-wifi-kamera/ /empfehlungen/sicherheit/ 301
-/empfehlungen/eufy-e220-innenkamera/ /empfehlungen/sicherheit/eufy-e220-innenkamera/ 301
-/empfehlungen/smart-home/eufy-e220-innenkamera/ /empfehlungen/sicherheit/eufy-e220-innenkamera/ 301
-/empfehlungen/eufy-security-indoor-cam-e220/ /empfehlungen/sicherheit/eufy-e220-innenkamera/ 301
-/empfehlungen/ueberwachung/eufy-e220-innenkamera/ /empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/ 301
-/empfehlungen/ueberwachung/eufy-solocam-s340/ /empfehlungen/sicherheit/eufy-solocam-s340/ 301
-
-/empfehlungen/blink-video-doorbell/ /empfehlungen/sicherheit/blink-video-doorbell/ 301
-/empfehlungen/blink-mini-2/ /empfehlungen/sicherheit/blink-mini-2/ 301
-/empfehlungen/abus-ppic91000-akku-kamera/ /empfehlungen/sicherheit/abus-ppic91000-akku-kamera/ 301
-/empfehlungen/ezviz-cp5/ /empfehlungen/sicherheit/ezviz-cp5/ 301
-/empfehlungen/ezviz-ep3x-pro/ /empfehlungen/sicherheit/ezviz-ep3x-pro/ 301
-/empfehlungen/boifun-wlan-video-tuerklingel/ /empfehlungen/sicherheit/boifun-wlan-video-tuerklingel/ 301
-/empfehlungen/mathfel-video-tuersprechanlage/ /empfehlungen/sicherheit/mathfel-video-tuersprechanlage/ 301
-/empfehlungen/reolink-e1-pro/ /empfehlungen/sicherheit/reolink-e1-pro/ 301
-/empfehlungen/abus-facexess-tuersprechanlage/ /empfehlungen/sicherheit/abus-facexess-tuersprechanlage/ 301
-/empfehlungen/eufycam-2c-set-2-plus-1/ /empfehlungen/sicherheit/eufycam-2c-set-2-plus-1/ 301
-/empfehlungen/hikam-s6/ /empfehlungen/sicherheit/hikam-s6/ 301
-/empfehlungen/sicherheit/innenkamera/ /empfehlungen/sicherheit/somfy-innenkamera/ 301
-
-/empfehlungen/ring-akku-videoturklingel-2024-/ /empfehlungen/sicherheit/ring-akku-videotuerklingel-2024/ 301
-/empfehlungen/sicherheit/ring-akku-videoturklingel-2024-/ /empfehlungen/sicherheit/ring-akku-videotuerklingel-2024/ 301
-
-/empfehlungen/sygonix-video-tuersprechanlage /empfehlungen/sicherheit/sygonix-video-tuersprechanlage/ 301
-/empfehlungen/ueberwachung/menduner-video-cam-1080p/ /empfehlungen/sicherheit/menduner-video-cam-1080p/ 301
 
 /empfehlungen/somfy-innenkamera/ /empfehlungen/sicherheit/somfy-innenkamera/ 301
+/empfehlungen/sicherheit/innenkamera/ /empfehlungen/sicherheit/somfy-innenkamera/ 301
 
-# ===== EMPFEHLUNGEN / SMART HOME =====
-/empfehlungen/technisat-digit-isio-s4/ /empfehlungen/smart-home/technisat-digit-isio-s4/ 301
-/empfehlungen/eero-max-7-wifi7-router/ /empfehlungen/smart-home/eero-max-7-wifi7-router/ 301
-/empfehlungen/switchbot-curtain-3/ /empfehlungen/smart-home/switchbot-curtain-3/ 301
-/empfehlungen/aqara-panel-hub-s1-plus/ /empfehlungen/smart-home/aqara-panel-hub-s1-plus/ 301
-/empfehlungen/audio/apple-airpods-pro-3-kabellose-kopfhoerer/ /empfehlungen/smart-home/apple-airpods-pro-3-kabellose-kopfhoerer/ 301
-/empfehlungen/roku-express-4k/ /empfehlungen/smart-home/roku-express-4k/ 301
+/empfehlungen/ezviz-ep3x-pro/ /empfehlungen/sicherheit/ezviz-ep3x-pro/ 301
+/empfehlungen/ezviz-ep3x-pro-tuerklingel/ /empfehlungen/sicherheit/ezviz-ep3x-pro/ 301
+/empfehlungen/ezviz-cp5/ /empfehlungen/sicherheit/ezviz-cp5/ 301
+/empfehlungen/blink-video-doorbell/ /empfehlungen/sicherheit/blink-video-doorbell/ 301
+/empfehlungen/blink-mini-2/ /empfehlungen/sicherheit/blink-mini-2/ 301
+/empfehlungen/eufycam-2c-set-2-plus-1/ /empfehlungen/sicherheit/eufycam-2c-set-2-plus-1/ 301
+/empfehlungen/sygonix-video-tuersprechanlage /empfehlungen/sicherheit/sygonix-video-tuersprechanlage/ 301
+
+# ===== SMART HOME / NETZWERK / STROM / KLIMA =====
 /empfehlungen/google-tv-streamer /empfehlungen/smart-home/google-tv-streamer/ 301
 /empfehlungen/google-tv-streamer/ /empfehlungen/smart-home/google-tv-streamer/ 301
-/empfehlungen/bosch-smart-home-controller-ii /empfehlungen/smart-home/bosch-smart-home-controller-ii/ 301
-/empfehlungen/homematic-ip-starter-set-beschattung /empfehlungen/smart-home/homematic-ip-starter-set-beschattung/ 301
-/empfehlungen/homematic-ip-starter-set-beschattung/ /empfehlungen/smart-home/homematic-ip-starter-set-beschattung/ 301
-/empfehlungen/echo-show-5/ /empfehlungen/smart-home/echo-show-5/ 301
-/empfehlungen/echo-dot-5-gen-smart-plug-von-sengled/ /empfehlungen/smart-home/echo-dot-5-gen-smart-plug-von-sengled/ 301
-/empfehlungen/echo-pop-bluetooth-lautsprecher/ /empfehlungen/smart-home/echo-pop-bluetooth-lautsprecher/ 301
-/empfehlungen/aqara-hub-m3/ /empfehlungen/smart-home/aqara-hub-m3/ 301
+/empfehlungen/switchbot-curtain-3/ /empfehlungen/smart-home/switchbot-curtain-3/ 301
+/empfehlungen/aqara-panel-hub-s1-plus/ /empfehlungen/smart-home/aqara-panel-hub-s1-plus/ 301
+/empfehlungen/technisat-digit-isio-s4/ /empfehlungen/smart-home/technisat-digit-isio-s4/ 301
+/empfehlungen/eero-max-7-wifi7-router/ /empfehlungen/smart-home/eero-max-7-wifi7-router/ 301
 
-# ===== EMPFEHLUNGEN / NETZWERK =====
 /empfehlungen/smart-home/fritz-repeater-3000-ax/ /empfehlungen/netzwerk/fritz-repeater-3000-ax/ 301
 /empfehlungen/wlan-mesh/ /empfehlungen/netzwerk/ 301
 /empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming-edition/ /empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming/ 301
 /empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming-edition /empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming/ 301
 
-# ===== EMPFEHLUNGEN / STROM =====
 /empfehlungen/meross-wlan-steckdose/ /empfehlungen/strom/meross-wlan-steckdose/ 301
-/empfehlungen/tp-link-kasa-kp115/ /empfehlungen/strom/tp-link-kasa-kp115/ 301
-/empfehlungen/eightree-wlan-smart-steckdose /empfehlungen/strom/eightree-wlan-smart-steckdose/ 301
 /empfehlungen/eightree-wlan-smart-steckdose/ /empfehlungen/strom/eightree-wlan-smart-steckdose/ 301
+/empfehlungen/eightree-wlan-smart-steckdose /empfehlungen/strom/eightree-wlan-smart-steckdose/ 301
+/empfehlungen/tp-link-kasa-kp115/ /empfehlungen/strom/tp-link-kasa-kp115/ 301
 /empfehlungen/anker-usb-c-ladegerat/ /empfehlungen/strom/anker-usb-c-ladegeraet/ 301
-/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/ /empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/ 301
-/empfehlungen/brennenstuhl-eco-line-steckdosenleiste/ /empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/ 301
-/empfehlungen/homematic-ip-thermostat/ /empfehlungen/klima/homematic-ip-thermostat/ 301
 
-# ===== EMPFEHLUNGEN / KLIMA =====
 /empfehlungen/mobile-klimaanlage-1500ml/ /empfehlungen/klima/mobile-klimaanlage-1500ml/ 301
 /empfehlungen/comfee-breezy-cool-pro-2-6/ /empfehlungen/klima/comfee-breezy-cool-pro-2-6/ 301
-/empfehlungen/mobile-klimaanlage-peirhw/ /empfehlungen/klima/mobile-klimaanlage-peirhw/ 301
-/empfehlungen/midea-4-in-1-mobile-klimaanlage/ /empfehlungen/klima/midea-4-in-1-mobile-klimaanlage/ 301
-/empfehlungen/medion-p502-klimaanlage/ /empfehlungen/klima/medion-p502-klimaanlage/ 301
 /empfehlungen/pac-em90/ /empfehlungen/klima/pac-em90/ 301
-/empfehlungen/klima/akku-auto-heizluefter/ /empfehlungen/klima/wohnmobil-klimaanlage-12v-24v/ 301
 /empfehlungen/mobiles-klimageraet-mit-fernbedienung /empfehlungen/klima/mobiles-klimageraet-mit-fernbedienung/ 301
+/empfehlungen/homematic-ip-thermostat/ /empfehlungen/klima/homematic-ip-thermostat/ 301
 
-# ===== EMPFEHLUNGEN / BELEUCHTUNG =====
+# ===== BELEUCHTUNG / SONSTIGES =====
 /empfehlungen/govee-led-strip/ /empfehlungen/beleuchtung/govee-led-strip/ 301
 /empfehlungen/govee-g9-smart-led-lampe/ /empfehlungen/beleuchtung/govee-g9-smart-led-lampe/ 301
 /empfehlungen/led-schranklicht/ /empfehlungen/beleuchtung/led-schranklicht/ 301
 
-# ===== EMPFEHLUNGEN / SONSTIGES =====
 /empfehlungen/aeg-dpe5660m-dunstabzugshaube/ /empfehlungen/sonstiges/aeg-dpe5660m-dunstabzugshaube/ 301
 /empfehlungen/spotclean-c5/ /empfehlungen/sonstiges/spotclean-c5/ 301
-/empfehlungen/uebersetzer-ohrhoerer-lcd/ /empfehlungen/sonstiges/uebersetzer-ohrhorer-lcd/ 301
-/empfehlungen/viture-luma-pro-xr-brille/ /empfehlungen/sonstiges/viture-luma-pro-xr-brille/ 301
+/empfehlungen/sony-mdr-7506/ /empfehlungen/sonstiges/sony-mdr-7506/ 301
 /empfehlungen/philips-sonicare-9900-prestige/ /empfehlungen/sonstiges/philips-sonicare-9900-prestige/ 301
-/empfehlungen/philips-sonicare-9900-prestige /empfehlungen/sonstiges/philips-sonicare-9900-prestige/ 301
-/empfehlungen/ooono-co-driver-no1/ /empfehlungen/sonstiges/ooono-co-driver-no1/ 301
-/empfehlungen/mova-e30-ultra/ /empfehlungen/sonstiges/mova-e30-ultra/ 301
 /empfehlungen/sonstiges/top-3-staubsauger-unter-200-euro/ /ratgeber/top-3-staubsauger-unter-200-euro/ 301
-
-# ===== LEGACY: bewusst entfernen, wenn keine passende Seite existiert =====
-/empfehlungen/tapo-tp-link-c100/ /empfehlungen/sicherheit/tp-link-tapo-c100/ 301
