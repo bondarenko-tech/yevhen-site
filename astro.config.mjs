@@ -14,25 +14,44 @@ export default defineConfig({
     "/empfehlungen/netzwerk/speedport-7-wifi7-router/",
     "/empfehlungen/sicherheit/sonoff-cam-slim-gen2/":
     "/empfehlungen/sicherheit/sonoff-cam-slim-gen2/",
-
     "/empfehlungen/klima/tado-thermostat-x-matter/":
     "/empfehlungen/klima/tado-thermostat-x-matter/",
-
     "/empfehlungen/sicherheit/sonoff-cam-slim-gen2/":
     "/empfehlungen/sicherheit/sonoff-cam-slim-gen2-test/",
-
     "/empfehlungen/klima/tado-thermostat-x-matter/":
     "/empfehlungen/klima/tado-thermostat-x/",
-
     "/empfehlungen/marderschreck-auto":
     "/empfehlungen/sonstiges/marderschreck-auto/",
+    "/empfehlungen/sonstiges/roborock-q7-m5/":
+    "/empfehlungen/smart-home/roborock-q7-m5/",
+    "/empfehlungen/sicherheit/reolink-duo-2-wifi/":
+    "/empfehlungen/sicherheit/reolink-duo-2-wifi-180-grad-kamera-ohne-abo-de/",
+    "/empfehlungen/netzwerk/lan-splitter-1-3-gigabit/":
+    "/empfehlungen/netzwerk/vedindust-lan-splitter-1-auf-3-gigabit/",
+    "/empfehlungen/klima/mobiles-klimageraet-mit-fernbedienung":
+    "/empfehlungen/klima/mobiles-klimagerat-mit-fernbedienung/",
+    "/empfehlungen/homematic-ip-starter-set-beschattung":
+    "/empfehlungen/smart-home/homematic-ip-starter-set-beschattung/",
+    "/empfehlungen/bosch-smart-home-controller-ii":
+    "/empfehlungen/smart-home/bosch-smart-home-controller-ii/",
+    "/empfehlungen/hikam-s6/":
+    "/empfehlungen/sicherheit/hikam-s6/",
+    "/empfehlungen/uebersetzer-ohrhoerer-lcd/":
+    "/empfehlungen/sonstiges/uebersetzer-ohrhorer-lcd/",
+    "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/":
+    "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste-6fach-ueberspannungsschutz/",
+    "/empfehlungen/klima/akku-auto-heizluefter/":
+    "/empfehlungen/klima/vevor-diesel-luftheizung-8kw/",
 
 
     "/vergleiche/ueberwachungskamera-test/":
     "/vergleiche/ueberwachungskameras-2026/",
-
     "/vergleiche/powerline-oder-wlan-repeater/":
     "/vergleiche/powerline-oder-mesh-wlan/",
+
+    "/verstehen/powerline/":
+    "/verstehen/powerline-wann-sinnvoll/",
+
   },
 
   integrations: [
