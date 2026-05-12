@@ -32,7 +32,7 @@ export default defineConfig({
     "/vergleiche/ueberwachungskameras-2026/",
 
     "/vergleiche/powerline-oder-wlan-repeater/":
-    "/powerline-oder-mesh-wlan/",
+    "/vergleiche/powerline-oder-mesh-wlan/",
   },
 
   integrations: [
