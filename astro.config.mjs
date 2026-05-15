@@ -42,6 +42,26 @@ export default defineConfig({
     "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste-6fach-ueberspannungsschutz/",
     "/empfehlungen/klima/akku-auto-heizluefter/":
     "/empfehlungen/klima/vevor-diesel-luftheizung-8kw/",
+    "/empfehlungen/mathfel-video-tuersprechanlage/":
+    "/empfehlungen/sicherheit/mathfel-video-tuersprechanlage/",
+    "/empfehlungen/audio/apple-airpods-pro-3-kabellose-kopfhoerer/":
+    "/empfehlungen/smart-home/apple-airpods-pro-3-kabellose-kopfhoerer/",
+    "/empfehlungen/ooono-co-driver-no1/":
+    "/empfehlungen/sonstiges/ooono-co-driver-no1/",
+    "/empfehlungen/überwachung/imou-dual-2k-innenkamera/":
+    "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/",
+    "/empfehlungen/sicherheit/tapo-c210/":
+    "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/empfehlungen/midea-4-in-1-mobile-klimaanlage/":
+    "/empfehlungen/klima/midea-4-in-1-mobile-klimaanlage/",
+    "/empfehlungen/reolink-e1-pro/":
+    "/empfehlungen/sicherheit/reolink-e1-pro/",
+    "/empfehlungen/mova-e30-ultra/":
+    "/empfehlungen/sonstiges/mova-e30-ultra/",
+    "/empfehlungen/medion-p502-klimaanlage/":
+    "/empfehlungen/klima/medion-p502-klimaanlage/",
+    "/empfehlungen/ring-akku-videoturklingel-2024-/":
+    "/empfehlungen/sicherheit/ring-akku-videoturklingel-2024/",
 
 
     "/vergleiche/ueberwachungskamera-test/":
