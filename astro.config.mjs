@@ -8,71 +8,84 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
-    "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming-edition/":
-      "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming/",
-    "/empfehlungen/netzwerk/telekom-speedport-7-wifi7-router/":
+  "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming-edition/":
+    "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming/",
+
+  "/empfehlungen/netzwerk/telekom-speedport-7-wifi7-router/":
     "/empfehlungen/netzwerk/speedport-7-wifi7-router/",
-    "/empfehlungen/sicherheit/sonoff-cam-slim-gen2/":
-    "/empfehlungen/sicherheit/sonoff-cam-slim-gen2/",
-    "/empfehlungen/klima/tado-thermostat-x-matter/":
-    "/empfehlungen/klima/tado-thermostat-x-matter/",
-    "/empfehlungen/sicherheit/sonoff-cam-slim-gen2/":
+
+  "/empfehlungen/sicherheit/sonoff-cam-slim-gen2/":
     "/empfehlungen/sicherheit/sonoff-cam-slim-gen2-test/",
-    "/empfehlungen/klima/tado-thermostat-x-matter/":
+
+  "/empfehlungen/klima/tado-thermostat-x-matter/":
     "/empfehlungen/klima/tado-thermostat-x/",
-    "/empfehlungen/marderschreck-auto":
+
+  "/empfehlungen/marderschreck-auto/":
     "/empfehlungen/sonstiges/marderschreck-auto/",
-    "/empfehlungen/sonstiges/roborock-q7-m5/":
+
+  "/empfehlungen/sonstiges/roborock-q7-m5/":
     "/empfehlungen/smart-home/roborock-q7-m5/",
-    "/empfehlungen/sicherheit/reolink-duo-2-wifi/":
+
+  "/empfehlungen/sicherheit/reolink-duo-2-wifi/":
     "/empfehlungen/sicherheit/reolink-duo-2-wifi-180-grad-kamera-ohne-abo-de/",
-    "/empfehlungen/netzwerk/lan-splitter-1-3-gigabit/":
+
+  "/empfehlungen/netzwerk/lan-splitter-1-3-gigabit/":
     "/empfehlungen/netzwerk/vedindust-lan-splitter-1-auf-3-gigabit/",
-    "/empfehlungen/klima/mobiles-klimageraet-mit-fernbedienung":
+
+  "/empfehlungen/klima/mobiles-klimageraet-mit-fernbedienung/":
     "/empfehlungen/klima/mobiles-klimagerat-mit-fernbedienung/",
-    "/empfehlungen/homematic-ip-starter-set-beschattung":
+
+  "/empfehlungen/homematic-ip-starter-set-beschattung/":
     "/empfehlungen/smart-home/homematic-ip-starter-set-beschattung/",
-    "/empfehlungen/bosch-smart-home-controller-ii":
+
+  "/empfehlungen/bosch-smart-home-controller-ii/":
     "/empfehlungen/smart-home/bosch-smart-home-controller-ii/",
-    "/empfehlungen/hikam-s6/":
+
+  "/empfehlungen/hikam-s6/":
     "/empfehlungen/sicherheit/hikam-s6/",
-    "/empfehlungen/uebersetzer-ohrhoerer-lcd/":
+
+  "/empfehlungen/uebersetzer-ohrhoerer-lcd/":
     "/empfehlungen/sonstiges/uebersetzer-ohrhorer-lcd/",
-    "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/":
+
+  "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/":
     "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste-6fach-ueberspannungsschutz/",
-    "/empfehlungen/klima/akku-auto-heizluefter/":
+
+  "/empfehlungen/klima/akku-auto-heizluefter/":
     "/empfehlungen/klima/vevor-diesel-luftheizung-8kw/",
-    "/empfehlungen/mathfel-video-tuersprechanlage/":
+
+  "/empfehlungen/mathfel-video-tuersprechanlage/":
     "/empfehlungen/sicherheit/mathfel-video-tuersprechanlage/",
-    "/empfehlungen/audio/apple-airpods-pro-3-kabellose-kopfhoerer/":
+
+  "/empfehlungen/audio/apple-airpods-pro-3-kabellose-kopfhoerer/":
     "/empfehlungen/smart-home/apple-airpods-pro-3-kabellose-kopfhoerer/",
-    "/empfehlungen/ooono-co-driver-no1/":
+
+  "/empfehlungen/ooono-co-driver-no1/":
     "/empfehlungen/sonstiges/ooono-co-driver-no1/",
-    "/empfehlungen/überwachung/imou-dual-2k-innenkamera/":
+
+  "/empfehlungen/überwachung/imou-dual-2k-innenkamera/":
     "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/",
-    "/empfehlungen/sicherheit/tapo-c210/":
+
+  "/empfehlungen/sicherheit/tapo-c210/":
     "/empfehlungen/sicherheit/tp-link-tapo-c210/",
-    "/empfehlungen/midea-4-in-1-mobile-klimaanlage/":
-    "/empfehlungen/klima/midea-4-in-1-mobile-klimaanlage/",
-    "/empfehlungen/reolink-e1-pro/":
+
+  "/empfehlungen/reolink-e1-pro/":
     "/empfehlungen/sicherheit/reolink-e1-pro/",
-    "/empfehlungen/mova-e30-ultra/":
+
+  "/empfehlungen/mova-e30-ultra/":
     "/empfehlungen/sonstiges/mova-e30-ultra/",
-    "/empfehlungen/medion-p502-klimaanlage/":
-    "/empfehlungen/klima/medion-p502-klimaanlage/",
-    "/empfehlungen/ring-akku-videoturklingel-2024-/":
-    "/empfehlungen/sicherheit/ring-akku-videoturklingel-2024/",
 
+  "/empfehlungen/ring-akku-videoturklingel-2024-/":
+    "/empfehlungen/sicherheit/ring-akku-videotuerklingel-2024/",
 
-    "/vergleiche/ueberwachungskamera-test/":
+  "/vergleiche/ueberwachungskamera-test/":
     "/vergleiche/ueberwachungskameras-2026/",
-    "/vergleiche/powerline-oder-wlan-repeater/":
+
+  "/vergleiche/powerline-oder-wlan-repeater/":
     "/vergleiche/powerline-oder-mesh-wlan/",
 
-    "/verstehen/powerline/":
+  "/verstehen/powerline/":
     "/verstehen/powerline-wann-sinnvoll/",
-
-  },
+},
 
   integrations: [
     tailwind(),
