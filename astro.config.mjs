@@ -83,6 +83,9 @@ export default defineConfig({
   "/vergleiche/powerline-oder-wlan-repeater/":
     "/vergleiche/powerline-oder-mesh-wlan/",
 
+  "/verstehen/wlan-repeater-oder-mesh/":
+    "/verstehen/mesh-vs-repeater/",
+
   "/verstehen/powerline/":
     "/verstehen/powerline-wann-sinnvoll/",
 },
