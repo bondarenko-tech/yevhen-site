@@ -52,7 +52,6 @@ function shouldSkip(path: string) {
     p.startsWith("/shorts/") ||
     p.startsWith("/marken/") ||
     p.startsWith("/tests/") ||
-    p.startsWith("/links/") ||
     p.startsWith("/kategorien/") ||
     p.includes(".astro") ||
     p.includes("?") ||
