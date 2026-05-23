@@ -61,7 +61,6 @@ const ogImage = ensureAbsoluteUrl(image);
 const isNoindex =
   path.startsWith("/shorts/") ||
   path.startsWith("/video/") ||
-  path.startsWith("/links/") ||
   path.startsWith("/admin/") ||
   path.includes(".astro") ||
   searchParams.has("q");
