@@ -14,7 +14,19 @@ const img =
 
 const title = p.title ?? "";
 const teaser = p.teaser ?? "";
-const link = p.linkIntern ?? "#";
+function normalizeInternalLink(url?: string) {
+  if (!url || url === "#") return "#";
+
+  const clean = url.split("?")[0].split("#")[0].trim();
+
+  if (clean.startsWith("http")) return clean;
+
+  const withSlash = clean.startsWith("/") ? clean : `/${clean}`;
+
+  return withSlash.endsWith("/") ? withSlash : `${withSlash}/`;
+}
+
+const link = normalizeInternalLink(p.linkIntern);
 const typ = p.typ ?? "";
 const brand = p.brand ?? "";
 

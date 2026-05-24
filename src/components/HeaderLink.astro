@@ -4,9 +4,32 @@ import type { HTMLAttributes } from 'astro/types';
 type Props = HTMLAttributes<'a'>;
 
 const { href, class: className, ...props } = Astro.props;
-const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
+function normalize(url?: string) {
+  if (!url) return "/";
+
+  const clean = url.split("?")[0].split("#")[0];
+
+  return clean.endsWith("/") ? clean : `${clean}/`;
+}
+
+const pathname = normalize(
+  Astro.url.pathname.replace(import.meta.env.BASE_URL, '')
+);
+
+const hrefNormalized =
+  typeof href === "string"
+    ? normalize(href)
+    : "/";
+
 const subpath = pathname.match(/[^\/]+/g);
-const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
+
+const rootSection = subpath?.[0]
+  ? `/${subpath[0]}/`
+  : "/";
+
+const isActive =
+  hrefNormalized === pathname ||
+  hrefNormalized === rootSection;
 const finalClass = [
   'px-2 py-2 hover:text-blue-600 transition',
   isActive ? 'font-semibold underline text-blue-700' : 'text-gray-700',
