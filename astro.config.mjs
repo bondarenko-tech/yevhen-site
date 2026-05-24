@@ -8,6 +8,9 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
+  "/empfehlungen/ring-innenkamera-2":
+  "/empfehlungen/sicherheit/ring-innenkamera-2/",
+
   "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming-edition/":
     "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming/",
 
