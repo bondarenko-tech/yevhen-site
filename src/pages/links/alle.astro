@@ -7,6 +7,9 @@ import { kategorien } from "../../data/kategorien";
 
 const produkte = await getCollection("produkte");
 
+const siteUrl = Astro.site ?? new URL("https://yevhenbondarenko.com");
+const canonical = new URL("/links/alle/", siteUrl).toString();
+
 /* Сортировка по дате */
 const items = [...produkte].sort((a, b) => {
   const dateA = a.data.datum ? new Date(a.data.datum).getTime() : 0;
@@ -14,78 +17,82 @@ const items = [...produkte].sort((a, b) => {
   return dateB - dateA;
 });
 
+const catMap = Object.fromEntries(kategorien.map((k) => [k.id, k.name]));
+
 const view = items.map((p) => ({
   title: p.data.title,
   teaser: p.data.description || p.data.teaser || "",
   link: `/empfehlungen/${p.data.kategorie}/${p.slug}/`,
   image: p.data.image || "/og-cover.jpg",
-  cat: p.data.kategorie
+  catLabel: catMap[p.data.kategorie] ?? "Technik",
 }));
 
 const title = "Technik Datenbank – Alle Geräte";
 const description = "Übersicht aller analysierten Technikgeräte.";
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  robots="index, follow"
+>
+  <main class="max-w-7xl mx-auto px-4 py-12">
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold mb-4">
+        Technik Datenbank
+      </h1>
 
+      <p class="text-neutral-600">
+        Übersicht aller Geräte. Nutze die Suche, um schnell passende Produkte zu finden.
+      </p>
+    </header>
 
-<main class="max-w-7xl mx-auto px-4 py-12">
+    <input
+      id="q"
+      type="search"
+      placeholder="Suche nach Modell oder Marke..."
+      class="w-full max-w-xl border rounded-xl px-4 py-3 mb-8"
+    />
 
-  <header class="mb-10">
-    <h1 class="text-4xl font-bold mb-4">
-      Technik Datenbank
-    </h1>
+    <section id="cards" class="grid md:grid-cols-3 gap-6">
+      {view.map((item) => (
+        <a
+          href={item.link}
+          class="border rounded-xl p-4 hover:shadow-sm transition block"
+          data-title={item.title.toLowerCase()}
+        >
+          <img src={item.image} alt={item.title} class="mb-3" />
 
-    <p class="text-neutral-600">
-      Übersicht aller Geräte. Nutze die Suche, um schnell passende Produkte zu finden.
-    </p>
-  </header>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-blue-600">
+            {item.catLabel}
+          </span>
 
-  <!-- Поиск -->
-  <input
-    id="q"
-    type="search"
-    placeholder="Suche nach Modell oder Marke..."
-    class="w-full max-w-xl border rounded-xl px-4 py-3 mb-8"
-  />
+          <h3 class="font-semibold mt-1">
+            {item.title}
+          </h3>
 
-  <!-- Карточки -->
-  <section id="cards" class="grid md:grid-cols-3 gap-6">
+          <p class="text-sm text-neutral-600">
+            {item.teaser}
+          </p>
+        </a>
+      ))}
+    </section>
+  </main>
 
-    {view.map(item => (
-      <a
-        href={item.link}
-        class="border rounded-xl p-4 hover:shadow-sm transition block"
-        data-title={item.title.toLowerCase()}
-      >
-        <img src={item.image} alt={item.title} class="mb-3" />
+  <script is:inline>
+    const q = document.getElementById("q");
+    const cards = document.querySelectorAll("#cards a");
 
-        <h3 class="font-semibold">
-          {item.title}
-        </h3>
+    if (q) {
+      q.addEventListener("input", () => {
+        const val = q.value.toLowerCase();
 
-        <p class="text-sm text-neutral-600">
-          {item.teaser}
-        </p>
-      </a>
-    ))}
-
-  </section>
-
-</main>
-
-<script is:inline>
-  const q = document.getElementById("q");
-  const cards = document.querySelectorAll("#cards a");
-
-  q.addEventListener("input", () => {
-    const val = q.value.toLowerCase();
-
-    cards.forEach(card => {
-      const text = card.dataset.title;
-      card.style.display = text.includes(val) ? "block" : "none";
-    });
-  });
-</script>
-
+        cards.forEach((card) => {
+          const text = card.dataset.title || "";
+          card.style.display = text.includes(val) ? "block" : "none";
+        });
+      });
+    }
+  </script>
 </BaseLayout>
