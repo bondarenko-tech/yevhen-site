@@ -8,6 +8,23 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
+
+  "/empfehlungen/ezviz-4k-h3k-poe-kit/":
+  "/empfehlungen/sicherheit/ezviz-4k-h3k-poe-kit/", 
+  "/empfehlungen/roku-express-4k/":
+  "/empfehlungen/smart-home/roku-express-4k/",
+  "/video/blink-mini-2/":
+  "/empfehlungen/sicherheit/blink-mini-2/",  
+  "/empfehlungen/ueberwachung":
+  "/empfehlungen/sicherheit/",
+  "/empfehlungen/tp-link-tapo-p110":
+  "/empfehlungen/strom/tp-link-tapo-p110/",
+  "/empfehlungen/midea-4-in-1-mobile-klimaanlage":
+  "/empfehlungen/klima/midea-4-in-1-mobile-klimaanlage/",
+  "/empfehlungen/mobile-klimaanlage-4in1":
+  "/empfehlungen/klima/mobile-klimaanlage-4in1/",
+  "/empfehlungen/boifun-wlan-video-tuerklingel":
+  "/empfehlungen/sicherheit/boifun-wlan-video-tuerklingel/",
   "/empfehlungen/ring-innenkamera-2":
   "/empfehlungen/sicherheit/ring-innenkamera-2/",
 
