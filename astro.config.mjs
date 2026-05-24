@@ -8,7 +8,14 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
-
+  "/empfehlungen/mobile-klimaanlage-peirhw/":
+  "/empfehlungen/klima/mobile-klimaanlage-peirhw/",
+  "/empfehlungen/ueberwachung/dahua-bullet-d1-wifi-kamera/":
+  "/empfehlungen/sicherheit/dahua-bullet-d1-wifi-kamera/",
+  "/empfehlungen/viture-luma-pro-xr-brille":
+  "/empfehlungen/sonstiges/viture-luma-pro-xr-brille/",
+  "/empfehlungen/abus-facexess-tuersprechanlage/":
+  "/empfehlungen/sicherheit/abus-facexess-tuersprechanlage/",
   "/empfehlungen/ezviz-4k-h3k-poe-kit/":
   "/empfehlungen/sicherheit/ezviz-4k-h3k-poe-kit/", 
   "/empfehlungen/roku-express-4k/":
@@ -99,6 +106,9 @@ export default defineConfig({
 
   "/vergleiche/ueberwachungskamera-test/":
     "/vergleiche/ueberwachungskameras-2026/",
+
+  "/vergleiche/powerline-oder-mesh/":
+  "/vergleiche/powerline-oder-mesh-wlan/",
 
   "/vergleiche/powerline-oder-wlan-repeater/":
     "/vergleiche/powerline-oder-mesh-wlan/",
