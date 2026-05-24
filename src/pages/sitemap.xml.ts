@@ -153,6 +153,8 @@ export const GET: APIRoute = async () => {
   push("/verstehen/", undefined, "0.9");
   push("/ratgeber/", undefined, "0.8");
 
+  push("/links/alle/", undefined, "0.8");
+
   push("/impressum/", undefined, "0.3");
   push("/datenschutzerklaerung/", undefined, "0.3");
   push("/transparenz/", undefined, "0.4");
