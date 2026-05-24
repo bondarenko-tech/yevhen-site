@@ -97,8 +97,7 @@ function isValidEntryPath(path: string) {
 
   if (
     p.includes("undefined") ||
-    p.includes("null") ||
-    p.includes("//")
+    p.includes("null")
   ) {
     return false;
   }

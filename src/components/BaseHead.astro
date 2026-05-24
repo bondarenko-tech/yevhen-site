@@ -30,8 +30,16 @@ function ensureAbsoluteUrl(url: string) {
 }
 
 function normalizeUrl(url: string) {
-  const u = ensureAbsoluteUrl(url);
-  return u.endsWith("/") ? u : `${u}/`;
+  const u = new URL(ensureAbsoluteUrl(url));
+
+  u.search = "";
+  u.hash = "";
+
+  if (!u.pathname.endsWith("/")) {
+    u.pathname = `${u.pathname}/`;
+  }
+
+  return u.toString();
 }
 
 function safeDescription(text?: string): string {
