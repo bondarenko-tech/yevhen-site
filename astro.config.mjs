@@ -8,6 +8,8 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
+  "/video/eufycam-2c-set-2-plus-1/":
+  "/empfehlungen/sicherheit/eufycam-2c-set-2-plus-1/",
   "/empfehlungen/mobile-klimaanlage-peirhw/":
   "/empfehlungen/klima/mobile-klimaanlage-peirhw/",
   "/empfehlungen/ueberwachung/dahua-bullet-d1-wifi-kamera/":
