@@ -8,6 +8,12 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
+  "/video/tp-link-tapo-c210/ 11.11.2025":
+  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+  "/video/tp-link-tapo-c210/%2011.11.2025/":
+  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+  "/video/tp-link-tapo-c210/ 11.11.2025/":
+  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
   "/video/eufy-solocam-s340/":
   "/empfehlungen/sicherheit/eufy-solocam-s340/",
   "/video/tp-link-tapo-c210/%2011.11.2025":
