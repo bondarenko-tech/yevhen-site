@@ -8,6 +8,30 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
+  "/video/eufy-solocam-s340/":
+  "/empfehlungen/sicherheit/eufy-solocam-s340/",
+  "/video/tp-link-tapo-c210/%2011.11.2025":
+  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+  "/video/bosch-smart-home-controller/":
+  "/empfehlungen/smart-home/bosch-smart-home-controller/",
+  "/video/sygonix-video-tuersprechanlage/":
+  "/empfehlungen/sicherheit/sygonix-video-tuersprechanlage/",
+  "/video/tapo-l530e-wlan-gluhbirne/":
+  "/empfehlungen/beleuchtung/tapo-l530e-wlan-gluhbirne/",
+  "/video/levoit-ventilator/":
+  "/empfehlungen/klima/levoit-ventilator/",
+  "/video/blessource-ki-uebersetzerbrille/":
+  "/empfehlungen/sonstiges/blessource-ki-uebersetzerbrille/",
+  "/video/amazon-fire-tv-cube/":
+  "/empfehlungen/sonstiges/amazon-fire-tv-cube/",
+  "/video/amazon-fire-tv-cube/":
+  "/empfehlungen/sonstiges/amazon-fire-tv-cube/",
+  "/video/fritz-dect-repeater-100/":
+  "/empfehlungen/netzwerk/fritz-dect-repeater-100/",
+  "/video/apple-airpods-4/":
+  "/empfehlungen/smart-home/apple-airpods-4/",
+  "/video/gku-dash-cam-4k-1080p/":
+  "/empfehlungen/sicherheit/gku-dash-cam-4k-1080p/",
   "/video/eufycam-2c-set-2-plus-1/":
   "/empfehlungen/sicherheit/eufycam-2c-set-2-plus-1/",
   "/empfehlungen/mobile-klimaanlage-peirhw/":
