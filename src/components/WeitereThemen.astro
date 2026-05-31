@@ -6,36 +6,68 @@ const current = Astro.url.pathname;
 
 const topicMap: Record<string, string[]> = {
   sicherheit: [
+    "ueberwachungskamera-kaufen",
+    "innenkamera-oder-aussenkamera",
+    "video-tuerklingel-kaufen",
+    "alarmanlage-kaufen",
     "smart-home-grundlagen",
   ],
 
   netzwerk: [
+    "wlan-verbessern-zuhause",
     "wlan-langsam-was-tun",
-    "wlan-im-altbau",
-    "wlan-5ghz-vs-2-4ghz",
+    "wlan-probleme-loesen",
+    "wlan-reichweite-erhoehen",
+    "wlan-router-kaufberatung",
     "mesh-vs-repeater",
-    "powerline-vs-mesh",
-    "wlan-router-richtig-platzieren",
+  ],
+
+  klima: [
+    "raum-kuehlen-im-sommer",
+    "ventilator-kaufen",
+    "mobile-klimaanlage-kaufen",
+    "luftentfeuchter-kaufen",
   ],
 
   strom: [
+    "stromverbrauch-messen",
     "smarte-steckdose",
     "steckdosenleiste",
   ],
 
-  klima: [
-    "smart-home-grundlagen",
+  haushalt: [
+    "wischsauger-kaufen",
+    "akku-staubsauger-kaufen",
   ],
 
   smartHome: [
     "smart-home-grundlagen",
     "smarte-steckdose",
+    "matter-erklaert",
   ],
 };
 
 function detectTopic(path: string) {
-  if (path.includes("/sicherheit/") || path.includes("kamera") || path.includes("tuerklingel")) {
+  if (
+    path.includes("/sicherheit/") ||
+    path.includes("kamera") ||
+    path.includes("tuerklingel") ||
+    path.includes("tuerschloss") ||
+    path.includes("alarm")
+  ) {
     return "sicherheit";
+  }
+
+  if (
+    path.includes("/klima/") ||
+    path.includes("klimaanlage") ||
+    path.includes("ventilator") ||
+    path.includes("luftentfeuchter") ||
+    path.includes("luftreiniger") ||
+    path.includes("heizung") ||
+    path.includes("kuehlen")
+  ) {
+    return "klima";
   }
 
   if (
@@ -55,22 +87,21 @@ function detectTopic(path: string) {
     path.includes("steckdose") ||
     path.includes("steckdosenleiste") ||
     path.includes("powerbank") ||
-    path.includes("strom")
+    path.includes("strom") ||
+    path.includes("energie")
   ) {
     return "strom";
   }
 
   if (
-    path.includes("/klima/") ||
-    path.includes("klimaanlage") ||
-    path.includes("ventilator") ||
-    path.includes("luftentfeuchter") ||
-    path.includes("heizung")
+    path.includes("wischsauger") ||
+    path.includes("staubsauger") ||
+    path.includes("reiniger")
   ) {
-    return "klima";
+    return "haushalt";
   }
 
-  if (path.includes("/smart-home/") || path.includes("smart")) {
+  if (path.includes("/smart-home/") || path.includes("smart") || path.includes("matter")) {
     return "smartHome";
   }
 
@@ -88,7 +119,8 @@ function isVerstehenPost(post: VerstehenPost | undefined): post is VerstehenPost
 
 const preferred = preferredSlugs
   .map((slug) => posts.find((p) => p.slug === slug))
-  .filter(isVerstehenPost);
+  .filter(isVerstehenPost)
+  .filter((p) => !current.includes(p.slug));
 
 const fallback = posts
   .filter((p) => !current.includes(p.slug))
