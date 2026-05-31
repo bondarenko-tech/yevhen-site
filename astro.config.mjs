@@ -136,6 +136,9 @@ export default defineConfig({
   "/empfehlungen/ring-akku-videoturklingel-2024-/":
     "/empfehlungen/sicherheit/ring-akku-videotuerklingel-2024/",
 
+    "/vergleiche/wlan-5ghz-vs-2-4ghz/":
+    "/vergleiche/2-4ghz-vs-5ghz-wlan/",
+
   "/vergleiche/ueberwachungskamera-test/":
     "/vergleiche/ueberwachungskameras-2026/",
 
