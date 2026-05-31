@@ -8,6 +8,14 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
+  "/kupit-zhenskij-sportivnyj-kostyum-adidas-germaniya/":
+  "/links/alle/",
+  "/tests/":
+  "/links/alle/",
+  "/video/bosch-unlimited-7-bss711w/":
+  "/empfehlungen/sonstiges/bosch-unlimited-7-bss711w/",
+  "/video/de-longhi-pac-el112-cst-wifi-pinguino/":
+  "/empfehlungen/klima/de-longhi-pac-el112-cst-wifi-pinguino/",
   "/video/tp-link-tapo-c210/ 11.11.2025":
   "/empfehlungen/sicherheit/tp-link-tapo-c210/",
   "/video/tp-link-tapo-c210/%2011.11.2025/":
@@ -40,6 +48,12 @@ export default defineConfig({
   "/empfehlungen/sicherheit/gku-dash-cam-4k-1080p/",
   "/video/eufycam-2c-set-2-plus-1/":
   "/empfehlungen/sicherheit/eufycam-2c-set-2-plus-1/",
+  "/empfehlungen/imou-dual-2k-innenkamera/":
+  "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/",
+  "/empfehlungen/strom/anker-usb-c-ladegeraet/":
+  "/empfehlungen/strom/anker-usb-c-ladegerat/",
+  "/empfehlungen/medion-p502-klimaanlage/":
+  "/empfehlungen/klima/medion-p502-klimaanlage/",
   "/empfehlungen/mobile-klimaanlage-peirhw/":
   "/empfehlungen/klima/mobile-klimaanlage-peirhw/",
   "/empfehlungen/ueberwachung/dahua-bullet-d1-wifi-kamera/":
