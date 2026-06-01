@@ -38,8 +38,6 @@ export default defineConfig({
   "/empfehlungen/sonstiges/blessource-ki-uebersetzerbrille/",
   "/video/amazon-fire-tv-cube/":
   "/empfehlungen/sonstiges/amazon-fire-tv-cube/",
-  "/video/amazon-fire-tv-cube/":
-  "/empfehlungen/sonstiges/amazon-fire-tv-cube/",
   "/video/fritz-dect-repeater-100/":
   "/empfehlungen/netzwerk/fritz-dect-repeater-100/",
   "/video/apple-airpods-4/":
