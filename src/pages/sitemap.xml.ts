@@ -143,23 +143,24 @@ export const GET: APIRoute = async () => {
   }
 
   /*
-    ===== STATIC PAGES =====
-  */
+  ===== STATIC PAGES =====
+*/
 
-  push("/", undefined, "1.0");
+push("/", undefined, "1.0");
 
-  push("/empfehlungen/", undefined, "0.9");
-  push("/vergleiche/", undefined, "0.9");
-  push("/verstehen/", undefined, "0.9");
-  push("/ratgeber/", undefined, "0.8");
+push("/empfehlungen/", undefined, "0.9");
+push("/vergleiche/", undefined, "0.9");
+push("/verstehen/", undefined, "0.9");
+push("/ratgeber/", undefined, "0.8");
 
-  push("/links/alle/", undefined, "0.8");
+push("/links/", undefined, "0.8");
+push("/links/alle/", undefined, "0.7");
 
-  push("/impressum/", undefined, "0.3");
-  push("/datenschutzerklaerung/", undefined, "0.3");
-  push("/transparenz/", undefined, "0.4");
-  push("/kontakt/", undefined, "0.4");
-  push("/ueber-uns/", undefined, "0.4");
+push("/impressum/", undefined, "0.3");
+push("/datenschutzerklaerung/", undefined, "0.3");
+push("/transparenz/", undefined, "0.4");
+push("/kontakt/", undefined, "0.4");
+push("/ueber-uns/", undefined, "0.4");
 
   /*
     ===== CATEGORY PAGES =====

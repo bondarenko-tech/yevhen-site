@@ -1,0 +1,164 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const SITE =
+  Astro.site?.toString().replace(/\/$/, "") ??
+  "https://yevhenbondarenko.com";
+
+const canonical = `${SITE}/marken/`;
+
+const title = "Marken – Technik Empfehlungen nach Hersteller";
+const description =
+  "Technik-Empfehlungen nach Marken sortiert. Finden Sie Produkte, Vergleiche und Ratgeber zu WLAN, Smart Home, Sicherheit, Klima, Stromversorgung und Haushalt.";
+
+const produkte = await getCollection("produkte");
+
+const breadcrumb = [
+  { name: "Startseite", url: `${SITE}/` },
+  { name: "Marken", url: canonical },
+];
+
+function slugifyBrand(value: string) {
+  return String(value)
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "und")
+    .replace(/\+/g, "plus")
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const brandMap = new Map();
+
+for (const entry of produkte) {
+  const brand = entry.data.brand;
+
+  if (!brand || typeof brand !== "string") continue;
+
+  const name = brand.trim();
+  const slug = slugifyBrand(name);
+
+  if (!slug) continue;
+
+  if (!brandMap.has(slug)) {
+    brandMap.set(slug, {
+      name,
+      slug,
+      count: 0,
+      categories: new Set(),
+    });
+  }
+
+  const item = brandMap.get(slug);
+
+  item.count += 1;
+
+  if (entry.data.kategorie && typeof entry.data.kategorie === "string") {
+    item.categories.add(entry.data.kategorie);
+  }
+}
+
+const marken = Array.from(brandMap.values()).sort((a, b) =>
+  a.name.localeCompare(b.name, "de")
+);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  breadcrumb={breadcrumb}
+>
+
+<main class="mx-auto max-w-6xl px-4 py-12 md:py-20">
+
+  <header class="max-w-3xl mb-16">
+    <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+      Herstellerübersicht
+    </span>
+
+    <h1 class="text-4xl md:text-6xl font-black text-neutral-900 leading-tight mb-6 text-balance">
+      Technik nach <span class="text-blue-600 italic">Marken</span> finden.
+    </h1>
+
+    <p class="text-lg md:text-xl text-neutral-600 leading-relaxed font-medium">
+      Hier finden Sie Technik-Empfehlungen nach Hersteller sortiert.
+      So gelangen Sie schneller zu passenden Produkten, Vergleichen und Ratgebern.
+    </p>
+  </header>
+
+  <section class="mb-20">
+    <h2 class="text-xs font-black uppercase tracking-[0.2em] text-neutral-400 mb-8">
+      Alle Marken
+    </h2>
+
+    {marken.length === 0 ? (
+      <p class="text-neutral-500">Noch keine Marken verfügbar.</p>
+    ) : (
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {marken.map((marke) => (
+          <a
+            href={`/marken/${marke.slug}/`}
+            class="group relative rounded-[32px] border border-neutral-100 bg-neutral-50/50 p-8 hover:bg-white hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500"
+          >
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 text-lg font-black mb-5 group-hover:scale-110 transition-transform duration-500">
+              {marke.name.slice(0, 1).toUpperCase()}
+            </span>
+
+            <h2 class="text-xl font-bold mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
+              {marke.name}
+            </h2>
+
+            <p class="text-sm text-neutral-500 leading-relaxed font-medium">
+              {marke.count} Empfehlung{marke.count === 1 ? "" : "en"}
+              {marke.categories.size > 0 && (
+                <>
+                  {" "}in {Array.from(marke.categories).join(", ")}
+                </>
+              )}
+            </p>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section class="mt-24 p-8 md:p-16 rounded-[40px] bg-neutral-900 text-center relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-full bg-blue-600/10 pointer-events-none"></div>
+
+    <div class="relative z-10">
+      <h2 class="text-2xl md:text-3xl font-black text-white mb-4">
+        Nicht nach Marke suchen?
+      </h2>
+
+      <p class="text-neutral-400 mb-10 max-w-xl mx-auto font-medium">
+        Wenn Sie lieber nach Themen suchen, finden Sie hier alle Empfehlungen und Vergleiche.
+      </p>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a
+          href="/empfehlungen/"
+          class="bg-white text-neutral-900 px-8 py-4 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition-all"
+        >
+          Alle Empfehlungen
+        </a>
+
+        <a
+          href="/vergleiche/"
+          class="bg-neutral-800 text-white px-8 py-4 rounded-xl font-bold hover:bg-neutral-700 transition-all border border-neutral-700"
+        >
+          Vergleiche ansehen
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+</BaseLayout>

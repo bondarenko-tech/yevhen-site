@@ -8,6 +8,23 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
+  "/empfehlungen":
+  "/empfehlungen/",
+
+  "/links":
+  "/links/",
+
+  "/impressum":
+  "/impressum/",
+
+  "/ueber-uns":
+  "/ueber-uns/",
+
+  "/empfehlungen/echo-pop-bluetooth-lautsprecher/":
+  "/empfehlungen/smart-home/echo-pop-bluetooth-lautsprecher/",
+
+  "/empfehlungen/steckdosenleiste/":
+  "/empfehlungen/strom/",
   "/kupit-zhenskij-sportivnyj-kostyum-adidas-germaniya/":
   "/links/alle/",
   "/tests/":
