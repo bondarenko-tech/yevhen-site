@@ -217,9 +217,11 @@ function slugifyBrand(value: string) {
 }
 
 const brandSeen = new Set<string>();
+const brandCategorySeen = new Set<string>();
 
 for (const entry of produkte) {
   const brand = entry.data?.brand;
+  const category = entry.data?.kategorie;
 
   if (!brand || typeof brand !== "string") continue;
 
@@ -227,11 +229,20 @@ for (const entry of produkte) {
 
   if (!brandSlug) continue;
 
-  if (brandSeen.has(brandSlug)) continue;
+  if (!brandSeen.has(brandSlug)) {
+    brandSeen.add(brandSlug);
+    push(`/marken/${brandSlug}/`, getEntryDate(entry), "0.5");
+  }
 
-  brandSeen.add(brandSlug);
+  if (!category || typeof category !== "string") continue;
 
-  push(`/marken/${brandSlug}/`, getEntryDate(entry), "0.5");
+  const key = `${brandSlug}|${category}`;
+
+  if (brandCategorySeen.has(key)) continue;
+
+  brandCategorySeen.add(key);
+
+  push(`/marken/${brandSlug}/${category}/`, getEntryDate(entry), "0.4");
 }
 
   /*
