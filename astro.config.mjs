@@ -8,6 +8,14 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
+    "/marken/amazon/sonstiges/":
+  "/marken/amazon/",
+
+"/marken/medion/sonstiges/":
+  "/marken/medion/",
+
+"/marken/technisat/smart-home/":
+  "/marken/technisat/",
     "/video/tp-link-tapo-c200/":
   "/empfehlungen/sicherheit/tp-link-tapo-c210/",
 
