@@ -8,6 +8,38 @@ export default defineConfig({
   trailingSlash: "always",
 
   redirects: {
+    "/video/tp-link-tapo-c200/":
+  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+
+    "/tests/aqara-video-doorbell-g4-test/":
+  "/empfehlungen/sicherheit/",
+
+"/tests/dreo-smart-heizung-2000w-test/":
+  "/empfehlungen/klima/",
+
+    "/shorts/dVHDOroMv3o/":
+  "/empfehlungen/sicherheit/",
+
+"/shorts/P2UgDE6dvQs/":
+  "/empfehlungen/smart-home/",
+
+"/shorts/rRd6imwWvLE/":
+  "/empfehlungen/klima/",
+
+"/shorts/wLT17pSBr_8/":
+  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+
+"/shorts/Mu5MObX1PjM/":
+  "/empfehlungen/smart-home/",
+
+"/shorts/vAoOJBdX6Ks/":
+  "/empfehlungen/sicherheit/",
+
+"/shorts/yAiXfr-YeIA/":
+  "/empfehlungen/sonstiges/",
+
+"/shorts/DhciqRXmTJ8/":
+  "/empfehlungen/smart-home/",
   "/empfehlungen":
   "/empfehlungen/",
 
