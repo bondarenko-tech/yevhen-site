@@ -50,7 +50,6 @@ function shouldSkip(path: string) {
   return (
     p.startsWith("/video/") ||
     p.startsWith("/shorts/") ||
-    p.startsWith("/marken/") ||
     p.startsWith("/tests/") ||
     p.startsWith("/kategorien/") ||
     p.includes(".astro") ||
@@ -152,6 +151,7 @@ push("/empfehlungen/", undefined, "0.9");
 push("/vergleiche/", undefined, "0.9");
 push("/verstehen/", undefined, "0.9");
 push("/ratgeber/", undefined, "0.8");
+push("/marken/", undefined, "0.7");
 
 push("/links/", undefined, "0.8");
 push("/links/alle/", undefined, "0.7");
@@ -197,6 +197,42 @@ push("/ueber-uns/", undefined, "0.4");
       );
     }
   }
+
+  /*
+  ===== MARKEN =====
+*/
+
+function slugifyBrand(value: string) {
+  return String(value)
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "und")
+    .replace(/\+/g, "plus")
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const brandSeen = new Set<string>();
+
+for (const entry of produkte) {
+  const brand = entry.data?.brand;
+
+  if (!brand || typeof brand !== "string") continue;
+
+  const brandSlug = slugifyBrand(brand);
+
+  if (!brandSlug) continue;
+
+  if (brandSeen.has(brandSlug)) continue;
+
+  brandSeen.add(brandSlug);
+
+  push(`/marken/${brandSlug}/`, getEntryDate(entry), "0.5");
+}
 
   /*
     ===== VERSTEHEN =====
