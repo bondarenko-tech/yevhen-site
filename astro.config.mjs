@@ -48,8 +48,6 @@ export default defineConfig({
 
 "/shorts/DhciqRXmTJ8/":
   "/empfehlungen/smart-home/",
-  "/empfehlungen":
-  "/empfehlungen/",
 
   "/links":
   "/links/",
