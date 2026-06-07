@@ -54,9 +54,6 @@ export default defineConfig({
   "/links":
   "/links/",
 
-  "/impressum":
-  "/impressum/",
-
   "/ueber-uns":
   "/ueber-uns/",
 
