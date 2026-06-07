@@ -54,9 +54,6 @@ export default defineConfig({
   "/links":
   "/links/",
 
-  "/ueber-uns":
-  "/ueber-uns/",
-
   "/empfehlungen/echo-pop-bluetooth-lautsprecher/":
   "/empfehlungen/smart-home/echo-pop-bluetooth-lautsprecher/",
 
