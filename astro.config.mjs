@@ -4,222 +4,223 @@ import mdx from "@astrojs/mdx";
 
 export default defineConfig({
   site: "https://yevhenbondarenko.com",
-
   trailingSlash: "always",
 
   redirects: {
-    "/marken/amazon/sonstiges/":
-  "/marken/amazon/",
+    "/home": "/",
+    "/home/": "/",
 
-"/marken/medion/sonstiges/":
-  "/marken/medion/",
+    "/bio": "/ueber-uns/",
+    "/bio/": "/ueber-uns/",
+    "/ueber-das-projekt": "/ueber-uns/",
+    "/ueber-das-projekt/": "/ueber-uns/",
 
-"/marken/technisat/smart-home/":
-  "/marken/technisat/",
-    "/video/tp-link-tapo-c200/":
-  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/links": "/links/",
+    "/links.astro": "/links/alle/",
+    "/kontakt": "/kontakt/",
+    "/kontakt.astro": "/kontakt/",
+    "/ueber-uns": "/ueber-uns/",
+    "/ueber-uns.astro": "/ueber-uns/",
+    "/transparenz": "/transparenz/",
+    "/transparenz.astro": "/transparenz/",
+    "/datenschutzerklaerung": "/datenschutzerklaerung/",
+    "/datenschutzerklaerung.astro": "/datenschutzerklaerung/",
+    "/empfehlungen": "/empfehlungen/",
 
-    "/tests/aqara-video-doorbell-g4-test/":
-  "/empfehlungen/sicherheit/",
+    "/kupit-zhenskij-sportivnyj-kostyum-adidas-germaniya/": "/links/alle/",
+    "/tests/": "/links/alle/",
 
-"/tests/dreo-smart-heizung-2000w-test/":
-  "/empfehlungen/klima/",
+    "/kategorien": "/empfehlungen/",
+    "/kategorien/": "/empfehlungen/",
+    "/kategorien/ueberwachung/": "/empfehlungen/sicherheit/",
+    "/kategorien/überwachung/": "/empfehlungen/sicherheit/",
+    "/kategorien/beleuchtung/": "/empfehlungen/beleuchtung/",
+    "/kategorien/strom/": "/empfehlungen/strom/",
+    "/kategorien/sonstiges/": "/empfehlungen/sonstiges/",
 
-    "/shorts/dVHDOroMv3o/":
-  "/empfehlungen/sicherheit/",
+    "/marken/amazon/sonstiges/": "/marken/amazon/",
+    "/marken/medion/sonstiges/": "/marken/medion/",
+    "/marken/technisat/smart-home/": "/marken/technisat/",
 
-"/shorts/P2UgDE6dvQs/":
-  "/empfehlungen/smart-home/",
+    "/shorts/dVHDOroMv3o/": "/empfehlungen/sicherheit/",
+    "/shorts/P2UgDE6dvQs/": "/empfehlungen/smart-home/",
+    "/shorts/rRd6imwWvLE/": "/empfehlungen/klima/",
+    "/shorts/wLT17pSBr_8/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/shorts/Mu5MObX1PjM/": "/empfehlungen/smart-home/",
+    "/shorts/vAoOJBdX6Ks/": "/empfehlungen/sicherheit/",
+    "/shorts/yAiXfr-YeIA/": "/empfehlungen/sonstiges/",
+    "/shorts/DhciqRXmTJ8/": "/empfehlungen/smart-home/",
 
-"/shorts/rRd6imwWvLE/":
-  "/empfehlungen/klima/",
+    "/tests/aqara-video-doorbell-g4-test/": "/empfehlungen/sicherheit/",
+    "/tests/dreo-smart-heizung-2000w-test/": "/empfehlungen/klima/",
 
-"/shorts/wLT17pSBr_8/":
-  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/video/tp-link-tapo-c200/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/video/tp-link-tapo-c210/ 11.11.2025": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/video/tp-link-tapo-c210/ 11.11.2025/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/video/tp-link-tapo-c210/%2011.11.2025": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/video/tp-link-tapo-c210/%2011.11.2025/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/video/bosch-unlimited-7-bss711w/": "/empfehlungen/sonstiges/bosch-unlimited-7-bss711w/",
+    "/video/de-longhi-pac-el112-cst-wifi-pinguino/": "/empfehlungen/klima/de-longhi-pac-el112-cst-wifi-pinguino/",
+    "/video/eufy-solocam-s340/": "/empfehlungen/sicherheit/eufy-solocam-s340/",
+    "/video/bosch-smart-home-controller/": "/empfehlungen/smart-home/bosch-smart-home-controller/",
+    "/video/sygonix-video-tuersprechanlage/": "/empfehlungen/sicherheit/sygonix-video-tuersprechanlage/",
+    "/video/tapo-l530e-wlan-gluhbirne/": "/empfehlungen/beleuchtung/tapo-l530e-wlan-gluhbirne/",
+    "/video/levoit-ventilator/": "/empfehlungen/klima/levoit-ventilator/",
+    "/video/blessource-ki-uebersetzerbrille/": "/empfehlungen/sonstiges/blessource-ki-uebersetzerbrille/",
+    "/video/amazon-fire-tv-cube/": "/empfehlungen/sonstiges/amazon-fire-tv-cube/",
+    "/video/fritz-dect-repeater-100/": "/empfehlungen/netzwerk/fritz-dect-repeater-100/",
+    "/video/apple-airpods-4/": "/empfehlungen/smart-home/apple-airpods-4/",
+    "/video/gku-dash-cam-4k-1080p/": "/empfehlungen/sicherheit/gku-dash-cam-4k-1080p/",
+    "/video/eufycam-2c-set-2-plus-1/": "/empfehlungen/sicherheit/eufycam-2c-set-2-plus-1/",
+    "/video/blink-mini-2/": "/empfehlungen/sicherheit/blink-mini-2/",
 
-"/shorts/Mu5MObX1PjM/":
-  "/empfehlungen/smart-home/",
+    "/empfehlungen/ueberwachung": "/empfehlungen/sicherheit/",
+    "/empfehlungen/ueberwachung/": "/empfehlungen/sicherheit/",
+    "/empfehlungen/überwachung/": "/empfehlungen/sicherheit/",
+    "/empfehlungen/uberwachungskameras-2025/": "/empfehlungen/sicherheit/",
 
-"/shorts/vAoOJBdX6Ks/":
-  "/empfehlungen/sicherheit/",
+    "/empfehlungen/strom": "/empfehlungen/strom/",
+    "/empfehlungen/sonstiges": "/empfehlungen/sonstiges/",
+    "/empfehlungen/beleuchtung": "/empfehlungen/beleuchtung/",
 
-"/shorts/yAiXfr-YeIA/":
-  "/empfehlungen/sonstiges/",
+    "/empfehlungen/govee-led-strip/": "/empfehlungen/beleuchtung/govee-led-strip/",
+    "/empfehlungen/govee-g9-smart-led-lampe/": "/empfehlungen/beleuchtung/govee-g9-smart-led-lampe/",
+    "/empfehlungen/led-schranklicht/": "/empfehlungen/beleuchtung/led-schranklicht/",
 
-"/shorts/DhciqRXmTJ8/":
-  "/empfehlungen/smart-home/",
+    "/empfehlungen/google-nest-cam/": "/empfehlungen/sicherheit/google-nest-cam/",
+    "/empfehlungen/roku-express-4k/": "/empfehlungen/smart-home/roku-express-4k/",
+    "/empfehlungen/mobile-klimaanlage-peirhw/": "/empfehlungen/klima/mobile-klimaanlage-peirhw/",
+    "/empfehlungen/comfee-breezy-cool-pro-2-6/": "/empfehlungen/klima/comfee-breezy-cool-pro-2-6/",
+    "/empfehlungen/mobile-klimaanlage-4in1": "/empfehlungen/klima/mobile-klimaanlage-4in1/",
+    "/empfehlungen/mobile-klimaanlage-4in1/": "/empfehlungen/klima/mobile-klimaanlage-4in1/",
+    "/empfehlungen/midea-4-in-1-mobile-klimaanlage": "/empfehlungen/klima/midea-4-in-1-mobile-klimaanlage/",
+    "/empfehlungen/midea-4-in-1-mobile-klimaanlage/": "/empfehlungen/klima/midea-4-in-1-mobile-klimaanlage/",
+    "/empfehlungen/pac-em90/": "/empfehlungen/klima/pac-em90/",
+    "/empfehlungen/mobile-klimaanlage-1500ml/": "/empfehlungen/klima/mobile-klimaanlage-1500ml/",
+    "/empfehlungen/medion-p502-klimaanlage/": "/empfehlungen/klima/medion-p502-klimaanlage/",
+    "/empfehlungen/mobiles-klimageraet-mit-fernbedienung": "/empfehlungen/klima/mobiles-klimageraet-mit-fernbedienung/",
+    "/empfehlungen/klima/mobiles-klimageraet-mit-fernbedienung/": "/empfehlungen/klima/mobiles-klimagerat-mit-fernbedienung/",
+    "/empfehlungen/homematic-ip-thermostat/": "/empfehlungen/klima/homematic-ip-thermostat/",
+    "/empfehlungen/klima/akku-auto-heizluefter/": "/empfehlungen/klima/vevor-diesel-luftheizung-8kw/",
+    "/empfehlungen/klima/tado-thermostat-x-matter/": "/empfehlungen/klima/tado-thermostat-x/",
 
-  "/links":
-  "/links/",
+    "/empfehlungen/tp-link-tapo-p110": "/empfehlungen/strom/tp-link-tapo-p110/",
+    "/empfehlungen/tp-link-tapo-p110/": "/empfehlungen/strom/tp-link-tapo-p110/",
+    "/empfehlungen/meross-wlan-steckdose/": "/empfehlungen/strom/meross-wlan-steckdose/",
+    "/empfehlungen/eightree-wlan-smart-steckdose": "/empfehlungen/strom/eightree-wlan-smart-steckdose/",
+    "/empfehlungen/eightree-wlan-smart-steckdose/": "/empfehlungen/strom/eightree-wlan-smart-steckdose/",
+    "/empfehlungen/tp-link-kasa-kp115/": "/empfehlungen/strom/tp-link-kasa-kp115/",
+    "/empfehlungen/strom/anker-usb-c-ladegeraet/": "/empfehlungen/strom/anker-usb-c-ladegerat/",
+    "/empfehlungen/anker-usb-c-ladegerat/": "/empfehlungen/strom/anker-usb-c-ladegeraet/",
+    "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/": "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste-6fach-ueberspannungsschutz/",
 
-  "/empfehlungen/echo-pop-bluetooth-lautsprecher/":
-  "/empfehlungen/smart-home/echo-pop-bluetooth-lautsprecher/",
+    "/empfehlungen/ueberwachung/dahua-bullet-d1-wifi-kamera/": "/empfehlungen/sicherheit/dahua-bullet-d1-wifi-kamera/",
+    "/empfehlungen/dahua-bullet-d1-wifi-kamera/": "/empfehlungen/sicherheit/dahua-bullet-d1-wifi-kamera/",
+    "/empfehlungen/ueberwachung/eufy-e220-innenkamera/": "/empfehlungen/sicherheit/eufy-e220-innenkamera/",
+    "/empfehlungen/eufy-e220-innenkamera/": "/empfehlungen/sicherheit/eufy-e220-innenkamera/",
+    "/empfehlungen/eufy-security-indoor-cam-e220/": "/empfehlungen/sicherheit/eufy-e220-innenkamera/",
+    "/empfehlungen/smart-home/eufy-e220-innenkamera/": "/empfehlungen/sicherheit/eufy-e220-innenkamera/",
+    "/empfehlungen/ueberwachung/lupus-le202-wlan-ip-kamera/": "/empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/",
+    "/empfehlungen/überwachung/lupus-le202-wlan-ip-kamera/": "/empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/",
+    "/empfehlungen/lupus-le202-wlan-ip-kamera": "/empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/",
+    "/empfehlungen/lupus-le202-wlan-ip-kamera/": "/empfehlungen/sicherheit/lupus-le202-wlan-ip-kamera/",
+    "/empfehlungen/lupus-le-204": "/empfehlungen/sicherheit/lupus-le204/",
+    "/empfehlungen/lupus-le-204/": "/empfehlungen/sicherheit/lupus-le204/",
+    "/empfehlungen/lupus-le204/": "/empfehlungen/sicherheit/lupus-le204/",
+    "/empfehlungen/aqara-e1-kamera/": "/empfehlungen/sicherheit/aqara-e1-kamera/",
+    "/empfehlungen/ueberwachung/aqara-e1-kamera/": "/empfehlungen/sicherheit/aqara-e1-kamera/",
+    "/empfehlungen/überwachung/aqara-e1-kamera/": "/empfehlungen/sicherheit/aqara-e1-kamera/",
+    "/empfehlungen/aqara-g5-pro-wlan-kamera": "/empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/",
+    "/empfehlungen/aqara-g5-pro-wlan-kamera/": "/empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/",
+    "/empfehlungen/ueberwachung/aqara-g5-pro-wlan-kamera/": "/empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/",
+    "/empfehlungen/überwachung/aqara-g5-pro-wlan-kamera/": "/empfehlungen/sicherheit/aqara-g5-pro-wlan-kamera/",
+    "/empfehlungen/ueberwachung/baseus-ueberwachungskamera-solar/": "/empfehlungen/sicherheit/baseus-ueberwachungskamera-solar/",
+    "/empfehlungen/ueberwachung/reolink-argus-3-pro/": "/empfehlungen/sicherheit/reolink-argus-3-pro/",
+    "/empfehlungen/reolink-argus-3-pro/": "/empfehlungen/sicherheit/reolink-argus-3-pro/",
+    "/empfehlungen/ueberwachung/ezviz-cp1-pro/": "/empfehlungen/sicherheit/ezviz-cp1-pro/",
+    "/empfehlungen/ueberwachung/eufy-solocam-s340/": "/empfehlungen/sicherheit/eufy-solocam-s340/",
+    "/empfehlungen/tp-link-tapo-c200/": "/empfehlungen/sicherheit/tp-link-tapo-c200/",
+    "/empfehlungen/tp-link-tapo-c210/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/empfehlungen/tapo-c210/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/empfehlungen/tp-link-tapo-c100/": "/empfehlungen/sicherheit/tp-link-tapo-c100/",
+    "/empfehlungen/tapo-tp-link-c100/": "/empfehlungen/sicherheit/tp-link-tapo-c100/",
+    "/empfehlungen/imou-dual-2k-innenkamera/": "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/",
+    "/empfehlungen/überwachung/imou-dual-2k-innenkamera/": "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/",
+    "/empfehlungen/somfy-innenkamera/": "/empfehlungen/sicherheit/somfy-innenkamera/",
+    "/empfehlungen/sicherheit/innenkamera/": "/empfehlungen/sicherheit/somfy-innenkamera/",
+    "/empfehlungen/ezviz-ep3x-pro/": "/empfehlungen/sicherheit/ezviz-ep3x-pro/",
+    "/empfehlungen/ezviz-ep3x-pro-tuerklingel/": "/empfehlungen/sicherheit/ezviz-ep3x-pro/",
+    "/empfehlungen/ezviz-cp3x-pro-tuerklingel/": "/empfehlungen/sicherheit/ezviz-ep3x-pro/",
+    "/empfehlungen/ezviz-cp5/": "/empfehlungen/sicherheit/ezviz-cp5/",
+    "/empfehlungen/blink-video-doorbell/": "/empfehlungen/sicherheit/blink-video-doorbell/",
+    "/empfehlungen/blink-mini-2/": "/empfehlungen/sicherheit/blink-mini-2/",
+    "/empfehlungen/eufycam-2c-set-2-plus-1/": "/empfehlungen/sicherheit/eufycam-2c-set-2-plus-1/",
+    "/empfehlungen/abus-facexess-tuersprechanlage/": "/empfehlungen/sicherheit/abus-facexess-tuersprechanlage/",
+    "/empfehlungen/ezviz-4k-h3k-poe-kit/": "/empfehlungen/sicherheit/ezviz-4k-h3k-poe-kit/",
+    "/empfehlungen/sygonix-video-tuersprechanlage": "/empfehlungen/sicherheit/sygonix-video-tuersprechanlage/",
+    "/empfehlungen/mathfel-video-tuersprechanlage/": "/empfehlungen/sicherheit/mathfel-video-tuersprechanlage/",
+    "/empfehlungen/ring-innenkamera-2": "/empfehlungen/sicherheit/ring-innenkamera-2/",
+    "/empfehlungen/boifun-wlan-video-tuerklingel": "/empfehlungen/sicherheit/boifun-wlan-video-tuerklingel/",
+    "/empfehlungen/boifun-wlan-video-tuerklingel/": "/empfehlungen/sicherheit/boifun-wlan-video-tuerklingel/",
+    "/empfehlungen/sicherheit/tapo-c210/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/empfehlungen/sicherheit/sonoff-cam-slim-gen2/": "/empfehlungen/sicherheit/sonoff-cam-slim-gen2-test/",
+    "/empfehlungen/sicherheit/reolink-duo-2-wifi/": "/empfehlungen/sicherheit/reolink-duo-2-wifi-180-grad-kamera-ohne-abo-de/",
+    "/empfehlungen/reolink-e1-pro/": "/empfehlungen/sicherheit/reolink-e1-pro/",
+    "/empfehlungen/ring-akku-videoturklingel-2024-/": "/empfehlungen/sicherheit/ring-akku-videotuerklingel-2024/",
+    "/empfehlungen/sicherheit/sicherheitstechnik-fur-innen-und-aussen/": "/empfehlungen/sicherheit/",
 
-  "/empfehlungen/steckdosenleiste/":
-  "/empfehlungen/strom/",
-  "/kupit-zhenskij-sportivnyj-kostyum-adidas-germaniya/":
-  "/links/alle/",
-  "/tests/":
-  "/links/alle/",
-  "/video/bosch-unlimited-7-bss711w/":
-  "/empfehlungen/sonstiges/bosch-unlimited-7-bss711w/",
-  "/video/de-longhi-pac-el112-cst-wifi-pinguino/":
-  "/empfehlungen/klima/de-longhi-pac-el112-cst-wifi-pinguino/",
-  "/video/tp-link-tapo-c210/ 11.11.2025":
-  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
-  "/video/tp-link-tapo-c210/%2011.11.2025/":
-  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
-  "/video/tp-link-tapo-c210/ 11.11.2025/":
-  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
-  "/video/eufy-solocam-s340/":
-  "/empfehlungen/sicherheit/eufy-solocam-s340/",
-  "/video/tp-link-tapo-c210/%2011.11.2025":
-  "/empfehlungen/sicherheit/tp-link-tapo-c210/",
-  "/video/bosch-smart-home-controller/":
-  "/empfehlungen/smart-home/bosch-smart-home-controller/",
-  "/video/sygonix-video-tuersprechanlage/":
-  "/empfehlungen/sicherheit/sygonix-video-tuersprechanlage/",
-  "/video/tapo-l530e-wlan-gluhbirne/":
-  "/empfehlungen/beleuchtung/tapo-l530e-wlan-gluhbirne/",
-  "/video/levoit-ventilator/":
-  "/empfehlungen/klima/levoit-ventilator/",
-  "/video/blessource-ki-uebersetzerbrille/":
-  "/empfehlungen/sonstiges/blessource-ki-uebersetzerbrille/",
-  "/video/amazon-fire-tv-cube/":
-  "/empfehlungen/sonstiges/amazon-fire-tv-cube/",
-  "/video/fritz-dect-repeater-100/":
-  "/empfehlungen/netzwerk/fritz-dect-repeater-100/",
-  "/video/apple-airpods-4/":
-  "/empfehlungen/smart-home/apple-airpods-4/",
-  "/video/gku-dash-cam-4k-1080p/":
-  "/empfehlungen/sicherheit/gku-dash-cam-4k-1080p/",
-  "/video/eufycam-2c-set-2-plus-1/":
-  "/empfehlungen/sicherheit/eufycam-2c-set-2-plus-1/",
-  "/empfehlungen/imou-dual-2k-innenkamera/":
-  "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/",
-  "/empfehlungen/strom/anker-usb-c-ladegeraet/":
-  "/empfehlungen/strom/anker-usb-c-ladegerat/",
-  "/empfehlungen/medion-p502-klimaanlage/":
-  "/empfehlungen/klima/medion-p502-klimaanlage/",
-  "/empfehlungen/mobile-klimaanlage-peirhw/":
-  "/empfehlungen/klima/mobile-klimaanlage-peirhw/",
-  "/empfehlungen/ueberwachung/dahua-bullet-d1-wifi-kamera/":
-  "/empfehlungen/sicherheit/dahua-bullet-d1-wifi-kamera/",
-  "/empfehlungen/viture-luma-pro-xr-brille":
-  "/empfehlungen/sonstiges/viture-luma-pro-xr-brille/",
-  "/empfehlungen/abus-facexess-tuersprechanlage/":
-  "/empfehlungen/sicherheit/abus-facexess-tuersprechanlage/",
-  "/empfehlungen/ezviz-4k-h3k-poe-kit/":
-  "/empfehlungen/sicherheit/ezviz-4k-h3k-poe-kit/", 
-  "/empfehlungen/roku-express-4k/":
-  "/empfehlungen/smart-home/roku-express-4k/",
-  "/video/blink-mini-2/":
-  "/empfehlungen/sicherheit/blink-mini-2/",  
-  "/empfehlungen/ueberwachung":
-  "/empfehlungen/sicherheit/",
-  "/empfehlungen/tp-link-tapo-p110":
-  "/empfehlungen/strom/tp-link-tapo-p110/",
-  "/empfehlungen/midea-4-in-1-mobile-klimaanlage":
-  "/empfehlungen/klima/midea-4-in-1-mobile-klimaanlage/",
-  "/empfehlungen/mobile-klimaanlage-4in1":
-  "/empfehlungen/klima/mobile-klimaanlage-4in1/",
-  "/empfehlungen/boifun-wlan-video-tuerklingel":
-  "/empfehlungen/sicherheit/boifun-wlan-video-tuerklingel/",
-  "/empfehlungen/ring-innenkamera-2":
-  "/empfehlungen/sicherheit/ring-innenkamera-2/",
+    "/empfehlungen/google-tv-streamer": "/empfehlungen/smart-home/google-tv-streamer/",
+    "/empfehlungen/google-tv-streamer/": "/empfehlungen/smart-home/google-tv-streamer/",
+    "/empfehlungen/switchbot-curtain-3/": "/empfehlungen/smart-home/switchbot-curtain-3/",
+    "/empfehlungen/aqara-panel-hub-s1-plus/": "/empfehlungen/smart-home/aqara-panel-hub-s1-plus/",
+    "/empfehlungen/technisat-digit-isio-s4/": "/empfehlungen/smart-home/technisat-digit-isio-s4/",
+    "/empfehlungen/eero-max-7-wifi7-router/": "/empfehlungen/smart-home/eero-max-7-wifi7-router/",
+    "/empfehlungen/smart-home/fritz-repeater-3000-ax/": "/empfehlungen/netzwerk/fritz-repeater-3000-ax/",
+    "/empfehlungen/wlan-mesh/": "/empfehlungen/netzwerk/",
+    "/empfehlungen/homematic-ip-starter-set-beschattung/": "/empfehlungen/smart-home/homematic-ip-starter-set-beschattung/",
+    "/empfehlungen/bosch-smart-home-controller-ii/": "/empfehlungen/smart-home/bosch-smart-home-controller-ii/",
+    "/empfehlungen/sonstiges/roborock-q7-m5/": "/empfehlungen/smart-home/roborock-q7-m5/",
+    "/empfehlungen/echo-pop-bluetooth-lautsprecher/": "/empfehlungen/smart-home/echo-pop-bluetooth-lautsprecher/",
+    "/empfehlungen/audio/apple-airpods-pro-3-kabellose-kopfhoerer/": "/empfehlungen/smart-home/apple-airpods-pro-3-kabellose-kopfhoerer/",
+    "/empfehlungen/apple-airpods-pro-3-kabellose-kopfhoerer/": "/empfehlungen/smart-home/apple-airpods-pro-3-kabellose-kopfhoerer/",
 
-  "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming-edition/":
-    "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming/",
+    "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming-edition/": "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming/",
+    "/empfehlungen/netzwerk/telekom-speedport-7-wifi7-router/": "/empfehlungen/netzwerk/speedport-7-wifi7-router/",
+    "/empfehlungen/netzwerk/lan-splitter-1-3-gigabit/": "/empfehlungen/netzwerk/vedindust-lan-splitter-1-auf-3-gigabit/",
 
-  "/empfehlungen/netzwerk/telekom-speedport-7-wifi7-router/":
-    "/empfehlungen/netzwerk/speedport-7-wifi7-router/",
+    "/empfehlungen/viture-luma-pro-xr-brille": "/empfehlungen/sonstiges/viture-luma-pro-xr-brille/",
+    "/empfehlungen/marderschreck-auto/": "/empfehlungen/sonstiges/marderschreck-auto/",
+    "/empfehlungen/mova-e30-ultra/": "/empfehlungen/sonstiges/mova-e30-ultra/",
+    "/empfehlungen/ooono-co-driver-no1/": "/empfehlungen/sonstiges/ooono-co-driver-no1/",
+    "/empfehlungen/aeg-dpe5660m-dunstabzugshaube/": "/empfehlungen/sonstiges/aeg-dpe5660m-dunstabzugshaube/",
+    "/empfehlungen/spotclean-c5/": "/empfehlungen/sonstiges/spotclean-c5/",
+    "/empfehlungen/sony-mdr-7506/": "/empfehlungen/sonstiges/sony-mdr-7506/",
+    "/empfehlungen/philips-sonicare-9900-prestige/": "/empfehlungen/sonstiges/philips-sonicare-9900-prestige/",
+    "/empfehlungen/sonstiges/top-3-staubsauger-unter-200-euro/": "/ratgeber/top-3-staubsauger-unter-200-euro/",
+    "/empfehlungen/steckdosenleiste/": "/empfehlungen/strom/",
 
-  "/empfehlungen/sicherheit/sonoff-cam-slim-gen2/":
-    "/empfehlungen/sicherheit/sonoff-cam-slim-gen2-test/",
+    "/verstehen/mesh-oder-repeater/": "/vergleiche/wlan-repeater-vergleich/",
+    "/verstehen/wlan-repeater-oder-mesh/": "/verstehen/mesh-vs-repeater/",
+    "/verstehen/powerline": "/verstehen/powerline-wann-sinnvoll/",
+    "/verstehen/powerline/": "/verstehen/powerline-wann-sinnvoll/",
+    "/verstehen/powerline-vs-mesh": "/vergleiche/powerline-oder-mesh-wlan/",
+    "/verstehen/powerline-vs-mesh/": "/vergleiche/powerline-oder-mesh-wlan/",
 
-  "/empfehlungen/klima/tado-thermostat-x-matter/":
-    "/empfehlungen/klima/tado-thermostat-x/",
+    "/vergleiche/mesh-vs-repeater/": "/vergleiche/powerline-oder-mesh-wlan/",
+    "/vergleiche/powerline-oder-mesh/": "/vergleiche/powerline-oder-mesh-wlan/",
+    "/vergleiche/powerline-oder-wlan-repeater/": "/vergleiche/powerline-oder-mesh-wlan/",
+    "/vergleiche/powerline-vs-mesh-wlan/": "/vergleiche/powerline-oder-mesh-wlan/",
+    "/vergleiche/powerline-vs-repeater/": "/vergleiche/wlan-repeater-vergleich/",
+    "/vergleiche/beste-wlan-repeater/": "/vergleiche/wlan-repeater-vergleich/",
+    "/vergleiche/wlan-repeater-oder-mesh/": "/vergleiche/wlan-repeater-vergleich/",
+    "/vergleiche/wlan-repeater-test/": "/vergleiche/wlan-repeater-vergleich/",
+    "/vergleiche/wlan-5ghz-vs-2-4ghz/": "/vergleiche/2-4ghz-vs-5ghz-wlan/",
+    "/vergleiche/ueberwachungskamera-test/": "/vergleiche/ueberwachungskameras-2026/",
+    "/vergleiche/brennenstuhl-eco-vs-premium/": "/vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/",
+    "/vergleiche/video-tuerklingel-ezviz-vs-ring/": "/vergleiche/video-tuerklingel-vergleich/"
+  },
 
-  "/empfehlungen/marderschreck-auto/":
-    "/empfehlungen/sonstiges/marderschreck-auto/",
-
-  "/empfehlungen/sonstiges/roborock-q7-m5/":
-    "/empfehlungen/smart-home/roborock-q7-m5/",
-
-  "/empfehlungen/sicherheit/reolink-duo-2-wifi/":
-    "/empfehlungen/sicherheit/reolink-duo-2-wifi-180-grad-kamera-ohne-abo-de/",
-
-  "/empfehlungen/netzwerk/lan-splitter-1-3-gigabit/":
-    "/empfehlungen/netzwerk/vedindust-lan-splitter-1-auf-3-gigabit/",
-
-  "/empfehlungen/klima/mobiles-klimageraet-mit-fernbedienung/":
-    "/empfehlungen/klima/mobiles-klimagerat-mit-fernbedienung/",
-
-  "/empfehlungen/homematic-ip-starter-set-beschattung/":
-    "/empfehlungen/smart-home/homematic-ip-starter-set-beschattung/",
-
-  "/empfehlungen/bosch-smart-home-controller-ii/":
-    "/empfehlungen/smart-home/bosch-smart-home-controller-ii/",
-
-  "/empfehlungen/hikam-s6/":
-    "/empfehlungen/sicherheit/hikam-s6/",
-
-  "/empfehlungen/uebersetzer-ohrhoerer-lcd/":
-    "/empfehlungen/sonstiges/uebersetzer-ohrhorer-lcd/",
-
-  "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste/":
-    "/empfehlungen/strom/brennenstuhl-eco-line-steckdosenleiste-6fach-ueberspannungsschutz/",
-
-  "/empfehlungen/klima/akku-auto-heizluefter/":
-    "/empfehlungen/klima/vevor-diesel-luftheizung-8kw/",
-
-  "/empfehlungen/mathfel-video-tuersprechanlage/":
-    "/empfehlungen/sicherheit/mathfel-video-tuersprechanlage/",
-
-  "/empfehlungen/audio/apple-airpods-pro-3-kabellose-kopfhoerer/":
-    "/empfehlungen/smart-home/apple-airpods-pro-3-kabellose-kopfhoerer/",
-
-  "/empfehlungen/ooono-co-driver-no1/":
-    "/empfehlungen/sonstiges/ooono-co-driver-no1/",
-
-  "/empfehlungen/überwachung/imou-dual-2k-innenkamera/":
-    "/empfehlungen/sicherheit/imou-dual-2k-innenkamera/",
-
-  "/empfehlungen/sicherheit/tapo-c210/":
-    "/empfehlungen/sicherheit/tp-link-tapo-c210/",
-
-  "/empfehlungen/reolink-e1-pro/":
-    "/empfehlungen/sicherheit/reolink-e1-pro/",
-
-  "/empfehlungen/mova-e30-ultra/":
-    "/empfehlungen/sonstiges/mova-e30-ultra/",
-
-  "/empfehlungen/ring-akku-videoturklingel-2024-/":
-    "/empfehlungen/sicherheit/ring-akku-videotuerklingel-2024/",
-
-    "/vergleiche/wlan-5ghz-vs-2-4ghz/":
-    "/vergleiche/2-4ghz-vs-5ghz-wlan/",
-
-  "/vergleiche/ueberwachungskamera-test/":
-    "/vergleiche/ueberwachungskameras-2026/",
-
-  "/vergleiche/powerline-oder-mesh/":
-  "/vergleiche/powerline-oder-mesh-wlan/",
-
-  "/vergleiche/powerline-oder-wlan-repeater/":
-    "/vergleiche/powerline-oder-mesh-wlan/",
-
-  "/verstehen/wlan-repeater-oder-mesh/":
-    "/verstehen/mesh-vs-repeater/",
-
-  "/verstehen/powerline/":
-    "/verstehen/powerline-wann-sinnvoll/",
-},
-
-  integrations: [
-    tailwind(),
-    mdx()
-  ],
+  integrations: [tailwind(), mdx()],
 
   build: {
     format: "directory"
