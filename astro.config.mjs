@@ -15,17 +15,10 @@ export default defineConfig({
     "/ueber-das-projekt": "/ueber-uns/",
     "/ueber-das-projekt/": "/ueber-uns/",
 
-    "/links": "/links/",
     "/links.astro": "/links/alle/",
-    "/kontakt": "/kontakt/",
-    "/kontakt.astro": "/kontakt/",
-    "/ueber-uns": "/ueber-uns/",
     "/ueber-uns.astro": "/ueber-uns/",
-    "/transparenz": "/transparenz/",
     "/transparenz.astro": "/transparenz/",
-    "/datenschutzerklaerung": "/datenschutzerklaerung/",
     "/datenschutzerklaerung.astro": "/datenschutzerklaerung/",
-    "/empfehlungen": "/empfehlungen/",
 
     "/kupit-zhenskij-sportivnyj-kostyum-adidas-germaniya/": "/links/alle/",
     "/tests/": "/links/alle/",
@@ -78,10 +71,6 @@ export default defineConfig({
     "/empfehlungen/ueberwachung/": "/empfehlungen/sicherheit/",
     "/empfehlungen/überwachung/": "/empfehlungen/sicherheit/",
     "/empfehlungen/uberwachungskameras-2025/": "/empfehlungen/sicherheit/",
-
-    "/empfehlungen/strom": "/empfehlungen/strom/",
-    "/empfehlungen/sonstiges": "/empfehlungen/sonstiges/",
-    "/empfehlungen/beleuchtung": "/empfehlungen/beleuchtung/",
 
     "/empfehlungen/govee-led-strip/": "/empfehlungen/beleuchtung/govee-led-strip/",
     "/empfehlungen/govee-g9-smart-led-lampe/": "/empfehlungen/beleuchtung/govee-g9-smart-led-lampe/",
