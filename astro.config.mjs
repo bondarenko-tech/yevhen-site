@@ -31,6 +31,7 @@ export default defineConfig({
     "/kategorien/strom/": "/empfehlungen/strom/",
     "/kategorien/sonstiges/": "/empfehlungen/sonstiges/",
 
+    "/marken/bosch-thermotechnik/": "/marken/bosch/",
     "/marken/amazon/sonstiges/": "/marken/amazon/",
     "/marken/medion/sonstiges/": "/marken/medion/",
     "/marken/technisat/smart-home/": "/marken/technisat/",
@@ -47,6 +48,7 @@ export default defineConfig({
     "/tests/aqara-video-doorbell-g4-test/": "/empfehlungen/sicherheit/",
     "/tests/dreo-smart-heizung-2000w-test/": "/empfehlungen/klima/",
 
+    "/video/": "/empfehlungen/",
     "/video/tp-link-tapo-c200/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
     "/video/tp-link-tapo-c210/ 11.11.2025": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
     "/video/tp-link-tapo-c210/ 11.11.2025/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
@@ -195,6 +197,7 @@ export default defineConfig({
     "/verstehen/powerline-vs-mesh": "/vergleiche/powerline-oder-mesh-wlan/",
     "/verstehen/powerline-vs-mesh/": "/vergleiche/powerline-oder-mesh-wlan/",
 
+    "/vergleiche/top-3-staubsauger-unter-200-euro/": "/ratgeber/top-3-staubsauger-unter-200-euro/",
     "/vergleiche/mesh-vs-repeater/": "/vergleiche/powerline-oder-mesh-wlan/",
     "/vergleiche/powerline-oder-mesh/": "/vergleiche/powerline-oder-mesh-wlan/",
     "/vergleiche/powerline-oder-wlan-repeater/": "/vergleiche/powerline-oder-mesh-wlan/",
