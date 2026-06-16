@@ -152,6 +152,51 @@ if (Array.isArray(faq) && faq.length > 0) {
   });
 }
 
+if (produkt) {
+  const price =
+    typeof produkt.data.preis === "number"
+      ? produkt.data.preis.toFixed(2)
+      : undefined;
+
+  const currency =
+    produkt.data.priceCurrency ?? "EUR";
+
+  const availability =
+    produkt.data.availability ?? "https://schema.org/InStock";
+
+  const productImage =
+    typeof produkt.data.image === "string"
+      ? new URL(produkt.data.image, BASE_URL).toString()
+      : computedImage;
+
+  graph.push({
+    "@type": "Product",
+    "@id": `${canonicalUrl}#product`,
+    name: produkt.data.title,
+    description: computedDescription,
+    image: productImage,
+    brand:
+      typeof produkt.data.brand === "string"
+        ? {
+            "@type": "Brand",
+            name: produkt.data.brand,
+          }
+        : undefined,
+    sku: (produkt.data as any).sku,
+    mpn: (produkt.data as any).mpn,
+    offers: price
+      ? {
+          "@type": "Offer",
+          url: canonicalUrl,
+          price,
+          priceCurrency: currency,
+          availability,
+          itemCondition: "https://schema.org/NewCondition",
+        }
+      : undefined,
+  });
+}
+
 for (const item of jsonLd) {
   graph.push(item);
 }

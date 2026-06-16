@@ -31,14 +31,12 @@ function ensureAbsoluteUrl(url: string) {
 
 function normalizeUrl(url: string) {
   const u = new URL(ensureAbsoluteUrl(url));
-
   u.search = "";
   u.hash = "";
 
   if (!u.pathname.endsWith("/")) {
     u.pathname = `${u.pathname}/`;
   }
-
   return u.toString();
 }
 
@@ -47,30 +45,30 @@ function safeDescription(text?: string): string {
     text?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() ||
     "Unabhängige Produktübersichten und verständliche Technik-Vergleiche für Smart Home, Sicherheit und Haushalt.";
 
-  return base.length <= 155
-    ? base
-    : base.slice(0, 155).replace(/\s+\S*$/, "").trim();
+  if (base.length <= 155) return base;
+  const cut = base.slice(0, 156);
+  return cut.slice(0, cut.lastIndexOf(" ")).trim() + "...";
 }
 
 function safeTitle(text?: string): string {
   const base = text?.replace(/\s+/g, " ").trim() || siteName;
-  return base.length <= 65
-    ? base
-    : base.slice(0, 65).replace(/\s+\S*$/, "").trim();
+  if (base.length <= 65) return base;
+  const cut = base.slice(0, 66);
+  return cut.slice(0, cut.lastIndexOf(" ")).trim() + "...";
 }
 
 const finalTitle = safeTitle(title);
 const finalDescription = safeDescription(description);
 
 const finalUrl = normalizeUrl(currentUrl);
-const canonicalUrl = normalizeUrl(canonical || finalUrl);
+// Если canonical передан вручную, делаем его абсолютным, если нет — берем нормализованный текущий
+const canonicalUrl = canonical ? ensureAbsoluteUrl(canonical) : finalUrl; 
 const ogImage = ensureAbsoluteUrl(image);
 
 const isNoindex =
   path.startsWith("/shorts/") ||
   path.startsWith("/video/") ||
   path.startsWith("/admin/") ||
-  path.includes(".astro") ||
   searchParams.has("q");
 
 const finalRobots = isNoindex ? "noindex, follow" : robots;
@@ -95,13 +93,12 @@ const ogType = isProduct ? "product" : "website";
 <meta name="robots" content={finalRobots} />
 <meta name="author" content="Yevhen Bondarenko" />
 <meta name="language" content="de" />
-<meta http-equiv="content-language" content="de-DE" />
 
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:title" content={finalTitle} />
 <meta property="og:description" content={finalDescription} />
-<meta property="og:url" content={canonicalUrl} />
+<meta property="og:url" content={finalUrl} />
 <meta property="og:image" content={ogImage} />
 <meta property="og:image:alt" content={finalTitle} />
 <meta property="og:image:width" content="1200" />

@@ -18,7 +18,8 @@ const price = typeof data.preis === "number"
   ? new Intl.NumberFormat("de-DE", {
       style: "currency",
       currency: data.priceCurrency || "EUR",
-      maximumFractionDigits: 0,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     }).format(data.preis)
   : null;
 ---
@@ -42,15 +43,18 @@ const price = typeof data.preis === "number"
           Kurz gesagt: {data.teaser}
         </p>
 
-        {/* 🔥 FÜR WEN */}
-        <div class="mb-6 text-sm text-neutral-600">
-          <strong>Geeignet für:</strong>
-          <ul class="mt-2 space-y-1">
-            <li>• Altbau Wohnungen</li>
-            <li>• mehrere Geräte gleichzeitig</li>
-            <li>• Home-Office & Streaming</li>
-          </ul>
-        </div>
+                {data.kurzfakten && Array.isArray(data.kurzfakten) && data.kurzfakten.length > 0 && (
+          <div class="mb-6 text-sm text-neutral-600">
+            <strong>Wichtige Fakten:</strong>
+            <ul class="mt-2 space-y-1">
+              {data.kurzfakten.slice(0, 3).map((item) => (
+                <li>
+                  {item.label}: {item.value}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div class="flex items-center gap-6">
           {data.linkExtern && (

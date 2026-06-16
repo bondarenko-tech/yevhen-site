@@ -1,6 +1,13 @@
 ---
 const { produkt } = Astro.props;
 const n = produkt.data;
+
+const title = n.title ?? "Dieses Produkt";
+const category = n.kategorie ?? "Technik";
+const type = n.typ ?? "Produkt";
+const teaser = n.teaser ?? n.description ?? "";
+const brand = typeof n.brand === "string" ? n.brand : "";
+const specs = Array.isArray(n.specs) ? n.specs.slice(0, 4) : [];
 ---
 
 <section class="mt-10 max-w-3xl">
@@ -8,22 +15,36 @@ const n = produkt.data;
   <h2 class="text-lg font-bold mb-4">Einordnung</h2>
 
   <p class="text-neutral-700 mb-4">
-    Die {n.title} ist ein WLAN-Router ohne integriertes Modem, der für stabile Verbindungen im Heimnetz konzipiert ist.
-    Besonders in Umgebungen mit mehreren Geräten kann die Kombination aus Wi-Fi 6 und Mesh Vorteile bieten.
+    {title} ist ein {type} aus dem Bereich {category}.
+    {brand && <> Die Marke ist {brand}.</>}
   </p>
 
-  <p class="text-neutral-700 mb-6">
-    Die Einrichtung erfolgt über die bekannte FRITZ!OS-Oberfläche und ist in typischen Heimnetzwerken gut umsetzbar.
-  </p>
+  {teaser && (
+    <p class="text-neutral-700 mb-6">
+      {teaser}
+    </p>
+  )}
+
+  {specs.length > 0 && (
+    <>
+      <h3 class="font-semibold mt-6 mb-2">Wichtige Punkte</h3>
+      <ul class="text-sm text-neutral-600 mb-6 space-y-1">
+        {specs.map((item: string) => (
+      <li>{item}</li>
+    ))}
+      </ul>
+    </>
+  )}
 
   <h3 class="font-semibold mt-6 mb-2">Wichtiger Hinweis</h3>
   <p class="text-sm text-neutral-600 mb-6">
-    In komplexeren Netzwerken (z. B. VLAN oder erweiterte Konfigurationen) sind die Möglichkeiten eingeschränkt.
+    Vor dem Kauf sollten Preis, Verfügbarkeit, Kompatibilität und Einsatzbereich geprüft werden.
+    Produktangaben können sich beim Anbieter ändern.
   </p>
 
   <h3 class="font-semibold mt-6 mb-2">Kurzfazit</h3>
   <p class="text-neutral-800 font-medium">
-    Ein solider Router für stabiles WLAN im Alltag – besonders geeignet für typische Heimnetzwerke ohne Spezialanforderungen.
+    Sinnvoll, wenn das Produkt zum eigenen Bedarf passt und die wichtigsten technischen Daten vor dem Kauf geprüft wurden.
   </p>
 
 </section>
