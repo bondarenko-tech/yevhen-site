@@ -1,9 +1,11 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": ["src", ".astro/**/*.d.ts"],
+  "include": ["src", "scripts", ".astro/**/*.d.ts"],
   "exclude": ["dist", "public", "src/_legacy"],
   "compilerOptions": {
     "baseUrl": ".",
+    "types": ["node"],
+    "moduleResolution": "Bundler",
     "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["src/*"],
