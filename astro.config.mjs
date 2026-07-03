@@ -44,6 +44,7 @@ export default defineConfig({
     "/shorts/vAoOJBdX6Ks/": "/empfehlungen/sicherheit/",
     "/shorts/yAiXfr-YeIA/": "/empfehlungen/sonstiges/",
     "/shorts/DhciqRXmTJ8/": "/empfehlungen/smart-home/",
+    "/shorts/TGCudvUzWPw/": "/empfehlungen/netzwerk/fritz-dect-repeater-100/",
 
     "/tests/aqara-video-doorbell-g4-test/": "/empfehlungen/sicherheit/",
     "/tests/dreo-smart-heizung-2000w-test/": "/empfehlungen/klima/",
