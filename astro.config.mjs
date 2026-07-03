@@ -68,6 +68,8 @@ export default defineConfig({
     "/video/gku-dash-cam-4k-1080p/": "/empfehlungen/sicherheit/gku-dash-cam-4k-1080p/",
     "/video/eufycam-2c-set-2-plus-1/": "/empfehlungen/sicherheit/eufycam-2c-set-2-plus-1/",
     "/video/blink-mini-2/": "/empfehlungen/sicherheit/blink-mini-2/",
+    "/video/tp-link-tapo-c210/": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
+    "/video/tp-link-tapo-c210": "/empfehlungen/sicherheit/tp-link-tapo-c210/",
 
     "/empfehlungen/ueberwachung": "/empfehlungen/sicherheit/",
     "/empfehlungen/ueberwachung/": "/empfehlungen/sicherheit/",
