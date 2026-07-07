@@ -192,7 +192,9 @@ export default defineConfig({
     "/empfehlungen/philips-sonicare-9900-prestige/": "/empfehlungen/sonstiges/philips-sonicare-9900-prestige/",
     "/empfehlungen/sonstiges/top-3-staubsauger-unter-200-euro/": "/ratgeber/top-3-staubsauger-unter-200-euro/",
     "/empfehlungen/steckdosenleiste/": "/empfehlungen/strom/",
+    "/empfehlungen/sicherheit/alarmanlage/": "/empfehlungen/sicherheit/",
 
+    "/verstehen/heizkosten-sparen/": "/verstehen/",
     "/verstehen/mesh-oder-repeater/": "/vergleiche/wlan-repeater-vergleich/",
     "/verstehen/wlan-repeater-oder-mesh/": "/verstehen/mesh-vs-repeater/",
     "/verstehen/powerline": "/verstehen/powerline-wann-sinnvoll/",
@@ -212,7 +214,8 @@ export default defineConfig({
     "/vergleiche/wlan-5ghz-vs-2-4ghz/": "/vergleiche/2-4ghz-vs-5ghz-wlan/",
     "/vergleiche/ueberwachungskamera-test/": "/vergleiche/ueberwachungskameras-2026/",
     "/vergleiche/brennenstuhl-eco-vs-premium/": "/vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/",
-    "/vergleiche/video-tuerklingel-ezviz-vs-ring/": "/vergleiche/video-tuerklingel-vergleich/"
+    "/vergleiche/video-tuerklingel-ezviz-vs-ring/": "/vergleiche/video-tuerklingel-vergleich/",
+    "/vergleiche/smart-thermostat-vergleich/": "/vergleiche/",
   },
 
   integrations: [tailwind(), mdx()],
