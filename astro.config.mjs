@@ -43,7 +43,7 @@ export default defineConfig({
     "/marken/yeooiycw/": "/marken/yale/",
 
     "/shorts/VL5WKqq2VE0/": "/empfehlungen/sicherheit/baseus-ueberwachungskamera-solar/",
-    "/shorts/0Ct9nKYRe2A/": "/empfehlungen/abus-ppic31020-wlan-privacy-innenkamera/",
+    "/shorts/0Ct9nKYRe2A/": "/empfehlungen/sicherheit/abus-ppic31020-wlan-privacy-innenkamera/",
     "/shorts/dVHDOroMv3o/": "/empfehlungen/sicherheit/",
     "/shorts/P2UgDE6dvQs/": "/empfehlungen/smart-home/",
     "/shorts/rRd6imwWvLE/": "/empfehlungen/klima/",
