@@ -191,7 +191,7 @@ export default defineConfig({
     "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming-edition/": "/empfehlungen/netzwerk/telekom-speedport-pro-plus-gaming/",
     "/empfehlungen/netzwerk/telekom-speedport-7-wifi7-router/": "/empfehlungen/netzwerk/speedport-7-wifi7-router/",
     "/empfehlungen/netzwerk/lan-splitter-1-3-gigabit/": "/empfehlungen/netzwerk/vedindust-lan-splitter-1-auf-3-gigabit/",
-
+    "/empfehlungen/uebersetzer-ohrhoerer-lcd/": "/empfehlungen/sonstiges/uebersetzer-ohrhorer-lcd/",
     "/empfehlungen/viture-luma-pro-xr-brille": "/empfehlungen/sonstiges/viture-luma-pro-xr-brille/",
     "/empfehlungen/marderschreck-auto/": "/empfehlungen/sonstiges/marderschreck-auto/",
     "/empfehlungen/mova-e30-ultra/": "/empfehlungen/sonstiges/mova-e30-ultra/",
@@ -203,6 +203,7 @@ export default defineConfig({
     "/empfehlungen/sonstiges/top-3-staubsauger-unter-200-euro/": "/ratgeber/top-3-staubsauger-unter-200-euro/",
     "/empfehlungen/steckdosenleiste/": "/empfehlungen/strom/",
     "/empfehlungen/sicherheit/alarmanlage/": "/empfehlungen/sicherheit/",
+    "/empfehlungen/hikam-s6/": "/empfehlungen/sicherheit/hikam-s6/",
 
     "/verstehen/heizkosten-sparen/": "/verstehen/",
     "/verstehen/mesh-oder-repeater/": "/vergleiche/wlan-repeater-vergleich/",
