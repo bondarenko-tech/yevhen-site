@@ -66,8 +66,6 @@ const canonicalUrl = canonical ? ensureAbsoluteUrl(canonical) : finalUrl;
 const ogImage = ensureAbsoluteUrl(image);
 
 const isNoindex =
-  path.startsWith("/shorts/") ||
-  path.startsWith("/video/") ||
   path.startsWith("/admin/") ||
   searchParams.has("q");
 
