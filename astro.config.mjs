@@ -42,6 +42,8 @@ export default defineConfig({
     "/marken/as---schwabe/": "/marken/as-schwabe/",
     "/marken/yeooiycw/": "/marken/yale/",
 
+    "/shorts/8ZHVy8L5BM4/": "/empfehlungen/sicherheit/reolink-e1-pro/",
+    "/shorts/USz_5mfcjio/": "/empfehlungen/strom/iniu-powerbank-20000mah/",
     "/shorts/VL5WKqq2VE0/": "/empfehlungen/sicherheit/baseus-ueberwachungskamera-solar/",
     "/shorts/0Ct9nKYRe2A/": "/empfehlungen/sicherheit/abus-ppic31020-wlan-privacy-innenkamera/",
     "/shorts/dVHDOroMv3o/": "/empfehlungen/sicherheit/",
