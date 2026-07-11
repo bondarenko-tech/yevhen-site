@@ -41,7 +41,14 @@ export default defineConfig({
     "/marken/bougerv": "/marken/peirhw/",
     "/marken/as---schwabe/": "/marken/as-schwabe/",
     "/marken/yeooiycw/": "/marken/yale/",
+    "/marken/hulker/": "/marken/hilook/",
+    "/marken/konighaus/klima/": "/marken/koenighaus/klima/",
+    "/marken/bosch-thermotechnik/klima/": "/marken/bosch/klima/",
+    "/marken/bosch-smart-home/klima/": "/marken/bosch/klima/",
+    
 
+
+    "/shorts/-6U5ZvvnitQ/": "/empfehlungen/sicherheit/chuango-lte-400-alarmanlage/",
     "/shorts/8ZHVy8L5BM4/": "/empfehlungen/sicherheit/reolink-e1-pro/",
     "/shorts/USz_5mfcjio/": "/empfehlungen/strom/iniu-powerbank-20000mah/",
     "/shorts/VL5WKqq2VE0/": "/empfehlungen/sicherheit/baseus-ueberwachungskamera-solar/",
