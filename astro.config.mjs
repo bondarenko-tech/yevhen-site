@@ -45,7 +45,12 @@ export default defineConfig({
     "/marken/konighaus/klima/": "/marken/koenighaus/klima/",
     "/marken/bosch-thermotechnik/klima/": "/marken/bosch/klima/",
     "/marken/bosch-smart-home/klima/": "/marken/bosch/klima/",
-    
+    "/marken/sammlung/": "/marken/sameriver/",
+    "/marken/konighaus/": "/marken/koenighaus/",
+    "/marken/i-shunfa/": "/marken/shokz/",
+    "/marken/electrolux/sonstiges/": "/marken/ecovacs/",
+    "/marken/electrolux/": "/marken/ecovacs/",
+
 
 
     "/shorts/-6U5ZvvnitQ/": "/empfehlungen/sicherheit/chuango-lte-400-alarmanlage/",
@@ -219,6 +224,7 @@ export default defineConfig({
     "/verstehen/powerline/": "/verstehen/powerline-wann-sinnvoll/",
     "/verstehen/powerline-vs-mesh": "/vergleiche/powerline-oder-mesh-wlan/",
     "/verstehen/powerline-vs-mesh/": "/vergleiche/powerline-oder-mesh-wlan/",
+    "/verstehen/speicherkarte-welche-brauche-ich/": "/verstehen/wlan-router-reichweite/",
 
     "/vergleiche/top-3-staubsauger-unter-200-euro/": "/ratgeber/top-3-staubsauger-unter-200-euro/",
     "/vergleiche/mesh-vs-repeater/": "/vergleiche/powerline-oder-mesh-wlan/",
@@ -234,6 +240,7 @@ export default defineConfig({
     "/vergleiche/brennenstuhl-eco-vs-premium/": "/vergleiche/brennenstuhl-eco-vs-premium-steckdosenleiste/",
     "/vergleiche/video-tuerklingel-ezviz-vs-ring/": "/vergleiche/video-tuerklingel-vergleich/",
     "/vergleiche/smart-thermostat-vergleich/": "/vergleiche/",
+    "/vergleiche/ueberwachungskamera-vergleich/": "/vergleiche/ueberwachungskameras-2026/",
   },
 
   integrations: [tailwind(), mdx()],
