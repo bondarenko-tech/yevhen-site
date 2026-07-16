@@ -70,7 +70,7 @@ const isNoindex =
   searchParams.has("q");
 
 const finalRobots = isNoindex ? "noindex, follow" : robots;
-const ogType = isProduct ? "product" : "website";
+const ogType = "website";
 ---
 
 <meta charset="utf-8" />
@@ -83,6 +83,8 @@ const ogType = isProduct ? "product" : "website";
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.webp" />
 <link rel="manifest" href="/site.webmanifest" />
+<link rel="alternate" hreflang="de" href={canonicalUrl} />
+<link rel="alternate" hreflang="x-default" href={canonicalUrl} />
 
 <title>{finalTitle}</title>
 <link rel="canonical" href={canonicalUrl} />
@@ -102,6 +104,8 @@ const ogType = isProduct ? "product" : "website";
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:locale" content="de_DE" />
+<meta property="og:locale:alternate" content="de_AT" />
+<meta property="og:locale:alternate" content="de_CH" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={finalTitle} />

@@ -185,15 +185,22 @@ if (produkt) {
     sku: (produkt.data as any).sku,
     mpn: (produkt.data as any).mpn,
     offers: price
-      ? {
-          "@type": "Offer",
-          url: canonicalUrl,
-          price,
-          priceCurrency: currency,
-          availability,
-          itemCondition: "https://schema.org/NewCondition",
-        }
-      : undefined,
+  ? {
+      "@type": "Offer",
+      url: canonicalUrl,
+      price,
+      priceCurrency: currency,
+      availability,
+      itemCondition: "https://schema.org/NewCondition",
+
+      seller: {
+        "@type": "Organization",
+        name: "Amazon"
+      },
+
+      priceValidUntil: "2027-12-31"
+    }
+  : undefined,
   });
 }
 

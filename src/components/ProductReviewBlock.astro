@@ -5,46 +5,152 @@ const n = produkt.data;
 const title = n.title ?? "Dieses Produkt";
 const category = n.kategorie ?? "Technik";
 const type = n.typ ?? "Produkt";
-const teaser = n.teaser ?? n.description ?? "";
+const teaser = n.teaser ?? "";
 const brand = typeof n.brand === "string" ? n.brand : "";
-const specs = Array.isArray(n.specs) ? n.specs.slice(0, 4) : [];
+const specs = Array.isArray(n.specs) ? n.specs.slice(0, 5) : [];
+const facts = Array.isArray(n.kurzfakten) ? n.kurzfakten : [];
+
+const hasGateway =
+  specs.some((s:string)=>s.toLowerCase().includes("gateway")) ||
+  teaser.toLowerCase().includes("gateway");
 ---
 
-<section class="mt-10 max-w-3xl">
+<section class="mt-12 max-w-4xl border rounded-2xl bg-white p-8">
 
-  <h2 class="text-lg font-bold mb-4">Einordnung</h2>
+<h2 class="text-2xl font-bold mb-6">
+Unsere Einschätzung
+</h2>
 
-  <p class="text-neutral-700 mb-4">
-    {title} ist ein {type} aus dem Bereich {category}.
-    {brand && <> Die Marke ist {brand}.</>}
-  </p>
+<p class="text-neutral-700 leading-8 mb-8">
+Der <strong>{title}</strong> gehört zur Kategorie
+<strong>{category}</strong> und richtet sich vor allem an Nutzer,
+die eine zuverlässige Lösung für ihren Alltag suchen.
+{brand && <> Das Gerät stammt von <strong>{brand}</strong>.</>}
+{teaser && <> {teaser}</>}
+</p>
 
-  {teaser && (
-    <p class="text-neutral-700 mb-6">
-      {teaser}
-    </p>
-  )}
+<div class="grid gap-8 md:grid-cols-2">
 
-  {specs.length > 0 && (
-    <>
-      <h3 class="font-semibold mt-6 mb-2">Wichtige Punkte</h3>
-      <ul class="text-sm text-neutral-600 mb-6 space-y-1">
-        {specs.map((item: string) => (
-      <li>{item}</li>
-    ))}
-      </ul>
-    </>
-  )}
+<div>
 
-  <h3 class="font-semibold mt-6 mb-2">Wichtiger Hinweis</h3>
-  <p class="text-sm text-neutral-600 mb-6">
-    Vor dem Kauf sollten Preis, Verfügbarkeit, Kompatibilität und Einsatzbereich geprüft werden.
-    Produktangaben können sich beim Anbieter ändern.
-  </p>
+<h3 class="text-lg font-semibold mb-4 text-green-700">
+✅ Dafür eignet sich das Produkt
+</h3>
 
-  <h3 class="font-semibold mt-6 mb-2">Kurzfazit</h3>
-  <p class="text-neutral-800 font-medium">
-    Sinnvoll, wenn das Produkt zum eigenen Bedarf passt und die wichtigsten technischen Daten vor dem Kauf geprüft wurden.
-  </p>
+<ul class="space-y-2 text-neutral-700">
+
+<li>✔ Für private Haushalte</li>
+
+<li>✔ Für Smart-Home-Nutzer</li>
+
+<li>✔ Für den täglichen Einsatz</li>
+
+<li>✔ Für Anwender, die Wert auf einfache Bedienung legen</li>
+
+</ul>
+
+</div>
+
+<div>
+
+<h3 class="text-lg font-semibold mb-4 text-red-700">
+❌ Weniger geeignet
+</h3>
+
+<ul class="space-y-2 text-neutral-700">
+
+{hasGateway ? (
+<>
+<li>✘ Wenn kein kompatibles Gateway vorhanden ist</li>
+<li>✘ Wenn ausschließlich eine Standalone-Lösung gesucht wird</li>
+</>
+) : (
+<>
+<li>✘ Wenn nur der niedrigste Preis entscheidend ist</li>
+<li>✘ Wenn Funktionen benötigt werden, die dieses Modell nicht bietet</li>
+</>
+)}
+
+</ul>
+
+</div>
+
+</div>
+
+{facts.length > 0 && (
+
+<div class="mt-10">
+
+<h3 class="text-lg font-semibold mb-4">
+Die wichtigsten Fakten
+</h3>
+
+<div class="grid gap-3 md:grid-cols-2">
+
+{facts.map((item:any)=>(
+
+<div class="rounded-xl border p-4 bg-neutral-50">
+
+<div class="text-xs uppercase text-neutral-500">
+{item.label}
+</div>
+
+<div class="font-semibold">
+{item.value}
+</div>
+
+</div>
+
+))}
+
+</div>
+
+</div>
+
+)}
+
+{specs.length>0 && (
+
+<div class="mt-10">
+
+<h3 class="text-lg font-semibold mb-4">
+Technische Highlights
+</h3>
+
+<ul class="space-y-2">
+
+{specs.map((item:string)=>(
+
+<li class="flex gap-2">
+
+<span class="text-blue-600">•</span>
+
+<span>{item}</span>
+
+</li>
+
+))}
+
+</ul>
+
+</div>
+
+)}
+
+<div class="mt-10 rounded-2xl bg-blue-50 border p-6">
+
+<h3 class="text-xl font-bold mb-3">
+Unser Fazit
+</h3>
+
+<p class="leading-8 text-neutral-700">
+Der <strong>{title}</strong> ist besonders interessant für Nutzer,
+die eine moderne Lösung im Bereich <strong>{category}</strong> suchen.
+Vor dem Kauf empfehlen wir dennoch,
+Preis, Kompatibilität und den geplanten Einsatzzweck zu vergleichen,
+da sich Anforderungen je nach Haushalt deutlich unterscheiden können.
+</p>
+
+</div>
 
 </section>
