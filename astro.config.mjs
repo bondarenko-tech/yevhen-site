@@ -119,6 +119,7 @@ export default defineConfig({
     "/empfehlungen/homematic-ip-thermostat/": "/empfehlungen/klima/homematic-ip-thermostat/",
     "/empfehlungen/klima/akku-auto-heizluefter/": "/empfehlungen/klima/vevor-diesel-luftheizung-8kw/",
     "/empfehlungen/klima/tado-thermostat-x-matter/": "/empfehlungen/klima/tado-thermostat-x/",
+    "/empfehlungen/klima/bosch-thermostat-ii-plusm/": "/empfehlungen/smart-home/bosch-thermostat-ii-plusm/",
 
     "/empfehlungen/tp-link-tapo-p110": "/empfehlungen/strom/tp-link-tapo-p110/",
     "/empfehlungen/tp-link-tapo-p110/": "/empfehlungen/strom/tp-link-tapo-p110/",
