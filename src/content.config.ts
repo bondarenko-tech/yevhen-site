@@ -30,6 +30,7 @@ const baseContentFields = {
   typ: z.string().optional(),
   image: z.any().optional(),
   datum: z.string().optional(),
+  datePublished: z.string().optional(),
   dateModified: z.string().optional(),
   tags: z.array(z.string()).optional(),
   faq: faqSchema.optional(),

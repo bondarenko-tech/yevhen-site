@@ -198,7 +198,8 @@ if (produkt) {
         name: "Amazon"
       },
 
-      priceValidUntil: "2027-12-31"
+      validFrom: produkt.data.datePublished ?? produkt.data.datum,
+      priceValidUntil: "2027-12-31",
     }
   : undefined,
   });
