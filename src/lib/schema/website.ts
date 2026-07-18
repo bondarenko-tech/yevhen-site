@@ -19,7 +19,7 @@ export function buildWebsiteSchema() {
         "@id": `${SITE}/#person`,
         "name": "Yevhen Bondarenko",
         "url": SITE,
-        "description": "Technik-Experte für Smart Home und Netzwerk-Lösungen.",
+        "description": "Technikprodukte, Smart Home und Netzwerk-Lösungen einfach vorgestellt.",
         "sameAs": [
           "https://youtube.com/@bondarenko-tech"
         ]
@@ -33,11 +33,6 @@ export function buildWebsiteSchema() {
         "inLanguage": "de-DE",
         "publisher": {
           "@id": `${SITE}/#organization`
-        },
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": `${SITE}/?q={search_term_string}`,
-          "query-input": "required name=search_term_string"
         }
       }
     ]
