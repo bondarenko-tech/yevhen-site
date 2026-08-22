@@ -5,28 +5,29 @@ interface Props {
 }
 
 const { videoId, title } = Astro.props;
-const thumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+
+const embedUrl =
+  `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
 ---
 
-<div class="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-black">
+<div class="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-950">
   <button
     type="button"
-    class="relative block w-full"
+    class="relative flex aspect-video w-full items-center justify-center bg-neutral-950 p-6 text-white"
     aria-label={`Video laden: ${title}`}
-    onclick={`this.outerHTML = '<iframe class="aspect-video w-full h-full" src="${embedUrl}" title="${title}" loading="eager" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'`}
+    onclick={`this.outerHTML = '<iframe class="aspect-video w-full" src="${embedUrl}" title="${title}" loading="eager" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'`}
   >
-    <img
-      src={thumb}
-      alt={title}
-      loading="lazy"
-      width="1280"
-      height="720"
-      class="aspect-video w-full object-cover opacity-90 transition group-hover:opacity-100"
-    />
-    <span class="absolute inset-0 flex items-center justify-center">
-      <span class="rounded-full bg-white/90 px-5 py-3 text-sm font-semibold text-neutral-950 shadow">
-        ▶ Video ansehen
+    <span class="flex flex-col items-center gap-3 text-center">
+      <span class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl text-neutral-950 shadow">
+        ▶
+      </span>
+
+      <span class="text-base font-semibold">
+        Video ansehen
+      </span>
+
+      <span class="max-w-md text-sm text-neutral-300">
+        Mit dem Klick wird das YouTube-Video geladen.
       </span>
     </span>
   </button>
