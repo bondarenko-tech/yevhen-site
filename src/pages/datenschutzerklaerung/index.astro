@@ -1,5 +1,6 @@
 ---
 export const prerender = true;
+
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const site = Astro.site ?? new URL("https://yevhenbondarenko.com");
@@ -19,96 +20,250 @@ const title = "Datenschutzerklärung | Bondarenko Empfehlungen";
     <div class="prose prose-neutral max-w-none space-y-10 text-sm md:text-base">
 
       <section>
-        <h2 class="text-2xl font-bold text-neutral-900">1. Allgemeine Hinweise</h2>
+        <h2 class="text-2xl font-bold text-neutral-900">
+          1. Allgemeine Hinweise
+        </h2>
+
         <p>
-          Diese Website dient ausschließlich zur Information. Es erfolgt keine Registrierung, kein Benutzerkonto und keine direkte Dateneingabe durch Besucher.
+          Der Schutz Ihrer personenbezogenen Daten ist mir wichtig.
+          Personenbezogene Daten sind alle Daten, mit denen Sie persönlich
+          identifiziert werden können.
+        </p>
+
+        <p>
+          Diese Datenschutzerklärung erläutert, welche Daten beim Besuch
+          dieser Website verarbeitet werden und zu welchen Zwecken dies
+          geschieht.
         </p>
       </section>
 
       <section class="p-6 bg-neutral-50 rounded-2xl border border-neutral-100">
-        <h2 class="text-xl font-bold text-neutral-900 mb-4">2. Verantwortlicher</h2>
+        <h2 class="text-xl font-bold text-neutral-900 mb-4">
+          2. Verantwortlicher
+        </h2>
+
         <p class="font-medium">
           Yevhen Bondarenko<br />
           Schloßberg 9<br />
           24955 Harrislee<br />
+          Deutschland<br />
           E-Mail:
-          <a href="mailto:info@yevhenbondarenko.com" class="text-blue-600 underline">
+          <a
+            href="mailto:info@yevhenbondarenko.com"
+            class="text-blue-600 underline"
+          >
             info@yevhenbondarenko.com
           </a>
         </p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-bold text-neutral-900">3. Server-Logfiles</h2>
-        <p>
-          Beim Besuch dieser Website werden automatisch Informationen durch den Hosting-Anbieter erfasst.
-          Dazu gehören z. B. IP-Adresse, Browsertyp, Betriebssystem und Zeitpunkt des Zugriffs.
-        </p>
-        <p>
-          Diese Daten dienen ausschließlich der technischen Bereitstellung und Sicherheit der Website.
-        </p>
-      </section>
+        <h2 class="text-2xl font-bold text-neutral-900">
+          3. Hosting und Server-Logfiles
+        </h2>
 
-      <section>
-        <h2 class="text-2xl font-bold text-neutral-900">4. Hosting (Cloudflare)</h2>
         <p>
-          Diese Website wird über Cloudflare Pages bereitgestellt. Anbieter ist Cloudflare Inc., USA.
+          Beim Aufruf dieser Website werden technisch erforderliche Daten
+          verarbeitet, damit die Website an Ihr Endgerät ausgeliefert und
+          sicher betrieben werden kann.
         </p>
+
         <p>
-          Cloudflare verarbeitet Daten zur Bereitstellung und Sicherheit (z. B. DDoS-Schutz).
+          Hierzu können insbesondere IP-Adresse, Datum und Uhrzeit des
+          Zugriffs, aufgerufene Seite bzw. Datei, Browsertyp,
+          Betriebssystem und weitere technische Verbindungsdaten gehören.
         </p>
+
+        <p>
+          Die Verarbeitung erfolgt insbesondere zur technischen
+          Bereitstellung, Stabilität und Sicherheit der Website.
+        </p>
+
         <p>
           Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
+          Das berechtigte Interesse liegt im sicheren und zuverlässigen
+          Betrieb dieser Website.
         </p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-bold text-neutral-900">5. Cookies und Consent</h2>
+        <h2 class="text-2xl font-bold text-neutral-900">
+          4. Cloudflare
+        </h2>
+
         <p>
-          Diese Website verwendet ein Consent-Tool, um Einwilligungen für optionale Technologien zu verwalten.
+          Für die Bereitstellung und Absicherung dieser Website werden
+          Dienste von Cloudflare eingesetzt.
         </p>
+
         <p>
-          Sie können Ihre Einstellungen jederzeit anpassen oder widerrufen.
+          Anbieter ist Cloudflare, Inc., 101 Townsend St.,
+          San Francisco, CA 94107, USA.
+        </p>
+
+        <p>
+          Cloudflare kann im Rahmen der technischen Bereitstellung und
+          Absicherung der Website insbesondere Verbindungsdaten wie
+          IP-Adressen verarbeiten.
+        </p>
+
+        <p>
+          Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1
+          lit. f DSGVO. Mein berechtigtes Interesse liegt in einer
+          sicheren, stabilen und schnellen Bereitstellung dieser Website.
+        </p>
+
+        <p>
+          Weitere Informationen zur Datenverarbeitung durch Cloudflare
+          finden Sie in der Datenschutzerklärung von Cloudflare.
         </p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-bold text-neutral-900">6. Affiliate-Programme</h2>
-        <h3 class="text-lg font-bold mt-4">Amazon Partnerprogramm</h3>
+        <h2 class="text-2xl font-bold text-neutral-900">
+          5. Cookies und lokale Speicherung
+        </h2>
+
+        <p>
+          Diese Website setzt nach derzeitigem Stand beim normalen
+          Seitenaufruf keine Cookies zu Analyse-, Marketing- oder
+          Werbezwecken ein.
+        </p>
+
+        <p>
+          Es werden beim normalen Seitenaufruf auch keine Analyse- oder
+          Marketingdaten im Local Storage oder Session Storage des
+          Browsers gespeichert.
+        </p>
+
+        <p>
+          Ein Consent-Banner wird daher derzeit nicht eingesetzt.
+          Sollten künftig Dienste eingebunden werden, die eine vorherige
+          Einwilligung erfordern, wird die Website entsprechend angepasst.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">
+          6. YouTube-Videos
+        </h2>
+
+        <p>
+          Auf einzelnen Seiten können Videos von YouTube angeboten werden.
+          Anbieter ist Google Ireland Limited, Gordon House, Barrow Street,
+          Dublin 4, Irland.
+        </p>
+
+        <p>
+          Beim normalen Aufruf der jeweiligen Seite wird das
+          YouTube-Video nicht automatisch geladen. Eine Verbindung zu
+          YouTube wird über den Videobereich erst hergestellt, nachdem Sie
+          aktiv auf „Video ansehen“ klicken.
+        </p>
+
+        <p>
+          Nach dem Anklicken können Daten an Google bzw. YouTube
+          übermittelt und dort verarbeitet werden. Auf diese weitere
+          Datenverarbeitung durch Google habe ich keinen Einfluss.
+        </p>
+
+        <p>
+          Weitere Informationen finden Sie in der Datenschutzerklärung
+          von Google.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">
+          7. Amazon EU-Partnerprogramm
+        </h2>
+
         <p>
           Diese Website nimmt am Amazon EU-Partnerprogramm teil.
+          Auf einzelnen Seiten befinden sich entsprechend gekennzeichnete
+          Partnerlinks zu Angeboten von Amazon.
         </p>
+
         <p>
-          Beim Klick auf externe Links kann Amazon Daten verarbeiten und ggf. Cookies setzen.
+          Wenn Sie einen solchen Partnerlink anklicken, verlassen Sie
+          diese Website und werden zu Amazon weitergeleitet. Amazon kann
+          den Aufruf anschließend dem verwendeten Partnerlink zuordnen
+          und dabei personenbezogene Daten verarbeiten sowie Cookies oder
+          vergleichbare Technologien einsetzen.
         </p>
+
         <p>
-          Weitere Informationen finden Sie in der Datenschutzerklärung von Amazon.
+          Für einen qualifizierten Kauf kann ich eine Provision erhalten.
+          Für Sie entstehen dadurch keine zusätzlichen Kosten.
         </p>
+
         <p>
-          Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO.
+          Informationen über die weitere Datenverarbeitung durch Amazon
+          finden Sie in der Datenschutzerklärung von Amazon.
         </p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-bold text-neutral-900">7. Ihre Rechte</h2>
+        <h2 class="text-2xl font-bold text-neutral-900">
+          8. Externe Links
+        </h2>
+
+        <p>
+          Diese Website enthält Links zu externen Websites.
+          Wenn Sie einen solchen Link anklicken, verlassen Sie diese
+          Website. Für die anschließende Verarbeitung personenbezogener
+          Daten ist grundsätzlich der jeweilige Betreiber der externen
+          Website verantwortlich.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">
+          9. Ihre Rechte
+        </h2>
+
+        <p>
+          Ihnen stehen im Rahmen der gesetzlichen Voraussetzungen
+          insbesondere folgende Rechte zu:
+        </p>
+
         <ul class="list-disc pl-5 space-y-2">
-          <li>Auskunft (Art. 15 DSGVO)</li>
-          <li>Berichtigung (Art. 16 DSGVO)</li>
-          <li>Löschung (Art. 17 DSGVO)</li>
-          <li>Einschränkung (Art. 18 DSGVO)</li>
-          <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
-          <li>Widerspruch (Art. 21 DSGVO)</li>
+          <li>Auskunft gemäß Art. 15 DSGVO</li>
+          <li>Berichtigung gemäß Art. 16 DSGVO</li>
+          <li>Löschung gemäß Art. 17 DSGVO</li>
+          <li>Einschränkung der Verarbeitung gemäß Art. 18 DSGVO</li>
+          <li>Datenübertragbarkeit gemäß Art. 20 DSGVO</li>
+          <li>Widerspruch gemäß Art. 21 DSGVO</li>
         </ul>
+
+        <p>
+          Darüber hinaus besteht das Recht, sich bei einer zuständigen
+          Datenschutzaufsichtsbehörde zu beschweren.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-neutral-900">
+          10. Aktualität dieser Datenschutzerklärung
+        </h2>
+
+        <p>
+          Diese Datenschutzerklärung wird angepasst, wenn sich die
+          eingesetzten Dienste oder die rechtlichen Anforderungen ändern.
+        </p>
       </section>
 
       <section class="pt-10 border-t border-neutral-100 text-[10px] text-neutral-400 uppercase tracking-widest">
-        Stand: 15.03.2026
+        Stand: 22.08.2026
       </section>
 
     </div>
 
     <div class="mt-12">
-      <a href="/" class="inline-flex items-center gap-2 text-blue-600 font-bold hover:underline">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 text-blue-600 font-bold hover:underline"
+      >
         ← Zurück zur Startseite
       </a>
     </div>
