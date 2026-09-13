@@ -4,7 +4,9 @@ import { getCollection } from "astro:content";
 export const prerender = true;
 
 const SITE = "https://yevhenbondarenko.com";
+
 const MIN_BODY_LENGTH = 900;
+const MIN_BRAND_PRODUCTS_FOR_INDEX = 2;
 
 function normalizePath(path: string) {
   const clean = String(path || "")
@@ -131,24 +133,38 @@ export const GET: APIRoute = async () => {
   </url>`);
   }
 
-  push("/", undefined, "1.0");
+  /*
+   * Hauptseiten
+   */
 
+  push("/", undefined, "1.0");
   push("/empfehlungen/", undefined, "0.9");
   push("/vergleiche/", undefined, "0.9");
   push("/verstehen/", undefined, "0.9");
   push("/ratgeber/", undefined, "0.8");
   push("/marken/", undefined, "0.7");
-
   push("/links/", undefined, "0.8");
   push("/links/alle/", undefined, "0.7");
-
   push("/impressum/", undefined, "0.3");
   push("/datenschutzerklaerung/", undefined, "0.3");
   push("/transparenz/", undefined, "0.4");
   push("/kontakt/", undefined, "0.4");
   push("/ueber-uns/", undefined, "0.4");
 
-  const categoryMap = new Map<string, { count: number; lastmod?: string }>();
+  /*
+   * Produktkategorien
+   *
+   * Bestehende Regel bleibt erhalten:
+   * Nur ausreichend umfangreiche Produktseiten werden gezählt.
+   */
+
+  const categoryMap = new Map<
+    string,
+    {
+      count: number;
+      lastmod?: string;
+    }
+  >();
 
   for (const entry of produkte) {
     const category = entry.data?.kategorie;
@@ -156,21 +172,79 @@ export const GET: APIRoute = async () => {
     if (!category || typeof category !== "string") continue;
     if (!hasEnoughContent(entry)) continue;
 
-    const current = categoryMap.get(category) ?? { count: 0 };
+    const current = categoryMap.get(category) ?? {
+      count: 0,
+    };
+
     current.count += 1;
-    current.lastmod = newerDate(current.lastmod, getEntryDate(entry));
+
+    current.lastmod = newerDate(
+      current.lastmod,
+      getEntryDate(entry)
+    );
 
     categoryMap.set(category, current);
   }
 
   for (const [category, item] of categoryMap.entries()) {
     if (item.count >= 2) {
-      push(`/empfehlungen/${category}/`, item.lastmod, "0.7");
+      push(
+        `/empfehlungen/${category}/`,
+        item.lastmod,
+        "0.7"
+      );
     }
   }
 
-  const brandMap = new Map<string, { lastmod?: string }>();
-  const brandCategoryMap = new Map<string, { path: string; lastmod?: string }>();
+  /*
+   * Marken
+   *
+   * WICHTIG:
+   * Hier werden ALLE Produkte einer Marke gezählt.
+   *
+   * Das entspricht exakt der Indexierungslogik in:
+   * /marken/[brand]/index.astro
+   *
+   * 0–1 Produkt:
+   * noindex, follow
+   * nicht in Sitemap
+   *
+   * Ab 2 Produkten:
+   * index, follow
+   * in Sitemap
+   */
+
+  const brandMap = new Map<
+    string,
+    {
+      count: number;
+      lastmod?: string;
+    }
+  >();
+
+  /*
+   * Marke + Kategorie
+   *
+   * Auch hier werden ALLE Produkte der jeweiligen
+   * Marke-Kategorie-Kombination gezählt.
+   *
+   * 0–1 Produkt:
+   * noindex, follow
+   * nicht in Sitemap
+   *
+   * Ab 2 Produkten:
+   * index, follow
+   * in Sitemap
+   */
+
+  const brandCategoryMap = new Map<
+    string,
+    {
+      path: string;
+      count: number;
+      lastmod?: string;
+    }
+  >();
 
   for (const entry of produkte) {
     const brand = entry.data?.brand;
@@ -178,51 +252,132 @@ export const GET: APIRoute = async () => {
 
     if (!brand || typeof brand !== "string") continue;
     if (!category || typeof category !== "string") continue;
-    if (!hasEnoughContent(entry)) continue;
 
-    const brandSlug = slugifyBrand(brand);
+    const brandName = brand.trim();
+    const categoryName = category.trim();
+
+    if (!brandName || !categoryName) continue;
+
+    const brandSlug = slugifyBrand(brandName);
+
     if (!brandSlug) continue;
 
     const entryDate = getEntryDate(entry);
 
-    const brandItem = brandMap.get(brandSlug) ?? {};
-    brandItem.lastmod = newerDate(brandItem.lastmod, entryDate);
-    brandMap.set(brandSlug, brandItem);
+    /*
+     * Marke zählen
+     */
 
-    const key = `${brandSlug}|${category}`;
-    const categoryItem = brandCategoryMap.get(key) ?? {
-      path: `/marken/${brandSlug}/${category}/`,
+    const brandItem = brandMap.get(brandSlug) ?? {
+      count: 0,
     };
 
-    categoryItem.lastmod = newerDate(categoryItem.lastmod, entryDate);
+    brandItem.count += 1;
+
+    brandItem.lastmod = newerDate(
+      brandItem.lastmod,
+      entryDate
+    );
+
+    brandMap.set(brandSlug, brandItem);
+
+    /*
+     * Marke + Kategorie zählen
+     */
+
+    const key = `${brandSlug}|${categoryName}`;
+
+    const categoryItem = brandCategoryMap.get(key) ?? {
+      path: `/marken/${brandSlug}/${categoryName}/`,
+      count: 0,
+    };
+
+    categoryItem.count += 1;
+
+    categoryItem.lastmod = newerDate(
+      categoryItem.lastmod,
+      entryDate
+    );
+
     brandCategoryMap.set(key, categoryItem);
   }
 
+  /*
+   * Nur indexierbare Markenseiten in Sitemap
+   */
+
   for (const [brandSlug, item] of brandMap.entries()) {
-    push(`/marken/${brandSlug}/`, item.lastmod, "0.5");
+    if (item.count >= MIN_BRAND_PRODUCTS_FOR_INDEX) {
+      push(
+        `/marken/${brandSlug}/`,
+        item.lastmod,
+        "0.5"
+      );
+    }
   }
 
+  /*
+   * Nur indexierbare Marke-Kategorie-Seiten in Sitemap
+   */
+
   for (const item of brandCategoryMap.values()) {
-    push(item.path, item.lastmod, "0.4");
+    if (item.count >= MIN_BRAND_PRODUCTS_FOR_INDEX) {
+      push(
+        item.path,
+        item.lastmod,
+        "0.4"
+      );
+    }
   }
+
+  /*
+   * Verstehen
+   */
 
   for (const entry of verstehen) {
     if (!hasEnoughContent(entry)) continue;
 
-    push(getEntryPath(entry, "/verstehen"), getEntryDate(entry), "0.7");
+    push(
+      getEntryPath(entry, "/verstehen"),
+      getEntryDate(entry),
+      "0.7"
+    );
   }
+
+  /*
+   * Vergleiche
+   */
 
   for (const entry of vergleiche) {
     if (!hasEnoughContent(entry)) continue;
 
-    push(getEntryPath(entry, "/vergleiche"), getEntryDate(entry), "0.8");
+    push(
+      getEntryPath(entry, "/vergleiche"),
+      getEntryDate(entry),
+      "0.8"
+    );
   }
+
+  /*
+   * Ratgeber
+   */
 
   for (const entry of ratgeber) {
     if (!hasEnoughContent(entry)) continue;
 
-    push(getEntryPath(entry, "/ratgeber"), getEntryDate(entry), "0.8");
+    push(
+      getEntryPath(entry, "/ratgeber"),
+      getEntryDate(entry),
+      "0.8"
+    );
   }
+
+  /*
+   * Einzelne Produktseiten
+   *
+   * Bestehende Qualitätsregel bleibt erhalten:
+   * body >= 900
+   */
 
   for (const entry of produkte) {
     const category = entry.data?.kategorie;
@@ -235,12 +390,19 @@ export const GET: APIRoute = async () => {
         ? entry.data.link
         : `/empfehlungen/${category}/${getSlug(entry)}/`;
 
-    push(path, getEntryDate(entry), "0.6");
+    push(
+      path,
+      getEntryDate(entry),
+      "0.6"
+    );
   }
 
+  /*
+   * XML
+   */
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.join("\n")}
 </urlset>`;
 
