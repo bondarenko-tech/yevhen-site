@@ -1,11 +1,6 @@
 ---
 export const prerender = true;
 
-import {
-  getDynamicUsageText,
-  getDynamicDecisionText,
-  getDynamicCategoryText
-} from "@lib/dynamic-text";
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { normalizeProduct } from "@lib/product-engine";
@@ -24,8 +19,8 @@ export async function getStaticPaths() {
     .map((e) => ({
       params: {
         kategorie: e.data.kategorie,
-        produkt: e.slug
-      }
+        produkt: e.slug,
+      },
     }));
 }
 
@@ -38,17 +33,18 @@ const entry = entries.find(
   (e) => e.slug === produkt && e.data.kategorie === kategorie
 );
 
-if (!entry) throw new Error("Produkt-Datei nicht gefunden");
+if (!entry) {
+  throw new Error("Produkt-Datei nicht gefunden");
+}
 
 const { Content } = await entry.render();
 const n = normalizeProduct(entry);
 
-const usageText = getDynamicUsageText(n.title, kategorie);
-const decisionText = getDynamicDecisionText(n.title, n.preis);
-const categoryText = getDynamicCategoryText(n.title, kategorie, n.preis);
+const hasStringImage =
+  typeof n.image === "string" && n.image.length > 0;
 
-const hasStringImage = typeof n.image === "string" && n.image.length > 0;
-const hasAssetImage = !!n.image && typeof n.image !== "string";
+const hasAssetImage =
+  !!n.image && typeof n.image !== "string";
 
 const categoryLabelMap = {
   sicherheit: "Sicherheit & Überwachung",
@@ -57,44 +53,58 @@ const categoryLabelMap = {
   klima: "Klima & Luft",
   beleuchtung: "Beleuchtung",
   netzwerk: "WLAN & Netzwerk",
-  sonstiges: "Technik & Sonstiges"
+  sonstiges: "Technik & Sonstiges",
 };
 
 const categoryLabel =
-  categoryLabelMap[kategorie as keyof typeof categoryLabelMap] ?? "Technik";
+  categoryLabelMap[kategorie as keyof typeof categoryLabelMap] ??
+  "Technik";
 
-const title = `${n.title}: Lohnt sich das Modell wirklich?`;
+/*
+ * SEO-Titel:
+ * Der individuelle Titel aus dem MDX wird unverändert verwendet.
+ * Keine automatische Ergänzung wie
+ * "Lohnt sich das Modell wirklich?"
+ */
+const title = n.title;
 
 const description =
   n.description?.slice(0, 155) ||
-  `${n.title} verständlich erklärt: Einsatzbereiche und Alternativen im Überblick.`;
+  `${n.title} verständlich erklärt: Einsatzbereiche, wichtige Eigenschaften und Alternativen im Überblick.`;
 
-const canonical = `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
+const canonical =
+  `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
 
-const compareMap: Record<string, { href: string; label: string }> = {
+const compareMap: Record<
+  string,
+  { href: string; label: string }
+> = {
   saugroboter: {
     href: "/vergleiche/saugroboter-vergleich-2026/",
-    label: "Saugroboter Vergleich 2026 ansehen"
+    label: "Saugroboter vergleichen",
   },
+
   ueberwachungskamera: {
     href: "/vergleiche/ueberwachungskameras-2026/",
-    label: "Überwachungskameras vergleichen"
+    label: "Überwachungskameras vergleichen",
   },
+
   kamera: {
     href: "/vergleiche/ueberwachungskameras-2026/",
-    label: "Überwachungskameras vergleichen"
+    label: "Überwachungskameras vergleichen",
   },
+
   heizluefter: {
     href: "/empfehlungen/klima/",
-    label: "Weitere Klima-Produkte ansehen"
-  }
+    label: "Weitere Klima-Produkte ansehen",
+  },
 };
 
 const productTyp = String(n.typ ?? "");
 
 const compareData = compareMap[productTyp] ?? {
   href: `/empfehlungen/${kategorie}/`,
-  label: "Ähnliche Produkte ansehen"
+  label: "Ähnliche Produkte ansehen",
 };
 
 const compareHref = compareData.href;
@@ -102,42 +112,37 @@ const compareLabel = compareData.label;
 
 const shortDescription =
   n.description ||
-  `${n.title} ist eine praktische Lösung im Bereich ${categoryLabel}.`;
+  n.teaser ||
+  `${n.title} im Überblick mit wichtigen Eigenschaften, Einsatzbereichen und Hinweisen vor dem Kauf.`;
 
 const affiliateHint =
-  "Anzeige / Affiliate-Hinweis: Einige Links sind Partnerlinks. Es entstehen keine zusätzlichen Kosten.";
-
-const useCases =
-  kategorie === "sicherheit"
-    ? [
-        "Wohnung, Kinderzimmer oder Haustierüberwachung",
-        "App-Zugriff von unterwegs",
-        "mehr Kontrolle im Alltag",
-        "einfache Nutzung ohne Technikkenntnisse"
-      ]
-    : [
-        "Alltag im Haushalt",
-        "regelmäßige Nutzung",
-        "gutes Preis-Leistungs-Verhältnis",
-        "einfache Bedienung"
-      ];
-
-const notIdeal = [
-  "sehr spezielle Anforderungen",
-  "nur billigstes Modell gesucht",
-  "bereits passende Lösung vorhanden",
-  "nicht passender Einsatzbereich"
-];
+  "Anzeige / Affiliate-Hinweis: Einige Links sind Partnerlinks. Es entstehen für dich keine zusätzlichen Kosten.";
 
 const related = entries
-  .filter((e) => e.slug !== entry.slug && e.data.kategorie === entry.data.kategorie)
+  .filter(
+    (e) =>
+      e.slug !== entry.slug &&
+      e.data.kategorie === entry.data.kategorie
+  )
   .slice(0, 3);
 
 const breadcrumb = [
-  { name: "Start", url: "/" },
-  { name: "Empfehlungen", url: "/empfehlungen/" },
-  { name: categoryLabel, url: `/empfehlungen/${kategorie}/` },
-  { name: n.title, url: `/empfehlungen/${kategorie}/${produkt}/` }
+  {
+    name: "Start",
+    url: "/",
+  },
+  {
+    name: "Empfehlungen",
+    url: "/empfehlungen/",
+  },
+  {
+    name: categoryLabel,
+    url: `/empfehlungen/${kategorie}/`,
+  },
+  {
+    name: n.title,
+    url: `/empfehlungen/${kategorie}/${produkt}/`,
+  },
 ];
 
 const brandName =
@@ -146,7 +151,8 @@ const brandName =
     : n.brand?.name;
 
 const availability =
-  typeof entry.data.availability === "string" && entry.data.availability.startsWith("https://schema.org/")
+  typeof entry.data.availability === "string" &&
+  entry.data.availability.startsWith("https://schema.org/")
     ? entry.data.availability
     : entry.data.availability
       ? `https://schema.org/${entry.data.availability}`
@@ -161,24 +167,31 @@ const productJsonLd =
           description,
           category: categoryLabel,
           url: canonical,
+
           brand: brandName
             ? {
                 "@type": "Brand",
-                name: brandName
+                name: brandName,
               }
             : undefined,
-          image: hasStringImage ? [`${SITE}${n.image}`] : undefined,
+
+          image: hasStringImage
+            ? [`${SITE}${n.image}`]
+            : undefined,
+
           sku: entry.data.sku,
           mpn: entry.data.mpn,
+
           offers: {
             "@type": "Offer",
             price: n.preis.toFixed(2),
             priceCurrency: n.currency ?? "EUR",
             availability,
             url: n.linkExtern ?? canonical,
-            itemCondition: "https://schema.org/NewCondition"
-          }
-        }
+            itemCondition:
+              "https://schema.org/NewCondition",
+          },
+        },
       ]
     : [];
 ---
@@ -192,23 +205,40 @@ const productJsonLd =
   robots="index, follow"
   jsonLd={productJsonLd}
 >
-  <div id="top" class="mx-auto max-w-[1120px] px-4 py-8 md:py-12">
-    <article class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
+  <div
+    id="top"
+    class="mx-auto max-w-[1120px] px-4 py-8 md:py-12"
+  >
+    <article
+      class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]"
+    >
       <div>
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
         <header class="mb-8">
+
           <p class="mb-3 text-sm font-medium text-blue-700">
             {categoryLabel}
           </p>
 
-          <h1 class="mb-4 text-3xl font-semibold tracking-tight text-neutral-950 md:text-5xl">
+          <h1
+            class="mb-4 text-3xl font-semibold tracking-tight text-neutral-950 md:text-5xl"
+          >
             {n.title}
           </h1>
 
-          <p class="max-w-3xl text-base leading-relaxed text-neutral-700 md:text-lg">
+          <p
+            class="max-w-3xl text-base leading-relaxed text-neutral-700 md:text-lg"
+          >
             {shortDescription}
           </p>
 
-          <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div
+            class="mt-6 flex flex-col gap-3 sm:flex-row"
+          >
             {n.linkExtern && (
               <a
                 href={n.linkExtern}
@@ -228,14 +258,27 @@ const productJsonLd =
             </a>
           </div>
 
-          <p class="mt-4 max-w-3xl text-xs leading-relaxed text-neutral-500">
+          <p
+            class="mt-4 max-w-3xl text-xs leading-relaxed text-neutral-500"
+          >
             {affiliateHint}
           </p>
+
         </header>
 
-        <section class="mb-8 rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm md:p-6">
-          <div class="grid gap-6 md:grid-cols-[minmax(0,1fr)_300px] md:items-start">
+        <!-- =====================================================
+             PRODUKTBILD + VIDEO
+        ====================================================== -->
+
+        <section
+          class="mb-8 rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm md:p-6"
+        >
+          <div
+            class="grid gap-6 md:grid-cols-[minmax(0,1fr)_300px] md:items-start"
+          >
+
             <div>
+
               {hasStringImage ? (
                 <img
                   src={n.image as string}
@@ -248,7 +291,12 @@ const productJsonLd =
                 />
               ) : hasAssetImage ? (
                 <Image
-                  src={n.image as Exclude<typeof n.image, string | null>}
+                  src={
+                    n.image as Exclude<
+                      typeof n.image,
+                      string | null
+                    >
+                  }
                   alt={n.title}
                   widths={[480, 768, 1024, 1280]}
                   sizes="(max-width: 768px) 100vw, (max-width: 1120px) 60vw, 720px"
@@ -261,140 +309,138 @@ const productJsonLd =
                   class="h-auto w-full rounded-2xl border border-neutral-200 object-contain"
                 />
               ) : (
-                <div class="flex aspect-[4/3] w-full items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500">
+                <div
+                  class="flex aspect-[4/3] w-full items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500"
+                >
                   Kein Produktbild verfügbar
                 </div>
               )}
 
               {n.videoShortId && (
                 <div class="mt-5">
-                  <p class="mb-2 text-sm font-semibold text-neutral-900">
+
+                  <p
+                    class="mb-2 text-sm font-semibold text-neutral-900"
+                  >
                     Kurz erklärt im Video
                   </p>
+
                   <YouTubeLite
                     videoId={n.videoShortId}
                     title={`${n.title} Video`}
                   />
+
                 </div>
               )}
+
             </div>
 
-            <aside class="rounded-2xl border border-neutral-200 bg-neutral-50 p-5">
-              <h2 class="mb-3 text-base font-semibold text-neutral-950">
-                Kurzfazit
+            <!-- KURZÜBERBLICK -->
+
+            <aside
+              class="rounded-2xl border border-neutral-200 bg-neutral-50 p-5"
+            >
+              <h2
+                class="mb-3 text-base font-semibold text-neutral-950"
+              >
+                Auf einen Blick
               </h2>
 
-              <p class="mb-4 text-sm leading-relaxed text-neutral-700">
+              <p
+                class="text-sm leading-relaxed text-neutral-700"
+              >
                 {shortDescription}
               </p>
 
-              <ul class="space-y-2 text-sm text-neutral-800">
-                <li>✔ schneller Überblick vor dem Kauf</li>
-                <li>✔ verständlich eingeordnet</li>
-                <li>✔ hilfreich für Alltag, Nutzen und Preis-Leistung</li>
-              </ul>
+              {n.linkExtern && (
+                <a
+                  href={n.linkExtern}
+                  target="_blank"
+                  rel="sponsored nofollow noopener noreferrer"
+                  class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-4 py-3 text-center text-sm font-semibold text-white transition hover:opacity-90"
+                >
+                  Preis bei Amazon prüfen →
+                </a>
+              )}
+
             </aside>
+
           </div>
         </section>
 
-        <section class="mb-8 grid gap-6 md:grid-cols-2">
-          <div class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-            <h2 class="mb-3 text-lg font-semibold text-neutral-950">
-              Für wen sinnvoll?
-            </h2>
-            <ul class="space-y-2 text-sm leading-relaxed text-neutral-700">
-              {useCases.map((item) => <li>• {item}</li>)}
-            </ul>
-          </div>
-
-          <div class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-            <h2 class="mb-3 text-lg font-semibold text-neutral-950">
-              Eher nicht ideal, wenn …
-            </h2>
-            <ul class="space-y-2 text-sm leading-relaxed text-neutral-700">
-              {notIdeal.map((item) => <li>• {item}</li>)}
-            </ul>
-          </div>
-        </section>
-
-        <section class="mb-8 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-          <h2 class="mb-3 text-lg font-semibold text-neutral-950">
-            Kurz eingeordnet
-          </h2>
-
-          <div class="space-y-4 text-sm leading-relaxed text-neutral-700 md:text-base">
-            <p>{categoryText.mainText}</p>
-            <p>{categoryText.priceText}</p>
-          </div>
-        </section>
-
-        <section class="mb-10 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-          <h2 class="mb-4 text-lg font-semibold text-neutral-950">
-            Was bedeutet das im Alltag?
-          </h2>
-
-          <div class="space-y-4 text-sm leading-relaxed text-neutral-700 md:text-base">
-            <p>{usageText}</p>
-          </div>
-        </section>
-
-        <section class="mb-10 rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
-          <h2 class="mb-4 text-lg font-semibold text-neutral-950">
-            Lohnt sich der Kauf wirklich?
-          </h2>
-
-          <div class="space-y-4 text-sm leading-relaxed text-neutral-700">
-            <p>{decisionText}</p>
-
-            <p>
-              Entscheidend ist am Ende nicht nur das Datenblatt, sondern ob das Modell
-              zu deinem konkreten Einsatzbereich passt.
-            </p>
-          </div>
-
-          <div class="mt-5">
-            <a
-              href={compareHref}
-              class="text-sm font-semibold text-blue-700 hover:underline"
-            >
-              → {compareLabel}
-            </a>
-          </div>
-        </section>
+        <!-- =====================================================
+             TECHNISCHE DATEN
+        ====================================================== -->
 
         {n.kurzfakten && n.kurzfakten.length > 0 && (
           <section class="mb-8">
-            <h2 class="mb-4 text-lg font-semibold text-neutral-950">
+
+            <h2
+              class="mb-4 text-lg font-semibold text-neutral-950"
+            >
               Technische Daten
             </h2>
 
-            <div class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+            <div
+              class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm"
+            >
               {n.kurzfakten.map((k) => (
-                <div class="flex justify-between gap-4 border-b border-neutral-200 px-4 py-3 text-sm last:border-b-0">
-                  <span class="text-neutral-500">{k.label}</span>
-                  <span class="text-right font-medium text-neutral-900">{k.value}</span>
+                <div
+                  class="flex justify-between gap-4 border-b border-neutral-200 px-4 py-3 text-sm last:border-b-0"
+                >
+                  <span class="text-neutral-500">
+                    {k.label}
+                  </span>
+
+                  <span
+                    class="text-right font-medium text-neutral-900"
+                  >
+                    {k.value}
+                  </span>
                 </div>
               ))}
             </div>
+
           </section>
         )}
 
-        <article class="prose prose-zinc mb-10 max-w-none">
+        <!-- =====================================================
+             INDIVIDUELLER INHALT AUS DEM MDX
+
+             Hier steht der einzigartige Inhalt des jeweiligen
+             Produkts. Keine automatisch generierten allgemeinen
+             Kaufberatungs-Blöcke mehr.
+        ====================================================== -->
+
+        <article
+          class="prose prose-zinc mb-10 max-w-none"
+        >
           <Content />
         </article>
 
-        <section class="mb-12 rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
-          <h2 class="mb-3 text-lg font-semibold text-neutral-950">
+        <!-- =====================================================
+             NÄCHSTER SCHRITT
+        ====================================================== -->
+
+        <section
+          class="mb-12 rounded-2xl border border-neutral-200 bg-neutral-50 p-6"
+        >
+          <h2
+            class="mb-3 text-lg font-semibold text-neutral-950"
+          >
             Noch unsicher?
           </h2>
 
-          <p class="mb-4 text-sm leading-relaxed text-neutral-700">
-            Wenn du noch nicht sicher bist, ob dieses Modell wirklich zu deinem
-            Zuhause oder Alltag passt, lohnt sich vor dem Kauf ein schneller Blick
-            auf ähnliche Produkte oder weitere Empfehlungen aus derselben Kategorie.
+          <p
+            class="mb-4 text-sm leading-relaxed text-neutral-700"
+          >
+            Vergleiche ähnliche Produkte oder sieh dir weitere
+            Empfehlungen aus dieser Kategorie an, bevor du dich
+            entscheidest.
           </p>
 
           <div class="flex flex-wrap gap-3">
+
             <a
               href={compareHref}
               class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 font-semibold text-white transition hover:bg-neutral-800"
@@ -408,13 +454,23 @@ const productJsonLd =
             >
               Weitere Empfehlungen
             </a>
+
           </div>
         </section>
 
+        <!-- =====================================================
+             VERWANDTE PRODUKTE
+        ====================================================== -->
+
         {related.length > 0 && (
           <section class="mb-12">
-            <div class="mb-4 flex items-center justify-between">
-              <h2 class="text-lg font-semibold text-neutral-950">
+
+            <div
+              class="mb-4 flex items-center justify-between"
+            >
+              <h2
+                class="text-lg font-semibold text-neutral-950"
+              >
                 Weitere Empfehlungen
               </h2>
 
@@ -427,16 +483,24 @@ const productJsonLd =
             </div>
 
             <div class="grid gap-6 md:grid-cols-3">
+
               {related.map((r) => {
                 const p = normalizeProduct(r);
-                const relatedHasStringImage = typeof p.image === "string" && p.image.length > 0;
-                const relatedHasAssetImage = !!p.image && typeof p.image !== "string";
+
+                const relatedHasStringImage =
+                  typeof p.image === "string" &&
+                  p.image.length > 0;
+
+                const relatedHasAssetImage =
+                  !!p.image &&
+                  typeof p.image !== "string";
 
                 return (
                   <a
                     href={`/empfehlungen/${p.kategorie}/${r.slug}/`}
                     class="block rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                   >
+
                     {relatedHasStringImage ? (
                       <img
                         src={p.image as string}
@@ -448,7 +512,12 @@ const productJsonLd =
                       />
                     ) : relatedHasAssetImage ? (
                       <Image
-                        src={p.image as Exclude<typeof p.image, string | null>}
+                        src={
+                          p.image as Exclude<
+                            typeof p.image,
+                            string | null
+                          >
+                        }
                         alt={p.title}
                         widths={[320, 480, 640]}
                         sizes="(max-width: 768px) 100vw, 320px"
@@ -460,32 +529,74 @@ const productJsonLd =
                         class="mb-3 h-auto w-full rounded-xl object-cover"
                       />
                     ) : (
-                      <div class="mb-3 flex aspect-[4/3] items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500">
+                      <div
+                        class="mb-3 flex aspect-[4/3] items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500"
+                      >
                         Kein Bild
                       </div>
                     )}
 
-                    <h3 class="text-sm font-semibold text-neutral-900">
+                    <h3
+                      class="text-sm font-semibold text-neutral-900"
+                    >
                       {p.title}
                     </h3>
+
                   </a>
                 );
               })}
+
             </div>
+
           </section>
         )}
+
       </div>
 
+      <!-- =======================================================
+           DESKTOP SIDEBAR
+      ======================================================== -->
+
       <aside class="hidden lg:block">
-        <div class="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-          <p class="mb-2 text-sm font-semibold text-neutral-900">
+
+        <div
+          class="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
+        >
+          <p
+            class="mb-2 text-sm font-semibold text-neutral-900"
+          >
             Schnell zum Punkt
           </p>
 
-          <ul class="space-y-2 text-sm text-neutral-700">
-            <li><a href="#top" class="hover:underline">Nach oben</a></li>
-            <li><a href={compareHref} class="hover:underline">{compareLabel}</a></li>
-            <li><a href={`/empfehlungen/${kategorie}/`} class="hover:underline">Mehr aus der Kategorie</a></li>
+          <ul
+            class="space-y-2 text-sm text-neutral-700"
+          >
+            <li>
+              <a
+                href="#top"
+                class="hover:underline"
+              >
+                Nach oben
+              </a>
+            </li>
+
+            <li>
+              <a
+                href={compareHref}
+                class="hover:underline"
+              >
+                {compareLabel}
+              </a>
+            </li>
+
+            <li>
+              <a
+                href={`/empfehlungen/${kategorie}/`}
+                class="hover:underline"
+              >
+                Mehr aus der Kategorie
+              </a>
+            </li>
           </ul>
 
           {n.linkExtern && (
@@ -498,14 +609,26 @@ const productJsonLd =
               Bei Amazon ansehen →
             </a>
           )}
+
         </div>
+
       </aside>
+
     </article>
   </div>
 
+  <!-- =========================================================
+       MOBILE AMAZON BAR
+  ========================================================== -->
+
   {n.linkExtern && (
-    <div class="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 p-3 backdrop-blur lg:hidden">
-      <div class="mx-auto flex max-w-[1120px] items-center gap-3">
+    <div
+      class="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 p-3 backdrop-blur lg:hidden"
+    >
+      <div
+        class="mx-auto flex max-w-[1120px] items-center gap-3"
+      >
+
         <a
           href={n.linkExtern}
           target="_blank"
@@ -521,7 +644,9 @@ const productJsonLd =
         >
           Vergleichen
         </a>
+
       </div>
     </div>
   )}
+
 </BaseLayout>
