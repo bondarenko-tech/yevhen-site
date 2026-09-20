@@ -338,32 +338,43 @@ const productJsonLd =
             <!-- KURZÜBERBLICK -->
 
             <aside
-              class="rounded-2xl border border-neutral-200 bg-neutral-50 p-5"
-            >
-              <h2
-                class="mb-3 text-base font-semibold text-neutral-950"
-              >
-                Auf einen Blick
-              </h2>
+  class="rounded-2xl border border-neutral-200 bg-neutral-50 p-5"
+>
+  <h2 class="mb-4 text-base font-semibold text-neutral-950">
+    Auf einen Blick
+  </h2>
 
-              <p
-                class="text-sm leading-relaxed text-neutral-700"
-              >
-                {shortDescription}
-              </p>
+  {n.kurzfakten && n.kurzfakten.length > 0 ? (
+    <div class="space-y-3">
+      {n.kurzfakten.slice(0, 5).map((k) => (
+        <div class="border-b border-neutral-200 pb-3 last:border-0 last:pb-0">
+          <div class="text-xs text-neutral-500">
+            {k.label}
+          </div>
+          <div class="mt-1 text-sm font-medium text-neutral-900">
+            {k.value}
+          </div>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p class="text-sm leading-relaxed text-neutral-700">
+      Die wichtigsten Eigenschaften und Hinweise findest du direkt
+      in der Produktübersicht.
+    </p>
+  )}
 
-              {n.linkExtern && (
-                <a
-                  href={n.linkExtern}
-                  target="_blank"
-                  rel="sponsored nofollow noopener noreferrer"
-                  class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-4 py-3 text-center text-sm font-semibold text-white transition hover:opacity-90"
-                >
-                  Preis bei Amazon prüfen →
-                </a>
-              )}
-
-            </aside>
+  {n.linkExtern && (
+    <a
+      href={n.linkExtern}
+      target="_blank"
+      rel="sponsored nofollow noopener noreferrer"
+      class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-4 py-3 text-center text-sm font-semibold text-white transition hover:opacity-90"
+    >
+      Preis bei Amazon prüfen →
+    </a>
+  )}
+</aside>
 
           </div>
         </section>
