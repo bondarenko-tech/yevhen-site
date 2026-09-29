@@ -4,7 +4,6 @@ export const prerender = true;
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { normalizeProduct } from "@lib/product-engine";
-import { buildProductSchema } from "@lib/product-engine/schema";
 import { Image } from "astro:assets";
 import YouTubeLite from "@components/YouTubeLite.astro";
 
@@ -75,17 +74,6 @@ const description =
 
 const canonical =
   `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
-
-  const productJsonLd = [
-  buildProductSchema({
-    entry,
-    site: new URL(SITE),
-    dateModified:
-      entry.data.dateModified ??
-      entry.data.datum ??
-      entry.data.datePublished,
-  }),
-];
 
 const compareMap: Record<
   string,
@@ -166,7 +154,6 @@ const breadcrumb = [
   breadcrumb={breadcrumb}
   produkt={entry}
   robots="index, follow"
-  jsonLd={productJsonLd}
 >
   <div
     id="top"
