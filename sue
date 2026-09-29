@@ -1,0 +1,102 @@
+[1mdiff --git a/src/layouts/BaseLayout.astro b/src/layouts/BaseLayout.astro[m
+[1mindex 161aa7f..2b0a1e3 100644[m
+[1m--- a/src/layouts/BaseLayout.astro[m
+[1m+++ b/src/layouts/BaseLayout.astro[m
+[36m@@ -152,59 +152,6 @@[m [mif (Array.isArray(faq) && faq.length > 0) {[m
+   });[m
+ }[m
+ [m
+[31m-if (produkt) {[m
+[31m-  const price =[m
+[31m-    typeof produkt.data.preis === "number"[m
+[31m-      ? produkt.data.preis.toFixed(2)[m
+[31m-      : undefined;[m
+[31m-[m
+[31m-  const currency =[m
+[31m-    produkt.data.priceCurrency ?? "EUR";[m
+[31m-[m
+[31m-  const availability =[m
+[31m-    produkt.data.availability ?? "https://schema.org/InStock";[m
+[31m-[m
+[31m-  const productImage =[m
+[31m-    typeof produkt.data.image === "string"[m
+[31m-      ? new URL(produkt.data.image, BASE_URL).toString()[m
+[31m-      : computedImage;[m
+[31m-[m
+[31m-  graph.push({[m
+[31m-    "@type": "Product",[m
+[31m-    "@id": `${canonicalUrl}#product`,[m
+[31m-    name: produkt.data.title,[m
+[31m-    description: computedDescription,[m
+[31m-    image: productImage,[m
+[31m-    brand:[m
+[31m-      typeof produkt.data.brand === "string"[m
+[31m-        ? {[m
+[31m-            "@type": "Brand",[m
+[31m-            name: produkt.data.brand,[m
+[31m-          }[m
+[31m-        : undefined,[m
+[31m-    sku: (produkt.data as any).sku,[m
+[31m-    mpn: (produkt.data as any).mpn,[m
+[31m-    offers: price[m
+[31m-  ? {[m
+[31m-      "@type": "Offer",[m
+[31m-      url: canonicalUrl,[m
+[31m-      price,[m
+[31m-      priceCurrency: currency,[m
+[31m-      availability,[m
+[31m-      itemCondition: "https://schema.org/NewCondition",[m
+[31m-[m
+[31m-      seller: {[m
+[31m-        "@type": "Organization",[m
+[31m-        name: "Amazon"[m
+[31m-      },[m
+[31m-[m
+[31m-      validFrom: produkt.data.datePublished ?? produkt.data.datum,[m
+[31m-      priceValidUntil: "2027-12-31",[m
+[31m-    }[m
+[31m-  : undefined,[m
+[31m-  });[m
+[31m-}[m
+[31m-[m
+ for (const item of jsonLd) {[m
+   graph.push(item);[m
+ }[m
+[1mdiff --git a/src/pages/empfehlungen/[kategorie]/[produkt].astro b/src/pages/empfehlungen/[kategorie]/[produkt].astro[m
+[1mindex c585523..6741de6 100644[m
+[1m--- a/src/pages/empfehlungen/[kategorie]/[produkt].astro[m
+[1m+++ b/src/pages/empfehlungen/[kategorie]/[produkt].astro[m
+[36m@@ -150,19 +150,12 @@[m [mconst brandName =[m
+     ? n.brand[m
+     : n.brand?.name;[m
+ [m
+[31m-const availability =[m
+[31m-  typeof entry.data.availability === "string" &&[m
+[31m-  entry.data.availability.startsWith("https://schema.org/")[m
+[31m-    ? entry.data.availability[m
+[31m-    : entry.data.availability[m
+[31m-      ? `https://schema.org/${entry.data.availability}`[m
+[31m-      : "https://schema.org/InStock";[m
+[31m-[m
+ const productJsonLd =[m
+   typeof n.preis === "number"[m
+     ? [[m
+         {[m
+           "@type": "Product",[m
+[32m+[m[32m          "@id": `${canonical}#product`,[m
+           name: n.title,[m
+           description,[m
+           category: categoryLabel,[m
+[36m@@ -187,10 +180,8 @@[m [mconst productJsonLd =[m
+             "@type": "Offer",[m
+             price: n.preis.toFixed(2),[m
+             priceCurrency: n.currency ?? "EUR",[m
+[31m-            availability,[m
+[31m-            url: n.linkExtern ?? canonical,[m
+[31m-            itemCondition:[m
+[31m-              "https://schema.org/NewCondition",[m
+[32m+[m[32m            url: canonical,[m
+[32m+[m[32m            itemCondition: "https://schema.org/NewCondition",[m
+           },[m
+         },[m
+       ][m

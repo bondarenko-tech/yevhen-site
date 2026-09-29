@@ -150,19 +150,12 @@ const brandName =
     ? n.brand
     : n.brand?.name;
 
-const availability =
-  typeof entry.data.availability === "string" &&
-  entry.data.availability.startsWith("https://schema.org/")
-    ? entry.data.availability
-    : entry.data.availability
-      ? `https://schema.org/${entry.data.availability}`
-      : "https://schema.org/InStock";
-
 const productJsonLd =
   typeof n.preis === "number"
     ? [
         {
           "@type": "Product",
+          "@id": `${canonical}#product`,
           name: n.title,
           description,
           category: categoryLabel,
@@ -187,10 +180,8 @@ const productJsonLd =
             "@type": "Offer",
             price: n.preis.toFixed(2),
             priceCurrency: n.currency ?? "EUR",
-            availability,
-            url: n.linkExtern ?? canonical,
-            itemCondition:
-              "https://schema.org/NewCondition",
+            url: canonical,
+            itemCondition: "https://schema.org/NewCondition",
           },
         },
       ]
