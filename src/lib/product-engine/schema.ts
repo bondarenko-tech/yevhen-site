@@ -93,19 +93,6 @@ export function buildProductSchema({
         name: "Bondarenko Empfehlungen"
       },
 
-      shippingDetails: {
-        "@type": "OfferShippingDetails",
-        shippingRate: {
-          "@type": "MonetaryAmount",
-          value: "0",
-          currency: data.priceCurrency ?? "EUR"
-        },
-        shippingDestination: {
-          "@type": "DefinedRegion",
-          addressCountry: "DE"
-        }
-      },
-
       hasMerchantReturnPolicy: {
         "@type": "MerchantReturnPolicy",
         applicableCountry: "DE",
