@@ -64,6 +64,7 @@ const produkte = defineCollection({
 
       sku: z.string().optional(),
       mpn: z.string().optional(),
+      gtin13: z.string().optional(),
 
       linkExtern: z.string().optional(),
 
