@@ -4,6 +4,7 @@ export const prerender = true;
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { normalizeProduct } from "@lib/product-engine";
+import { buildProductSchema } from "@lib/product-engine/schema";
 import { Image } from "astro:assets";
 import YouTubeLite from "@components/YouTubeLite.astro";
 
@@ -75,6 +76,17 @@ const description =
 const canonical =
   `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
 
+  const productJsonLd = [
+  buildProductSchema({
+    entry,
+    site: new URL(SITE),
+    dateModified:
+      entry.data.dateModified ??
+      entry.data.datum ??
+      entry.data.datePublished,
+  }),
+];
+
 const compareMap: Record<
   string,
   { href: string; label: string }
@@ -145,47 +157,6 @@ const breadcrumb = [
   },
 ];
 
-const brandName =
-  typeof n.brand === "string"
-    ? n.brand
-    : n.brand?.name;
-
-const productJsonLd =
-  typeof n.preis === "number"
-    ? [
-        {
-          "@type": "Product",
-          "@id": `${canonical}#product`,
-          name: n.title,
-          description,
-          category: categoryLabel,
-          url: canonical,
-
-          brand: brandName
-            ? {
-                "@type": "Brand",
-                name: brandName,
-              }
-            : undefined,
-
-          image: hasStringImage
-            ? [`${SITE}${n.image}`]
-            : undefined,
-
-          sku: entry.data.sku,
-          mpn: entry.data.mpn,
-          gtin13: entry.data.gtin13,
-
-          offers: {
-            "@type": "Offer",
-            price: n.preis.toFixed(2),
-            priceCurrency: n.currency ?? "EUR",
-            url: canonical,
-            itemCondition: "https://schema.org/NewCondition",
-          },
-        },
-      ]
-    : [];
 ---
 
 <BaseLayout
