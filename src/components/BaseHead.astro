@@ -6,7 +6,6 @@ interface Props {
   canonical?: string;
   robots?: string;
   image?: string;
-  isProduct?: boolean;
 }
 
 const {
@@ -16,7 +15,6 @@ const {
   canonical,
   robots = "index, follow",
   image = "/og/site.webp",
-  isProduct = false,
 } = Astro.props as Props;
 
 const site = "https://yevhenbondarenko.com";
