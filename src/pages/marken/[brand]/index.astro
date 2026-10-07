@@ -147,14 +147,14 @@ const categories = Array.from(
 /*
  * Indexierungsregel für Markenseiten:
  *
- * 0–1 Produkt:
+ * 0 Produkte:
  * noindex, follow
  *
- * Ab 2 Produkten:
+ * Ab 1 Produkt:
  * index, follow
  */
 const robots =
-  productCount >= 2
+  productCount >= 1
     ? "index, follow"
     : "noindex, follow";
 
@@ -368,12 +368,13 @@ const itemListSchema =
 
             <div class="flex flex-wrap gap-3">
               {categories.map((category) => (
-                <span
-                  class="rounded-full bg-neutral-100 px-4 py-2 text-sm font-bold text-neutral-700"
-                >
-                  {category}
-                </span>
-              ))}
+  <a
+    href={`/marken/${brandSlug}/${makeSlug(category)}/`}
+    class="rounded-full bg-neutral-100 px-4 py-2 text-sm font-bold text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+  >
+    {category}
+  </a>
+))}
             </div>
           </section>
         )}
