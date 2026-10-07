@@ -147,14 +147,14 @@ const categories = Array.from(
 /*
  * Indexierungsregel für Markenseiten:
  *
- * 0 Produkte:
+ * 0–1 Produkt:
  * noindex, follow
  *
- * Ab 1 Produkt:
+ * Ab 2 Produkten:
  * index, follow
  */
 const robots =
-  productCount >= 1
+  productCount >= 2
     ? "index, follow"
     : "noindex, follow";
 
