@@ -5,8 +5,7 @@ export const prerender = true;
 
 const SITE = "https://yevhenbondarenko.com";
 
-const MIN_BODY_LENGTH = 900;
-const MIN_BRAND_PRODUCTS_FOR_INDEX = 2;
+const MIN_BRAND_PRODUCTS_FOR_INDEX = 1;
 
 function normalizePath(path: string) {
   const clean = String(path || "")
@@ -57,8 +56,9 @@ function shouldSkip(path: string) {
   );
 }
 
-function hasEnoughContent(entry: any, minLength = MIN_BODY_LENGTH) {
-  return (entry.body?.trim().length ?? 0) >= minLength;
+function hasEnoughContent(entry: any) {
+  return Boolean(entry.body?.trim());
+
 }
 
 function getEntryDate(entry: any) {
@@ -187,7 +187,7 @@ export const GET: APIRoute = async () => {
   }
 
   for (const [category, item] of categoryMap.entries()) {
-    if (item.count >= 2) {
+    if (item.count >= 1) {
       push(
         `/empfehlungen/${category}/`,
         item.lastmod,
@@ -196,24 +196,6 @@ export const GET: APIRoute = async () => {
     }
   }
 
-  /*
-   * Marken
-   *
-   * WICHTIG:
-   * Hier werden ALLE Produkte einer Marke gezählt.
-   *
-   * Das entspricht exakt der Indexierungslogik in:
-   * /marken/[brand]/index.astro
-   *
-   * 0–1 Produkt:
-   * noindex, follow
-   * nicht in Sitemap
-   *
-   * Ab 2 Produkten:
-   * index, follow
-   * in Sitemap
-   */
-
   const brandMap = new Map<
     string,
     {
@@ -221,21 +203,6 @@ export const GET: APIRoute = async () => {
       lastmod?: string;
     }
   >();
-
-  /*
-   * Marke + Kategorie
-   *
-   * Auch hier werden ALLE Produkte der jeweiligen
-   * Marke-Kategorie-Kombination gezählt.
-   *
-   * 0–1 Produkt:
-   * noindex, follow
-   * nicht in Sitemap
-   *
-   * Ab 2 Produkten:
-   * index, follow
-   * in Sitemap
-   */
 
   const brandCategoryMap = new Map<
     string,
@@ -372,12 +339,6 @@ export const GET: APIRoute = async () => {
     );
   }
 
-  /*
-   * Einzelne Produktseiten
-   *
-   * Bestehende Qualitätsregel bleibt erhalten:
-   * body >= 900
-   */
 
   for (const entry of produkte) {
     const category = entry.data?.kategorie;

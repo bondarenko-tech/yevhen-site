@@ -144,17 +144,8 @@ const categories = Array.from(
   )
 ).sort((a, b) => a.localeCompare(b, "de"));
 
-/*
- * Indexierungsregel für Markenseiten:
- *
- * 0–1 Produkt:
- * noindex, follow
- *
- * Ab 2 Produkten:
- * index, follow
- */
 const robots =
-  productCount >= 2
+  productCount >= 1
     ? "index, follow"
     : "noindex, follow";
 

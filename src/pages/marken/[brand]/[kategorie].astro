@@ -155,17 +155,7 @@ const products = produkte
 
 const productCount = products.length;
 
-/*
- * SEO:
- *
- * 0–1 Produkt:
- * Seite bleibt erreichbar,
- * wird aber nicht als dünne Landingpage indexiert.
- *
- * Ab 2 Produkten:
- * indexierbare Übersichtsseite.
- */
-const shouldIndex = productCount >= 2;
+const shouldIndex = productCount >= 1;
 
 const title =
   productCount === 1
@@ -436,7 +426,7 @@ const itemListSchema =
 
     )}
 
-    {productCount >= 2 && (
+    {productCount >= 1 && (
 
       <section
         class="py-10 md:py-12 border-t border-neutral-100"
