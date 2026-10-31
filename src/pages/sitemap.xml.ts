@@ -83,10 +83,7 @@ function getSlug(entry: any) {
 }
 
 function getEntryPath(entry: any, fallbackBase: string) {
-  if (entry.data?.link && typeof entry.data.link === "string") {
-    return normalizePath(entry.data.link);
-  }
-
+  // Die Astro-Routen nutzen den Dateislug, nicht das optionale Frontmatter-Feld link.
   return normalizePath(`${fallbackBase}/${getSlug(entry)}/`);
 }
 
@@ -346,10 +343,7 @@ export const GET: APIRoute = async () => {
     if (!category || typeof category !== "string") continue;
     if (!hasEnoughContent(entry)) continue;
 
-    const path =
-      entry.data?.link && typeof entry.data.link === "string"
-        ? entry.data.link
-        : `/empfehlungen/${category}/${getSlug(entry)}/`;
+    const path = `/empfehlungen/${category}/${getSlug(entry)}/`;
 
     push(
       path,

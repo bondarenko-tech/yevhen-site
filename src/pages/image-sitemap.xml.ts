@@ -54,7 +54,7 @@ export const GET: APIRoute = async () => {
   for (const p of produkte) {
     if (!p.slug) continue;
     if (!p.data?.kategorie || typeof p.data.kategorie !== "string") continue;
-    if (!hasEnoughContent(p, 900)) continue;
+    if (!p.body?.trim()) continue;
 
     push(
       `/empfehlungen/${p.data.kategorie}/${p.slug}/`,
@@ -65,7 +65,7 @@ export const GET: APIRoute = async () => {
 
   for (const v of vergleiche) {
     if (!v.slug) continue;
-    if (!hasEnoughContent(v, 900)) continue;
+    if (!v.body?.trim()) continue;
 
     push(
       `/vergleiche/${v.slug}/`,

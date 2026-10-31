@@ -105,8 +105,19 @@ const verstehen = defineCollection({
     }),
 });
 
+const ratgeber = defineCollection({
+  type: "content",
+  schema: ({ image }) => z.object({
+    ...baseContentFields,
+    image: imageSchema(image),
+    link: z.string().optional(),
+    teaser: z.string().optional(),
+  }),
+});
+
 export const collections = {
   produkte,
   vergleiche,
   verstehen,
+  ratgeber,
 };
