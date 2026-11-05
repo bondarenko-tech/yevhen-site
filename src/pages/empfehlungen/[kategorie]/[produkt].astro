@@ -1,19 +1,15 @@
 ---
 export const prerender = true;
-
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { normalizeProduct } from "@lib/product-engine";
 import { Image } from "astro:assets";
 import YouTubeLite from "@components/YouTubeLite.astro";
-
 const SITE =
   Astro.site?.toString().replace(/\/$/, "") ??
   "https://yevhenbondarenko.com";
-
 export async function getStaticPaths() {
   const entries = await getCollection("produkte");
-
   return entries
     .filter((e) => e.slug && e.data?.kategorie)
     .map((e) => ({
@@ -23,29 +19,21 @@ export async function getStaticPaths() {
       },
     }));
 }
-
 const kategorie = Astro.params.kategorie ?? "";
 const produkt = Astro.params.produkt ?? "";
-
 const entries = await getCollection("produkte");
-
 const entry = entries.find(
   (e) => e.slug === produkt && e.data.kategorie === kategorie
 );
-
 if (!entry) {
   throw new Error("Produkt-Datei nicht gefunden");
 }
-
 const { Content } = await entry.render();
 const n = normalizeProduct(entry);
-
 const hasStringImage =
   typeof n.image === "string" && n.image.length > 0;
-
 const hasAssetImage =
   !!n.image && typeof n.image !== "string";
-
 const categoryLabelMap = {
   sicherheit: "Sicherheit & Überwachung",
   "smart-home": "Smart Home",
@@ -55,11 +43,9 @@ const categoryLabelMap = {
   netzwerk: "WLAN & Netzwerk",
   sonstiges: "Technik & Sonstiges",
 };
-
 const categoryLabel =
   categoryLabelMap[kategorie as keyof typeof categoryLabelMap] ??
   "Technik";
-
 /*
  * SEO-Titel:
  * Der individuelle Titel aus dem MDX wird unverändert verwendet.
@@ -67,14 +53,11 @@ const categoryLabel =
  * "Lohnt sich das Modell wirklich?"
  */
 const title = n.title;
-
 const description =
   n.description?.slice(0, 155) ||
   `${n.title} verständlich erklärt: Einsatzbereiche, wichtige Eigenschaften und Alternativen im Überblick.`;
-
 const canonical =
   `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
-
 const compareMap: Record<
   string,
   { href: string; label: string }
@@ -83,41 +66,32 @@ const compareMap: Record<
     href: "/vergleiche/saugroboter-vergleich-2026/",
     label: "Saugroboter vergleichen",
   },
-
   ueberwachungskamera: {
     href: "/vergleiche/ueberwachungskameras-2026/",
     label: "Überwachungskameras vergleichen",
   },
-
   kamera: {
     href: "/vergleiche/ueberwachungskameras-2026/",
     label: "Überwachungskameras vergleichen",
   },
-
   heizluefter: {
     href: "/empfehlungen/klima/",
     label: "Weitere Klima-Produkte ansehen",
   },
 };
-
 const productTyp = String(n.typ ?? "");
-
 const compareData = compareMap[productTyp] ?? {
   href: `/empfehlungen/${kategorie}/`,
   label: "Ähnliche Produkte ansehen",
 };
-
 const compareHref = compareData.href;
 const compareLabel = compareData.label;
-
 const shortDescription =
   n.description ||
   n.teaser ||
   `${n.title} im Überblick mit wichtigen Eigenschaften, Einsatzbereichen und Hinweisen vor dem Kauf.`;
-
 const affiliateHint =
-  "Anzeige / Affiliate-Hinweis: Einige Links sind Partnerlinks. Es entstehen für dich keine zusätzlichen Kosten.";
-
+  "Anzeige / Affiliate-Link: Als Amazon-Partner verdiene ich an qualifizierten Verkäufen.";
 const related = entries
   .filter(
     (e) =>
@@ -125,7 +99,6 @@ const related = entries
       e.data.kategorie === entry.data.kategorie
   )
   .slice(0, 3);
-
 const breadcrumb = [
   {
     name: "Start",
@@ -144,9 +117,7 @@ const breadcrumb = [
     url: `/empfehlungen/${kategorie}/${produkt}/`,
   },
 ];
-
 ---
-
 <BaseLayout
   title={title}
   description={description}
@@ -163,29 +134,23 @@ const breadcrumb = [
       class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]"
     >
       <div>
-
         <!-- =====================================================
              HEADER
         ====================================================== -->
-
         <header class="mb-8">
-
           <p class="mb-3 text-sm font-medium text-blue-700">
             {categoryLabel}
           </p>
-
           <h1
             class="mb-4 text-3xl font-semibold tracking-tight text-neutral-950 md:text-5xl"
           >
             {n.title}
           </h1>
-
           <p
             class="max-w-3xl text-base leading-relaxed text-neutral-700 md:text-lg"
           >
             {shortDescription}
           </p>
-
           <div
             class="mt-6 flex flex-col gap-3 sm:flex-row"
           >
@@ -199,7 +164,6 @@ const breadcrumb = [
                 Bei Amazon ansehen →
               </a>
             )}
-
             <a
               href={compareHref}
               class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-6 py-3 text-center font-semibold text-neutral-900 transition hover:bg-neutral-100"
@@ -207,28 +171,22 @@ const breadcrumb = [
               {compareLabel}
             </a>
           </div>
-
           <p
             class="mt-4 max-w-3xl text-xs leading-relaxed text-neutral-500"
           >
             {affiliateHint}
           </p>
-
         </header>
-
         <!-- =====================================================
              PRODUKTBILD + VIDEO
         ====================================================== -->
-
         <section
           class="mb-8 rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm md:p-6"
         >
           <div
             class="grid gap-6 md:grid-cols-[minmax(0,1fr)_300px] md:items-start"
           >
-
             <div>
-
               {hasStringImage ? (
                 <img
                   src={n.image as string}
@@ -265,35 +223,27 @@ const breadcrumb = [
                   Kein Produktbild verfügbar
                 </div>
               )}
-
               {n.videoShortId && (
                 <div class="mt-5">
-
                   <p
                     class="mb-2 text-sm font-semibold text-neutral-900"
                   >
                     Kurz erklärt im Video
                   </p>
-
                   <YouTubeLite
                     videoId={n.videoShortId}
                     title={`${n.title} Video`}
                   />
-
                 </div>
               )}
-
             </div>
-
             <!-- KURZÜBERBLICK -->
-
             <aside
   class="rounded-2xl border border-neutral-200 bg-neutral-50 p-5"
 >
   <h2 class="mb-4 text-base font-semibold text-neutral-950">
     Auf einen Blick
   </h2>
-
   {n.kurzfakten && n.kurzfakten.length > 0 ? (
     <div class="space-y-3">
       {n.kurzfakten.slice(0, 5).map((k) => (
@@ -313,7 +263,6 @@ const breadcrumb = [
       in der Produktübersicht.
     </p>
   )}
-
   {n.linkExtern && (
     <a
       href={n.linkExtern}
@@ -325,23 +274,18 @@ const breadcrumb = [
     </a>
   )}
 </aside>
-
           </div>
         </section>
-
         <!-- =====================================================
              TECHNISCHE DATEN
         ====================================================== -->
-
         {n.kurzfakten && n.kurzfakten.length > 0 && (
           <section class="mb-8">
-
             <h2
               class="mb-4 text-lg font-semibold text-neutral-950"
             >
               Technische Daten
             </h2>
-
             <div
               class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm"
             >
@@ -352,7 +296,6 @@ const breadcrumb = [
                   <span class="text-neutral-500">
                     {k.label}
                   </span>
-
                   <span
                     class="text-right font-medium text-neutral-900"
                   >
@@ -361,28 +304,22 @@ const breadcrumb = [
                 </div>
               ))}
             </div>
-
           </section>
         )}
-
         <!-- =====================================================
              INDIVIDUELLER INHALT AUS DEM MDX
-
              Hier steht der einzigartige Inhalt des jeweiligen
              Produkts. Keine automatisch generierten allgemeinen
              Kaufberatungs-Blöcke mehr.
         ====================================================== -->
-
         <article
           class="prose prose-zinc mb-10 max-w-none"
         >
           <Content />
         </article>
-
         <!-- =====================================================
              NÄCHSTER SCHRITT
         ====================================================== -->
-
         <section
           class="mb-12 rounded-2xl border border-neutral-200 bg-neutral-50 p-6"
         >
@@ -391,7 +328,6 @@ const breadcrumb = [
           >
             Noch unsicher?
           </h2>
-
           <p
             class="mb-4 text-sm leading-relaxed text-neutral-700"
           >
@@ -399,33 +335,26 @@ const breadcrumb = [
             Empfehlungen aus dieser Kategorie an, bevor du dich
             entscheidest.
           </p>
-
           <div class="flex flex-wrap gap-3">
-
             <a
               href={compareHref}
               class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 font-semibold text-white transition hover:bg-neutral-800"
             >
               {compareLabel}
             </a>
-
             <a
               href={`/empfehlungen/${kategorie}/`}
               class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 font-semibold text-neutral-900 transition hover:bg-neutral-100"
             >
               Weitere Empfehlungen
             </a>
-
           </div>
         </section>
-
         <!-- =====================================================
              VERWANDTE PRODUKTE
         ====================================================== -->
-
         {related.length > 0 && (
           <section class="mb-12">
-
             <div
               class="mb-4 flex items-center justify-between"
             >
@@ -434,7 +363,6 @@ const breadcrumb = [
               >
                 Weitere Empfehlungen
               </h2>
-
               <a
                 href={`/empfehlungen/${kategorie}/`}
                 class="text-sm font-semibold text-blue-700 hover:underline"
@@ -442,26 +370,20 @@ const breadcrumb = [
                 Alle anzeigen →
               </a>
             </div>
-
             <div class="grid gap-6 md:grid-cols-3">
-
               {related.map((r) => {
                 const p = normalizeProduct(r);
-
                 const relatedHasStringImage =
                   typeof p.image === "string" &&
                   p.image.length > 0;
-
                 const relatedHasAssetImage =
                   !!p.image &&
                   typeof p.image !== "string";
-
                 return (
                   <a
                     href={`/empfehlungen/${p.kategorie}/${r.slug}/`}
                     class="block rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                   >
-
                     {relatedHasStringImage ? (
                       <img
                         src={p.image as string}
@@ -496,30 +418,22 @@ const breadcrumb = [
                         Kein Bild
                       </div>
                     )}
-
                     <h3
                       class="text-sm font-semibold text-neutral-900"
                     >
                       {p.title}
                     </h3>
-
                   </a>
                 );
               })}
-
             </div>
-
           </section>
         )}
-
       </div>
-
       <!-- =======================================================
            DESKTOP SIDEBAR
       ======================================================== -->
-
       <aside class="hidden lg:block">
-
         <div
           class="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
         >
@@ -528,7 +442,6 @@ const breadcrumb = [
           >
             Schnell zum Punkt
           </p>
-
           <ul
             class="space-y-2 text-sm text-neutral-700"
           >
@@ -540,7 +453,6 @@ const breadcrumb = [
                 Nach oben
               </a>
             </li>
-
             <li>
               <a
                 href={compareHref}
@@ -549,7 +461,6 @@ const breadcrumb = [
                 {compareLabel}
               </a>
             </li>
-
             <li>
               <a
                 href={`/empfehlungen/${kategorie}/`}
@@ -559,7 +470,6 @@ const breadcrumb = [
               </a>
             </li>
           </ul>
-
           {n.linkExtern && (
             <a
               href={n.linkExtern}
@@ -570,18 +480,13 @@ const breadcrumb = [
               Bei Amazon ansehen →
             </a>
           )}
-
         </div>
-
       </aside>
-
     </article>
   </div>
-
   <!-- =========================================================
        MOBILE AMAZON BAR
   ========================================================== -->
-
   {n.linkExtern && (
     <div
       class="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 p-3 backdrop-blur lg:hidden"
@@ -589,7 +494,6 @@ const breadcrumb = [
       <div
         class="mx-auto flex max-w-[1120px] items-center gap-3"
       >
-
         <a
           href={n.linkExtern}
           target="_blank"
@@ -598,16 +502,13 @@ const breadcrumb = [
         >
           Bei Amazon ansehen →
         </a>
-
         <a
           href={compareHref}
           class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-100"
         >
           Vergleichen
         </a>
-
       </div>
     </div>
   )}
-
 </BaseLayout>
