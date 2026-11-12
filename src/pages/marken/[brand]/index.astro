@@ -144,6 +144,19 @@ const categories = Array.from(
   )
 ).sort((a, b) => a.localeCompare(b, "de"));
 
+// Human-readable labels only; category slugs and URLs remain unchanged.
+const categoryLabels: Record<string, string> = {
+  "strom": "Strom & Energie",
+  "netzwerk": "Netzwerk & WLAN",
+  "smart-home": "Smart Home",
+  "sicherheit": "Sicherheit",
+  "klima": "Klima & Raumluft",
+  "haushalt": "Haushalt",
+  "sonstiges": "Weitere Technik",
+};
+const getCategoryLabel = (category: string) =>
+  categoryLabels[makeSlug(category)] ?? category.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase());
+
 const categoryAdvice: Record<string, { question: string; checks: string[] }> = {
   "netzwerk": { question: "Passt das Gerät zu Ihrem Heimnetz?", checks: ["Anschlüsse, WLAN-Standard und unterstützte Frequenzen prüfen.", "Reichweite und Aufstellort berücksichtigen.", "Kompatibilität mit Router und Endgeräten vor dem Kauf klären."] },
   "smart-home": { question: "Passt das Gerät zu Ihrem Smart Home?", checks: ["Prüfen, ob ein Hub oder eine Bridge benötigt wird.", "Unterstützte Funkstandards und Apps vergleichen.", "Stromversorgung und Einbauvoraussetzungen beachten."] },
@@ -153,7 +166,7 @@ const categoryAdvice: Record<string, { question: string; checks: string[] }> = {
   "haushalt": { question: "Passt das Produkt zum Alltag?", checks: ["Abmessungen und Platzbedarf prüfen.", "Reinigung, Wartung und Verbrauchsmaterial berücksichtigen.", "Funktionen mit dem tatsächlichen Bedarf vergleichen."] },
 };
 const featuredAdvice = categories.map((category) => ({
-  category,
+  category: getCategoryLabel(category),
   advice: categoryAdvice[makeSlug(category)] ?? {
     question: `Worauf sollte man bei ${category}-Produkten achten?`,
     checks: ["Einsatzbereich und vorhandene Geräte prüfen.", "Technische Daten und Lieferumfang vergleichen.", "Mögliche Einschränkungen vor dem Kauf beachten."],
@@ -163,7 +176,7 @@ const featuredAdvice = categories.map((category) => ({
 // Product families are derived only from published titles; no specifications are invented.
 const productFamilies: { id: string; label: string; pattern: RegExp; checks: string[] }[] = [
   { id: "solarpanel", label: "Solarmodule", pattern: /solarpanel|solarmodul|solartasche|faltpanel|faltbares solarpanel/i, checks: ["Anschluss und elektrische Werte mit dem vorhandenen Gerät abgleichen.", "Maße, Gewicht und Einsatzort prüfen.", "Bei mobilen Modulen auf Aufstellung und Transport achten."] },
-  { id: "powerstation", label: "Powerstations", pattern: /powerstation|power station|solargenerator/i, checks: ["Kapazität in Wh und Ausgangsleistung in W getrennt betrachten.", "Prüfen, ob die benötigten Anschlüsse vorhanden sind.", "Ladeoptionen, Gewicht und Einsatzbereich vergleichen."] },
+  { id: "powerstation", label: "Powerstations", pattern: /powerstation|power station|solargenerator/i, checks: ["Kapazität (Wh) bestimmt die gespeicherte Energie; die tatsächliche Laufzeit hängt vom Verbrauch des Geräts und von Umwandlungsverlusten ab.", "Dauerleistung (W) und mögliche Anlaufleistung angeschlossener Geräte prüfen – 1800 W Ausgangsleistung bedeuten nicht 1800 Wh Kapazität.", "Bei Solarladung Eingangsspannung, maximalen Eingangsstrom, Stecker und zulässige Solarleistung abgleichen.", "Steckdosen, USB-Anschlüsse, Gewicht, Ladezeit und Einsatzort berücksichtigen; eine USV-Funktion ist modellabhängig."] },
   { id: "solarspeicher", label: "Balkonkraftwerk-Speicher", pattern: /solarbank|balkonkraftwerk.?speicher|solarspeicher|solarstromspeicher/i, checks: ["Kompatibilität mit Wechselrichter und Solarmodulen prüfen.", "Speicherkapazität und Erweiterbarkeit vergleichen.", "Installations- und Sicherheitsvorgaben beachten."] },
   { id: "powerbank", label: "Powerbanks", pattern: /powerbank/i, checks: ["Kapazität und Ladeleistung unterscheiden.", "USB-Anschlüsse und Ladeprotokolle des eigenen Geräts prüfen.", "Gewicht und Transportbedarf berücksichtigen."] },
   { id: "smart-meter", label: "Strommessung", pattern: /smart.?meter|stromzähler|energiemessgerät|powertracker|stromverbrauch messen/i, checks: ["Vor dem Kauf die Kompatibilität zum eigenen Stromzähler prüfen.", "Benötigte Stromversorgung und Verbindung beachten.", "Prüfen, welche Messwerte tatsächlich unterstützt werden."] },
@@ -189,6 +202,12 @@ const brandProductTypes = new Set(
 );
 
 const familyAdvice = productFamilies.filter((family) => brandProductTypes.has(family.id));
+const familyProducts = familyAdvice.map((family) => ({
+  ...family,
+  products: brandProducts.filter((entry) => getProductType(entry) === family.id),
+}));
+const unclassifiedProducts = brandProducts.filter((entry) => getProductType(entry) === null);
+
 
 // Match alternatives by the same device family, never merely by the broad category.
 // Show all genuine matches rather than an arbitrary fixed number.
@@ -284,7 +303,7 @@ const itemListSchema =
 
       {categories.length > 0 && (
         <p class="mt-4 text-sm text-neutral-500 leading-relaxed">
-          Vertretene Bereiche: {categories.join(", ")}.
+          Vertretene Bereiche: {categories.map(getCategoryLabel).join(", ")}.
         </p>
       )}
     </header>
@@ -378,7 +397,7 @@ const itemListSchema =
                         <span
                           class="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-3 block"
                         >
-                          {category}
+                          {getCategoryLabel(category)}
                         </span>
                       )}
 
@@ -428,7 +447,7 @@ const itemListSchema =
                   href={`/marken/${brandSlug}/${makeSlug(category)}/`}
                   class="rounded-full bg-neutral-100 px-4 py-2 text-sm font-bold text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
                 >
-                  {category}
+                  {getCategoryLabel(category)}
                 </a>
               ))}
             </div>
@@ -445,23 +464,32 @@ const itemListSchema =
               einzuordnen. Die genauen Eigenschaften stehen auf den einzelnen Produktseiten.
             </p>
             <div class="grid gap-5 md:grid-cols-2">
-              {familyAdvice.map((family) => (
+              {familyProducts.map((family) => (
                 <article class="rounded-2xl border border-neutral-200 p-6">
                   <h3 class="text-lg font-bold text-neutral-900 mb-3">
-                    {family.label}: Das sollten Sie prüfen
+                    {family.label}: Das sollten Sie vor dem Kauf prüfen
                   </h3>
                   <ul class="list-disc pl-5 space-y-2 text-sm text-neutral-600">
                     {family.checks.map((check) => <li>{check}</li>)}
                   </ul>
+                  <div class="mt-5 border-t border-neutral-100 pt-4">
+                    <p class="text-sm font-semibold text-neutral-800 mb-2">Passende {brandName}-Artikel:</p>
+                    <ul class="space-y-2">
+                      {family.products.map((entry) => (
+                        <li><a class="text-sm font-semibold text-blue-700 hover:underline" href={getProductUrl(entry)}>{entry.data.title} →</a></li>
+                      ))}
+                    </ul>
+                  </div>
                 </article>
               ))}
             </div>
           </section>
         )}
 
+        {unclassifiedProducts.length > 0 && (
         <section class="py-10 md:py-12 border-t border-neutral-100">
           <h2 class="text-2xl font-black text-neutral-900 mb-5">
-            {brandName}: Worauf vor dem Kauf achten?
+            {brandName}: Weitere Hinweise vor dem Kauf
           </h2>
 
           <p class="max-w-3xl text-neutral-600 leading-relaxed mb-6">
@@ -483,6 +511,7 @@ const itemListSchema =
             ))}
           </div>
         </section>
+        )}
 
         {alternativesByFamily.length > 0 && (
           <section class="py-10 md:py-12 border-t border-neutral-100">

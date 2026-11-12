@@ -1,4 +1,3 @@
-
 ---
 export const prerender = true;
 
@@ -186,58 +185,64 @@ const buyingAdvice =
   ];
 
 
+const productFamilies: { id: string; label: string; pattern: RegExp; checks: string[] }[] = [
+  { id: "solarpanel", label: "Solarmodule", pattern: /solarpanel|solarmodul|solartasche|faltpanel|faltbares solarpanel/i, checks: ["Anschluss und elektrische Werte mit dem vorhandenen Gerät abgleichen.", "Maße, Gewicht und Einsatzort prüfen.", "Bei mobilen Modulen auf Aufstellung und Transport achten."] },
+  { id: "powerstation", label: "Powerstations", pattern: /powerstation|power station|solargenerator/i, checks: ["Kapazität in Wh und Ausgangsleistung in W getrennt betrachten.", "Prüfen, ob die benötigten Anschlüsse vorhanden sind.", "Ladeoptionen, Gewicht und Einsatzbereich vergleichen."] },
+  { id: "solarspeicher", label: "Balkonkraftwerk-Speicher", pattern: /solarbank|balkonkraftwerk.?speicher|solarspeicher|solarstromspeicher/i, checks: ["Kompatibilität mit Wechselrichter und Solarmodulen prüfen.", "Speicherkapazität und Erweiterbarkeit vergleichen.", "Installations- und Sicherheitsvorgaben beachten."] },
+  { id: "powerbank", label: "Powerbanks", pattern: /powerbank/i, checks: ["Kapazität und Ladeleistung unterscheiden.", "USB-Anschlüsse und Ladeprotokolle des eigenen Geräts prüfen.", "Gewicht und Transportbedarf berücksichtigen."] },
+  { id: "smart-meter", label: "Strommessung", pattern: /smart.?meter|stromzähler|energiemessgerät|powertracker|stromverbrauch messen/i, checks: ["Vor dem Kauf die Kompatibilität zum eigenen Stromzähler prüfen.", "Benötigte Stromversorgung und Verbindung beachten.", "Prüfen, welche Messwerte tatsächlich unterstützt werden."] },
+  { id: "wlan-router", label: "WLAN-Router", pattern: /router|fritz!box/i, checks: ["Internetanschluss und Router-Kompatibilität prüfen.", "WLAN-Standard, Anschlüsse und Abdeckung vergleichen.", "Auf die Anforderungen vorhandener Geräte achten."] },
+  { id: "wlan-repeater", label: "WLAN-Repeater", pattern: /repeater|wlan-verstärker/i, checks: ["Passenden Aufstellort zwischen Router und Funkloch wählen.", "WLAN-Standard und Mesh-Kompatibilität prüfen.", "Bei Bedarf LAN-Anschluss berücksichtigen."] },
+  { id: "wlan-adapter", label: "WLAN-Adapter", pattern: /wlan-adapter|wifi-adapter|wlan usb adapter/i, checks: ["Betriebssystem und Treiberunterstützung prüfen.", "USB-Anschluss und unterstützte Frequenzbänder beachten.", "Antennenform und verfügbaren Platz berücksichtigen."] },
+  { id: "kamera", label: "Überwachungskameras", pattern: /überwachungskamera|security camera|innenkamera|außenkamera|indoor.?cam|outdoor.?cam/i, checks: ["Innen- oder Außeneinsatz sowie Stromversorgung klären.", "Speicherung und mögliche Folgekosten prüfen.", "Bei Aufnahmen Datenschutz und Nachbargrundstücke beachten."] },
+  { id: "thermostat", label: "Heizkörperthermostate", pattern: /heizkörperthermostat|thermostat/i, checks: ["Ventilanschluss und nötige Adapter prüfen.", "App, Funkstandard und eventuelle Bridge beachten.", "Bei Mietwohnungen vor Änderungen die Voraussetzungen klären."] },
+  { id: "steckdose", label: "Smarte Steckdosen", pattern: /smart plug|smart.?steckdose|funksteckdose/i, checks: ["Zulässige Leistung der Steckdose beachten.", "WLAN, Funkstandard und Hub-Bedarf prüfen.", "Nur für geeignete angeschlossene Geräte einsetzen."] },
+  { id: "hygrometer", label: "Hygrometer", pattern: /hygrometer|luftfeuchtigkeitsmesser|schimmelalarm/i, checks: ["Messfunktionen und Alarmgrenzen vergleichen.", "Geeigneten Aufstellort und Ablesbarkeit beachten.", "Stromversorgung und Bedienung prüfen."] },
+  { id: "netzwerk-kabel", label: "Netzwerkkabel", pattern: /glasfaserkabel|lan.?kabel|ethernet.?kabel|patchkabel/i, checks: ["Steckertyp und Anschluss auf beiden Seiten prüfen.", "Kabellänge und Verlegeort berücksichtigen.", "Bei Glasfaser die genaue Steckervariante vergleichen."] },
+  { id: "ladegeraet", label: "Ladegeräte", pattern: /ladegerät|usb.?c.?charger|ladestation/i, checks: ["Ladeleistung und Anschlüsse vergleichen.", "Kompatibilität mit den zu ladenden Geräten prüfen.", "Bei mehreren Anschlüssen die Leistungsaufteilung beachten."] },
+  { id: "beleuchtung", label: "Beleuchtung", pattern: /led.?lampe|leuchtmittel|lichtschalter|dimmer/i, checks: ["Fassung, Spannung und Dimmbarkeit prüfen.", "Bei smarten Geräten Funkstandard und Hub-Bedarf klären.", "Arbeiten an der Elektroinstallation Fachkräften überlassen."] },
+];
+
 const getProductType = (entry: any): string | null => {
-  const title = String(entry.data?.title ?? "").toLowerCase();
-
-  if (
-    /solarpanel|solarmodul|solartasche|faltpanel/.test(title)
-  ) {
-    return "solarpanel";
-  }
-
-  const types: [string, RegExp][] = [
-    ["powerstation", /\bpowerstation\b|power station|solargenerator/],
-    ["solarspeicher", /solarbank|balkonkraftwerk.?speicher|solarspeicher/],
-    ["powerbank", /\bpowerbank\b/],
-    ["smart-meter", /smart meter|stromzähler|energiemessgerät/],
-    ["wlan-router", /\brouter\b|fritz!box/],
-    ["wlan-repeater", /repeater|wlan-verstärker/],
-    ["wlan-adapter", /wlan-adapter|wifi-adapter/],
-    ["kamera", /überwachungskamera|security camera|innenkamera|außenkamera/],
-    ["thermostat", /heizkörperthermostat|thermostat/],
-    ["steckdose", /smart plug|smart.?steckdose|funksteckdose/],
-    ["hygrometer", /hygrometer|luftfeuchtigkeitsmesser/],
-  ];
-
-  return types.find(([, pattern]) => pattern.test(title))?.[0] ?? null;
+  const title = String(entry.data?.title ?? "");
+  return productFamilies.find((family) => family.pattern.test(title))?.id ?? null;
 };
 
 const currentProductTypes = new Set(
-  products
-    .map(getProductType)
-    .filter((type): type is string => type !== null)
+  products.map(getProductType).filter((type): type is string => type !== null)
 );
 
+const familyAdvice = productFamilies.filter((family) => currentProductTypes.has(family.id));
+
+// Only compare products in the same category and recognizable device family.
 const alternatives = produkte
   .filter((entry) => {
     const brand = entry.data?.brand;
     const category = entry.data?.kategorie;
     const type = getProductType(entry);
-
-    return (
-      typeof brand === "string" &&
-      typeof category === "string" &&
-      makeSlug(brand) !== brandSlug &&
-      makeSlug(category) === categorySlug &&
-      type !== null &&
-      currentProductTypes.has(type)
-    );
+    return typeof brand === "string" && typeof category === "string" &&
+      makeSlug(brand) !== brandSlug && makeSlug(category) === categorySlug &&
+      type !== null && currentProductTypes.has(type);
   })
-  .sort(
-    (a, b) =>
-      getTimestamp(b.data?.datum) - getTimestamp(a.data?.datum)
-  )
-  .slice(0, 6);
+  .sort((a, b) => getTimestamp(b.data?.datum) - getTimestamp(a.data?.datum));
+
+const alternativesByFamily = familyAdvice
+  .map((family) => ({
+    label: family.label,
+    products: alternatives.filter((entry) => getProductType(entry) === family.id),
+  }))
+  .filter((group) => group.products.length > 0);
+
+const categoryLabels: Record<string, string> = {
+  "strom": "Stromversorgung und Energie",
+  "netzwerk": "Netzwerk und WLAN",
+  "smart-home": "Smart Home",
+  "sicherheit": "Sicherheit",
+  "klima": "Raumklima",
+  "haushalt": "Haushalt",
+  "sonstiges": "Weitere Technik",
+};
+const categoryLabel = categoryLabels[categorySlug] ?? categoryName;
 
 const itemListSchema = shouldIndex
   ? {
@@ -388,22 +393,31 @@ const itemListSchema = shouldIndex
 
     <section class="py-10 md:py-12 border-t border-neutral-100">
       <h2 class="text-2xl md:text-3xl font-black text-neutral-900 mb-5">
-        Worauf bei {categoryName}-Produkten achten?
+        {brandName}: Worauf vor dem Kauf achten?
       </h2>
-
       <p class="max-w-3xl text-neutral-600 leading-relaxed mb-6">
-        Vor dem Kauf lohnt es sich, den geplanten Einsatz und die technischen
-        Voraussetzungen zu prüfen. Die folgenden Punkte helfen bei der
-        Orientierung:
+        Welche Eigenschaften wichtig sind, hängt vom Gerät und seinem Einsatz ab.
+        Prüfen Sie vor dem Kauf die technischen Angaben auf der jeweiligen Produktseite.
       </p>
-
-      <ul class="grid gap-4 md:grid-cols-3">
-        {buyingAdvice.map((advice) => (
-          <li class="rounded-2xl border border-neutral-200 p-5 text-neutral-700 leading-relaxed">
-            {advice}
-          </li>
-        ))}
-      </ul>
+      {familyAdvice.length > 0 ? (
+        <div class="grid gap-4 md:grid-cols-2">
+          {familyAdvice.map((family) => (
+            <article class="rounded-2xl border border-neutral-200 p-6">
+              <h3 class="font-bold text-neutral-900 mb-3">{family.label}: wichtige Kaufkriterien</h3>
+              <ul class="list-disc pl-5 space-y-2 text-neutral-700 leading-relaxed">
+                {family.checks.map((check) => <li>{check}</li>)}
+              </ul>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-2xl border border-neutral-200 p-6">
+          <h3 class="font-bold text-neutral-900 mb-3">{categoryLabel}: wichtige Kaufkriterien</h3>
+          <ul class="list-disc pl-5 space-y-2 text-neutral-700 leading-relaxed">
+            {buyingAdvice.map((advice) => <li>{advice}</li>)}
+          </ul>
+        </div>
+      )}
     </section>
 
     <section class="py-10 md:py-12 border-t border-neutral-100">
@@ -427,8 +441,35 @@ const itemListSchema = shouldIndex
       </div>
     </section>
 
-    {alternatives.length > 0 && (
+    {alternativesByFamily.length > 0 && (
       <section class="py-10 md:py-12 border-t border-neutral-100">
+        <h2 class="text-2xl md:text-3xl font-black text-neutral-900 mb-5">
+          Alternativen anderer Hersteller
+        </h2>
+        <p class="max-w-3xl text-neutral-600 mb-6 leading-relaxed">
+          Weitere veröffentlichte Geräte derselben Produktart können bei der Auswahl helfen.
+          Ausstattung, Kapazität und Kompatibilität können sich deutlich unterscheiden.
+        </p>
+        <div class="space-y-8">
+          {alternativesByFamily.map((group) => (
+            <div>
+              <h3 class="text-lg font-bold text-neutral-900 mb-3">{group.label}</h3>
+              <ul class="grid gap-3 md:grid-cols-2">
+                {group.products.map((entry) => (
+                  <li>
+                    <a href={getProductUrl(entry)} class="block rounded-xl border border-neutral-200 p-4 font-semibold text-blue-700 hover:bg-blue-50 transition-colors">
+                      {entry.data.title} →
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="py-10 md:py-12 border-t border-neutral-100">
         <h2 class="text-2xl md:text-3xl font-black text-neutral-900 mb-5">
           Alternativen anderer Hersteller
         </h2>
