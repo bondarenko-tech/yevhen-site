@@ -189,6 +189,12 @@ const buyingAdvice =
 const getProductType = (entry: any): string | null => {
   const title = String(entry.data?.title ?? "").toLowerCase();
 
+  if (
+    /solarpanel|solarmodul|solartasche|faltpanel/.test(title)
+  ) {
+    return "solarpanel";
+  }
+
   const types: [string, RegExp][] = [
     ["powerstation", /\bpowerstation\b|power station|solargenerator/],
     ["solarspeicher", /solarbank|balkonkraftwerk.?speicher|solarspeicher/],
