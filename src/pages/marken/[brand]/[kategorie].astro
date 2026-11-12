@@ -1,26 +1,29 @@
+
 ---
 export const prerender = true;
 
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
+const makeSlug = (value: string) =>
+  String(value)
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "und")
+    .replace(/\+/g, "plus")
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 export async function getStaticPaths() {
+  const { slugify } = await import("../../../lib/slugify");
+
+  const makeSlug = (value: string) => slugify(value);
+
   const produkte = await getCollection("produkte");
-
-  const makeSlug = (value: string) => {
-    return String(value)
-      .toLowerCase()
-      .trim()
-      .replace(/&/g, "und")
-      .replace(/\+/g, "plus")
-      .replace(/ä/g, "ae")
-      .replace(/ö/g, "oe")
-      .replace(/ü/g, "ue")
-      .replace(/ß/g, "ss")
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-  };
-
   const paths = [];
   const seen = new Set<string>();
 
@@ -28,21 +31,18 @@ export async function getStaticPaths() {
     const brand = entry.data?.brand;
     const category = entry.data?.kategorie;
 
-    if (!brand || typeof brand !== "string") continue;
-    if (!category || typeof category !== "string") continue;
+    if (typeof brand !== "string" || !brand.trim()) continue;
+    if (typeof category !== "string" || !category.trim()) continue;
 
     const brandName = brand.trim();
     const categoryName = category.trim();
-
     const brandSlug = makeSlug(brandName);
     const categorySlug = makeSlug(categoryName);
 
     if (!brandSlug || !categorySlug) continue;
 
     const key = `${brandSlug}|${categorySlug}`;
-
     if (seen.has(key)) continue;
-
     seen.add(key);
 
     paths.push({
@@ -64,62 +64,39 @@ const SITE =
   Astro.site?.toString().replace(/\/$/, "") ??
   "https://yevhenbondarenko.com";
 
-const makeSlug = (value: string) => {
-  return String(value)
-    .toLowerCase()
-    .trim()
-    .replace(/&/g, "und")
-    .replace(/\+/g, "plus")
-    .replace(/ä/g, "ae")
-    .replace(/ö/g, "oe")
-    .replace(/ü/g, "ue")
-    .replace(/ß/g, "ss")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-};
-
 const brandName = String(Astro.props.brandName ?? "").trim();
 const categoryName = String(Astro.props.categoryName ?? "").trim();
 
 const brandSlug = String(Astro.params.brand ?? "").trim();
 const categorySlug = String(Astro.params.kategorie ?? "").trim();
 
-const canonical =
-  `${SITE}/marken/${brandSlug}/${categorySlug}/`;
+const canonical = `${SITE}/marken/${brandSlug}/${categorySlug}/`;
+const brandUrl = `/marken/${brandSlug}/`;
 
 const produkte = await getCollection("produkte");
 
 function getEntrySlug(entry: any) {
-  const id = String(entry.id || "")
-    .replace(/\.mdx?$/, "")
-    .trim();
-
-  return id.split("/").pop() ?? "";
+  return (
+    String(entry.id || "")
+      .replace(/\.mdx?$/, "")
+      .split("/")
+      .pop()
+      ?.trim() ?? ""
+  );
 }
 
 function getProductUrl(entry: any) {
-  if (entry.data?.link && typeof entry.data.link === "string") {
+  if (typeof entry.data?.link === "string") {
     const link = entry.data.link.trim();
 
-    if (link.startsWith("/")) {
-      return link;
-    }
-
-    if (link.startsWith(SITE)) {
-      return link;
-    }
+    if (link.startsWith("/")) return link;
+    if (link.startsWith(SITE)) return link;
   }
 
-  const category =
-    typeof entry.data?.kategorie === "string"
-      ? entry.data.kategorie.trim()
-      : "";
-
+  const category = String(entry.data?.kategorie ?? "").trim();
   const slug = getEntrySlug(entry);
 
-  if (!category || !slug) {
-    return "/empfehlungen/";
-  }
+  if (!category || !slug) return "/empfehlungen/";
 
   return `/empfehlungen/${category}/${slug}/`;
 }
@@ -127,9 +104,7 @@ function getProductUrl(entry: any) {
 function getTimestamp(value: unknown) {
   if (!value) return 0;
 
-  const date = new Date(value as string | number | Date);
-  const timestamp = date.getTime();
-
+  const timestamp = new Date(value as string | number | Date).getTime();
   return Number.isNaN(timestamp) ? 0 : timestamp;
 }
 
@@ -138,75 +113,111 @@ const products = produkte
     const brand = entry.data?.brand;
     const category = entry.data?.kategorie;
 
-    if (!brand || typeof brand !== "string") return false;
-    if (!category || typeof category !== "string") return false;
-
     return (
+      typeof brand === "string" &&
+      typeof category === "string" &&
       makeSlug(brand) === brandSlug &&
       makeSlug(category) === categorySlug
     );
   })
-  .sort((a, b) => {
-    const dateA = getTimestamp(a.data?.datum);
-    const dateB = getTimestamp(b.data?.datum);
-
-    return dateB - dateA;
-  });
+  .sort(
+    (a, b) =>
+      getTimestamp(b.data?.datum) - getTimestamp(a.data?.datum)
+  );
 
 const productCount = products.length;
-
 const shouldIndex = productCount >= 1;
 
 const title =
   productCount === 1
-    ? `${brandName} ${categoryName}: Produktübersicht`
-    : `${brandName} ${categoryName}: ${productCount} Produkte im Überblick`;
+    ? `${brandName} ${categoryName}: Produkt & Kaufhinweise`
+    : `${brandName} ${categoryName}: ${productCount} Produkte & Kaufhinweise`;
 
 const description =
   productCount === 1
-    ? `Produkt von ${brandName} im Bereich ${categoryName} auf Bondarenko Empfehlungen ansehen.`
-    : `${productCount} Produkte von ${brandName} im Bereich ${categoryName}. Empfehlungen und passende Technik auf Bondarenko Empfehlungen ansehen.`;
+    ? `Entdecken Sie das vorgestellte ${brandName}-Produkt aus dem Bereich ${categoryName}. Mit praktischen Kaufhinweisen und passenden Alternativen.`
+    : `${productCount} Produkte von ${brandName} im Bereich ${categoryName}: Informationen, Kaufhinweise und weitere passende Technik.`;
 
 const breadcrumb = [
-  {
-    name: "Startseite",
-    url: `${SITE}/`,
-  },
-  {
-    name: "Marken",
-    url: `${SITE}/marken/`,
-  },
-  {
-    name: brandName,
-    url: `${SITE}/marken/${brandSlug}/`,
-  },
-  {
-    name: categoryName,
-    url: canonical,
-  },
+  { name: "Startseite", url: `${SITE}/` },
+  { name: "Marken", url: `${SITE}/marken/` },
+  { name: brandName, url: `${SITE}${brandUrl}` },
+  { name: categoryName, url: canonical },
 ];
 
-const itemListSchema =
-  shouldIndex
-    ? {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        name: `${brandName} ${categoryName} Produkte`,
-        url: canonical,
-        numberOfItems: productCount,
-        itemListElement: products.map((entry, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          name:
-            entry.data?.title ??
-            `${brandName} ${categoryName}`,
-          url: new URL(
-            getProductUrl(entry),
-            SITE
-          ).toString(),
-        })),
-      }
-    : null;
+const categoryAdvice: Record<string, string[]> = {
+  "netzwerk": [
+    "Prüfen Sie die unterstützten WLAN-Standards, Frequenzen und Anschlüsse.",
+    "Berücksichtigen Sie die Entfernung zum Router und mögliche Hindernisse.",
+    "Achten Sie auf die Kompatibilität mit vorhandenen Geräten."
+  ],
+  "smart-home": [
+    "Prüfen Sie, ob ein zusätzlicher Hub oder eine Bridge benötigt wird.",
+    "Vergleichen Sie die unterstützten Apps und Funkstandards.",
+    "Achten Sie auf Stromversorgung und Einbauvoraussetzungen."
+  ],
+  "sicherheit": [
+    "Klären Sie, ob das Gerät für Innenräume oder Außenbereiche geeignet ist.",
+    "Vergleichen Sie Speicheroptionen und mögliche laufende Kosten.",
+    "Beachten Sie Datenschutz und Montagevoraussetzungen."
+  ],
+  "strom": [
+    "Vergleichen Sie Leistung, Kapazität und Anschlüsse.",
+    "Prüfen Sie die Kompatibilität mit vorhandenen Geräten.",
+    "Beachten Sie Sicherheitsanforderungen und den Lieferumfang."
+  ],
+  "klima": [
+    "Prüfen Sie Messbereich, Genauigkeit und Aufstellort.",
+    "Achten Sie auf Stromversorgung und Bedienbarkeit.",
+    "Vergleichen Sie Warnfunktionen und mögliche Zusatzgeräte."
+  ],
+  "haushalt": [
+    "Vergleichen Sie Abmessungen und Platzbedarf.",
+    "Berücksichtigen Sie Reinigung und Wartung.",
+    "Prüfen Sie, welche Funktionen Sie tatsächlich benötigen."
+  ],
+};
+
+const buyingAdvice =
+  categoryAdvice[categorySlug] ?? [
+    "Prüfen Sie den vorgesehenen Einsatzbereich.",
+    "Vergleichen Sie die technischen Daten und den Lieferumfang.",
+    "Achten Sie auf mögliche Einschränkungen vor dem Kauf.",
+  ];
+
+const alternatives = produkte
+  .filter((entry) => {
+    const brand = entry.data?.brand;
+    const category = entry.data?.kategorie;
+
+    return (
+      typeof brand === "string" &&
+      typeof category === "string" &&
+      makeSlug(category) === categorySlug &&
+      makeSlug(brand) !== brandSlug
+    );
+  })
+  .sort(
+    (a, b) =>
+      getTimestamp(b.data?.datum) - getTimestamp(a.data?.datum)
+  )
+  .slice(0, 6);
+
+const itemListSchema = shouldIndex
+  ? {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `${brandName} ${categoryName} Produkte`,
+      url: canonical,
+      numberOfItems: productCount,
+      itemListElement: products.map((entry, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: entry.data?.title ?? `${brandName} ${categoryName}`,
+        url: new URL(getProductUrl(entry), SITE).toString(),
+      })),
+    }
+  : null;
 ---
 
 <BaseLayout
@@ -226,113 +237,47 @@ const itemListSchema =
   <main class="mx-auto max-w-6xl px-4 py-12 md:py-20">
 
     <header class="max-w-4xl mb-12 md:mb-16">
-
       <a
-        href={`/marken/${brandSlug}/`}
+        href={brandUrl}
         class="inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-700 mb-6"
       >
         ← Alle {brandName} Produkte
       </a>
 
-      <div>
-        <span
-          class="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-[0.2em] mb-4"
-        >
-          Hersteller · Kategorie
-        </span>
-      </div>
+      <span
+        class="block text-xs font-black uppercase tracking-widest text-blue-600 mb-4"
+      >
+        Hersteller · Kategorie
+      </span>
 
       <h1
-        class="text-4xl md:text-6xl font-black text-neutral-900 leading-tight mb-6 text-balance"
+        class="text-4xl md:text-6xl font-black text-neutral-900 leading-tight mb-6"
       >
         {brandName}
-        <span class="text-blue-600 italic">
-          {" "}{categoryName}
-        </span>
+        <span class="text-blue-600 italic"> {categoryName}</span>
       </h1>
 
-      <p
-        class="text-lg md:text-xl text-neutral-600 leading-relaxed font-medium"
-      >
-        {productCount === 0
-          ? `Für ${brandName} sind im Bereich ${categoryName} derzeit keine veröffentlichten Produkte vorhanden.`
-          : productCount === 1
-            ? `Hier finden Sie das aktuell auf Bondarenko Empfehlungen veröffentlichte Produkt von ${brandName} im Bereich ${categoryName}.`
-            : `Hier finden Sie ${productCount} aktuell veröffentlichte Produkte von ${brandName} im Bereich ${categoryName}.`}
+      <p class="text-lg md:text-xl text-neutral-600 leading-relaxed">
+        {productCount === 1
+          ? `Entdecken Sie das auf Bondarenko Empfehlungen vorgestellte Produkt von ${brandName} im Bereich ${categoryName}. Erfahren Sie, welche Punkte vor dem Kauf wichtig sind und wo Sie weitere passende Technik finden.`
+          : `Hier finden Sie ${productCount} veröffentlichte Produkte von ${brandName} aus dem Bereich ${categoryName} sowie praktische Hinweise zur Auswahl.`}
       </p>
-
     </header>
 
-    {products.length === 0 ? (
+    {products.length > 0 ? (
+      <section class="mb-16">
+        <div class="flex items-end justify-between gap-4 mb-8">
+          <h2 class="text-2xl md:text-3xl font-black text-neutral-900">
+            {brandName} Produkte aus {categoryName}
+          </h2>
 
-      <section
-        class="rounded-[28px] border border-neutral-100 bg-neutral-50 p-8 md:p-10"
-      >
-
-        <h2
-          class="text-2xl font-black text-neutral-900 mb-3"
-        >
-          Keine Produkte gefunden
-        </h2>
-
-        <p
-          class="text-neutral-600 leading-relaxed"
-        >
-          Für {brandName} sind im Bereich {categoryName}
-          derzeit keine veröffentlichten Produktempfehlungen vorhanden.
-        </p>
-
-        <a
-          href={`/marken/${brandSlug}/`}
-          class="inline-flex mt-6 bg-neutral-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-600 transition-colors"
-        >
-          Alle {brandName} Produkte
-        </a>
-
-      </section>
-
-    ) : (
-
-      <section class="mb-16 md:mb-20">
-
-        <div
-          class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-8"
-        >
-
-          <div>
-
-            <p
-              class="text-xs font-black uppercase tracking-[0.2em] text-neutral-400 mb-2"
-            >
-              Produktübersicht
-            </p>
-
-            <h2
-              class="text-2xl md:text-3xl font-black text-neutral-900"
-            >
-              {brandName} Produkte aus {categoryName}
-            </h2>
-
-          </div>
-
-          <p
-            class="text-sm font-bold text-neutral-500"
-          >
-            {productCount}{" "}
-            {productCount === 1
-              ? "Produkt"
-              : "Produkte"}
-          </p>
-
+          <span class="text-sm font-bold text-neutral-500">
+            {productCount} {productCount === 1 ? "Produkt" : "Produkte"}
+          </span>
         </div>
 
-        <div
-          class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
-
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((entry) => {
-            const productUrl = getProductUrl(entry);
-
             const productDescription =
               typeof entry.data?.teaser === "string" &&
               entry.data.teaser.trim()
@@ -342,43 +287,30 @@ const itemListSchema =
                   : "";
 
             return (
-
               <article
-                class="group rounded-[32px] border border-neutral-100 bg-neutral-50/50 overflow-hidden hover:bg-white hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500"
+                class="group rounded-[32px] border border-neutral-100 bg-neutral-50/50 overflow-hidden hover:bg-white hover:shadow-xl transition-all duration-300"
               >
-
                 <a
-                  href={productUrl}
+                  href={getProductUrl(entry)}
                   class="block h-full"
                   aria-label={`${entry.data.title} ansehen`}
                 >
-
-                  {entry.data?.image &&
-                    typeof entry.data.image === "string" && (
-
-                      <div
-                        class="aspect-video overflow-hidden bg-white"
-                      >
-
+                  {typeof entry.data?.image === "string" &&
+                    entry.data.image && (
+                      <div class="aspect-video overflow-hidden bg-white">
                         <img
                           src={entry.data.image}
-                          alt={String(
-                            entry.data.title ??
-                            `${brandName} ${categoryName}`
-                          )}
-                          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                          alt={String(entry.data.title ?? brandName)}
+                          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                           loading="lazy"
                           decoding="async"
                           width="640"
                           height="360"
                         />
-
                       </div>
-
                     )}
 
                   <div class="p-7 md:p-8">
-
                     <span
                       class="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-3 block"
                     >
@@ -386,128 +318,181 @@ const itemListSchema =
                     </span>
 
                     <h3
-                      class="text-xl font-bold mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
+                      class="text-xl font-bold mb-3 text-neutral-900 group-hover:text-blue-600"
                     >
                       {entry.data.title}
                     </h3>
 
                     {productDescription && (
-
-                      <p
-                        class="text-sm text-neutral-500 leading-relaxed font-medium line-clamp-3"
-                      >
+                      <p class="text-sm text-neutral-500 leading-relaxed line-clamp-3">
                         {productDescription}
                       </p>
-
                     )}
 
-                    <span
-                      class="inline-flex items-center mt-5 text-sm font-black text-neutral-900 group-hover:text-blue-600 transition-colors"
-                      aria-hidden="true"
-                    >
-                      Empfehlung ansehen
-                      <span class="ml-2">
-                        →
-                      </span>
+                    <span class="inline-flex items-center mt-5 text-sm font-black text-neutral-900">
+                      Empfehlung ansehen →
                     </span>
-
                   </div>
-
                 </a>
-
               </article>
-
             );
           })}
-
         </div>
-
       </section>
-
+    ) : (
+      <section class="rounded-2xl bg-neutral-50 p-8 mb-12">
+        <h2 class="text-xl font-bold mb-3">
+          Keine Produkte gefunden
+        </h2>
+        <p class="text-neutral-600">
+          Derzeit sind keine Produkte von {brandName} in dieser Kategorie veröffentlicht.
+        </p>
+      </section>
     )}
 
-    {productCount >= 2 && (
+    <section class="py-10 md:py-12 border-t border-neutral-100">
+      <h2 class="text-2xl md:text-3xl font-black text-neutral-900 mb-5">
+        Worauf bei {categoryName}-Produkten achten?
+      </h2>
 
-      <section
-        class="py-10 md:py-12 border-t border-neutral-100"
-      >
+      <p class="max-w-3xl text-neutral-600 leading-relaxed mb-6">
+        Vor dem Kauf lohnt es sich, den geplanten Einsatz und die technischen
+        Voraussetzungen zu prüfen. Die folgenden Punkte helfen bei der
+        Orientierung:
+      </p>
 
-        <h2
-          class="text-xl md:text-2xl font-black text-neutral-900 mb-5"
-        >
-          {brandName} in der Kategorie {categoryName}
+      <ul class="grid gap-4 md:grid-cols-3">
+        {buyingAdvice.map((advice) => (
+          <li class="rounded-2xl border border-neutral-200 p-5 text-neutral-700 leading-relaxed">
+            {advice}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="py-10 md:py-12 border-t border-neutral-100">
+      <h2 class="text-2xl font-black text-neutral-900 mb-5">
+        Welche Informationen bieten die Produktseiten?
+      </h2>
+
+      <div class="max-w-3xl space-y-4 text-neutral-600 leading-relaxed">
+        <p>
+          Die einzelnen Empfehlungen enthalten Informationen zu den
+          beschriebenen Geräten, ihren Funktionen und möglichen
+          Einschränkungen. So können Sie besser einschätzen, ob ein Produkt
+          für Ihren Einsatzzweck infrage kommt.
+        </p>
+
+        <p>
+          Vergleichen Sie vor einer Kaufentscheidung die Herstellerangaben,
+          den Lieferumfang und die Voraussetzungen für die Nutzung.
+          Nicht jede Funktion ist mit jedem vorhandenen Gerät kompatibel.
+        </p>
+      </div>
+    </section>
+
+    {alternatives.length > 0 && (
+      <section class="py-10 md:py-12 border-t border-neutral-100">
+        <h2 class="text-2xl md:text-3xl font-black text-neutral-900 mb-5">
+          Alternativen anderer Hersteller
         </h2>
 
-        <div
-          class="max-w-3xl text-neutral-600 leading-relaxed space-y-4"
-        >
+        <p class="max-w-3xl text-neutral-600 mb-6 leading-relaxed">
+          Weitere Produkte aus dem Bereich {categoryName} können bei der
+          Auswahl helfen. Die folgenden Empfehlungen stammen von anderen
+          Herstellern und sind nicht automatisch technisch gleichwertig.
+        </p>
 
-          <p>
-            Diese Übersicht bündelt die auf Bondarenko Empfehlungen
-            veröffentlichten Produkte von {brandName} aus dem Bereich{" "}
-            {categoryName}.
+        <ul class="grid gap-3 md:grid-cols-2">
+          {alternatives.map((entry) => (
+            <li>
+              <a
+                href={getProductUrl(entry)}
+                class="block rounded-xl border border-neutral-200 p-4 font-semibold text-blue-700 hover:bg-blue-50 transition-colors"
+              >
+                {entry.data.title} →
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="py-10 md:py-12 border-t border-neutral-100">
+      <h2 class="text-2xl font-black text-neutral-900 mb-5">
+        Häufige Fragen zu {brandName} und {categoryName}
+      </h2>
+
+      <div class="max-w-3xl space-y-6">
+        <div>
+          <h3 class="font-bold text-neutral-900 mb-2">
+            Wo finde ich die technischen Daten?
+          </h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Öffnen Sie die jeweilige Produktseite. Dort finden Sie die
+            verfügbaren Angaben zu Ausstattung, Funktionen und
+            wichtigen Voraussetzungen.
           </p>
-
-          <p>
-            Öffnen Sie die einzelnen Produktseiten, um Informationen
-            zu Ausstattung, Einsatzbereich und wichtigen Hinweisen
-            zu erhalten.
-          </p>
-
         </div>
 
-      </section>
+        <div>
+          <h3 class="font-bold text-neutral-900 mb-2">
+            Sind alle Geräte miteinander kompatibel?
+          </h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Nicht unbedingt. Prüfen Sie die Anschlüsse, unterstützten
+            Standards und Herstellerangaben für jedes Gerät einzeln.
+          </p>
+        </div>
 
-    )}
+        <div>
+          <h3 class="font-bold text-neutral-900 mb-2">
+            Gibt es weitere Produkte dieser Marke?
+          </h3>
+          <p class="text-neutral-600 leading-relaxed">
+            Auf der Hauptseite von {brandName} finden Sie alle derzeit
+            auf Bondarenko Empfehlungen veröffentlichten Produkte
+            dieses Herstellers.
+          </p>
+        </div>
+      </div>
+    </section>
 
     <section
       class="mt-16 md:mt-24 p-8 md:p-14 rounded-[40px] bg-neutral-900 text-center relative overflow-hidden"
     >
-
       <div
         class="absolute inset-0 bg-blue-600/10 pointer-events-none"
         aria-hidden="true"
       ></div>
 
       <div class="relative z-10">
-
-        <h2
-          class="text-2xl md:text-3xl font-black text-white mb-4"
-        >
+        <h2 class="text-2xl md:text-3xl font-black text-white mb-4">
           Weitere Produkte von {brandName}
         </h2>
 
-        <p
-          class="text-neutral-400 mb-8 max-w-xl mx-auto font-medium leading-relaxed"
-        >
-          Auf der Markenseite finden Sie alle aktuell veröffentlichten
-          Empfehlungen dieses Herstellers.
+        <p class="text-neutral-400 mb-8 max-w-xl mx-auto leading-relaxed">
+          Entdecken Sie weitere Empfehlungen dieses Herstellers oder
+          vergleichen Sie Produkte aus anderen Kategorien.
         </p>
 
-        <div
-          class="flex flex-col sm:flex-row justify-center gap-4"
-        >
-
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
           <a
-            href={`/marken/${brandSlug}/`}
-            class="bg-white text-neutral-900 px-8 py-4 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition-all"
+            href={brandUrl}
+            class="bg-white text-neutral-900 px-8 py-4 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition-colors"
           >
             Alle {brandName} Empfehlungen
           </a>
 
           <a
             href="/empfehlungen/"
-            class="bg-neutral-800 text-white px-8 py-4 rounded-xl font-bold hover:bg-neutral-700 transition-all border border-neutral-700"
+            class="bg-neutral-800 text-white px-8 py-4 rounded-xl font-bold hover:bg-neutral-700 transition-colors border border-neutral-700"
           >
             Alle Empfehlungen
           </a>
-
         </div>
-
       </div>
-
     </section>
 
   </main>
-
 </BaseLayout>

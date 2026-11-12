@@ -1,3 +1,4 @@
+
 ---
 export const prerender = true;
 
@@ -143,6 +144,30 @@ const categories = Array.from(
       .map((category) => category.trim())
   )
 ).sort((a, b) => a.localeCompare(b, "de"));
+
+const categoryAdvice: Record<string, { question: string; checks: string[] }> = {
+  "netzwerk": { question: "Passt das Gerät zu Ihrem Heimnetz?", checks: ["Anschlüsse, WLAN-Standard und unterstützte Frequenzen prüfen.", "Reichweite und Aufstellort berücksichtigen.", "Kompatibilität mit Router und Endgeräten vor dem Kauf klären."] },
+  "smart-home": { question: "Passt das Gerät zu Ihrem Smart Home?", checks: ["Prüfen, ob ein Hub oder eine Bridge benötigt wird.", "Unterstützte Funkstandards und Apps vergleichen.", "Stromversorgung und Einbauvoraussetzungen beachten."] },
+  "sicherheit": { question: "Welche Sicherheitsfunktionen benötigen Sie?", checks: ["Innen- oder Außeneinsatz und Stromversorgung prüfen.", "Speicherung, Benachrichtigungen und mögliche Abokosten vergleichen.", "Datenschutz und örtliche Regeln bei Kameras beachten."] },
+  "strom": { question: "Welche Leistung und Anschlüsse brauchen Sie?", checks: ["Leistung, Kapazität und Anschlüsse mit dem Einsatzzweck abgleichen.", "Kompatibilität und Sicherheitsanforderungen beachten.", "Vor dem Kauf technische Daten und Lieferumfang prüfen."] },
+  "klima": { question: "Welche Mess- und Regelungsfunktionen sind sinnvoll?", checks: ["Messbereich, Genauigkeit und Aufstellort beachten.", "Stromversorgung und Bedienung prüfen.", "Prüfen, ob App, Funkverbindung oder Zusatzgeräte benötigt werden."] },
+  "haushalt": { question: "Passt das Produkt zum Alltag?", checks: ["Abmessungen und Platzbedarf prüfen.", "Reinigung, Wartung und Verbrauchsmaterial berücksichtigen.", "Funktionen mit dem tatsächlichen Bedarf vergleichen."] },
+};
+const featuredAdvice = categories.map((category) => ({
+  category,
+  advice: categoryAdvice[makeSlug(category)] ?? {
+    question: `Worauf sollte man bei ${category}-Produkten achten?`,
+    checks: ["Einsatzbereich und vorhandene Geräte prüfen.", "Technische Daten und Lieferumfang vergleichen.", "Mögliche Einschränkungen vor dem Kauf beachten."],
+  },
+}));
+const otherProducts = produkte
+  .filter((entry) => {
+    const category = entry.data?.kategorie;
+    const brand = entry.data?.brand;
+    return typeof category === "string" && categories.includes(category.trim()) &&
+      typeof brand === "string" && makeSlug(brand) !== brandSlug;
+  })
+  .slice(0, 6);
 
 const robots =
   productCount >= 1
@@ -359,14 +384,66 @@ const itemListSchema =
 
             <div class="flex flex-wrap gap-3">
               {categories.map((category) => (
-  <a
-    href={`/marken/${brandSlug}/${makeSlug(category)}/`}
-    class="rounded-full bg-neutral-100 px-4 py-2 text-sm font-bold text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
-  >
-    {category}
-  </a>
-))}
+                <a
+                  href={`/marken/${brandSlug}/${makeSlug(category)}/`}
+                  class="rounded-full bg-neutral-100 px-4 py-2 text-sm font-bold text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                >
+                  {category}
+                </a>
+              ))}
             </div>
+          </section>
+        )}
+
+        <section class="py-10 md:py-12 border-t border-neutral-100">
+          <h2 class="text-2xl font-black text-neutral-900 mb-5">
+            {brandName}: Worauf vor dem Kauf achten?
+          </h2>
+
+          <p class="max-w-3xl text-neutral-600 leading-relaxed mb-6">
+            Eine Marke allein entscheidet nicht darüber, ob ein Produkt passt.
+            Vergleichen Sie den vorgesehenen Einsatz, die Ausstattung und die
+            Einschränkungen der einzelnen Geräte.
+          </p>
+
+          <div class="grid gap-5 md:grid-cols-2">
+            {featuredAdvice.map(({ category, advice }) => (
+              <article class="rounded-2xl border border-neutral-200 p-6">
+                <h3 class="text-lg font-bold text-neutral-900 mb-3">
+                  {category}: {advice.question}
+                </h3>
+                <ul class="list-disc pl-5 space-y-2 text-sm text-neutral-600">
+                  {advice.checks.map((check) => <li>{check}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {otherProducts.length > 0 && (
+          <section class="py-10 md:py-12 border-t border-neutral-100">
+            <h2 class="text-2xl font-black text-neutral-900 mb-4">
+              Alternativen anderer Hersteller
+            </h2>
+
+            <p class="max-w-3xl text-neutral-600 mb-5">
+              Auch Produkte anderer Marken aus denselben Themenbereichen
+              können interessant sein. Prüfen Sie die Unterschiede auf den
+              jeweiligen Produktseiten.
+            </p>
+
+            <ul class="grid gap-3 md:grid-cols-2">
+              {otherProducts.map((entry) => (
+                <li>
+                  <a
+                    class="block rounded-xl border border-neutral-200 p-4 font-semibold text-blue-700 hover:bg-blue-50"
+                    href={getProductUrl(entry)}
+                  >
+                    {entry.data.title} →
+                  </a>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 
