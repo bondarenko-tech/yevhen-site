@@ -160,14 +160,51 @@ const featuredAdvice = categories.map((category) => ({
     checks: ["Einsatzbereich und vorhandene Geräte prüfen.", "Technische Daten und Lieferumfang vergleichen.", "Mögliche Einschränkungen vor dem Kauf beachten."],
   },
 }));
+
+const getProductType = (entry: any): string | null => {
+  const title = String(entry.data?.title ?? "").toLowerCase();
+
+  const types: [string, RegExp][] = [
+    ["powerstation", /\bpowerstation\b|power station|solargenerator/],
+    ["solarspeicher", /solarbank|balkonkraftwerk.?speicher|solarspeicher/],
+    ["powerbank", /\bpowerbank\b/],
+    ["smart-meter", /smart meter|stromzähler|energiemessgerät/],
+    ["wlan-router", /\brouter\b|fritz!box/],
+    ["wlan-repeater", /repeater|wlan-verstärker/],
+    ["wlan-adapter", /wlan-adapter|wifi-adapter/],
+    ["kamera", /überwachungskamera|security camera|innenkamera|außenkamera/],
+    ["thermostat", /heizkörperthermostat|thermostat/],
+    ["steckdose", /smart plug|smart.?steckdose|funksteckdose/],
+    ["hygrometer", /hygrometer|luftfeuchtigkeitsmesser/],
+  ];
+
+  return types.find(([, pattern]) => pattern.test(title))?.[0] ?? null;
+};
+
+const brandProductTypes = new Set(
+  brandProducts
+    .map(getProductType)
+    .filter((type): type is string => type !== null)
+);
+
 const otherProducts = produkte
   .filter((entry) => {
-    const category = entry.data?.kategorie;
     const brand = entry.data?.brand;
-    return typeof category === "string" && categories.includes(category.trim()) &&
-      typeof brand === "string" && makeSlug(brand) !== brandSlug;
+    const type = getProductType(entry);
+
+    return (
+      typeof brand === "string" &&
+      makeSlug(brand) !== brandSlug &&
+      type !== null &&
+      brandProductTypes.has(type)
+    );
   })
+  .sort(
+    (a, b) =>
+      getTimestamp(b.data?.datum) - getTimestamp(a.data?.datum)
+  )
   .slice(0, 6);
+
 
 const robots =
   productCount >= 1
