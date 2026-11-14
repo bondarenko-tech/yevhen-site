@@ -5,35 +5,29 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import { normalizeProduct } from "@lib/product-engine";
 import { Image } from "astro:assets";
 import YouTubeLite from "@components/YouTubeLite.astro";
-const SITE =
-  Astro.site?.toString().replace(/\/$/, "") ??
-  "https://yevhenbondarenko.com";
+
+const SITE = Astro.site?.toString().replace(/\/$/, "") ?? "https://yevhenbondarenko.com";
+
 export async function getStaticPaths() {
   const entries = await getCollection("produkte");
   return entries
     .filter((e) => e.slug && e.data?.kategorie)
     .map((e) => ({
-      params: {
-        kategorie: e.data.kategorie,
-        produkt: e.slug,
-      },
+      params: { kategorie: e.data.kategorie, produkt: e.slug },
     }));
 }
+
 const kategorie = Astro.params.kategorie ?? "";
 const produkt = Astro.params.produkt ?? "";
 const entries = await getCollection("produkte");
-const entry = entries.find(
-  (e) => e.slug === produkt && e.data.kategorie === kategorie
-);
-if (!entry) {
-  throw new Error("Produkt-Datei nicht gefunden");
-}
+const entry = entries.find((e) => e.slug === produkt && e.data.kategorie === kategorie);
+if (!entry) throw new Error("Produkt-Datei nicht gefunden");
+
 const { Content } = await entry.render();
 const n = normalizeProduct(entry);
-const hasStringImage =
-  typeof n.image === "string" && n.image.length > 0;
-const hasAssetImage =
-  !!n.image && typeof n.image !== "string";
+const hasStringImage = typeof n.image === "string" && n.image.length > 0;
+const hasAssetImage = !!n.image && typeof n.image !== "string";
+
 const categoryLabelMap = {
   sicherheit: "Sicherheit & Überwachung",
   "smart-home": "Smart Home",
@@ -43,25 +37,12 @@ const categoryLabelMap = {
   netzwerk: "WLAN & Netzwerk",
   sonstiges: "Technik & Sonstiges",
 };
-const categoryLabel =
-  categoryLabelMap[kategorie as keyof typeof categoryLabelMap] ??
-  "Technik";
-/*
- * SEO-Titel:
- * Der individuelle Titel aus dem MDX wird unverändert verwendet.
- * Keine automatische Ergänzung wie
- * "Lohnt sich das Modell wirklich?"
- */
+const categoryLabel = categoryLabelMap[kategorie as keyof typeof categoryLabelMap] ?? "Technik";
 const title = n.title;
-const description =
-  n.description?.slice(0, 155) ||
-  `${n.title} verständlich erklärt: Einsatzbereiche, wichtige Eigenschaften und Alternativen im Überblick.`;
-const canonical =
-  `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
-const compareMap: Record<
-  string,
-  { href: string; label: string }
-> = {
+const description = n.description?.slice(0, 155) || `${n.title} verständlich erklärt: Einsatzbereiche, wichtige Eigenschaften und Alternativen im Überblick.`;
+const canonical = `${SITE}/empfehlungen/${kategorie}/${produkt}/`;
+
+const compareMap: Record<string, { href: string; label: string }> = {
   saugroboter: {
     href: "/vergleiche/saugroboter-vergleich-2026/",
     label: "Saugroboter vergleichen",
@@ -86,36 +67,16 @@ const compareData = compareMap[productTyp] ?? {
 };
 const compareHref = compareData.href;
 const compareLabel = compareData.label;
-const shortDescription =
-  n.description ||
-  n.teaser ||
-  `${n.title} im Überblick mit wichtigen Eigenschaften, Einsatzbereichen und Hinweisen vor dem Kauf.`;
-const affiliateHint =
-  "Anzeige / Affiliate-Link: Als Amazon-Partner verdiene ich an qualifizierten Verkäufen.";
+const shortDescription = n.description || n.teaser || `${n.title} im Überblick mit wichtigen Eigenschaften, Einsatzbereichen und Hinweisen vor dem Kauf.`;
+const affiliateHint = "Anzeige / Affiliate-Link: Als Amazon-Partner verdiene ich an qualifizierten Verkäufen.";
 const related = entries
-  .filter(
-    (e) =>
-      e.slug !== entry.slug &&
-      e.data.kategorie === entry.data.kategorie
-  )
+  .filter((e) => e.slug !== entry.slug && e.data.kategorie === entry.data.kategorie)
   .slice(0, 3);
 const breadcrumb = [
-  {
-    name: "Start",
-    url: "/",
-  },
-  {
-    name: "Empfehlungen",
-    url: "/empfehlungen/",
-  },
-  {
-    name: categoryLabel,
-    url: `/empfehlungen/${kategorie}/`,
-  },
-  {
-    name: n.title,
-    url: `/empfehlungen/${kategorie}/${produkt}/`,
-  },
+  { name: "Start", url: "/" },
+  { name: "Empfehlungen", url: "/empfehlungen/" },
+  { name: categoryLabel, url: `/empfehlungen/${kategorie}/` },
+  { name: n.title, url: `/empfehlungen/${kategorie}/${produkt}/` },
 ];
 ---
 <BaseLayout
@@ -126,34 +87,15 @@ const breadcrumb = [
   produkt={entry}
   robots="index, follow"
 >
-  <div
-    id="top"
-    class="mx-auto max-w-[1120px] px-4 py-8 md:py-12"
-  >
-    <article
-      class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]"
-    >
+  <div id="top" class="mx-auto max-w-[1120px] px-4 py-8 md:py-12">
+    <article class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
       <div>
-        <!-- =====================================================
-             HEADER
-        ====================================================== -->
+        <!-- HEADER: единственная Amazon-кнопка на странице -->
         <header class="mb-8">
-          <p class="mb-3 text-sm font-medium text-blue-700">
-            {categoryLabel}
-          </p>
-          <h1
-            class="mb-4 text-3xl font-semibold tracking-tight text-neutral-950 md:text-5xl"
-          >
-            {n.title}
-          </h1>
-          <p
-            class="max-w-3xl text-base leading-relaxed text-neutral-700 md:text-lg"
-          >
-            {shortDescription}
-          </p>
-          <div
-            class="mt-6 flex flex-col gap-3 sm:flex-row"
-          >
+          <p class="mb-3 text-sm font-medium text-blue-700">{categoryLabel}</p>
+          <h1 class="mb-4 text-3xl font-semibold tracking-tight text-neutral-950 md:text-5xl">{n.title}</h1>
+          <p class="max-w-3xl text-base leading-relaxed text-neutral-700 md:text-lg">{shortDescription}</p>
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row">
             {n.linkExtern && (
               <a
                 href={n.linkExtern}
@@ -171,21 +113,14 @@ const breadcrumb = [
               {compareLabel}
             </a>
           </div>
-          <p
-            class="mt-4 max-w-3xl text-xs leading-relaxed text-neutral-500"
-          >
-            {affiliateHint}
-          </p>
+          {n.linkExtern && (
+            <p class="mt-4 max-w-3xl text-xs leading-relaxed text-neutral-500">{affiliateHint}</p>
+          )}
         </header>
-        <!-- =====================================================
-             PRODUKTBILD + VIDEO
-        ====================================================== -->
-        <section
-          class="mb-8 rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm md:p-6"
-        >
-          <div
-            class="grid gap-6 md:grid-cols-[minmax(0,1fr)_300px] md:items-start"
-          >
+
+        <!-- PRODUKTBILD + VIDEO + KURZÜBERBLICK -->
+        <section class="mb-8 rounded-3xl border border-neutral-200 bg-white p-4 shadow-sm md:p-6">
+          <div class="grid gap-6 md:grid-cols-[minmax(0,1fr)_300px] md:items-start">
             <div>
               {hasStringImage ? (
                 <img
@@ -199,12 +134,7 @@ const breadcrumb = [
                 />
               ) : hasAssetImage ? (
                 <Image
-                  src={
-                    n.image as Exclude<
-                      typeof n.image,
-                      string | null
-                    >
-                  }
+                  src={n.image as Exclude<typeof n.image, string | null>}
                   alt={n.title}
                   widths={[480, 768, 1024, 1280]}
                   sizes="(max-width: 768px) 100vw, (max-width: 1120px) 60vw, 720px"
@@ -217,123 +147,62 @@ const breadcrumb = [
                   class="h-auto w-full rounded-2xl border border-neutral-200 object-contain"
                 />
               ) : (
-                <div
-                  class="flex aspect-[4/3] w-full items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500"
-                >
+                <div class="flex aspect-[4/3] w-full items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500">
                   Kein Produktbild verfügbar
                 </div>
               )}
               {n.videoShortId && (
                 <div class="mt-5">
-                  <p
-                    class="mb-2 text-sm font-semibold text-neutral-900"
-                  >
-                    Kurz erklärt im Video
-                  </p>
-                  <YouTubeLite
-                    videoId={n.videoShortId}
-                    title={`${n.title} Video`}
-                  />
+                  <p class="mb-2 text-sm font-semibold text-neutral-900">Kurz erklärt im Video</p>
+                  <YouTubeLite videoId={n.videoShortId} title={`${n.title} Video`} />
                 </div>
               )}
             </div>
-            <!-- KURZÜBERBLICK -->
-            <aside
-  class="rounded-2xl border border-neutral-200 bg-neutral-50 p-5"
->
-  <h2 class="mb-4 text-base font-semibold text-neutral-950">
-    Auf einen Blick
-  </h2>
-  {n.kurzfakten && n.kurzfakten.length > 0 ? (
-    <div class="space-y-3">
-      {n.kurzfakten.slice(0, 5).map((k) => (
-        <div class="border-b border-neutral-200 pb-3 last:border-0 last:pb-0">
-          <div class="text-xs text-neutral-500">
-            {k.label}
-          </div>
-          <div class="mt-1 text-sm font-medium text-neutral-900">
-            {k.value}
-          </div>
-        </div>
-      ))}
-    </div>
-  ) : (
-    <p class="text-sm leading-relaxed text-neutral-700">
-      Die wichtigsten Eigenschaften und Hinweise findest du direkt
-      in der Produktübersicht.
-    </p>
-  )}
-  {n.linkExtern && (
-    <a
-      href={n.linkExtern}
-      target="_blank"
-      rel="sponsored nofollow noopener noreferrer"
-      class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-4 py-3 text-center text-sm font-semibold text-white transition hover:opacity-90"
-    >
-      Preis bei Amazon prüfen →
-    </a>
-  )}
-</aside>
+            <aside class="rounded-2xl border border-neutral-200 bg-neutral-50 p-5">
+              <h2 class="mb-4 text-base font-semibold text-neutral-950">Auf einen Blick</h2>
+              {n.kurzfakten && n.kurzfakten.length > 0 ? (
+                <div class="space-y-3">
+                  {n.kurzfakten.slice(0, 5).map((k) => (
+                    <div class="border-b border-neutral-200 pb-3 last:border-0 last:pb-0">
+                      <div class="text-xs text-neutral-500">{k.label}</div>
+                      <div class="mt-1 text-sm font-medium text-neutral-900">{k.value}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p class="text-sm leading-relaxed text-neutral-700">
+                  Die wichtigsten Eigenschaften und Hinweise findest du direkt in der Produktübersicht.
+                </p>
+              )}
+            </aside>
           </div>
         </section>
-        <!-- =====================================================
-             TECHNISCHE DATEN
-        ====================================================== -->
+
+        <!-- TECHNISCHE DATEN -->
         {n.kurzfakten && n.kurzfakten.length > 0 && (
           <section class="mb-8">
-            <h2
-              class="mb-4 text-lg font-semibold text-neutral-950"
-            >
-              Technische Daten
-            </h2>
-            <div
-              class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm"
-            >
+            <h2 class="mb-4 text-lg font-semibold text-neutral-950">Technische Daten</h2>
+            <div class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
               {n.kurzfakten.map((k) => (
-                <div
-                  class="flex justify-between gap-4 border-b border-neutral-200 px-4 py-3 text-sm last:border-b-0"
-                >
-                  <span class="text-neutral-500">
-                    {k.label}
-                  </span>
-                  <span
-                    class="text-right font-medium text-neutral-900"
-                  >
-                    {k.value}
-                  </span>
+                <div class="flex justify-between gap-4 border-b border-neutral-200 px-4 py-3 text-sm last:border-b-0">
+                  <span class="text-neutral-500">{k.label}</span>
+                  <span class="text-right font-medium text-neutral-900">{k.value}</span>
                 </div>
               ))}
             </div>
           </section>
         )}
-        <!-- =====================================================
-             INDIVIDUELLER INHALT AUS DEM MDX
-             Hier steht der einzigartige Inhalt des jeweiligen
-             Produkts. Keine automatisch generierten allgemeinen
-             Kaufberatungs-Blöcke mehr.
-        ====================================================== -->
-        <article
-          class="prose prose-zinc mb-10 max-w-none"
-        >
+
+        <!-- INDIVIDUELLER MDX-INHALT: div statt verschachteltem article -->
+        <div class="prose prose-zinc mb-10 max-w-none">
           <Content />
-        </article>
-        <!-- =====================================================
-             NÄCHSTER SCHRITT
-        ====================================================== -->
-        <section
-          class="mb-12 rounded-2xl border border-neutral-200 bg-neutral-50 p-6"
-        >
-          <h2
-            class="mb-3 text-lg font-semibold text-neutral-950"
-          >
-            Noch unsicher?
-          </h2>
-          <p
-            class="mb-4 text-sm leading-relaxed text-neutral-700"
-          >
-            Vergleiche ähnliche Produkte oder sieh dir weitere
-            Empfehlungen aus dieser Kategorie an, bevor du dich
-            entscheidest.
+        </div>
+
+        <!-- NÄCHSTER SCHRITT: nur interne Navigation -->
+        <section class="mb-12 rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
+          <h2 class="mb-3 text-lg font-semibold text-neutral-950">Noch unsicher?</h2>
+          <p class="mb-4 text-sm leading-relaxed text-neutral-700">
+            Vergleiche ähnliche Produkte oder sieh dir weitere Empfehlungen aus dieser Kategorie an, bevor du dich entscheidest.
           </p>
           <div class="flex flex-wrap gap-3">
             <a
@@ -350,35 +219,21 @@ const breadcrumb = [
             </a>
           </div>
         </section>
-        <!-- =====================================================
-             VERWANDTE PRODUKTE
-        ====================================================== -->
+
+        <!-- VERWANDTE PRODUKTE -->
         {related.length > 0 && (
           <section class="mb-12">
-            <div
-              class="mb-4 flex items-center justify-between"
-            >
-              <h2
-                class="text-lg font-semibold text-neutral-950"
-              >
-                Weitere Empfehlungen
-              </h2>
-              <a
-                href={`/empfehlungen/${kategorie}/`}
-                class="text-sm font-semibold text-blue-700 hover:underline"
-              >
+            <div class="mb-4 flex items-center justify-between">
+              <h2 class="text-lg font-semibold text-neutral-950">Weitere Empfehlungen</h2>
+              <a href={`/empfehlungen/${kategorie}/`} class="text-sm font-semibold text-blue-700 hover:underline">
                 Alle anzeigen →
               </a>
             </div>
             <div class="grid gap-6 md:grid-cols-3">
               {related.map((r) => {
                 const p = normalizeProduct(r);
-                const relatedHasStringImage =
-                  typeof p.image === "string" &&
-                  p.image.length > 0;
-                const relatedHasAssetImage =
-                  !!p.image &&
-                  typeof p.image !== "string";
+                const relatedHasStringImage = typeof p.image === "string" && p.image.length > 0;
+                const relatedHasAssetImage = !!p.image && typeof p.image !== "string";
                 return (
                   <a
                     href={`/empfehlungen/${p.kategorie}/${r.slug}/`}
@@ -395,12 +250,7 @@ const breadcrumb = [
                       />
                     ) : relatedHasAssetImage ? (
                       <Image
-                        src={
-                          p.image as Exclude<
-                            typeof p.image,
-                            string | null
-                          >
-                        }
+                        src={p.image as Exclude<typeof p.image, string | null>}
                         alt={p.title}
                         widths={[320, 480, 640]}
                         sizes="(max-width: 768px) 100vw, 320px"
@@ -412,17 +262,11 @@ const breadcrumb = [
                         class="mb-3 h-auto w-full rounded-xl object-cover"
                       />
                     ) : (
-                      <div
-                        class="mb-3 flex aspect-[4/3] items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500"
-                      >
+                      <div class="mb-3 flex aspect-[4/3] items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-100 text-sm text-neutral-500">
                         Kein Bild
                       </div>
                     )}
-                    <h3
-                      class="text-sm font-semibold text-neutral-900"
-                    >
-                      {p.title}
-                    </h3>
+                    <h3 class="text-sm font-semibold text-neutral-900">{p.title}</h3>
                   </a>
                 );
               })}
@@ -430,85 +274,21 @@ const breadcrumb = [
           </section>
         )}
       </div>
-      <!-- =======================================================
-           DESKTOP SIDEBAR
-      ======================================================== -->
+
+      <!-- DESKTOP SIDEBAR: nur Navigation, kein zweiter Amazon-Link -->
       <aside class="hidden lg:block">
-        <div
-          class="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
-        >
-          <p
-            class="mb-2 text-sm font-semibold text-neutral-900"
-          >
-            Schnell zum Punkt
-          </p>
-          <ul
-            class="space-y-2 text-sm text-neutral-700"
-          >
+        <div class="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+          <p class="mb-2 text-sm font-semibold text-neutral-900">Schnell zum Punkt</p>
+          <ul class="space-y-2 text-sm text-neutral-700">
+            <li><a href="#top" class="hover:underline">Nach oben</a></li>
+            <li><a href={compareHref} class="hover:underline">{compareLabel}</a></li>
             <li>
-              <a
-                href="#top"
-                class="hover:underline"
-              >
-                Nach oben
-              </a>
-            </li>
-            <li>
-              <a
-                href={compareHref}
-                class="hover:underline"
-              >
-                {compareLabel}
-              </a>
-            </li>
-            <li>
-              <a
-                href={`/empfehlungen/${kategorie}/`}
-                class="hover:underline"
-              >
-                Mehr aus der Kategorie
-              </a>
+              <a href={`/empfehlungen/${kategorie}/`} class="hover:underline">Mehr aus der Kategorie</a>
             </li>
           </ul>
-          {n.linkExtern && (
-            <a
-              href={n.linkExtern}
-              target="_blank"
-              rel="sponsored nofollow noopener noreferrer"
-              class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-[#FF9900] px-4 py-3 text-center font-semibold text-white transition hover:opacity-90"
-            >
-              Bei Amazon ansehen →
-            </a>
-          )}
         </div>
       </aside>
     </article>
   </div>
-  <!-- =========================================================
-       MOBILE AMAZON BAR
-  ========================================================== -->
-  {n.linkExtern && (
-    <div
-      class="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 p-3 backdrop-blur lg:hidden"
-    >
-      <div
-        class="mx-auto flex max-w-[1120px] items-center gap-3"
-      >
-        <a
-          href={n.linkExtern}
-          target="_blank"
-          rel="sponsored nofollow noopener noreferrer"
-          class="inline-flex flex-1 items-center justify-center rounded-xl bg-[#FF9900] px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90"
-        >
-          Bei Amazon ansehen →
-        </a>
-        <a
-          href={compareHref}
-          class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-100"
-        >
-          Vergleichen
-        </a>
-      </div>
-    </div>
-  )}
+  <!-- Keine fixe Mobile-Amazon-Bar: Der Produktlink steht im Header. -->
 </BaseLayout>
