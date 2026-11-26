@@ -12,7 +12,8 @@ const faqSchema = z.array(
   })
 );
 
-const imageSchema = (image: any) => z.union([z.string(), image()]).optional();
+const imageSchema = (image: any) =>
+  z.union([z.string(), image()]).optional();
 
 const kurzfaktenSchema = z
   .array(
@@ -29,6 +30,7 @@ const baseContentFields = {
   kategorie: kategorieEnum,
   typ: z.string().optional(),
   image: z.any().optional(),
+  imageAi: z.boolean().optional(),
   datum: z.string().optional(),
   datePublished: z.string().optional(),
   dateModified: z.string().optional(),
@@ -107,12 +109,13 @@ const verstehen = defineCollection({
 
 const ratgeber = defineCollection({
   type: "content",
-  schema: ({ image }) => z.object({
-    ...baseContentFields,
-    image: imageSchema(image),
-    link: z.string().optional(),
-    teaser: z.string().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      ...baseContentFields,
+      image: imageSchema(image),
+      link: z.string().optional(),
+      teaser: z.string().optional(),
+    }),
 });
 
 export const collections = {

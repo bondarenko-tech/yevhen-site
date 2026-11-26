@@ -151,6 +151,12 @@ const breadcrumb = [
                   Kein Produktbild verfügbar
                 </div>
               )}
+              {entry.data.imageAi === true &&
+  (hasStringImage || hasAssetImage) && (
+    <p class="mt-2 text-center text-xs leading-relaxed text-neutral-600">
+      KI-generierte Produktillustration zur Veranschaulichung.
+    </p>
+)}
               {n.videoShortId && (
                 <div class="mt-5">
                   <p class="mb-2 text-sm font-semibold text-neutral-900">Kurz erklärt im Video</p>
