@@ -157,7 +157,13 @@ const breadcrumb = [
       KI-generierte Produktillustration zur Veranschaulichung.
     </p>
 )}
-              {n.videoShortId && (
+              {entry.data.videoMainId && (
+                <div class="mt-5">
+                  <p class="mb-2 text-sm font-semibold text-neutral-900">Ausführlich erklärt im Video</p>
+                  <YouTubeLite videoId={entry.data.videoMainId} title={`${n.title} – ausführlich erklärt`} />
+                </div>
+              )}
+              {n.videoShortId && n.videoShortId !== entry.data.videoMainId && (
                 <div class="mt-5">
                   <p class="mb-2 text-sm font-semibold text-neutral-900">Kurz erklärt im Video</p>
                   <YouTubeLite videoId={n.videoShortId} title={`${n.title} Video`} />
